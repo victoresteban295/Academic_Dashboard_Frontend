@@ -6,9 +6,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LoginWidget from '../LoginWidget';
 import AcademicForm from './AcademicForm';
 import ProfileForm from './ProfileForm';
+import StudentForm from './StudentForm';
+import ProfessorForm from './ProfessorForm';
+import ReviewForm from './ReviewForm';
 
 const steps = ['Academic Institution', 'Profile', 'Review'];
 
@@ -92,9 +94,9 @@ const RegisterWidget = () => {
                 <React.Fragment> 
                     <ProfileForm />
                     {(profileType === "STUDENT") ? (
-                        <Typography sx={{ mt: 2, mb: 1 }}>Student Form</Typography>
+                        <StudentForm />
                     ) : (
-                        <Typography sx={{ mt: 2, mb: 1 }}>Professor Form</Typography>
+                        <ProfessorForm />
                     )} 
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button 
@@ -129,7 +131,7 @@ const RegisterWidget = () => {
                 </React.Fragment>
             ) : (
                 <React.Fragment>
-                    <LoginWidget />
+                    <ReviewForm />
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button 
                             disabled={activeStep === 0}
