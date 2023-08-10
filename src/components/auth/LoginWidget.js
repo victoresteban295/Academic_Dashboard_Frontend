@@ -1,5 +1,4 @@
 "use client"
-
 import * as React from 'react';
 import { Box, Stack, Button, Divider, TextField, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from "@mui/material"
 import { Teko } from "next/font/google"
@@ -19,7 +18,6 @@ const LoginWidget = () => {
 
     const handleLogin = (data) => {
         console.log(data); 
-        console.log(control);
     }
 
     const [showPassword, setShowPassword] = React.useState(false);

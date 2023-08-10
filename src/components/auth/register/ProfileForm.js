@@ -85,7 +85,7 @@ const ProfileForm = () => {
                                 >
                                     {months.map((month) => {
                                         return(
-                                            <MenuItem value={month}>{month}</MenuItem>
+                                            <MenuItem key={month} value={month}>{month}</MenuItem>
                                         );
                                     })}
                                 </Select>
@@ -116,7 +116,7 @@ const ProfileForm = () => {
                 <TextField id="user_phone" label="Phone" variant="outlined" />
                 <TextField id="username" label="Username" variant="outlined" />
                 <FormControl sx={{ m: 1 }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <InputLabel>Password</InputLabel>
                     <OutlinedInput
                         id="user-password"
                         type={showPassword ? 'text' : 'password'}
@@ -136,7 +136,7 @@ const ProfileForm = () => {
                     />
                 </FormControl>
                 <FormControl sx={{ m: 1 }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Re-enter Password</InputLabel>
+                    <InputLabel>Re-enter Password</InputLabel>
                     <OutlinedInput
                         id="reenter-password"
                         type={showPassword ? 'text' : 'password'}

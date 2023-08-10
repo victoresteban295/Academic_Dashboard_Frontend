@@ -28,8 +28,8 @@ const RegisterWidget = () => {
         setProfileType(profileType);
     };
 
-    const handleAcademcFormData = (institution, idCode) => {
-        /* setProfileType(profileType); */
+    const handleAcademcFormData = (profileType, institution, idCode) => {
+        setProfileType(profileType);
         setInstitution(institution);
         setIdCode(idCode);
     }
@@ -58,7 +58,6 @@ const RegisterWidget = () => {
     };
 
     return (
-        <form noValidate>
             <Box 
                 sx={{ 
                     p: 4,
@@ -80,8 +79,7 @@ const RegisterWidget = () => {
                 </Stepper>
                 {(activeStep === 0) ? (
                     <AcademicForm 
-                        /* profileType={profileType} */
-                        /* selectProfile={handleProfileType} */
+                        profileType={profileType}
                         institution={institution}
                         idCode={idCode}
                         handleAcademicFormData={handleAcademcFormData}
@@ -165,7 +163,6 @@ const RegisterWidget = () => {
                     </React.Fragment>
                 )}
             </Box>
-        </form>
     );
 }
 

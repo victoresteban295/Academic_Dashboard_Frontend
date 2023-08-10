@@ -59,7 +59,7 @@ const ProfessorForm = () => {
                             >
                                 {academicRoles.map((role) => {
                                     return(
-                                        <MenuItem value={role}>{role}</MenuItem>
+                                        <MenuItem key={role} value={role}>{role}</MenuItem>
                                     );
                                 })}
                             </Select>

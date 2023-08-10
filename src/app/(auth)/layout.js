@@ -1,12 +1,6 @@
 import Footer from '@/components/Footer';
 import ThemeRegistry from '@/theme/ThemeRegistry'
-import { AppBar, Avatar, Box, Divider, Toolbar, Typography } from "@mui/material"
-import { Teko } from "next/font/google"
-
-const teko700 = Teko({
-    weight: '700',
-    subsets: ['latin'],
-})
+import { AppBar, Box, Toolbar } from "@mui/material"
 
 const loginLayout = ({ children }) => {
     return (
