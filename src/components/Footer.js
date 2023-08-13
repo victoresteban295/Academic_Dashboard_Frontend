@@ -2,10 +2,11 @@ import { Box, Divider, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 const Footer = () => {
+    let currentYear = new Date().getFullYear().toString();
     return (
         <Box>
             <Typography align="center" variant="subtitle1">
-                © 2023 Victor Esteban. All Right Reserved 
+                © {currentYear} Victor Esteban. All Right Reserved 
             </Typography>
             <Stack
                 direction= 'row'

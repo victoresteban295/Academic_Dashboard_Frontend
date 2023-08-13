@@ -1,11 +1,11 @@
 "use client"
 import * as React from 'react';
 import { Box, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
-import { useController, useForm } from 'react-hook-form';
+import { Controller, useController, useForm } from 'react-hook-form';
 
 const AcademicForm = (props) => {
 
-    const { register, formState, control, getValues, handleSubmit, setValue } = useForm();
+    const { register, formState, control, getValues, handleSubmit } = useForm();
     const { errors } = formState;
     const { field } = useController({ name: 'profileType', control })
 
@@ -18,10 +18,15 @@ const AcademicForm = (props) => {
         props.handleNext();
     }
 
-    const handleSelectChange = (event) => {
-        field.onChange(event.target.value);
-        /* setValue("profileType", event.target.value); */
-    };
+    const defaultValue = (profileType) => {
+        if(profileType != '') {
+            /* If user decides to select a new value, setting profileType back to ''
+             * prevent infinite re-render */
+            props.handleProfileType('');
+            field.onChange(profileType);
+        }
+        return profileType;
+    }
 
     return(
         <form noValidate onSubmit={handleSubmit(handleNextForm)}> 
@@ -56,48 +61,29 @@ const AcademicForm = (props) => {
                         </Typography>
                         <Divider />
                     </Stack>
-                    {/* <Box sx={{ minWidth: 120 }}> */}
-                    {/*     <FormControl fullWidth error={!!errors.profileType}> */}
-                    {/*         <InputLabel id="select-profile">Profile Type</InputLabel> */}
-                    {/*         <Select */}
-                    {/*             labelId="select-profile" */}
-                    {/*             id="select" */}
-                    {/*             value={field.value} */}
-                    {/*             defaultValue={props.profileType} */}
-                    {/*             label="Profile Type" */}
-                    {/*             onChange={handleSelectChange} */}
-                    {/*             {...register('profileType', { */}
-                    {/*                 required: { */}
-                    {/*                     value: true, */}
-                    {/*                     message: "Profile Type is Required" */}
-                    {/*                 } */}
-                    {/*             })} */}
-                    {/*         > */}
-                    {/*             <MenuItem value={"STUDENT"}>Student</MenuItem> */}
-                    {/*             <MenuItem value={"PROFESSOR"}>Professor</MenuItem> */}
-                    {/*         </Select> */}
-                    {/*         <FormHelperText>{errors.profileType?.message}</FormHelperText> */}
-                    {/*     </FormControl> */}
-                    {/* </Box> */}
                     <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth error={!!errors.profileType}>
-                            <TextField
-                                select
-                                label="Profile Type"
-                                value={getValues("profileType")}
-                                defaultValue={props.profileType}
-                                error={!!errors.profileType}
-                                helperText={errors.profileType?.message}
-                                {...register('profileType', {
-                                    required: {
-                                        value: true,
-                                        message: "Profile Type is Required"
-                                    }
-                        })}
-                            >
-                                <MenuItem value={"STUDENT"}>Student</MenuItem>
-                                <MenuItem value={"PROFESSOR"}>Professor</MenuItem>
-                            </TextField>
+                        <FormControl fullWidth >
+                            <Controller 
+                                name="profileType"
+                                control={control}
+                                rules={{required: 'Profile Type is Required'}}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <TextField
+                                            select
+                                            error={!!errors.profileType}
+                                            value={value}
+                                            onChange={onChange}
+                                            defaultValue={defaultValue(props.profileType)}
+                                            label='Profile Type'
+                                            helperText={errors.profileType?.message}
+                                        >
+                                            <MenuItem value={"STUDENT"}>Student</MenuItem>
+                                            <MenuItem value={"PROFESSOR"}>Professor</MenuItem>
+                                        </TextField>
+                                    )
+                                }}
+                            />
                         </FormControl>
                     </Box>
                     <TextField
