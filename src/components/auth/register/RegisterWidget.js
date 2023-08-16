@@ -7,9 +7,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AcademicForm from './AcademicForm';
-/* import ProfileForm from './ProfileForm'; */
-/* import StudentForm from './StudentForm'; */
-/* import ProfessorForm from './ProfessorForm'; */
 import ReviewForm from './ReviewForm';
 import { useForm } from 'react-hook-form';
 import AccountForm from './profileForms/AccountForm';
@@ -41,6 +38,13 @@ const RegisterWidget = () => {
     const [birthDay, setBirthDay] = React.useState('');
     const [birthYear, setBirthYear] = React.useState('');
 
+    //Account Information Form
+    const [email, setEmail] = React.useState('');
+    const [phone, setPhone] = React.useState('');
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [repassword, setRepassword] = React.useState('');
+
     const handleAccountInfoFormData = (
         firstname, 
         middlename, 
@@ -51,7 +55,8 @@ const RegisterWidget = () => {
         email,
         phone,
         username,
-        password) => {
+        password,
+        repassword) => {
             setFirstname(firstname);
             setMiddlename(middlename);
             setLastname(lastname);
@@ -62,6 +67,7 @@ const RegisterWidget = () => {
             setPhone(phone);
             setUsername(username);
             setPassword(password);
+            setRepassword(repassword);
     }
 
     const handleBirthMonth = (month) => {
@@ -74,11 +80,6 @@ const RegisterWidget = () => {
         setBirthYear(year);
     }
 
-    //Account Information Form
-    const [email, setEmail] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
 
     //Student Information Form
     const [academicYear, setAcademicYear] = React.useState('');
@@ -86,12 +87,39 @@ const RegisterWidget = () => {
     const [minor, setMinor] = React.useState('');
     const [concentration, setConcentration] = React.useState('');
 
+    const handleStudentFormData = (year, major, minor, concen) => {
+        setAcademicYear(year);
+        setMajor(major);
+        setMinor(minor);
+        setConcentration(concen);
+    }
+
+    const handleAcadmeicYear = (year) => {
+        setAcademicYear(year);
+    }
+
     //Professor Information Form
     const [academicRole, setAcademicRole] = React.useState('');
     const [apptYear, setApptYear] = React.useState('');
     const [department, setDepartment] = React.useState('');
     const [officeBuilding, setOfficeBuilding] = React.useState('');
     const [officeRoom, setOfficeRoom] = React.useState('');
+
+    const handleProfessorFormData = (role, appt, dept, building, room) => {
+        setAcademicRole(role);
+        setApptYear(appt);
+        setDepartment(dept);
+        setOfficeBuilding(building);
+        setOfficeRoom(room);
+    }
+
+    const handleAcademicRole = (role) => {
+        setAcademicRole(role);
+    }
+
+    const handleAppointedYear = (year) => {
+        setApptYear(year);
+    }
 
 
     const [activeStep, setActiveStep] = React.useState(0);
@@ -155,9 +183,14 @@ const RegisterWidget = () => {
                         handleNext={handleNext}
                         handleBack={handleBack}
                         handleAccountInfoFormData={handleAccountInfoFormData}
+                        handleStudentFormData={handleStudentFormData}
+                        handleProfessorFormData={handleProfessorFormData}
                         handleBirthMonth={handleBirthMonth}
                         handleBirthDay={handleBirthDay}
                         handleBirthYear={handleBirthYear}
+                        handleAcademicYear={handleAcadmeicYear}
+                        handleAcademicRole={handleAcademicRole}
+                        handleAppointedYear={handleAppointedYear}
                         firstname={firstname}
                         middlename={middlename}
                         lastname={lastname}
@@ -168,10 +201,11 @@ const RegisterWidget = () => {
                         phone={phone}
                         username={username}
                         password={password}
+                        repassword={repassword}
                         academicYear={academicYear}
                         major={major}
                         minor={minor}
-                        concentratio={concentration}
+                        concentration={concentration}
                         academicRole={academicRole}
                         apptYear={apptYear}
                         department={department}

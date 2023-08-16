@@ -12,13 +12,29 @@ const AccountForm = (props) => {
 
     //React Hook Form
     const schema = z.object({
-        firstname: string().min(1, {message: "First Name is Required"}),
-        lastname: string().min(1, {message: "Last Name is Required"}),
-        email: string().min(1, {message: "Email is Required"}).email({message: "Invalid Email Address"}),
+        firstname: string().min(1, {message: "First Name is Required"}).max(50, {message: "Maximum 50 Character"}),
+        middlename: string().max(50, {message: "Maximum 50 Character"}).optional(),
+        lastname: string().min(1, {message: "Last Name is Required"}).max(50, {message: "Maximum 50 Character"}),
         birthMonth: string({required_error: "Month is Required"}),
         birthDay: number({required_error: "Day is Required"}),
         birthYear: number({required_error: "Year is Required"}),
-        phone: number({required_error: "Phone Number is Required"}).min(10, {message: "10 Digit Phone Number is Required"}),
+        email: string().min(1, {message: "Email is Required"}).email({message: "Invalid Email Address"}).max(50, {message: "Maximum 50 Character"}),
+        phone: string().min(10, {message: "Phone Number is Required (Minimum 10 Digits Long)"}).regex(/^[0-9]*$/, {message: "Invalid: Numeric Values Only"}).max(15, {message: "Maximum 15 Digits"}),
+        username: string().min(6, {message: "Username is Required (Minimum 6 Characters Long)"}),
+        password: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
+        repassword: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
+        major: string().min(1, {message: "Major is Required"}).max(50, {message: "Maximum 50 Character"}),
+        minor: string().max(50, {message: "Maximum 50 Character"}).optional(),
+        concentration: string().max(50, {message: "Maximum 50 Character"}).optional(),
+        academicRole: string({required_error: "Academic Role is Required"}),
+        appointedYear: number({required_error: "Appointed Year is Required"}),
+        department: string().min(1, {message: "Department is Required"}).max(50, {message: "Maximum 50 Character"}),
+        officeBuilding: string().min(1, {message: "Office Building is Required"}).max(50, {message: "Maximum 50 Character"}),
+        officeRoom: string().min(1, {message: "Room # is Required"}).max(50, {message: "Maximum 50 Character"}),
+
+    }).refine((data) => data.password === data.repassword, {
+        message: "Passwords Don't Match",
+        path: ['repassword']
     })
 
     const { register, formState, control, getValues, handleSubmit } = useForm({
@@ -28,6 +44,9 @@ const AccountForm = (props) => {
     const { field: birthMonthField } = useController({ name: 'birthMonth', control })
     const { field: birthDayField } = useController({ name: 'birthDay', control })
     const { field: birthYearField } = useController({ name: 'birthYear', control })
+    const { field: academicYearField } = useController({ name: 'academicYear', control })
+    const { field: academicRoleField } = useController({ name: 'academicRole', control })
+    const { field: appointedYearField } = useController({ name: 'appointedYear', control })
 
     const handleBirthMonth = (month) => {
         props.handleBirthMonth(month);
@@ -37,6 +56,18 @@ const AccountForm = (props) => {
     }
     const handleBirthYear = (year) => {
         props.handleBirthYear(year);
+    }
+
+    const handleAcademicYear = (year) => {
+        props.handleAcademicYear(year);
+    }
+
+    const handleAcademicRole = (role) => {
+        props.handleAcademicRole(role);
+    }
+
+    const handleAppointedYear = (year) => {
+        props.handleAppointedYear(year);
     }
 
     const saveCurrentForm = () => {
@@ -50,8 +81,28 @@ const AccountForm = (props) => {
             getValues("email"),
             getValues("phone"),
             getValues("username"),
-            getValues("password")
+            getValues("password"),
+            getValues("repassword")
         );
+
+        if (props.profileType === 'STUDENT') {
+            props.handleStudentFormData(
+                getValues("academicYear"), 
+                getValues("major"),
+                getValues("minor"),
+                getValues("concentration"),
+            );
+            /* props.handleProfessorFormData('', '', '', '', ''); */
+        } else {
+            props.handleProfessorFormData(
+                getValues("academicRole"),
+                getValues("appointedYear"),
+                getValues("department"),
+                getValues("officeBuilding"),
+                getValues("officeRoom")
+            );
+            /* props.handleStudentFormData('', '', '', '', ''); */
+        }
     }
 
     const handleNextForm = () => {
@@ -86,17 +137,35 @@ const AccountForm = (props) => {
                 phone={props.phone}
                 username={props.username}
                 password={props.password}
+                repassword={props.repassword}
                 
             />
             {(props.profileType === "STUDENT") ? (
                 <StudentForm 
                     register={register}
                     errors={errors}
+                    control={control}
+                    handleAcademicYear={handleAcademicYear}
+                    academicYearField={academicYearField}
+                    academicYear={props.academicYear}
+                    major={props.major}
+                    minor={props.minor}
+                    concentration={props.concentration}
                 />
             ) : (
                 <ProfessorForm 
                     register={register}
                     errors={errors}
+                    control={control}
+                    handleAcademicRole={handleAcademicRole}
+                    handleAppointedYear={handleAppointedYear}
+                    academicRoleField={academicRoleField}
+                    appointedYearField={appointedYearField}
+                    academicRole={props.academicRole}
+                    apptYear={props.apptYear}
+                    department={props.department}
+                    officeBuilding={props.officeBuilding}
+                    officeRoom={props.officeRoom}
                 />
             )} 
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

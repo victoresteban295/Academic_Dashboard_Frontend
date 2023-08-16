@@ -1,13 +1,47 @@
 "use client"
-
 import * as React from 'react';
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import { Controller } from 'react-hook-form';
 
-const ProfessorForm = () => {
+const ProfessorForm = ({
+    register,
+    errors,
+    control,
+    handleAcademicRole,
+    handleAppointedYear,
+    academicRoleField,
+    appointedYearField,
+    academicRole,
+    apptYear,
+    department,
+    officeBuilding,
+    officeRoom
+}) => {
     const academicRoles = ['Professor', 'Assistant Professor', 'Visiting Instructor', 'Visiting Assistant Instructor', 'Visiting Assistant Professor', 'Chair', 'Director', 'Other'];
-    const [academicRole, setAcademicRole] = React.useState('');
-    const handleAcademicRole = (event) => {
-        setAcademicRole(event.target.value)
+    const defaultAcademicRole = (role) => {
+        if(role != '') {
+            handleAcademicRole('');
+            academicRoleField.onChange(role);
+        }
+        return role;
+    }
+
+    const generateYears = () => {
+        let currentYear = new Date().getFullYear();
+        let years = [];
+        for(let i = 0; i < 100; i++) {
+            years.push(currentYear);
+            currentYear--;
+        }
+        return years;
+    }
+    const years = generateYears();
+    const defaultAppointedYear = (year) => {
+        if(year != '') {
+            handleAppointedYear('');
+            appointedYearField.onChange(year);
+        }
+        return year;
     }
 
     return (
@@ -47,34 +81,95 @@ const ProfessorForm = () => {
                     spacing={2}
                     useFlexGap
                 >
-                    <Box sx={{ flexGrow: 1 }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="academic_role">Academic Role</InputLabel>
-                            <Select
-                                labelId="academic_role"
-                                id="select"
-                                value={academicRole}
-                                label="Academic Role"
-                                onChange={handleAcademicRole}
-                            >
-                                {academicRoles.map((role) => {
-                                    return(
-                                        <MenuItem key={role} value={role}>{role}</MenuItem>
-                                    );
-                                })}
-                            </Select>
+                    <Box sx={{ flexGrow: 2}}>
+                        <FormControl fullWidth >
+                            <Controller
+                                name="academicRole"
+                                control={control}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <TextField
+                                            select
+                                            error={!!errors.academicRole}
+                                            value={value}
+                                            onChange={onChange}
+                                            defaultValue={defaultAcademicRole(academicRole)}
+                                            label='Academic Year'
+                                            helperText={errors.academicRole?.message}
+                                        >
+                                        {academicRoles.map((role) => {
+                                            return(
+                                                <MenuItem key={role} value={role}>{role}</MenuItem>
+                                            );
+                                        })}
+                                        </TextField>
+                                    )
+                                }}
+                            />
                         </FormControl>
                     </Box>
-                    <TextField id="appt_year" label="Appointed Year (yyyy)" variant="outlined" />
+                    <Box sx={{ flexGrow: 1}}>
+                        <FormControl fullWidth >
+                            <Controller
+                                name="appointedYear"
+                                control={control}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <TextField
+                                            select
+                                            error={!!errors.appointedYear}
+                                            value={value}
+                                            onChange={onChange}
+                                            defaultValue={defaultAppointedYear(apptYear)}
+                                            label='Appointed Year'
+                                            helperText={errors.appointedYear?.message}
+                                        >
+                                        {years.map((year) => {
+                                            return(
+                                                <MenuItem key={year} value={year}>{year}</MenuItem>
+                                            );
+                                        })}
+                                        </TextField>
+                                    )
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
                 </Stack>
-                <TextField id="department" label="Department" variant="outlined" />
+                <TextField 
+                    id="department" 
+                    label="Department" 
+                    variant="outlined" 
+                    defaultValue={department} 
+                    error={!!errors.department}
+                    helperText={errors.department?.message}
+                    {...register('department')}
+                />
                 <Stack
                     direction={{xs: "column", sm: "row"}}
                     spacing={2}
                     useFlexGap
                 >
-                    <TextField sx={{flexGrow: 1}} id="office_building" label="Office Building" variant="outlined" />
-                    <TextField sx={{flexGrow: 1}} id="room_number" label="Room #" variant="outlined" />
+                    <TextField 
+                        sx={{flexGrow: 1}} 
+                        id="officeBuilding"    
+                        label="Office Building" 
+                        variant="outlined" 
+                        defaultValue={officeBuilding} 
+                        error={!!errors.officeBuilding}
+                        helperText={errors.officeBuilding?.message}
+                        {...register('officeBuilding')}
+                    />
+                    <TextField 
+                        sx={{flexGrow: 1}} 
+                        id="room_number" 
+                        label="Room #" 
+                        variant="outlined" 
+                        defaultValue={officeRoom} 
+                        error={!!errors.officeRoom}
+                        helperText={errors.officeRoom?.message}
+                        {...register('officeRoom')}
+                    />
                 </Stack>
             </Stack>
         </Box>

@@ -1,6 +1,26 @@
-import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Divider, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Controller } from "react-hook-form";
 
-const StudentForm = () => {
+const StudentForm = ({
+    register, 
+    errors,
+    control,
+    handleAcademicYear,
+    academicYearField,
+    academicYear,
+    major,
+    minor,
+    concentration
+}) => {
+    const academicYears = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
+    const defaultAcademicYear = (year) => {
+        if(year != '') {
+            handleAcademicYear('');
+            academicYearField.onChange(year);
+        }
+        return year;
+    }
+
     return (
         <Box
             sx={{
@@ -33,10 +53,60 @@ const StudentForm = () => {
                     </Typography>
                     <Divider />
                 </Stack>
-                <TextField id="academic_year" label="Academic Year" variant="outlined" />
-                <TextField id="stud_major" label="Major" variant="outlined" />
-                <TextField id="stud_minor" label="Minor" variant="outlined" />
-                <TextField id="stud_concentration" label="Concentration" variant="outlined" />
+                <Box sx={{ flexGrow: 1}}>
+                    <FormControl fullWidth >
+                        <Controller 
+                            name="academicYear"
+                            control={control}
+                            render={({field: { onChange, value}}) => {
+                                return (
+                                    <TextField
+                                        select
+                                        error={!!errors.academicYear}
+                                        value={value}
+                                        onChange={onChange}
+                                        defaultValue={defaultAcademicYear(academicYear)}
+                                        label='Academic Year'
+                                        helperText={errors.academicYear?.message}
+                                    >
+                                    {academicYears.map((year) => {
+                                        return(
+                                            <MenuItem key={year} value={year}>{year}</MenuItem>
+                                        );
+                                    })}
+                                    </TextField>
+                                )
+                            }}
+                        />
+                    </FormControl>
+                </Box>
+                <TextField 
+                    id="major"
+                    label="Major" 
+                    variant="outlined" 
+                    defaultValue={major} 
+                    error={!!errors.major}
+                    helperText={errors.major?.message}
+                    {...register('major')}
+                />
+                <TextField  
+                    id="minor"
+                    label="Minor" 
+                    variant="outlined" 
+                    defaultValue={minor} 
+                    error={!!errors.minor}
+                    helperText={errors.minor?.message}
+                    {...register('minor')}
+                />
+                <TextField 
+                    id="concentration"
+                    label="Concentration" 
+                    variant="outlined" 
+                    defaultValue={concentration} 
+                    error={!!errors.concentration}
+                    helperText={errors.concentration?.message}
+                    {...register('concentration')}
+                />
             </Stack>
         </Box>
     )

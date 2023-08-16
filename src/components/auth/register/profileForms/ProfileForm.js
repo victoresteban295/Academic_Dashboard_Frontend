@@ -1,6 +1,6 @@
 "use client"
 import * as React from 'react';
-import { Box, Divider, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Divider, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Controller } from 'react-hook-form';
 
@@ -24,12 +24,18 @@ const ProfileForm = ({
     phone,
     username,
     password,
+    repassword,
 }) => {
     const [showPassword, setShowPassword] = React.useState(false);
+    const [showRePassword, setShowRePassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowRePassword = () => setShowRePassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleMouseDownRePassword = (event) => {
         event.preventDefault();
     };
 
@@ -127,6 +133,8 @@ const ProfileForm = ({
                         label="Middle Name" 
                         variant="outlined" 
                         defaultValue={middlename} 
+                        error={!!errors.middlename}
+                        helperText={errors.middlename?.message}
                         {...register('middlename')}
                     />
                     <TextField 
@@ -266,17 +274,25 @@ const ProfileForm = ({
                     label="Phone" 
                     variant="outlined" 
                     defaultValue={phone}
-                    type="tel"
                     error={!!errors.phone}
                     helperText={errors.phone?.message}
                     {...register('phone')}
                 />
-                <TextField id="username" label="Username" variant="outlined" />
-                <FormControl sx={{ m: 1 }} variant="outlined">
+                <TextField 
+                    id="username" 
+                    label="Username" 
+                    variant="outlined" 
+                    defaultValue={username}
+                    error={!!errors.username}
+                    helperText={errors.username?.message}
+                    {...register('username')}
+                />
+                <FormControl sx={{ m: 1 }} variant="outlined" error={!!errors.password} >
                     <InputLabel>Password</InputLabel>
                     <OutlinedInput
                         id="user-password"
                         type={showPassword ? 'text' : 'password'}
+                        defaultValue={password}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -290,27 +306,32 @@ const ProfileForm = ({
                             </InputAdornment>
                         }
                         label="Password"
+                        {...register('password')}
                     />
+                    <FormHelperText>{errors.password?.message}</FormHelperText>
                 </FormControl>
-                <FormControl sx={{ m: 1 }} variant="outlined">
+                <FormControl sx={{ m: 1 }} variant="outlined" error={!!errors.repassword}>
                     <InputLabel>Re-enter Password</InputLabel>
                     <OutlinedInput
                         id="reenter-password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showRePassword ? 'text' : 'password'}
+                        defaultValue={repassword}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
+                                    onClick={handleClickShowRePassword}
+                                    onMouseDown={handleMouseDownRePassword}
                                     edge="end"
                                 >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    {showRePassword ? <VisibilityOff /> : <Visibility />}
                                 </IconButton>
                             </InputAdornment>
                         }
                         label="Re-enter Password"
+                        {...register('repassword')}
                     />
+                    <FormHelperText>{errors.repassword?.message}</FormHelperText>
                 </FormControl>
             </Stack>
         </Box>
