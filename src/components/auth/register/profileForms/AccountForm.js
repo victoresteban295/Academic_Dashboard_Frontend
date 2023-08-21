@@ -10,6 +10,24 @@ import { number, string, z } from 'zod';
 
 const AccountForm = (props) => {
 
+    let profile;
+    if(props.profileType === 'STUDENT') {
+        profile = {
+            academicYear: string({required_error: "Academic Year is Required"}),
+            major: string().max(50, {message: "Maximum 50 Character"}).optional(),
+            minor: string().max(50, {message: "Maximum 50 Character"}).optional(),
+            concentration: string().max(50, {message: "Maximum 50 Character"}).optional(),
+        }
+    } else {
+        profile = {
+            academicRole: string({required_error: "Academic Role is Required"}),
+            appointedYear: number({required_error: "Appointed Year is Required"}),
+            department: string().min(1, {message: "Department is Required"}).max(50, {message: "Maximum 50 Character"}),
+            officeBuilding: string().min(1, {message: "Office Building is Required"}).max(50, {message: "Maximum 50 Character"}),
+            officeRoom: string().min(1, {message: "Room # is Required"}).max(50, {message: "Maximum 50 Character"}),
+        }
+    }
+
     //React Hook Form
     const schema = z.object({
         firstname: string().min(1, {message: "First Name is Required"}).max(50, {message: "Maximum 50 Character"}),
@@ -23,14 +41,7 @@ const AccountForm = (props) => {
         username: string().min(6, {message: "Username is Required (Minimum 6 Characters Long)"}),
         password: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
         repassword: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
-        major: string().max(50, {message: "Maximum 50 Character"}).optional(),
-        minor: string().max(50, {message: "Maximum 50 Character"}).optional(),
-        concentration: string().max(50, {message: "Maximum 50 Character"}).optional(),
-        academicRole: string({required_error: "Academic Role is Required"}),
-        appointedYear: number({required_error: "Appointed Year is Required"}),
-        department: string().min(1, {message: "Department is Required"}).max(50, {message: "Maximum 50 Character"}),
-        officeBuilding: string().min(1, {message: "Office Building is Required"}).max(50, {message: "Maximum 50 Character"}),
-        officeRoom: string().min(1, {message: "Room # is Required"}).max(50, {message: "Maximum 50 Character"}),
+        ...profile,
 
     }).refine((data) => data.password === data.repassword, {
         message: "Passwords Don't Match",

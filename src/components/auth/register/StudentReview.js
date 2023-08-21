@@ -1,10 +1,34 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 
 const StudentReview = (props) => {
-    
-    const isMajor = props.major === '' ? false : true;
-    const isMinor = props.minor === '' ? false : true;
-    const isConcentration = props.concentration === '' ? false : true;
+
+    let major 
+    if(props.major === '') {
+        major = {
+            display: 'none',
+        };
+    } else {
+        major = {}
+    }
+
+    let minor
+    if(props.minor === '') {
+        minor = {
+            display: 'none',
+        };
+    } else {
+        minor = {}
+    }
+
+    let concen
+    if(props.concentration === '') {
+        concen = {
+            display: 'none',
+        };
+    } else {
+        concen = {}
+    }
+
 
     return (
         <Box>
@@ -55,9 +79,9 @@ const StudentReview = (props) => {
                 spacing={2}
                 direction="row"
                 sx={{
-                    display: isMajor ? 'inline' : 'none',
                     width: '100%',
                     flexGrow: 1,
+                    ...major,
                 }}
             >
                 <Typography
@@ -81,9 +105,9 @@ const StudentReview = (props) => {
                 spacing={2}
                 direction="row"
                 sx={{
-                    display: isMinor ? 'inline' : 'none',
                     width: '100%',
                     flexGrow: 1,
+                    ...minor,
                 }}
             >
                 <Typography
@@ -107,9 +131,9 @@ const StudentReview = (props) => {
                 spacing={2}
                 direction="row"
                 sx={{
-                    display: isConcentration ? 'inline' : 'none',
                     width: '100%',
                     flexGrow: 1,
+                    ...concen,
                 }}
             >
                 <Typography
