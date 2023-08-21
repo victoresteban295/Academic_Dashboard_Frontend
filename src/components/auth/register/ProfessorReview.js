@@ -1,8 +1,26 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 
-const ProfessorReview = () => {
+const ProfessorReview = (props) => {
     return (
         <Box>
+            <Stack
+                spacing={0}
+                sx={{
+                    width: '100%',
+                    my: 1,
+                    flexGrow: 1,
+                }}
+            >
+                <Typography
+                    variant='h5'
+                    sx={{
+                        fontWeight: "700",
+                    }}
+                >
+                    Professor Information
+                </Typography>
+                <Divider />
+            </Stack>
             <Stack
                 spacing={2}
                 direction="row"
@@ -14,7 +32,7 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "700",
+                        fontWeight: "400",
                     }}
                 >
                     Academic Role:
@@ -22,10 +40,10 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "400",
+                        fontWeight: "700",
                     }}
                 >
-                    Professor
+                    {props.academicRole}
                 </Typography>
             </Stack>
             <Stack
@@ -39,7 +57,7 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "700",
+                        fontWeight: "400",
                     }}
                 >
                     Appointed Year:
@@ -47,10 +65,10 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "400",
+                        fontWeight: "700",
                     }}
                 >
-                    1998
+                    {props.apptYear}
                 </Typography>
             </Stack>
             <Stack
@@ -64,7 +82,7 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "700",
+                        fontWeight: "400",
                     }}
                 >
                     Department:
@@ -72,10 +90,10 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "400",
+                        fontWeight: "700",
                     }}
                 >
-                    Mathematics
+                    {props.department}
                 </Typography>
             </Stack>
             <Stack
@@ -89,7 +107,7 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "700",
+                        fontWeight: "400",
                     }}
                 >
                     Office Building:
@@ -97,10 +115,10 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "400",
+                        fontWeight: "700",
                     }}
                 >
-                    Norris Center
+                    {props.officeBuilding}
                 </Typography>
             </Stack>
             <Stack
@@ -114,7 +132,7 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "700",
+                        fontWeight: "400",
                     }}
                 >
                     Room #: 
@@ -122,10 +140,10 @@ const ProfessorReview = () => {
                 <Typography
                     variant='h6'
                     sx={{
-                        fontWeight: "400",
+                        fontWeight: "700",
                     }}
                 >
-                    213A
+                    {props.officeRoom}
                 </Typography>
             </Stack>
         </Box>

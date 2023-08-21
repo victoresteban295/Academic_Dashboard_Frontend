@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AcademicForm from './AcademicForm';
 import ReviewForm from './ReviewForm';
-import { useForm } from 'react-hook-form';
 import AccountForm from './profileForms/AccountForm';
 
 const steps = ['Academic Institution', 'Profile', 'Review'];
@@ -121,32 +120,66 @@ const RegisterWidget = () => {
         setApptYear(year);
     }
 
-
     const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
-
-    const isStepSkipped = (step) => {
-        return skipped.has(step);
-    };
 
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
-
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+    const handleSubmit = () => {
+        let profile;
+
+        if(profileType === 'STUDENT') {
+            profile = {
+                username: username,
+                firstname: firstname,
+                middlename: middlename,
+                lastname: lastname,
+                birthMonth: birthMonth,
+                birthDay: birthDay,
+                birthYear: birthYear,
+                gradeLvl: academicYear,
+                major: major,
+                minor: minor,
+                concentration: concentration
+            }
+        } else {
+            profile = {
+                username: username,
+                firstname: firstname,
+                middlename: middlename,
+                lastname: lastname,
+                birthMonth: birthMonth,
+                birthDay: birthDay,
+                birthYear: birthYear,
+                department: department,
+                academicRole: academicRole,
+                apptYear: apptYear,
+                officeBuilding: officeBuilding,
+                officeRoom: officeRoom
+            }
+        }
+
+        let user = {
+            firstname: firstname,
+            middlename: middlename,
+            lastname: lastname,
+            profileType: profileType,
+            email: email,
+            phone: phone,
+            username: username,
+            password: password,
+            schoolName: institution,
+            schoolId: idCode,
+            profile: profile
+        }
+
+        console.log(user);
+    }
 
     return (
             <Box 
@@ -214,7 +247,29 @@ const RegisterWidget = () => {
                     />
                 ) : (
                     <React.Fragment>
-                        <ReviewForm />
+                        <ReviewForm
+                            profileType={profileType}
+                            institution={institution}
+                            firstname={firstname}
+                            middlename={middlename}
+                            lastname={lastname}
+                            birthMonth={birthMonth}
+                            birthDay={birthDay}
+                            birthYear={birthYear}
+                            email={email}
+                            phone={phone}
+                            username={username}
+                            password={password.length}
+                            academicYear={academicYear}
+                            major={major}
+                            minor={minor}
+                            concentration={concentration}
+                            academicRole={academicRole}
+                            apptYear={apptYear}
+                            department={department}
+                            officeBuilding={officeBuilding}
+                            officeRoom={officeRoom}
+                        />
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button 
                                 disabled={activeStep === 0}
@@ -235,7 +290,7 @@ const RegisterWidget = () => {
                             <Box sx={{ flex: '1 1 auto' }} />
                             <Button 
                                 variant="contained"
-                                onClick={handleReset}
+                                onClick={handleSubmit}
                             > 
                                 <Typography
                                     variant="button"

@@ -119,9 +119,8 @@ const AcademicForm = (props) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Box sx={{ flex: '1 1 auto' }} /> 
                 <Button 
-                    type="submit" 
+                    type="submit"
                     variant="contained" 
-                    /* onClick={handleNextForm} */
                 > 
                     <Typography
                         variant="button"

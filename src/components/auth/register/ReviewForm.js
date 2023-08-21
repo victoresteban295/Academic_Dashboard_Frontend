@@ -2,7 +2,15 @@ import { Box, Divider, Stack, Typography } from "@mui/material";
 import StudentReview from "./StudentReview";
 import ProfessorReview from "./ProfessorReview";
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
+    const hiddenPassword = (length) => {
+        let hidden = '';
+        for(let i = 0; i < length; i++) {
+            hidden += '*';
+        } 
+        return hidden;
+    }
+
     return (
         <Box
             sx={{
@@ -32,7 +40,7 @@ const ReviewForm = () => {
                             fontWeight: "700",
                         }}
                     >
-                        Review Information
+                        Academic Institution
                     </Typography>
                     <Divider />
                 </Stack>
@@ -48,7 +56,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Profile Type: 
@@ -56,10 +64,10 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            Student
+                            {props.profileType === 'STUDENT' ? 'Student' : 'Professor'}
                         </Typography>
                     </Stack>
                     <Stack
@@ -73,21 +81,39 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
-                            Academic Instiution: 
+                            Academic Institution: 
                         </Typography>
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            Albion College
+                            {props.institution}
                         </Typography>
                     </Stack>
                 </Box>
+                <Stack
+                    spacing={0}
+                    sx={{
+                        width: '100%',
+                        my: 1,
+                        flexGrow: 1,
+                    }}
+                >
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontWeight: "700",
+                        }}
+                    >
+                        Personal Information
+                    </Typography>
+                    <Divider />
+                </Stack>
                 <Box>
                     <Stack
                         spacing={2}
@@ -100,7 +126,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Name:
@@ -108,10 +134,10 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            Victor Manuel Esteban
+                            {props.firstname} {props.middlename} {props.lastname}
                         </Typography>
                     </Stack>
                     <Stack
@@ -125,7 +151,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Birthday:
@@ -133,12 +159,32 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            March 19, 1998
+                            {props.birthMonth} {props.birthDay}, {props.birthYear}
                         </Typography>
                     </Stack>
+                </Box>
+                <Stack
+                    spacing={0}
+                    sx={{
+                        width: '100%',
+                        my: 1,
+                        flexGrow: 1,
+                    }}
+                >
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontWeight: "700",
+                        }}
+                    >
+                        Account Information
+                    </Typography>
+                    <Divider />
+                </Stack>
+                <Box>
                     <Stack
                         spacing={2}
                         direction="row"
@@ -150,7 +196,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Email:
@@ -158,10 +204,10 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            victoresteban@email.com
+                            {props.email}
                         </Typography>
                     </Stack>
                     <Stack
@@ -175,7 +221,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Phone:
@@ -183,10 +229,10 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "400",
+                                fontWeight: "700",
                             }}
                         >
-                            3239850985
+                            {props.phone}
                         </Typography>
                     </Stack>
                     <Stack
@@ -200,7 +246,7 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
-                                fontWeight: "700",
+                                fontWeight: "400",
                             }}
                         >
                             Username:
@@ -208,15 +254,54 @@ const ReviewForm = () => {
                         <Typography
                             variant='h6'
                             sx={{
+                                fontWeight: "700",
+                            }}
+                        >
+                            {props.username}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        sx={{
+                            width: '100%',
+                            flexGrow: 1,
+                        }}
+                    >
+                        <Typography
+                            variant='h6'
+                            sx={{
                                 fontWeight: "400",
                             }}
                         >
-                            vesteban453
+                            Password:
+                        </Typography>
+                        <Typography
+                            variant='h6'
+                            sx={{
+                                fontWeight: "700",
+                            }}
+                        >
+                            {hiddenPassword(props.password)}
                         </Typography>
                     </Stack>
                 </Box>
-                {/* <StudentReview /> */}
-                <ProfessorReview />
+                {props.profileType === 'STUDENT' ? (
+                    <StudentReview
+                        academicYear={props.academicYear}
+                        major={props.major}
+                        minor={props.minor}
+                        concentration={props.concentration}
+                    />
+                ) : (
+                    <ProfessorReview
+                        academicRole={props.academicRole} 
+                        apptYear={props.apptYear}
+                        department={props.department}
+                        officeBuilding={props.officeBuilding}
+                        officeRoom={props.officeRoom}
+                    />
+                )}
             </Stack>
         </Box>
     )

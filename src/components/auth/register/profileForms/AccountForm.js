@@ -23,7 +23,7 @@ const AccountForm = (props) => {
         username: string().min(6, {message: "Username is Required (Minimum 6 Characters Long)"}),
         password: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
         repassword: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
-        major: string().min(1, {message: "Major is Required"}).max(50, {message: "Maximum 50 Character"}),
+        major: string().max(50, {message: "Maximum 50 Character"}).optional(),
         minor: string().max(50, {message: "Maximum 50 Character"}).optional(),
         concentration: string().max(50, {message: "Maximum 50 Character"}).optional(),
         academicRole: string({required_error: "Academic Role is Required"}),
@@ -92,7 +92,7 @@ const AccountForm = (props) => {
                 getValues("minor"),
                 getValues("concentration"),
             );
-            /* props.handleProfessorFormData('', '', '', '', ''); */
+            props.handleProfessorFormData('', '', '', '', '');
         } else {
             props.handleProfessorFormData(
                 getValues("academicRole"),
@@ -101,7 +101,7 @@ const AccountForm = (props) => {
                 getValues("officeBuilding"),
                 getValues("officeRoom")
             );
-            /* props.handleStudentFormData('', '', '', '', ''); */
+            props.handleStudentFormData('', '', '', '', '');
         }
     }
 
