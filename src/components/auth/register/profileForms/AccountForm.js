@@ -14,15 +14,15 @@ const AccountForm = (props) => {
     if(props.profileType === 'STUDENT') {
         profile = {
             academicYear: string({required_error: "Academic Year is Required"}),
-            major: string().max(50, {message: "Maximum 50 Character"}).optional(),
-            minor: string().max(50, {message: "Maximum 50 Character"}).optional(),
+            major: string({required_error: "Major is Required"}),
+            minor: string({required_error: "Minor is Required"}).optional(),
             concentration: string().max(50, {message: "Maximum 50 Character"}).optional(),
         }
     } else {
         profile = {
             academicRole: string({required_error: "Academic Role is Required"}),
             appointedYear: number({required_error: "Appointed Year is Required"}),
-            department: string().min(1, {message: "Department is Required"}).max(50, {message: "Maximum 50 Character"}),
+            department: string({required_error: "Department is Required"}),
             officeBuilding: string().min(1, {message: "Office Building is Required"}).max(50, {message: "Maximum 50 Character"}),
             officeRoom: string().min(1, {message: "Room # is Required"}).max(50, {message: "Maximum 50 Character"}),
         }
@@ -162,6 +162,8 @@ const AccountForm = (props) => {
                     major={props.major}
                     minor={props.minor}
                     concentration={props.concentration}
+                    majors={props.majors}
+                    minors={props.minors}
                 />
             ) : (
                 <ProfessorForm 
@@ -177,6 +179,7 @@ const AccountForm = (props) => {
                     department={props.department}
                     officeBuilding={props.officeBuilding}
                     officeRoom={props.officeRoom}
+                    depts={props.depts}
                 />
             )} 
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

@@ -2,6 +2,7 @@ import RegisterWidget from "@/components/auth/register/RegisterWidget";
 import { Box } from "@mui/material";
 
 const register = () => {
+
     return (
         <Box
             sx={{

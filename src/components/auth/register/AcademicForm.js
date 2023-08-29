@@ -9,13 +9,32 @@ const AcademicForm = (props) => {
     const { errors } = formState;
     const { field } = useController({ name: 'profileType', control })
 
-    const handleNextForm = () => {
-        props.handleAcademicFormData(
-            getValues("profileType"),
-            getValues("schoolName"),
-            getValues("schoolId")
-        ); 
-        props.handleNext();
+    const handleNextForm = async () => {
+        const res = await fetch('http://localhost:3000/api/verify', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                profile: getValues("profileType"), 
+                codeId: getValues("schoolId")
+            })
+        });
+
+        if(res.ok) {
+            const data = await res.json();
+            props.setStateMajors(data.majors);
+            props.setStateMinors(data.minors);
+            props.handleAcademicFormData(
+                getValues("profileType"),
+                getValues("schoolName"),
+                getValues("schoolId")
+            ); 
+            props.handleNext();
+        } else {
+            alert("Invalid Identification Code");
+        }
+
     }
 
     const defaultValue = (profileType) => {

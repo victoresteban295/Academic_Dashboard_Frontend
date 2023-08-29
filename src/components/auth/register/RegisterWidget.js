@@ -79,6 +79,29 @@ const RegisterWidget = () => {
         setBirthYear(year);
     }
 
+    const [majors, setMajors] = React.useState(['Undecided']);
+    const setStateMajors = (majors) => {
+        const sortedMajors = majors.sort();
+        setMajors(prevArray => {
+            return [...prevArray, ...sortedMajors];
+        });
+    }
+    const [minors, setMinors] = React.useState(['Undecided']);
+    const setStateMinors = (minors) => {
+        const sortedMinors = minors.sort();
+        setMinors(prevArray => {
+            return [...prevArray, ...sortedMinors];
+        });
+    }
+
+    const [depts, setDepts] = React.useState([]);
+    const setStateDepts = (depts) => {
+        const sortedDepts = depts.sort();
+        setDepts(prevArray => {
+            return [...prevArray, ...sortedDepts];
+        });
+    }
+
 
     //Student Information Form
     const [academicYear, setAcademicYear] = React.useState('');
@@ -209,6 +232,9 @@ const RegisterWidget = () => {
                         handleAcademicFormData={handleAcademcFormData}
                         handleProfileType={handleProfileType}
                         handleNext={handleNext}
+                        setStateMajors={setStateMajors}
+                        setStateMinors={setStateMinors}
+                        setStateDepts={setStateDepts}
                     />
                 ) : (activeStep === 1) ? (
                     <AccountForm 
@@ -244,6 +270,9 @@ const RegisterWidget = () => {
                         department={department}
                         officeBuilding={officeBuilding}
                         officeRoom={officeRoom}
+                        majors={majors}
+                        minors={minors}
+                        depts={depts}
                     />
                 ) : (
                     <React.Fragment>

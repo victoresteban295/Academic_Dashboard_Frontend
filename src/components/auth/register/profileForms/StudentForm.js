@@ -10,7 +10,9 @@ const StudentForm = ({
     academicYear,
     major,
     minor,
-    concentration
+    concentration,
+    majors,
+    minors
 }) => {
     const academicYears = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
     const defaultAcademicYear = (year) => {

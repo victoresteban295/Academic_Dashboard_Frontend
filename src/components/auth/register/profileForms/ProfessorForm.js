@@ -15,7 +15,8 @@ const ProfessorForm = ({
     apptYear,
     department,
     officeBuilding,
-    officeRoom
+    officeRoom,
+    depts
 }) => {
     const academicRoles = ['Professor', 'Assistant Professor', 'Visiting Instructor', 'Visiting Assistant Instructor', 'Visiting Assistant Professor', 'Chair', 'Director', 'Other'];
     const defaultAcademicRole = (role) => {
