@@ -48,8 +48,28 @@ const AccountForm = (props) => {
                     return false;
                 }
             }, "Email is Already Taken"),
-        phone: string().min(10, {message: "Phone Number is Required (Minimum 10 Digits Long)"}).regex(/^[0-9]*$/, {message: "Invalid: Numeric Values Only"}).max(15, {message: "Maximum 15 Digits"}),
-        username: string().min(6, {message: "Username is Required (Minimum 6 Characters Long)"}),
+        phone: string()
+            .min(10, {message: "Phone Number is Required (Minimum 10 Digits Long)"})
+            .regex(/^[0-9]*$/, {message: "Invalid: Numeric Values Only"})
+            .max(15, {message: "Maximum 15 Digits"})
+            .refine( async (input) => {
+                const res = await fetch(`http://localhost:3000/api/auth/availability/phone/${input}`);
+                if(res.ok) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, "Phone is Already Taken"),
+        username: string()
+            .min(6, {message: "Username is Required (Minimum 6 Characters Long)"})
+            .refine(async (input) => {
+                const res = await fetch(`http://localhost:3000/api/auth/availability/username/${input}`);
+                if(res.ok) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, "Username is Already Taken"),
         password: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
         repassword: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
         ...profile,
