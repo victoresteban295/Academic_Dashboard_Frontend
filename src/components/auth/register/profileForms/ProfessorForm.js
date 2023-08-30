@@ -9,8 +9,10 @@ const ProfessorForm = ({
     control,
     handleAcademicRole,
     handleAppointedYear,
+    handleDepartment,
     academicRoleField,
     appointedYearField,
+    deptField,
     academicRole,
     apptYear,
     department,
@@ -25,6 +27,13 @@ const ProfessorForm = ({
             academicRoleField.onChange(role);
         }
         return role;
+    }
+    const defaultDept = (dept) => {
+        if(dept != '') {
+            handleDepartment('');
+            deptField.onChange(dept);
+        }
+        return dept;
     }
 
     const generateYears = () => {
@@ -137,15 +146,33 @@ const ProfessorForm = ({
                         </FormControl>
                     </Box>
                 </Stack>
-                <TextField 
-                    id="department" 
-                    label="Department" 
-                    variant="outlined" 
-                    defaultValue={department} 
-                    error={!!errors.department}
-                    helperText={errors.department?.message}
-                    {...register('department')}
-                />
+                <Box sx={{ flexGrow: 1}}>
+                    <FormControl fullWidth >
+                        <Controller 
+                            name="department"
+                            control={control}
+                            render={({field: { onChange, value}}) => {
+                                return (
+                                    <TextField
+                                        select
+                                        error={!!errors.department}
+                                        value={value}
+                                        onChange={onChange}
+                                        defaultValue={defaultDept(department)}
+                                        label='Department'
+                                        helperText={errors.department?.message}
+                                    >
+                                    {depts.map((dept) => {
+                                        return(
+                                            <MenuItem key={dept} value={dept}>{dept}</MenuItem>
+                                        );
+                                    })}
+                                    </TextField>
+                                )
+                            }}
+                        />
+                    </FormControl>
+                </Box>
                 <Stack
                     direction={{xs: "column", sm: "row"}}
                     spacing={2}

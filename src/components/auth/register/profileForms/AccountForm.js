@@ -36,7 +36,18 @@ const AccountForm = (props) => {
         birthMonth: string({required_error: "Month is Required"}),
         birthDay: number({required_error: "Day is Required"}),
         birthYear: number({required_error: "Year is Required"}),
-        email: string().min(1, {message: "Email is Required"}).email({message: "Invalid Email Address"}).max(50, {message: "Maximum 50 Character"}),
+        email: string()
+            .min(1, {message: "Email is Required"})
+            .email({message: "Invalid Email Address"})
+            .max(50, {message: "Maximum 50 Character"})
+            .refine(async (input) => {
+                const res = await fetch(`http://localhost:3000/api/auth/availability/email/${input}`);
+                if(res.ok) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, "Email is Already Taken"),
         phone: string().min(10, {message: "Phone Number is Required (Minimum 10 Digits Long)"}).regex(/^[0-9]*$/, {message: "Invalid: Numeric Values Only"}).max(15, {message: "Maximum 15 Digits"}),
         username: string().min(6, {message: "Username is Required (Minimum 6 Characters Long)"}),
         password: string().min(6, {message: "Password is Required (Minimum 6 Characters Long)"}).max(50, {message: "Maximum 50 Character"}),
@@ -56,8 +67,11 @@ const AccountForm = (props) => {
     const { field: birthDayField } = useController({ name: 'birthDay', control })
     const { field: birthYearField } = useController({ name: 'birthYear', control })
     const { field: academicYearField } = useController({ name: 'academicYear', control })
+    const { field: majorField } = useController({ name: 'major', control })
+    const { field: minorField } = useController({ name: 'minor', control })
     const { field: academicRoleField } = useController({ name: 'academicRole', control })
     const { field: appointedYearField } = useController({ name: 'appointedYear', control })
+    const { field: deptField } = useController({ name: 'department', control })
 
     const handleBirthMonth = (month) => {
         props.handleBirthMonth(month);
@@ -73,12 +87,24 @@ const AccountForm = (props) => {
         props.handleAcademicYear(year);
     }
 
+    const handleMajor = (major) => {
+        props.handleMajor(major);
+    }
+
+    const handleMinor = (minor) => {
+        props.handleMinor(minor);
+    }
+
     const handleAcademicRole = (role) => {
         props.handleAcademicRole(role);
     }
 
     const handleAppointedYear = (year) => {
         props.handleAppointedYear(year);
+    }
+
+    const handleDepartment = (dept) => {
+        props.handleDepartment(dept);
     }
 
     const saveCurrentForm = () => {
@@ -157,7 +183,11 @@ const AccountForm = (props) => {
                     errors={errors}
                     control={control}
                     handleAcademicYear={handleAcademicYear}
+                    handleMajor={handleMajor}
+                    handleMinor={handleMinor}
                     academicYearField={academicYearField}
+                    majorField={majorField}
+                    minorField={minorField}
                     academicYear={props.academicYear}
                     major={props.major}
                     minor={props.minor}
@@ -172,8 +202,10 @@ const AccountForm = (props) => {
                     control={control}
                     handleAcademicRole={handleAcademicRole}
                     handleAppointedYear={handleAppointedYear}
+                    handleDepartment={handleDepartment}
                     academicRoleField={academicRoleField}
                     appointedYearField={appointedYearField}
+                    deptField={deptField}
                     academicRole={props.academicRole}
                     apptYear={props.apptYear}
                     department={props.department}

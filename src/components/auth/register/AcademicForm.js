@@ -1,9 +1,19 @@
 "use client"
 import * as React from 'react';
-import { Box, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { Controller, useController, useForm } from 'react-hook-form';
 
 const AcademicForm = (props) => {
+
+    const [alert, setAlert] = React.useState(false);
+    let displayAlert
+    if(alert) {
+        displayAlert = {}
+    } else {
+        displayAlert = {
+            display: 'none',
+        }
+    }
 
     const { register, formState, control, getValues, handleSubmit } = useForm();
     const { errors } = formState;
@@ -22,9 +32,11 @@ const AcademicForm = (props) => {
         });
 
         if(res.ok) {
+            setAlert(false);
             const data = await res.json();
             props.setStateMajors(data.majors);
             props.setStateMinors(data.minors);
+            props.setStateDepts(data.depts);
             props.handleAcademicFormData(
                 getValues("profileType"),
                 getValues("schoolName"),
@@ -32,7 +44,7 @@ const AcademicForm = (props) => {
             ); 
             props.handleNext();
         } else {
-            alert("Invalid Identification Code");
+            setAlert(true);
         }
 
     }
@@ -63,6 +75,14 @@ const AcademicForm = (props) => {
                         flexGrow: 1,
                     }}
                 >
+                    <Alert 
+                        severity='error'
+                        sx={{
+                            ...displayAlert,
+                        }}
+                    >
+                        Invalid Identification Code - make sure to select the correct profile type
+                    </Alert> 
                     <Stack
                         spacing={0}
                         sx={{

@@ -6,7 +6,11 @@ const StudentForm = ({
     errors,
     control,
     handleAcademicYear,
+    handleMajor,
+    handleMinor,
     academicYearField,
+    majorField,
+    minorField,
     academicYear,
     major,
     minor,
@@ -21,6 +25,20 @@ const StudentForm = ({
             academicYearField.onChange(year);
         }
         return year;
+    }
+    const defaultMajor = (major) => {
+        if(major != '') {
+            handleMajor('');
+            majorField.onChange(major);
+        }
+        return major;
+    }
+    const defaultMinor = (minor) => {
+        if(minor != '') {
+            handleMinor('');
+            minorField.onChange(minor);
+        }
+        return minor;
     }
 
     return (
@@ -82,24 +100,60 @@ const StudentForm = ({
                         />
                     </FormControl>
                 </Box>
-                <TextField 
-                    id="major"
-                    label="Major" 
-                    variant="outlined" 
-                    defaultValue={major} 
-                    error={!!errors.major}
-                    helperText={errors.major?.message}
-                    {...register('major')}
-                />
-                <TextField  
-                    id="minor"
-                    label="Minor" 
-                    variant="outlined" 
-                    defaultValue={minor} 
-                    error={!!errors.minor}
-                    helperText={errors.minor?.message}
-                    {...register('minor')}
-                />
+                <Box sx={{ flexGrow: 1}}>
+                    <FormControl fullWidth >
+                        <Controller 
+                            name="major"
+                            control={control}
+                            render={({field: { onChange, value}}) => {
+                                return (
+                                    <TextField
+                                        select
+                                        error={!!errors.major}
+                                        value={value}
+                                        onChange={onChange}
+                                        defaultValue={defaultMajor(major)}
+                                        label='Major'
+                                        helperText={errors.major?.message}
+                                    >
+                                    {majors.map((major) => {
+                                        return(
+                                            <MenuItem key={major} value={major}>{major}</MenuItem>
+                                        );
+                                    })}
+                                    </TextField>
+                                )
+                            }}
+                        />
+                    </FormControl>
+                </Box>
+                <Box sx={{ flexGrow: 1}}>
+                    <FormControl fullWidth >
+                        <Controller 
+                            name="minor"
+                            control={control}
+                            render={({field: { onChange, value}}) => {
+                                return (
+                                    <TextField
+                                        select
+                                        error={!!errors.minor}
+                                        value={value}
+                                        onChange={onChange}
+                                        defaultValue={defaultMinor(minor)}
+                                        label='Minor'
+                                        helperText={errors.minor?.message}
+                                    >
+                                    {minors.map((minor) => {
+                                        return(
+                                            <MenuItem key={minor} value={minor}>{minor}</MenuItem>
+                                        );
+                                    })}
+                                    </TextField>
+                                )
+                            }}
+                        />
+                    </FormControl>
+                </Box>
                 <TextField 
                     id="concentration"
                     label="Concentration" 

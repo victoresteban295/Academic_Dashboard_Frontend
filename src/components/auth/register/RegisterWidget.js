@@ -9,10 +9,24 @@ import Typography from '@mui/material/Typography';
 import AcademicForm from './AcademicForm';
 import ReviewForm from './ReviewForm';
 import AccountForm from './profileForms/AccountForm';
+import { Alert, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import Link from 'next/link';
 
 const steps = ['Academic Institution', 'Profile', 'Review'];
 
 const RegisterWidget = () => {
+
+    const [open, setOpen] = React.useState(false);
+
+    const [alert, setAlert] = React.useState(false);
+    let displayAlert
+    if(alert) {
+        displayAlert = {}
+    } else {
+        displayAlert = {
+            display: 'none',
+        }
+    }
 
     //Academic Institution Form
     const [profileType, setProfileType] = React.useState('');
@@ -86,7 +100,7 @@ const RegisterWidget = () => {
             return [...prevArray, ...sortedMajors];
         });
     }
-    const [minors, setMinors] = React.useState(['Undecided']);
+    const [minors, setMinors] = React.useState([]);
     const setStateMinors = (minors) => {
         const sortedMinors = minors.sort();
         setMinors(prevArray => {
@@ -116,6 +130,13 @@ const RegisterWidget = () => {
         setConcentration(concen);
     }
 
+    const handleMajor = (major) => {
+        setMajor(major);
+    }
+    const handleMinor = (minor) => {
+        setMinor(minor);
+    }
+
     const handleAcadmeicYear = (year) => {
         setAcademicYear(year);
     }
@@ -135,6 +156,10 @@ const RegisterWidget = () => {
         setOfficeRoom(room);
     }
 
+    const handleDepartment = (dept) => {
+        setDepartment(dept);
+    } 
+
     const handleAcademicRole = (role) => {
         setAcademicRole(role);
     }
@@ -153,55 +178,44 @@ const RegisterWidget = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSubmit = () => {
-        let profile;
-
-        if(profileType === 'STUDENT') {
-            profile = {
-                username: username,
+    const handleSubmit =  async () => {
+        const res = await fetch('http://localhost:3000/api/auth/register', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                profileType: profileType,
+                schoolName: institution,
+                schoolid: idCode,
                 firstname: firstname,
                 middlename: middlename,
                 lastname: lastname,
                 birthMonth: birthMonth,
                 birthDay: birthDay,
                 birthYear: birthYear,
+                email: email,
+                phone: phone,
+                username: username,
+                password: password,
+                academicRole: academicRole,
+                apptYear: apptYear,
+                department: department,
+                officeBuilding: officeBuilding,
+                officeRoom: officeRoom,
                 gradeLvl: academicYear,
                 major: major,
                 minor: minor,
-                concentration: concentration
-            }
+                concentration: concentration,
+            })
+        });
+
+        if(res.ok) {
+            setAlert(false);
+            setOpen(true);
         } else {
-            profile = {
-                username: username,
-                firstname: firstname,
-                middlename: middlename,
-                lastname: lastname,
-                birthMonth: birthMonth,
-                birthDay: birthDay,
-                birthYear: birthYear,
-                department: department,
-                academicRole: academicRole,
-                apptYear: apptYear,
-                officeBuilding: officeBuilding,
-                officeRoom: officeRoom
-            }
+            setAlert(true); 
         }
-
-        let user = {
-            firstname: firstname,
-            middlename: middlename,
-            lastname: lastname,
-            profileType: profileType,
-            email: email,
-            phone: phone,
-            username: username,
-            password: password,
-            schoolName: institution,
-            schoolId: idCode,
-            profile: profile
-        }
-
-        console.log(user);
     }
 
     return (
@@ -248,8 +262,11 @@ const RegisterWidget = () => {
                         handleBirthDay={handleBirthDay}
                         handleBirthYear={handleBirthYear}
                         handleAcademicYear={handleAcadmeicYear}
+                        handleMajor={handleMajor}
+                        handleMinor={handleMinor}
                         handleAcademicRole={handleAcademicRole}
                         handleAppointedYear={handleAppointedYear}
+                        handleDepartment={handleDepartment}
                         firstname={firstname}
                         middlename={middlename}
                         lastname={lastname}
@@ -276,6 +293,15 @@ const RegisterWidget = () => {
                     />
                 ) : (
                     <React.Fragment>
+                        <Alert 
+                            severity='error'
+                        sx={{
+                            m: 2,
+                            ...displayAlert,
+                        }}
+                        >
+                            Something Went Wrong - please try again later 
+                        </Alert> 
                         <ReviewForm
                             profileType={profileType}
                             institution={institution}
@@ -334,6 +360,32 @@ const RegisterWidget = () => {
                         </Box>
                     </React.Fragment>
                 )}
+                <Dialog
+                    open={open}
+                >
+                    <Alert
+                        severity="success"
+                        sx={{
+                            m: 4,
+                        }}
+                    >
+                        Account Successfully Created - continue to login
+                    </Alert> 
+                    <DialogActions>
+                        <Link href="/login" style={{textDecoration: 'none'}} >
+                            <Button variant="contained">
+                                <Typography 
+                                    sx={{
+                                        color: '#000',
+                                        fontWeight: '700',
+                                    }}
+                                    variant="button">
+                                    Continue
+                                </Typography>
+                            </Button>
+                        </Link>
+                    </DialogActions>
+                </Dialog>
             </Box>
     );
 }
