@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 
 const teko = Teko({
     weight: '700',
@@ -13,11 +14,49 @@ const teko = Teko({
 })
 
 const LoginWidget = () => {
+
+    const [alert, setAlert] = React.useState(false);
+    let displayAlert;
+    if(alert) {
+        displayAlert = {}
+    } else {
+        displayAlert = {
+            display: 'none',
+        }
+    }
+
+    const searchParams = useSearchParams();
+    const [success, setSuccess] = React.useState(searchParams.get('success') === 'true');
+    let displaySuccess;
+    if(success) {
+        displaySuccess = {}
+    } else {
+        displaySuccess = {
+            display: 'none',
+        }
+    }
+
     const { register, control, handleSubmit, formState } = useForm();
     const { errors } = formState;
 
-    const handleLogin = (data) => {
-        console.log(data); 
+    const handleLogin = async (data) => {
+        const res = await fetch('http://localhost:3000/api/auth/login', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: data.username, 
+                password: data.password 
+            })
+        });
+
+        if(res.ok) {
+            setAlert(false);
+        } else {
+            setSuccess(false);
+            setAlert(true);
+        }
     }
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -73,6 +112,24 @@ const LoginWidget = () => {
                         Academic Dashboard
                     </Typography>
                 </Box>
+                <Alert
+                    severity="success"
+                    sx={{
+                        width: '100%',
+                        ...displaySuccess,
+                    }} 
+                > 
+                    Account Successfully Created
+                </Alert>
+                <Alert
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        ...displayAlert,
+                    }} 
+                > 
+                    Wrong Username/Password 
+                </Alert>
                 <TextField 
                     label="Username" 
                     variant="outlined" 

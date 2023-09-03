@@ -11,13 +11,13 @@ import ReviewForm from './ReviewForm';
 import AccountForm from './profileForms/AccountForm';
 import { Alert, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const steps = ['Academic Institution', 'Profile', 'Review'];
 
 const RegisterWidget = () => {
 
-    const [open, setOpen] = React.useState(false);
-
+    const router = useRouter();
     const [alert, setAlert] = React.useState(false);
     let displayAlert
     if(alert) {
@@ -212,7 +212,7 @@ const RegisterWidget = () => {
 
         if(res.ok) {
             setAlert(false);
-            setOpen(true);
+            router.push('/login?success=true') 
         } else {
             setAlert(true); 
         }
@@ -360,32 +360,6 @@ const RegisterWidget = () => {
                         </Box>
                     </React.Fragment>
                 )}
-                <Dialog
-                    open={open}
-                >
-                    <Alert
-                        severity="success"
-                        sx={{
-                            m: 4,
-                        }}
-                    >
-                        Account Successfully Created - continue to login
-                    </Alert> 
-                    <DialogActions>
-                        <Link href="/login" style={{textDecoration: 'none'}} >
-                            <Button variant="contained">
-                                <Typography 
-                                    sx={{
-                                        color: '#000',
-                                        fontWeight: '700',
-                                    }}
-                                    variant="button">
-                                    Continue
-                                </Typography>
-                            </Button>
-                        </Link>
-                    </DialogActions>
-                </Dialog>
             </Box>
     );
 }
