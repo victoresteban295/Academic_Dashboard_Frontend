@@ -7,6 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const teko = Teko({
     weight: '700',
@@ -39,6 +40,7 @@ const LoginWidget = () => {
     const { register, control, handleSubmit, formState } = useForm();
     const { errors } = formState;
 
+    const router = useRouter();
     const handleLogin = async (data) => {
         const res = await fetch('http://localhost:3000/api/auth/login', {
             method: "POST",
@@ -51,8 +53,10 @@ const LoginWidget = () => {
             })
         });
 
+        const body = await res.json(); //Get User's role
         if(res.ok) {
             setAlert(false);
+            router.push(`/${body.role}/${data.username}`);
         } else {
             setSuccess(false);
             setAlert(true);

@@ -20,7 +20,7 @@ const AcademicForm = (props) => {
     const { field } = useController({ name: 'profileType', control })
 
     const handleNextForm = async () => {
-        const res = await fetch('http://localhost:3000/api/verify', {
+        const res = await fetch('http://localhost:3000/api/auth/verify', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
