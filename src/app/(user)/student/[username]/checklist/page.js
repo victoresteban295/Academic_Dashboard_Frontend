@@ -1,15 +1,25 @@
 "use client"
 import { Box, Button, Typography } from "@mui/material"
+import { useRouter } from "next/navigation"
 
 const ChecklistPage = () => {
+    const router = useRouter();
 
     const newChecklist = async () => {
         const res = await fetch('http://localhost:3000/api/checklist/new', {
             method: "POST", 
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-               'title': 'Sept 20 | 9:43pm' 
+               'title': 'Sept 21 | 9:27pm' 
             })
         });
+
+        if(!res.ok) {
+            router.push('/login');
+        }
+        return res;
 
     }
 
