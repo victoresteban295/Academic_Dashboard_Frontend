@@ -1,26 +1,32 @@
-"use client"
 import { Box, Typography } from "@mui/material"
+import { cookies } from "next/dist/client/components/headers";
 import { notFound } from "next/navigation";
 
-const loadUser = async (username) => {
+async function getData(username) {
+    const cookieStore = cookies(); 
+    const { value: jwt } = cookieStore.get('accessToken');
+
     const res = await fetch(`http://localhost:3000/api/user/profile?role=STUDENT&username=${username}`, {
-        cache: 'no-store',
+        cache: 'no-cache',
         method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Cookie': cookieStore.toString() //For Token Validation in Middleware
+        }
     });
 
     if(!res.ok) {
         notFound();
-    } else {
-        const userDetails = await res.json();
-        return userDetails;
-    } 
+    }
 
+    return res.json();
 }
 
-const StudDashboard = ({ params }) => {
 
+const StudDashboard = async ({ params }) => {
     let { username } = params;
-    const user = loadUser(username);
+    const user = await getData(username);
 
     return (
         <Box

@@ -1,24 +1,31 @@
-"use client"
-import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from 'react';
+import { Box, Typography } from "@mui/material"
+import { cookies } from "next/dist/client/components/headers";
+import { notFound } from "next/navigation";
 
-const ProfDashboard = ({ params }) => {
-    const [user, setUser] = useState([]);
+async function getData(username) {
+    const cookieStore = cookies(); 
+    const { value: jwt } = cookieStore.get('accessToken');
 
-    useEffect(async () => {
-        let { username } = params;
-        const res = await fetch(`http://localhost:3000/api/user/profile?role=PROFESSOR&username=${username}`, {
-            cache: 'no-store',
-            method: "GET",
-        });
+    const res = await fetch(`http://localhost:8080/api/user/profile/PROFESSOR/${username}`, {
+        cache: 'no-store',
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        }
+    });
 
-        if(!res.ok) {
-            throw new Error("401 | Unauthorized Error")
-        } else {
-            const userInfo = await res.json();
-            setUser(userInfo);
-        } 
-    }, []);
+    if(!res.ok) {
+        notFound();
+    }
+
+    return res.json();
+}
+
+
+const ProfDashboard = async ({ params }) => {
+    let { username } = params;
+    const user = await getData(username);
 
     return (
         <Box
