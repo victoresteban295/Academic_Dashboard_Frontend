@@ -11,6 +11,7 @@ const cabin700 = Cabin({
     subsets: ['latin']
 })
 
+//NOTE: If Browser has an access token cookie it will redirect to that page, else to login page
 const Home = () => {
     return (
         <Box
