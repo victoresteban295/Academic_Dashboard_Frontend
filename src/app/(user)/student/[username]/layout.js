@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
 import { cookies } from "next/dist/client/components/headers";
 import { notFound } from "next/navigation";
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import SideNavbar from '@/components/SideNavbar';
 
 const getData = async (username) => {
@@ -44,15 +44,19 @@ const StudentLayout = async ({ children, params }) => {
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            width: '500px'
+                            height: '500px'
+                            
                         }}
                     >
                         <Box
                             id="sidenavbar-container"
                             sx={{
-                                display: 'flex',
+                                display: {xs: 'none', sm: 'flex'},
                                 flexGrow: '1',
                                 justifyContent: 'center',
+                                maxWidth: '175px',
+                                mt: 2,
+                                mx: 1,
                             }}
                         >
                             <SideNavbar
@@ -63,9 +67,9 @@ const StudentLayout = async ({ children, params }) => {
                         <Box
                             id="main-content-container"
                             sx={{
-                                display: 'flex',
                                 flexGrow: '10',
-                                justifyContent: 'center',
+                                maxWidth: '1500px',
+                                bgcolor: 'tan'
                             }}
                         >
                             {children}
