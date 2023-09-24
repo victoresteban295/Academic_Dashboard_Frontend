@@ -2,7 +2,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useRouter } from "next/navigation"
 
-const ChecklistPage = () => {
+const StudentChecklistPage = () => {
     const router = useRouter();
 
     const newChecklist = async () => {
@@ -47,4 +47,4 @@ const ChecklistPage = () => {
     )
 }
 
-export default ChecklistPage
+export default StudentChecklistPage

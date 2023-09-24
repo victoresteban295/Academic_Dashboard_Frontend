@@ -32,7 +32,11 @@ const ProfessorLayout = async ({ children, params }) => {
         <html lang="en">
             <body>
                 <ThemeRegistry options={{ key: 'mui'}}>
-                    <Navbar />
+                    <Navbar 
+                        firstname={professor.firstname}
+                        lastname={professor.lastname}
+                        role={"professor"}
+                    />
                     <Typography
                         variant='h6'
                     >
