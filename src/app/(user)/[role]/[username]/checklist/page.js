@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material"
 
-const StudentRemindersPage = () => {
+const ChecklistPage = ({ params }) => {
+    const { role, username } = params;
     return (
         <Box
             sx={{
@@ -10,10 +11,10 @@ const StudentRemindersPage = () => {
             <Typography
                 variant='h6'
             >
-                Student Reminders Page
+                {username}`s Checklist Page. You are a {role}
             </Typography>
         </Box>
     )
 }
 
-export default StudentRemindersPage;
+export default ChecklistPage;

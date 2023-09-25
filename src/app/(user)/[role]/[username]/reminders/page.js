@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material"
 
-const StudentCalendarPage = () => {
+const RemindersPage = ({ params }) => {
+    const { role, username } = params;
     return (
         <Box
             sx={{
@@ -10,10 +11,10 @@ const StudentCalendarPage = () => {
             <Typography
                 variant='h6'
             >
-                Student Calendar Page
+                {username}`s Reminders Page. You are a {role}
             </Typography>
         </Box>
     )
 }
 
-export default StudentCalendarPage;
+export default RemindersPage;

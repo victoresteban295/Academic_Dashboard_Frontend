@@ -3,14 +3,14 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
 import { cookies } from "next/dist/client/components/headers";
 import { notFound } from "next/navigation";
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import SideNavbar from '@/components/SideNavbar';
 
-const getData = async (username) => {
+const getData = async (role, username) => {
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
 
-    const res = await fetch(`http://localhost:8080/api/profile/student/get/${username}`, {
+    const res = await fetch(`http://localhost:8080/api/profile/${role}/get/${username}`, {
         cache: 'no-store',
         method: "GET",
         headers: {
@@ -26,18 +26,18 @@ const getData = async (username) => {
     return res.json();
 }
 
-const StudentLayout = async ({ children, params }) => {
-    let { username } = params;
-    const student = await getData(username);
+const UserLayout = async ({ children, params }) => {
+    let { role, username } = params;
+    const user = await getData(role, username);
     return (
         <html lang="en">
             <body>
                 <ThemeRegistry options={{ key: 'mui'}}>
                     <Navbar 
-                        username={student.username}
-                        firstname={student.firstname}
-                        lastname={student.lastname}
-                        role="student"
+                        username={user.username}
+                        firstname={user.firstname}
+                        lastname={user.lastname}
+                        role={role}
                     />
                     <Box
                         id="page-container"
@@ -60,8 +60,8 @@ const StudentLayout = async ({ children, params }) => {
                             }}
                         >
                             <SideNavbar
-                                username={student.username}
-                                role="student"
+                                username={user.username}
+                                role={role}
                             />
                         </Box>
                         <Box
@@ -79,7 +79,8 @@ const StudentLayout = async ({ children, params }) => {
                 </ThemeRegistry>
             </body>
         </html>
-    )
-};
 
-export default StudentLayout;
+    )
+}
+
+export default UserLayout;

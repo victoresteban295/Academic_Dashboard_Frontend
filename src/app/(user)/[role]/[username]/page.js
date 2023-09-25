@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material"
 
-const ProfDashboard = () => {
+const DashboardPage = ({ params }) => {
+    let { role, username } = params;
     return (
         <Box
             sx={{
@@ -10,10 +11,10 @@ const ProfDashboard = () => {
             <Typography
                 variant='h6'
             >
-                You are a Professor.
+                Welcome {username}, you are a {role} 
             </Typography>
         </Box>
     )
 }
 
-export default ProfDashboard
+export default DashboardPage;

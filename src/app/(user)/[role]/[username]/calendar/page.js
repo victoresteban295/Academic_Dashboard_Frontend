@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material"
 
-const StudDashboard = () => {
+const CalendarPage = ({ params }) => {
+    const { role, username } = params;
     return (
         <Box
             sx={{
@@ -10,10 +11,10 @@ const StudDashboard = () => {
             <Typography
                 variant='h6'
             >
-                You are a Student.
+                {username}`s Calendar Page. You are a {role}
             </Typography>
         </Box>
     )
 }
 
-export default StudDashboard
+export default CalendarPage;
