@@ -2,7 +2,6 @@ import LoginWidget from "@/components/auth/LoginWidget"
 import { Box } from "@mui/material"
 
 const login = () => {
-    console.log("In the Login Page");
     return (
         <Box
             sx={{

@@ -1,10 +1,11 @@
 "use client"
 import { AppRegistration, Logout, School, Settings } from "@mui/icons-material";
 import {  Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material"
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-const StudentAvatar = ({ studentInitials }) => {
+const StudentAvatar = ({ studentInitials, username, role }) => {
 
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +24,7 @@ const StudentAvatar = ({ studentInitials }) => {
         });
 
         if(res.ok) {
-            router.push('/login');
+            router.push('/');
         } else {
             alert("Something Went Wrong!");
         }
@@ -66,25 +67,49 @@ const StudentAvatar = ({ studentInitials }) => {
                     horizontal: 'right'
                 }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Avatar sx={{mr: 1}}>
-                       <School /> 
-                    </Avatar>
-                    Student Account
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar sx={{mr: 1}}>
-                        <AppRegistration />
-                    </Avatar>
-                    Enroll to a New Course
-                </MenuItem>
+                <Link
+                    href={`/${role}/${username}/account`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <Avatar sx={{mr: 1}}>
+                           <School /> 
+                        </Avatar>
+                        Student Account
+                    </MenuItem>
+                </Link>
+                <Link
+                    href={`/${role}/${username}/course/enroll`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <Avatar sx={{mr: 1}}>
+                            <AppRegistration />
+                        </Avatar>
+                        Enroll to a New Course
+                    </MenuItem>
+                </Link>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon >
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
+                <Link
+                    href={`/${role}/${username}/settings`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <ListItemIcon >
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon >
                         <Logout fontSize="small" />

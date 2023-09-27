@@ -58,10 +58,14 @@ const Navbar = ({username, firstname, lastname, role}) => {
                             isStudent ? (
                                 <StudentAvatar 
                                     studentInitials={userInitials}
+                                    username={username}
+                                    role={role}
                                 />
                             ) : (
                                 <ProfessorAvatar 
                                     professorInitials={userInitials}
+                                    username={username}
+                                    role={role}
                                 />)
                         }
                 </Toolbar>

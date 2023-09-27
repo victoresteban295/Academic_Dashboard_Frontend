@@ -11,7 +11,7 @@ const getData = async (role, username) => {
     const { value: jwt } = cookieStore.get('accessToken');
 
     const res = await fetch(`http://localhost:8080/api/profile/${role}/get/${username}`, {
-        cache: 'no-store',
+        cache: 'force-cache',
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

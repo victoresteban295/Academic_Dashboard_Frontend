@@ -16,28 +16,6 @@ export async function middleware(request) {
             if(validationResponse.ok) {
                 return NextResponse.redirect(`http://localhost:3000/${role}/${username}`);
             } else {
-                return NextResponse.redirect('http://localhost:3000/login');
-            }
-
-        } else {
-            return NextResponse.redirect('http://localhost:3000/login');
-        }
-    }
-
-    if(request.nextUrl.pathname === '/login') {
-        const hasCookies = (request.cookies.has('accessToken')) && (request.cookies.has('username')) && (request.cookies.has('role'));
-        if(hasCookies) {
-            const { value: username } = request.cookies.get('username');
-            const { value: cookieRole } = request.cookies.get('role');
-            const role = cookieRole.toLowerCase();
-            const validationResponse = await fetch('http://localhost:8080/api/auth/valid/access-token', {
-                method: "POST", 
-                headers: request.headers 
-            });
-
-            if(validationResponse.ok) {
-                return NextResponse.redirect(`http://localhost:3000/${role}/${username}`);
-            } else {
                 return NextResponse.next();
             }
         } else {
@@ -45,20 +23,9 @@ export async function middleware(request) {
         }
     }
 
-    //Validate Current Access Token
-    const validationResponse = await fetch('http://localhost:8080/api/auth/valid/access-token', {
-        method: "POST", 
-        headers: request.headers 
-    });
-    
-    if(validationResponse.ok) { 
-        return NextResponse.next();
-    } else { 
-        //Redirect to Login Page
-        return NextResponse.redirect('http://localhost:3000/login');
-    }
 }
 
+
 export const config = {
-    matcher: ['/', '/login', '/student/:path*', '/professor/:path*']
+    matcher: '/:path'
 }

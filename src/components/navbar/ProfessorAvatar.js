@@ -1,10 +1,11 @@
 "use client"
 import { Logout, PostAdd, School, Settings } from "@mui/icons-material";
 import {  Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material"
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-const ProfessorAvatar = ({ professorInitials }) => {
+const ProfessorAvatar = ({ professorInitials, username, role }) => {
 
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -22,7 +23,7 @@ const ProfessorAvatar = ({ professorInitials }) => {
         });
 
         if(res.ok) {
-            router.push('/login');
+            router.push('/');
         } else {
             alert("Something Went Wrong!");
         }
@@ -65,25 +66,49 @@ const ProfessorAvatar = ({ professorInitials }) => {
                     horizontal: 'right'
                 }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Avatar sx={{mr: 1}}>
-                       <School /> 
-                    </Avatar>
-                    Professor Account
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar sx={{mr: 1}}>
-                        <PostAdd />
-                    </Avatar>
-                    Create a New Course
-                </MenuItem>
+                <Link 
+                    href={`/${role}/${username}/account`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <Avatar sx={{mr: 1}}>
+                           <School /> 
+                        </Avatar>
+                        Professor Account
+                    </MenuItem>
+                </Link>
+                <Link
+                    href={`/${role}/${username}/course/new`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <Avatar sx={{mr: 1}}>
+                            <PostAdd />
+                        </Avatar>
+                        Create a New Course
+                    </MenuItem>
+                </Link>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon >
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
+                <Link
+                    href={`/${role}/${username}/settings`} 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000',
+                    }} 
+                >
+                    <MenuItem>
+                        <ListItemIcon >
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon >
                         <Logout fontSize="small" />

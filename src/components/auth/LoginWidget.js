@@ -37,7 +37,7 @@ const LoginWidget = () => {
         }
     }
 
-    const { register, control, handleSubmit, formState } = useForm();
+    const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
 
     const router = useRouter();
@@ -53,8 +53,8 @@ const LoginWidget = () => {
             })
         });
 
-        const body = await res.json(); //Get User's role
         if(res.ok) {
+            const body = await res.json(); //Get User's role
             setAlert(false);
             router.push(`/${body.role}/${data.username}`);
         } else {
