@@ -9,8 +9,7 @@ import Typography from '@mui/material/Typography';
 import AcademicForm from './AcademicForm';
 import ReviewForm from './ReviewForm';
 import AccountForm from './profileForms/AccountForm';
-import { Alert, Dialog, DialogActions, DialogTitle } from '@mui/material';
-import Link from 'next/link';
+import { Alert } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
 const steps = ['Academic Institution', 'Profile', 'Review'];
@@ -212,7 +211,7 @@ const RegisterWidget = () => {
 
         if(res.ok) {
             setAlert(false);
-            router.push('/login?success=true') 
+            router.push('/?success=true') 
         } else {
             setAlert(true); 
         }

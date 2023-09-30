@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import SideNavbar from '@/components/SideNavbar';
 
 const getData = async (role, username) => {
+
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
 

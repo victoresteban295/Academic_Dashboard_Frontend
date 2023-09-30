@@ -23,9 +23,16 @@ export async function middleware(request) {
         }
     }
 
+    const hasCookies = (request.cookies.has('accessToken')) && (request.cookies.has('username')) && (request.cookies.has('role'));
+    if(!hasCookies) {
+        return NextResponse.redirect('http://localhost:3000/');
+    } else {
+        return NextResponse.next();
+    }
+
 }
 
 
 export const config = {
-    matcher: '/:path'
+    matcher: ['/', '/student/:path*', '/professor/:path*']
 }
