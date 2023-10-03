@@ -3,6 +3,7 @@ import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { useState } from "react";
 import InstitutionForm from "./InstitutionForm/InstitutionForm";
 import AccountForm from "./AccountForm/AccountForm";
+import ReviewForm from "./ReviewForm/ReviewForm";
 
 const RegisterWidget = () => {
 
@@ -125,10 +126,15 @@ const RegisterWidget = () => {
                 my: 8,
             }}
         >
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep} >
                 {steps.map((label) => {
                     return (
-                        <Step key={label} >
+                        <Step 
+                            key={label} 
+                            sx={{
+                                display: {xs: 'none', sm:'inline'}
+                            }}
+                        >
                             <StepLabel>{label}</StepLabel>
                         </Step>
                     );
@@ -180,8 +186,9 @@ const RegisterWidget = () => {
                     handleNext={handleNext}
                 />
             ): (
-                //3rd Step: Component Here
-                <Box></Box>
+                <ReviewForm 
+                    handleBack={handleBack}
+                />
             )}
 
         </Box>

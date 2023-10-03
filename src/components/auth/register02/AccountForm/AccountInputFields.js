@@ -260,7 +260,7 @@ const AccountInputFields = ({
                     />
                     <FormHelperText>{errors.password?.message}</FormHelperText>
                 </FormControl>
-                <FormControl sx={{ m: 1 }} variant="outlined" error={!!errors.repassword}>
+                <FormControl sx={{ m: 1 }} variant="outlined" error={!!errors.confirmPassword}>
                     <InputLabel>Re-enter Password</InputLabel>
                     <OutlinedInput
                         id="confirm-password"

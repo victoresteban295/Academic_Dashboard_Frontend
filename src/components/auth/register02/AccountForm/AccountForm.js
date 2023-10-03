@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import StudentInputFields from "./StudentInputFields";
 import ProfessorInputFields from "./ProfessorInputFields";
 import AccountInputFields from "./AccountInputFields";
-import { AccountFormSchema } from "@/lib/schemas/authSchema";
+import { ProfessorProfileSchema, StudentProfileSchema } from "@/lib/schemas/authSchema";
 
 const AccountForm = ({ 
     firstname,
@@ -39,7 +39,7 @@ const AccountForm = ({
 
     /* React Hook Form */
     const { register, formState, control, handleSubmit } = useForm({
-        mode: 'onBlur', //Validated Input Fields onBlur Event
+        mode: 'onBlur',
         defaultValues: {
             firstname: firstname,
             middlename: middlename,
@@ -57,23 +57,55 @@ const AccountForm = ({
             minor: minor,
             concentration: concentration,
             academicRole: academicRole,
-            apptYear: apptYear,
+            appointedYear: apptYear,
             department: department,
             officeBuilding: officeBuilding,
             officeRoom: officeRoom,
-            handleAccountInfoFormData: handleAccountInfoFormData,
-            handleStudentFormData: handleStudentFormData,
-            handleProfessorFormData: handleProfessorFormData,
-            profileType: profileType,
-            schoolName: schoolName,
-            schoolId: schoolId
         },
-        resolver: zodResolver(AccountFormSchema), //Zod Validation Schema
+        resolver: zodResolver((profile === "STUDENT") ? StudentProfileSchema : ProfessorProfileSchema), //Zod Validation Schema
     });
     const { errors } = formState;
 
+    const saveCurrentForm = (data) => {
+        handleAccountInfoFormData(
+            data.firstname, 
+            data.middlename, 
+            data.lastname,
+            data.birthMonth,
+            data.birthDay,
+            data.birthYear,
+            data.email,
+            data.phone,
+            data.username,
+            data.password,
+            data.confirmPassword
+        );
+
+        if(profile === "STUDENT") {
+            handleStudentFormData(
+                data.academicYear, 
+                data.major, 
+                data.minor, 
+                data.concentration
+            );
+        } else {
+            handleProfessorFormData(
+                data.academicRole, 
+                data.appointedYear, 
+                data.department, 
+                data.officeBuilding, 
+                data.officeRoom
+            );
+        }
+    }
+
+    const handleNextForm = (data) => {
+        saveCurrentForm(data);
+        handleNext();
+    }
+
     return (
-        <form noValidate >
+        <form noValidate onSubmit={handleSubmit(handleNextForm)} >
             <AccountInputFields 
                 register={register}
                 errors={errors}
@@ -84,12 +116,15 @@ const AccountForm = ({
                     register={register}
                     errors={errors}
                     control={control}
+                    majors={majors}
+                    minors={minors}
                 />
             ) : (
                 <ProfessorInputFields 
                     register={register}
                     errors={errors}
                     control={control}
+                    depts={depts}
                 />
             )} 
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

@@ -42,14 +42,14 @@ const InstitutionForm = ({
 
     const handleNextForm = async (data) => {
         //Server Action
-        const result = await validateInstitution(data);
-        if(result.success) {
+        const { success, majors, minors, depts } = await validateInstitution(data);
+        if(success) {
             setAlert(false);
 
             //Options Passed to Next Form
-            setMajors(result.majors); 
-            setMinors(result.minors);
-            setDepts(result.depts);
+            setMajors(majors); 
+            setMinors(minors);
+            setDepts(depts);
 
             //Set State Value
             setProfileType(data.profileType);
@@ -57,7 +57,7 @@ const InstitutionForm = ({
             setSchoolId(data.schoolId);
 
             //Next Step in Stepper
-            handleNext(); //Next Step in Stepper
+            handleNext(); 
         } else {
             //User Provided Wrong Information 
             setAlert(true);
