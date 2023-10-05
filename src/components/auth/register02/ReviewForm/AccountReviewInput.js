@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 
 const AccountReviewInput = ({ 
     profileType, 
@@ -53,7 +53,7 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-academic-institution-input-fields'
                     className='form-section-input-fields'
-                    spacing={2}
+                    spacing={{xs: 2, sm: 0}}
                     sx={{
                         flexGrow: 1,
                     }}
@@ -139,7 +139,7 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-personal-information-input-fields'
                     className='form-section-input-fields'
-                    spacing={2}
+                    spacing={{xs: 2, sm: 0}}
                     sx={{
                         flexGrow: 1,
                     }}
@@ -225,7 +225,7 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-account-information-input-fields'
                     className='form-section-input-fields'
-                    spacing={2}
+                    spacing={{xs: 2, sm: 0}}
                     sx={{
                         flexGrow: 1,
                     }}

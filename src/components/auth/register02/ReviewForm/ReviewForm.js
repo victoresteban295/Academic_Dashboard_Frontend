@@ -3,10 +3,13 @@ import { useRouter } from 'next/navigation';
 import AccountReviewInput from "./AccountReviewInput";
 import StudentReviewInput from "./StudentReviewInput";
 import ProfessorReviewInput from "./ProfessorReviewInput";
+import { useState } from "react";
+import { registerUser } from "@/lib/actions/auth-actions";
 
 const ReviewForm = ({ 
     profileType, 
     schoolName, 
+    schoolId,
     firstname,
     middlename,
     lastname,
@@ -28,16 +31,49 @@ const ReviewForm = ({
     officeRoom,
     handleBack }) => {
 
-    /* const router = useRouter(); */
-    /* const [alert, setAlert] = React.useState(false); */
-    /* let displayAlert */
-    /* if(alert) { */
-    /*     displayAlert = {} */
-    /* } else { */
-    /*     displayAlert = { */
-    /*         display: 'none', */
-    /*     } */
-    /* } */
+    const router = useRouter();
+    const [alert, setAlert] = useState(false);
+    let displayAlert
+    if(alert) {
+        displayAlert = {}
+    } else {
+        displayAlert = {
+            display: 'none',
+        }
+    }
+
+    const handleSubmitForm = async () => {
+        const { success } = await registerUser(
+            profileType, 
+            schoolName, 
+            schoolId, 
+            firstname,
+            middlename,
+            lastname,
+            birthMonth,
+            birthDay,
+            birthYear,
+            email,
+            phone,
+            username,
+            password,
+            academicRole,
+            apptYear,
+            department,
+            officeBuilding,
+            officeRoom,
+            academicYear,
+            major,
+            minor,
+            concentration);
+
+        if (success) {
+            setAlert(false);
+            router.push('/?success=true') 
+        } else {
+            setAlert(true); 
+        }
+    }
     
     //add action and server action
     return (
@@ -49,16 +85,16 @@ const ReviewForm = ({
                 maxWidth: '500px',
             }}
         >
-            <form noValidate >
-                {/* <Alert */}
-                {/*     severity='error' */}
-                {/* sx={{ */}
-                {/*     m: 2, */}
-                {/*     ...displayAlert, */}
-                {/* }} */}
-                {/* > */}
-                {/*     Something Went Wrong - please try again later  */}
-                {/* </Alert>  */}
+            <form noValidate action={handleSubmitForm}>
+                <Alert
+                    severity='error'
+                sx={{
+                    m: 2,
+                    ...displayAlert,
+                }}
+                >
+                    Something Went Wrong - please try again later 
+                </Alert> 
                 <Stack
                     id='review-form-sections'
                     className='form-sections'

@@ -205,6 +205,7 @@ const RegisterWidget = () => {
                     <ReviewForm 
                         profileType={profileType}
                         schoolName={schoolName}
+                        schoolId={schoolId}
                         firstname={firstname}
                         middlename={middlename}
                         lastname={lastname}
