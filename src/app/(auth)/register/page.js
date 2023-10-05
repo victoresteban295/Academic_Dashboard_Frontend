@@ -10,13 +10,13 @@ const register = () => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                mx: 2,
                 maxWidth: '100%',
             }}
         >
             <Box
             sx={{
                 maxWidth: '750px',
+                px: 1,
                 flexGrow: 1,
             }}
             >

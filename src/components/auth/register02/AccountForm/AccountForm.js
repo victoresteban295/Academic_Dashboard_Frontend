@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import StudentInputFields from "./StudentInputFields";
@@ -105,61 +105,79 @@ const AccountForm = ({
     }
 
     return (
-        <form noValidate onSubmit={handleSubmit(handleNextForm)} >
-            <AccountInputFields 
-                register={register}
-                errors={errors}
-                control={control}
-            />
-            {(profile === "STUDENT") ? (
-                <StudentInputFields 
-                    register={register}
-                    errors={errors}
-                    control={control}
-                    majors={majors}
-                    minors={minors}
-                />
-            ) : (
-                <ProfessorInputFields 
-                    register={register}
-                    errors={errors}
-                    control={control}
-                    depts={depts}
-                />
-            )} 
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Button 
-                    variant="contained"
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                > 
-                    <Typography
-                        variant="button"
-                        sx={{
-                            color: '#000',
-                            fontWeight: '700',
-                        }}
-                    >
-                        Back
-                    </Typography>
-                </Button> 
-                <Box sx={{ flex: '1 1 auto' }} /> 
-                <Button 
-                    type="submit"
-                    variant="contained" 
-                > 
-                    <Typography
-                        variant="button"
-                        sx={{
-                            color: '#000',
-                            fontWeight: '700',
-                        }}
-                    >
-                        Next
-                    </Typography>
-                </Button> 
-            </Box> 
-        </form>
+        <Box
+            id='profile-form'
+            className='form'
+            sx={{
+                flexGrow: 1,
+                maxWidth: '500px',
+            }}
+        >
+            <form noValidate onSubmit={handleSubmit(handleNextForm)} >
+                <Stack
+                    id='profile-form-sections'
+                    className='form-sections'
+                    spacing={4}
+                    sx={{
+                        flexGrow: 1,
+                    }}
+                >
+                    <AccountInputFields 
+                        register={register}
+                        errors={errors}
+                        control={control}
+                    />
+                    {(profile === "STUDENT") ? (
+                        <StudentInputFields 
+                            register={register}
+                            errors={errors}
+                            control={control}
+                            majors={majors}
+                            minors={minors}
+                        />
+                    ) : (
+                        <ProfessorInputFields 
+                            register={register}
+                            errors={errors}
+                            control={control}
+                            depts={depts}
+                        />
+                    )} 
+                </Stack>
+                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <Button 
+                        variant="contained"
+                        onClick={handleBack}
+                        sx={{ mr: 1 }}
+                    > 
+                        <Typography
+                            variant="button"
+                            sx={{
+                                color: '#000',
+                                fontWeight: '700',
+                            }}
+                        >
+                            Back
+                        </Typography>
+                    </Button> 
+                    <Box sx={{ flex: '1 1 auto' }} /> 
+                    <Button 
+                        type="submit"
+                        variant="contained" 
+                    > 
+                        <Typography
+                            variant="button"
+                            sx={{
+                                color: '#000',
+                                fontWeight: '700',
+                            }}
+                        >
+                            Next
+                        </Typography>
+                    </Button> 
+                </Box> 
+            </form>
+        </Box>
     )
 }
 

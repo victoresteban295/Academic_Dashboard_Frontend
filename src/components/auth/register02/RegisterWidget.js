@@ -1,5 +1,5 @@
 "use client"
-import { Box, Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { useState } from "react";
 import InstitutionForm from "./InstitutionForm/InstitutionForm";
 import AccountForm from "./AccountForm/AccountForm";
@@ -117,80 +117,117 @@ const RegisterWidget = () => {
 
     return (
         <Box
+            id='register-widget'
             sx={{ 
                 p: 4,
                 bgcolor: 'widget.background',
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
                 width: '100%',
-                my: 8,
+                my: {xs: 1, sm: 8},
             }}
         >
-            <Stepper activeStep={activeStep} >
+            <Stepper 
+                activeStep={activeStep} 
+            >
                 {steps.map((label) => {
                     return (
                         <Step 
                             key={label} 
-                            sx={{
-                                display: {xs: 'none', sm:'inline'}
-                            }}
                         >
-                            <StepLabel>{label}</StepLabel>
+                            <StepLabel>
+                                <Typography
+                                    sx={{
+                                        display: {xs: 'none', sm:'flex'}
+                                    }}
+                                >
+                                    {label}
+                                </Typography>
+                            </StepLabel>
                         </Step>
                     );
                 })}
             </Stepper>
-            {(activeStep === 0) ? (
-                <InstitutionForm 
-                    profileType={profileType}
-                    schoolName={schoolName}
-                    schoolId={schoolId}
-                    setProfileType={setProfileType}
-                    setSchoolName={setSchoolName}
-                    setSchoolId={setSchoolId}
-                    setMajors={setStateMajors}
-                    setMinors={setStateMinors}
-                    setDepts={setStateDepts}
-                    handleNext={handleNext}
-                />
-            ) : (activeStep === 1) ? (
-                <AccountForm 
-                    firstname={firstname}
-                    middlename={middlename}
-                    lastname={lastname}
-                    birthMonth={birthMonth}
-                    birthDay={birthDay}
-                    birthYear={birthYear}
-                    email={email}
-                    phone={phone}
-                    username={username}
-                    password={password}
-                    confirmPassword={confirmPassword}
-                    academicYear={academicYear}
-                    major={major}
-                    minor={minor}
-                    concentration={concentration}
-                    academicRole={academicRole}
-                    apptYear={apptYear}
-                    department={department}
-                    officeBuilding={officeBuilding}
-                    officeRoom={officeRoom}
-                    handleAccountInfoFormData={handleAccountInfoFormData}
-                    handleStudentFormData={handleStudentFormData}
-                    handleProfessorFormData={handleProfessorFormData}
-                    profile={profileType}
-                    majors={majors}
-                    minors={minors}
-                    depts={depts}
-                    handleBack={handleBack}
-                    handleNext={handleNext}
-                />
-            ): (
-                <ReviewForm 
-                    handleBack={handleBack}
-                />
-            )}
-
+            <Box
+                className='form-container'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    my: { xs: 6, sm: 4},
+                }}
+            >
+                {(activeStep === 0) ? (
+                    <InstitutionForm 
+                        profileType={profileType}
+                        schoolName={schoolName}
+                        schoolId={schoolId}
+                        setProfileType={setProfileType}
+                        setSchoolName={setSchoolName}
+                        setSchoolId={setSchoolId}
+                        setMajors={setStateMajors}
+                        setMinors={setStateMinors}
+                        setDepts={setStateDepts}
+                        handleNext={handleNext}
+                    />
+                ) : (activeStep === 1) ? (
+                    <AccountForm 
+                        firstname={firstname}
+                        middlename={middlename}
+                        lastname={lastname}
+                        birthMonth={birthMonth}
+                        birthDay={birthDay}
+                        birthYear={birthYear}
+                        email={email}
+                        phone={phone}
+                        username={username}
+                        password={password}
+                        confirmPassword={confirmPassword}
+                        academicYear={academicYear}
+                        major={major}
+                        minor={minor}
+                        concentration={concentration}
+                        academicRole={academicRole}
+                        apptYear={apptYear}
+                        department={department}
+                        officeBuilding={officeBuilding}
+                        officeRoom={officeRoom}
+                        handleAccountInfoFormData={handleAccountInfoFormData}
+                        handleStudentFormData={handleStudentFormData}
+                        handleProfessorFormData={handleProfessorFormData}
+                        profile={profileType}
+                        majors={majors}
+                        minors={minors}
+                        depts={depts}
+                        handleBack={handleBack}
+                        handleNext={handleNext}
+                    />
+                ): (
+                    <ReviewForm 
+                        profileType={profileType}
+                        schoolName={schoolName}
+                        firstname={firstname}
+                        middlename={middlename}
+                        lastname={lastname}
+                        birthMonth={birthMonth}
+                        birthDay={birthDay}
+                        birthYear={birthYear}
+                        email={email}
+                        phone={phone}
+                        username={username}
+                        password={password}
+                        academicYear={academicYear}
+                        major={major}
+                        minor={minor}
+                        concentration={concentration}
+                        academicRole={academicRole}
+                        apptYear={apptYear}
+                        department={department}
+                        officeBuilding={officeBuilding}
+                        officeRoom={officeRoom}
+                        handleBack={handleBack}
+                    />
+                )}
+            </Box>
         </Box>
 
     )

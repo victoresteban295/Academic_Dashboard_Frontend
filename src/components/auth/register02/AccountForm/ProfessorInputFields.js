@@ -16,24 +16,20 @@ const ProfessorInputFields = ({ register, errors, control, depts }) => {
     const years = generateYears();
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                my: 2,
-            }}
-        >
+        <>
             <Stack
+                id='professor-information-section'
+                className='form-section'
                 spacing={2}
                 sx={{
-                    maxWidth: '500px',
                     flexGrow: 1,
                 }}
             >
                 <Stack
+                    id='professor-information-section-title'
+                    className='form-section-title'
                     spacing={0}
                     sx={{
-                        width: '100%',
                         flexGrow: 1,
                     }}
                 >
@@ -48,28 +44,115 @@ const ProfessorInputFields = ({ register, errors, control, depts }) => {
                     <Divider />
                 </Stack>
                 <Stack
-                    direction={{xs: "column", sm: "row"}}
+                    id='professor-information-input-fields'
+                    className='form-section-input-fields'
                     spacing={2}
-                    useFlexGap
+                    sx={{
+                        flexGrow: 1,
+                    }}
                 >
-                    <Box sx={{ flexGrow: 2}}>
+                    <Stack
+                        id='academic-role-input-field-group'
+                        className='input-field-group'
+                        direction={{xs: "column", sm: "row"}}
+                        spacing={2}
+                        useFlexGap
+                    >
+                        <Box 
+                            id='academic-role-input-field'
+                            sx={{ flexGrow: 2}}
+                        >
+                            <FormControl fullWidth >
+                                <Controller
+                                    name="academicRole"
+                                    control={control}
+                                    render={({field: { onChange, value}}) => {
+                                        return (
+                                            <TextField
+                                                select
+                                                error={!!errors.academicRole}
+                                                value={value}
+                                                onChange={onChange}
+                                                label='Academic Role'
+                                                helperText={errors.academicRole?.message}
+                                            >
+                                            {academicRoles.map((role) => {
+                                                return(
+                                                    <MenuItem 
+                                                        key={role} 
+                                                        value={role}
+                                                    >
+                                                        {role}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                            </TextField>
+                                        )
+                                    }}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box 
+                            id='appointed-year-input-field'
+                            sx={{ flexGrow: 1}}
+                        >
+                            <FormControl fullWidth >
+                                <Controller
+                                    name="appointedYear"
+                                    control={control}
+                                    render={({field: { onChange, value}}) => {
+                                        return (
+                                            <TextField
+                                                select
+                                                error={!!errors.appointedYear}
+                                                value={value}
+                                                onChange={onChange}
+                                                label='Appointed Year'
+                                                helperText={errors.appointedYear?.message}
+                                            >
+                                            {years.map((year) => {
+                                                return(
+                                                    <MenuItem 
+                                                        key={year} 
+                                                        value={year}
+                                                    >
+                                                        {year}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                            </TextField>
+                                        )
+                                    }}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Stack>
+                    <Box 
+                        id='department-input-field'
+                        sx={{ flexGrow: 1}}
+                    >
                         <FormControl fullWidth >
-                            <Controller
-                                name="academicRole"
+                            <Controller 
+                                name="department"
                                 control={control}
                                 render={({field: { onChange, value}}) => {
                                     return (
                                         <TextField
                                             select
-                                            error={!!errors.academicRole}
+                                            error={!!errors.department}
                                             value={value}
                                             onChange={onChange}
-                                            label='Academic Role'
-                                            helperText={errors.academicRole?.message}
+                                            label='Department'
+                                            helperText={errors.department?.message}
                                         >
-                                        {academicRoles.map((role) => {
+                                        {depts.map((dept) => {
                                             return(
-                                                <MenuItem key={role} value={role}>{role}</MenuItem>
+                                                <MenuItem 
+                                                    key={dept} 
+                                                    value={dept}
+                                                >
+                                                    {dept}
+                                                </MenuItem>
                                             );
                                         })}
                                         </TextField>
@@ -78,85 +161,35 @@ const ProfessorInputFields = ({ register, errors, control, depts }) => {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ flexGrow: 1}}>
-                        <FormControl fullWidth >
-                            <Controller
-                                name="appointedYear"
-                                control={control}
-                                render={({field: { onChange, value}}) => {
-                                    return (
-                                        <TextField
-                                            select
-                                            error={!!errors.appointedYear}
-                                            value={value}
-                                            onChange={onChange}
-                                            label='Appointed Year'
-                                            helperText={errors.appointedYear?.message}
-                                        >
-                                        {years.map((year) => {
-                                            return(
-                                                <MenuItem key={year} value={year}>{year}</MenuItem>
-                                            );
-                                        })}
-                                        </TextField>
-                                    )
-                                }}
-                            />
-                        </FormControl>
-                    </Box>
-                </Stack>
-                <Box sx={{ flexGrow: 1}}>
-                    <FormControl fullWidth >
-                        <Controller 
-                            name="department"
-                            control={control}
-                            render={({field: { onChange, value}}) => {
-                                return (
-                                    <TextField
-                                        select
-                                        error={!!errors.department}
-                                        value={value}
-                                        onChange={onChange}
-                                        label='Department'
-                                        helperText={errors.department?.message}
-                                    >
-                                    {depts.map((dept) => {
-                                        return(
-                                            <MenuItem key={dept} value={dept}>{dept}</MenuItem>
-                                        );
-                                    })}
-                                    </TextField>
-                                )
-                            }}
+                    <Stack
+                        id="office-input-field-group"
+                        className="input-field-group"
+                        direction={{xs: "column", sm: "row"}}
+                        spacing={2}
+                        useFlexGap
+                    >
+                        <TextField 
+                            id="office-building-input-field"    
+                            sx={{flexGrow: 1}} 
+                            label="Office Building" 
+                            variant="outlined" 
+                            error={!!errors.officeBuilding}
+                            helperText={errors.officeBuilding?.message}
+                            {...register('officeBuilding')}
                         />
-                    </FormControl>
-                </Box>
-                <Stack
-                    direction={{xs: "column", sm: "row"}}
-                    spacing={2}
-                    useFlexGap
-                >
-                    <TextField 
-                        sx={{flexGrow: 1}} 
-                        id="officeBuilding"    
-                        label="Office Building" 
-                        variant="outlined" 
-                        error={!!errors.officeBuilding}
-                        helperText={errors.officeBuilding?.message}
-                        {...register('officeBuilding')}
-                    />
-                    <TextField 
-                        sx={{flexGrow: 1}} 
-                        id="room_number" 
-                        label="Room #" 
-                        variant="outlined" 
-                        error={!!errors.officeRoom}
-                        helperText={errors.officeRoom?.message}
-                        {...register('officeRoom')}
-                    />
+                        <TextField 
+                            id="room-number-input-field" 
+                            sx={{flexGrow: 1}} 
+                            label="Room #" 
+                            variant="outlined" 
+                            error={!!errors.officeRoom}
+                            helperText={errors.officeRoom?.message}
+                            {...register('officeRoom')}
+                        />
+                    </Stack>
                 </Stack>
             </Stack>
-        </Box>
+        </>
     )
 }
 
