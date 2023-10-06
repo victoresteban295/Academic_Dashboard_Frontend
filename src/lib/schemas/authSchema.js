@@ -1,5 +1,10 @@
 import { number, string, z } from 'zod';
 
+export const LoginFormSchema = z.object({
+    username: string().trim().toLowerCase().min(1, {message: "Username is Required"}),
+    password: string().trim().min(1, {message: "Password is Required"})
+});
+
 export const InstitutionFormSchema = z.object({
     profileType: string().min(1, {message: "Profile Type is Required"}),
     schoolName: string().trim().toLowerCase().min(1, {message: "Academic Instituition is Required"}).max(50, {message: "Maximum 50 Character"}),
@@ -111,4 +116,5 @@ export const ProfessorProfileSchema = z.object({
     message: "Passwords Don't Match",
     path: ['confirmPassword']
 })
+
 

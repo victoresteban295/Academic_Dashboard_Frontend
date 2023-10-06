@@ -14,6 +14,7 @@ export const validateInstitution = async (data) => {
         })
     });
 
+    //Extract Data From Response
     const body = await res.json();
 
     if(res.ok) {
@@ -28,7 +29,6 @@ export const validateInstitution = async (data) => {
     }
     
 }
-
 
 export const registerUser = async (
     profileType, 

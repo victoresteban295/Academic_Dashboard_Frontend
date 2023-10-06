@@ -1,4 +1,4 @@
-import RegisterWidget from "@/components/auth/register02/RegisterWidget";
+import RegisterWidget from "@/components/auth/register/RegisterWidget";
 import { Box } from "@mui/material";
 
 const register = () => {

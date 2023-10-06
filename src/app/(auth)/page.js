@@ -1,5 +1,7 @@
-import LoginWidget from "@/components/auth/LoginWidget"
+import LoginWidgetLoading from "@/components/auth/LoginWidgetLoading"
+import LoginWidget from "@/components/auth/login/LoginWidget"
 import { Box } from "@mui/material"
+import { Suspense } from "react"
 
 const login = () => {
     return (
@@ -13,7 +15,9 @@ const login = () => {
                 maxWidth: '100%',
             }}
         >
-            <LoginWidget />
+            <Suspense fallback={<LoginWidgetLoading />}>
+                <LoginWidget />
+            </Suspense>
         </Box>
     )
 }

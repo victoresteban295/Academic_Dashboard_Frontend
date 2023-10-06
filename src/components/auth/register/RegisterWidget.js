@@ -1,61 +1,66 @@
 "use client"
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import AcademicForm from './AcademicForm';
-import ReviewForm from './ReviewForm';
-import AccountForm from './profileForms/AccountForm';
-import { Alert } from '@mui/material';
-import { useRouter } from 'next/navigation';
-
-const steps = ['Academic Institution', 'Profile', 'Review'];
+import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import { useState } from "react";
+import InstitutionForm from "./InstitutionForm/InstitutionForm";
+import AccountForm from "./AccountForm/AccountForm";
+import ReviewForm from "./ReviewForm/ReviewForm";
 
 const RegisterWidget = () => {
 
-    const router = useRouter();
-    const [alert, setAlert] = React.useState(false);
-    let displayAlert
-    if(alert) {
-        displayAlert = {}
-    } else {
-        displayAlert = {
-            display: 'none',
-        }
+    /* Material UI - Stepper Code */
+    const steps = ['Academic Institution', 'Profile', 'Review']; //Steps 
+    const [activeStep, setActiveStep] = useState(0); //Represents Each Step in Stepper
+    const handleNext = () => { //Move to Next Step
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-
-    //Academic Institution Form
-    const [profileType, setProfileType] = React.useState('');
-    const [institution, setInstitution] = React.useState('');
-    const [idCode, setIdCode] = React.useState('');
-
-    const handleAcademcFormData = (profileType, institution, idCode) => {
-        setProfileType(profileType);
-        setInstitution(institution);
-        setIdCode(idCode);
-    }
-
-    const handleProfileType = (profileType) => {
-        setProfileType(profileType);
+    const handleBack = () => { //Move Back to Previous Step
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    /* Select Options Passed to Account Form Component */
+    const [majors, setMajors] = useState(['Undecided']);
+    const setStateMajors = (majors) => {
+        const sortedMajors = majors.sort();
+        setMajors(prevArray => {
+            return [...prevArray, ...sortedMajors];
+        });
+    }
+    const [minors, setMinors] = useState([]);
+    const setStateMinors = (minors) => {
+        const sortedMinors = minors.sort();
+        setMinors(prevArray => {
+            return [...prevArray, ...sortedMinors];
+        });
+    }
+
+    const [depts, setDepts] = useState([]);
+    const setStateDepts = (depts) => {
+        const sortedDepts = depts.sort();
+        setDepts(prevArray => {
+            return [...prevArray, ...sortedDepts];
+        });
+    }
+
+    /* State Value to Allow Users To Revist & Edit Before Submitting */
+    //Academic Institution Form
+    const [profileType, setProfileType] = useState('');
+    const [schoolName, setSchoolName] = useState('');
+    const [schoolId, setSchoolId] = useState('');
+
     //Personal Information Form
-    const [firstname, setFirstname] = React.useState('');
-    const [middlename, setMiddlename] = React.useState('');
-    const [lastname, setLastname] = React.useState('');
-    const [birthMonth, setBirthMonth] = React.useState('');
-    const [birthDay, setBirthDay] = React.useState('');
-    const [birthYear, setBirthYear] = React.useState('');
+    const [firstname, setFirstname] = useState('');
+    const [middlename, setMiddlename] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [birthMonth, setBirthMonth] = useState('');
+    const [birthDay, setBirthDay] = useState('');
+    const [birthYear, setBirthYear] = useState('');
 
     //Account Information Form
-    const [email, setEmail] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [repassword, setRepassword] = React.useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleAccountInfoFormData = (
         firstname, 
@@ -68,7 +73,7 @@ const RegisterWidget = () => {
         phone,
         username,
         password,
-        repassword) => {
+        confirmPassword) => {
             setFirstname(firstname);
             setMiddlename(middlename);
             setLastname(lastname);
@@ -79,48 +84,14 @@ const RegisterWidget = () => {
             setPhone(phone);
             setUsername(username);
             setPassword(password);
-            setRepassword(repassword);
+            setConfirmPassword(confirmPassword);
     }
-
-    const handleBirthMonth = (month) => {
-        setBirthMonth(month);
-    }
-    const handleBirthDay = (day) => {
-        setBirthDay(day);
-    }
-    const handleBirthYear = (year) => {
-        setBirthYear(year);
-    }
-
-    const [majors, setMajors] = React.useState(['Undecided']);
-    const setStateMajors = (majors) => {
-        const sortedMajors = majors.sort();
-        setMajors(prevArray => {
-            return [...prevArray, ...sortedMajors];
-        });
-    }
-    const [minors, setMinors] = React.useState([]);
-    const setStateMinors = (minors) => {
-        const sortedMinors = minors.sort();
-        setMinors(prevArray => {
-            return [...prevArray, ...sortedMinors];
-        });
-    }
-
-    const [depts, setDepts] = React.useState([]);
-    const setStateDepts = (depts) => {
-        const sortedDepts = depts.sort();
-        setDepts(prevArray => {
-            return [...prevArray, ...sortedDepts];
-        });
-    }
-
 
     //Student Information Form
-    const [academicYear, setAcademicYear] = React.useState('');
-    const [major, setMajor] = React.useState('');
-    const [minor, setMinor] = React.useState('');
-    const [concentration, setConcentration] = React.useState('');
+    const [academicYear, setAcademicYear] = useState('');
+    const [major, setMajor] = useState('');
+    const [minor, setMinor] = useState('');
+    const [concentration, setConcentration] = useState('');
 
     const handleStudentFormData = (year, major, minor, concen) => {
         setAcademicYear(year);
@@ -129,23 +100,12 @@ const RegisterWidget = () => {
         setConcentration(concen);
     }
 
-    const handleMajor = (major) => {
-        setMajor(major);
-    }
-    const handleMinor = (minor) => {
-        setMinor(minor);
-    }
-
-    const handleAcadmeicYear = (year) => {
-        setAcademicYear(year);
-    }
-
     //Professor Information Form
-    const [academicRole, setAcademicRole] = React.useState('');
-    const [apptYear, setApptYear] = React.useState('');
-    const [department, setDepartment] = React.useState('');
-    const [officeBuilding, setOfficeBuilding] = React.useState('');
-    const [officeRoom, setOfficeRoom] = React.useState('');
+    const [academicRole, setAcademicRole] = useState('');
+    const [apptYear, setApptYear] = useState('');
+    const [department, setDepartment] = useState('');
+    const [officeBuilding, setOfficeBuilding] = useState('');
+    const [officeRoom, setOfficeRoom] = useState('');
 
     const handleProfessorFormData = (role, appt, dept, building, room) => {
         setAcademicRole(role);
@@ -155,117 +115,62 @@ const RegisterWidget = () => {
         setOfficeRoom(room);
     }
 
-    const handleDepartment = (dept) => {
-        setDepartment(dept);
-    } 
-
-    const handleAcademicRole = (role) => {
-        setAcademicRole(role);
-    }
-
-    const handleAppointedYear = (year) => {
-        setApptYear(year);
-    }
-
-    const [activeStep, setActiveStep] = React.useState(0);
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleSubmit =  async () => {
-        const res = await fetch('http://localhost:3000/api/auth/register', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                profileType: profileType,
-                schoolName: institution,
-                schoolid: idCode,
-                firstname: firstname,
-                middlename: middlename,
-                lastname: lastname,
-                birthMonth: birthMonth,
-                birthDay: birthDay,
-                birthYear: birthYear,
-                email: email,
-                phone: phone,
-                username: username,
-                password: password,
-                academicRole: academicRole,
-                apptYear: apptYear,
-                department: department,
-                officeBuilding: officeBuilding,
-                officeRoom: officeRoom,
-                gradeLvl: academicYear,
-                major: major,
-                minor: minor,
-                concentration: concentration,
-            })
-        });
-
-        if(res.ok) {
-            setAlert(false);
-            router.push('/?success=true') 
-        } else {
-            setAlert(true); 
-        }
-    }
-
     return (
-            <Box 
-                sx={{ 
-                    p: 4,
-                    bgcolor: 'widget.background',
-                    boxShadow: '1px 1px 4px 2px #cecece',
-                    borderRadius: '10px',
-                    width: '100%',
-                    my: 8,
+        <Box
+            id='register-widget'
+            sx={{ 
+                p: 4,
+                bgcolor: 'widget.background',
+                boxShadow: '1px 1px 4px 2px #cecece',
+                borderRadius: '10px',
+                width: '100%',
+                my: {xs: 1, sm: 8},
+            }}
+        >
+            <Stepper 
+                activeStep={activeStep} 
+            >
+                {steps.map((label) => {
+                    return (
+                        <Step 
+                            key={label} 
+                        >
+                            <StepLabel>
+                                <Typography
+                                    sx={{
+                                        display: {xs: 'none', sm:'flex'}
+                                    }}
+                                >
+                                    {label}
+                                </Typography>
+                            </StepLabel>
+                        </Step>
+                    );
+                })}
+            </Stepper>
+            <Box
+                className='form-container'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    my: { xs: 6, sm: 4},
                 }}
             >
-                <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
-                        return (
-                            <Step key={label} >
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
                 {(activeStep === 0) ? (
-                    <AcademicForm 
+                    <InstitutionForm 
                         profileType={profileType}
-                        institution={institution}
-                        idCode={idCode}
-                        handleAcademicFormData={handleAcademcFormData}
-                        handleProfileType={handleProfileType}
+                        schoolName={schoolName}
+                        schoolId={schoolId}
+                        setProfileType={setProfileType}
+                        setSchoolName={setSchoolName}
+                        setSchoolId={setSchoolId}
+                        setMajors={setStateMajors}
+                        setMinors={setStateMinors}
+                        setDepts={setStateDepts}
                         handleNext={handleNext}
-                        setStateMajors={setStateMajors}
-                        setStateMinors={setStateMinors}
-                        setStateDepts={setStateDepts}
                     />
                 ) : (activeStep === 1) ? (
                     <AccountForm 
-                        profileType={profileType}
-                        handleNext={handleNext}
-                        handleBack={handleBack}
-                        handleAccountInfoFormData={handleAccountInfoFormData}
-                        handleStudentFormData={handleStudentFormData}
-                        handleProfessorFormData={handleProfessorFormData}
-                        handleBirthMonth={handleBirthMonth}
-                        handleBirthDay={handleBirthDay}
-                        handleBirthYear={handleBirthYear}
-                        handleAcademicYear={handleAcadmeicYear}
-                        handleMajor={handleMajor}
-                        handleMinor={handleMinor}
-                        handleAcademicRole={handleAcademicRole}
-                        handleAppointedYear={handleAppointedYear}
-                        handleDepartment={handleDepartment}
                         firstname={firstname}
                         middlename={middlename}
                         lastname={lastname}
@@ -276,7 +181,7 @@ const RegisterWidget = () => {
                         phone={phone}
                         username={username}
                         password={password}
-                        repassword={repassword}
+                        confirmPassword={confirmPassword}
                         academicYear={academicYear}
                         major={major}
                         minor={minor}
@@ -286,81 +191,47 @@ const RegisterWidget = () => {
                         department={department}
                         officeBuilding={officeBuilding}
                         officeRoom={officeRoom}
+                        handleAccountInfoFormData={handleAccountInfoFormData}
+                        handleStudentFormData={handleStudentFormData}
+                        handleProfessorFormData={handleProfessorFormData}
+                        profile={profileType}
                         majors={majors}
                         minors={minors}
                         depts={depts}
+                        handleBack={handleBack}
+                        handleNext={handleNext}
                     />
-                ) : (
-                    <React.Fragment>
-                        <Alert 
-                            severity='error'
-                        sx={{
-                            m: 2,
-                            ...displayAlert,
-                        }}
-                        >
-                            Something Went Wrong - please try again later 
-                        </Alert> 
-                        <ReviewForm
-                            profileType={profileType}
-                            institution={institution}
-                            firstname={firstname}
-                            middlename={middlename}
-                            lastname={lastname}
-                            birthMonth={birthMonth}
-                            birthDay={birthDay}
-                            birthYear={birthYear}
-                            email={email}
-                            phone={phone}
-                            username={username}
-                            password={password.length}
-                            academicYear={academicYear}
-                            major={major}
-                            minor={minor}
-                            concentration={concentration}
-                            academicRole={academicRole}
-                            apptYear={apptYear}
-                            department={department}
-                            officeBuilding={officeBuilding}
-                            officeRoom={officeRoom}
-                        />
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Button 
-                                disabled={activeStep === 0}
-                                variant="contained"
-                                onClick={handleBack}
-                                sx={{ mr: 1 }}
-                            > 
-                                <Typography
-                                    variant="button"
-                                    sx={{
-                                        color: '#000',
-                                        fontWeight: '700',
-                                    }}
-                                >
-                                    Back
-                                </Typography>
-                            </Button> 
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            <Button 
-                                variant="contained"
-                                onClick={handleSubmit}
-                            > 
-                                <Typography
-                                    variant="button"
-                                    sx={{
-                                        color: '#000',
-                                        fontWeight: '700',
-                                    }}
-                                >
-                                    Submit
-                                </Typography>
-                            </Button> 
-                        </Box>
-                    </React.Fragment>
+                ): (
+                    <ReviewForm 
+                        profileType={profileType}
+                        schoolName={schoolName}
+                        schoolId={schoolId}
+                        firstname={firstname}
+                        middlename={middlename}
+                        lastname={lastname}
+                        birthMonth={birthMonth}
+                        birthDay={birthDay}
+                        birthYear={birthYear}
+                        email={email}
+                        phone={phone}
+                        username={username}
+                        password={password}
+                        academicYear={academicYear}
+                        major={major}
+                        minor={minor}
+                        concentration={concentration}
+                        academicRole={academicRole}
+                        apptYear={apptYear}
+                        department={department}
+                        officeBuilding={officeBuilding}
+                        officeRoom={officeRoom}
+                        handleBack={handleBack}
+                    />
                 )}
             </Box>
-    );
+        </Box>
+
+    )
 }
 
 export default RegisterWidget;
