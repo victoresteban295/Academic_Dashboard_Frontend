@@ -1,8 +1,11 @@
+"use client"
+import LoadingBackDrop from "@/components/loading/LoadingBackDrop";
 import LoginForm from "./LoginForm";
-import { Box, Stack, Button, Divider, Typography } from "@mui/material"
+import { Box, Stack, Button, Divider, Typography, Backdrop, CircularProgress } from "@mui/material"
 import { Teko } from "next/font/google"
 import Image from "next/image";
 import Link from 'next/link';
+import { useState } from "react";
 
 const teko = Teko({
     weight: '700',
@@ -10,6 +13,15 @@ const teko = Teko({
 })
 
 const LoginWidget = () => {
+
+    const [loading, setLoading] = useState(false);
+    const triggerLoading = () => {
+        setLoading(true);
+    }
+    const closeLoading = () => {
+        setLoading(false);
+    }
+
     return (
         <Stack
             id='login-widget'
@@ -23,6 +35,7 @@ const LoginWidget = () => {
                 my: {xs: 1, sm: 8},
             }}
         >
+            <LoadingBackDrop loading={loading} />
             <Box
                 sx={{
                     display: 'flex',
@@ -55,7 +68,10 @@ const LoginWidget = () => {
                     Academic Dashboard
                 </Typography>
             </Box>
-            <LoginForm />
+            <LoginForm
+                triggerLoading={triggerLoading}
+                closeLoading={closeLoading}
+            />
             <Box
                 sx={{
                     display: 'flex',
@@ -83,7 +99,7 @@ const LoginWidget = () => {
                 }}
             >
                 <Link href="/register" style={{textDecoration: 'none'}} >
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={triggerLoading}>
                         <Typography 
                             sx={{
                                 color: '#000',

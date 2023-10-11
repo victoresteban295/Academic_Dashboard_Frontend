@@ -1,4 +1,3 @@
-"use client"
 import { Box, Button, TextField, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText, Alert, Stack } from "@mui/material"
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
@@ -7,7 +6,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormSchema } from "@/lib/schemas/authSchema";
 
-const LoginForm = () => {
+const LoginForm = ({ triggerLoading, closeLoading }) => {
     const router = useRouter();
 
     /* React Hook Form */
@@ -47,6 +46,7 @@ const LoginForm = () => {
     };
 
     const handleLoginForm = async (data) => {
+        triggerLoading();
         const res = await fetch('http://localhost:3000/api/auth/login', {
             method: "POST",
             headers: {
@@ -63,6 +63,7 @@ const LoginForm = () => {
             setAlert(false);
             router.push(`/${body.role}/${data.username}`);
         } else {
+            closeLoading();
             setSuccess(false);
             setAlert(true);
         }
