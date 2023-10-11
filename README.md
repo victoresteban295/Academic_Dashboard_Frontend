@@ -1,34 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Academic Dashboard: Frontend
 
-## Getting Started
+## Table of Content
+- [About Project](#about-project)
+  - [Product Vision](#product-vision)
+  - [Development Stack](#development-stack)
+  - [Project Structure](#project-structure)
+- [Web Pages](#web-pages)
+  - [Login Page](#login-page)
+  - [Register Page](#register-page)
+  - [Dashboard Page](#dashboard-page)
+    - [Professor's Dashboard Page](#professors-dashboard-page)
+    - [Student's Dashboard Page](#students-dashboard-page)
+  - [Course Page](#course-page)
+    - [Professor's Course Page](#professors-course-page)
+    - [Student's Course Page](#students-course-page)
+  - [Calendar Page](#calendar-page)
+  - [Checklist Page](#checklist-page)
+  - [Reminders Page](#reminders-page) 
 
-First, run the development server:
+## About Project
+### Product Vision
+For educational institutions looking to boost academic performance, Academic Dashboard is a web application that improves how students interact with course-related work assigned by professors. Unlike other similar products that are uniquely designed for a single institution, our software product was built to be adopted across different campuses and to provide a sense of familiarity to all students. Its built-in calendar, checklist, and reminders allows user to become more organized without the need to switch applications. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+### Development Stack
+- [React](https://react.dev/) - Frontend Javascript Library for Building User Interfaces
+- [Nextjs 13](https://nextjs.org/) - React Web Development Framework
+- [Material UI](https://mui.com/material-ui/) - React Component Library
+- [React Hook Form](https://react-hook-form.com/) - Form Management Library
+- [Zod](https://zod.dev/) - Input Validation
+
+### Project Structure
+
+```
+src
+├── app
+├── components
+├── lib
+│   ├── actions
+│   └── schemas
+├── theme
+└── middleware.js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `app` directory - Nextjs Routes
+- `components` directory - React Components
+- `lib/actions` directory - Nextjs Server Actions
+- `lib/schemas` directory - Zod Schemas
+- `theme` directory - Project's Custom Material UI Theme
+- `middleware.js` file - Nextjs Middleware
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Web Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  

@@ -20,7 +20,7 @@ const LoginWidget = () => {
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
                 maxWidth: '100%',
-                my: 8,
+                my: {xs: 1, sm: 8},
             }}
         >
             <Box
