@@ -4,12 +4,20 @@ import {  Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } f
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
+import LoadingBackDrop from "../loading/LoadingBackDrop";
 
 const ProfessorAvatar = ({ professorInitials, username, role }) => {
 
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [loading, setLoading] = useState(false);
+    const triggerLoading = () => {
+        setLoading(true);
+    }
+    const closeLoading = () => {
+        setLoading(false);
+    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
@@ -18,6 +26,7 @@ const ProfessorAvatar = ({ professorInitials, username, role }) => {
     }
 
     const handleLogout = async () => {
+        triggerLoading();
         const res = await fetch('http://localhost:3000/api/auth/logout', {
             method: "POST",
         });
@@ -25,12 +34,14 @@ const ProfessorAvatar = ({ professorInitials, username, role }) => {
         if(res.ok) {
             router.push('/');
         } else {
+            closeLoading();
             alert("Something Went Wrong!");
         }
     }
 
     return (
         <>
+            <LoadingBackDrop loading={loading} />
             <Tooltip title="Account Settings">
                 <IconButton
                     onClick={handleClick}

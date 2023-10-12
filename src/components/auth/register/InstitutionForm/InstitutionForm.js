@@ -1,7 +1,7 @@
 import { validateInstitution } from "@/lib/actions/auth-actions";
 import { InstitutionFormSchema } from "@/lib/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Box, Button, Divider, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Divider, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -40,10 +40,21 @@ const InstitutionForm = ({
         }
     }
 
+    /* Control Loading Spinner */
+    const [loading, setLoading] = useState(false);
+    const triggerLoading = () => {
+        setLoading(true);
+    }
+    const closeLoading = () => {
+        setLoading(false);
+    }
+
     const handleNextForm = async (data) => {
+        triggerLoading();
         //Server Action
         const { success, majors, minors, depts } = await validateInstitution(data);
         if(success) {
+            closeLoading();
             setAlert(false);
 
             //Options Passed to Next Form
@@ -59,6 +70,7 @@ const InstitutionForm = ({
             //Next Step in Stepper
             handleNext(); 
         } else {
+            closeLoading();
             //User Provided Wrong Information 
             setAlert(true);
         }
@@ -71,8 +83,23 @@ const InstitutionForm = ({
             sx={{
                 flexGrow: 1,
                 maxWidth: '500px',
+                position: 'relative',
             }}
         >
+            <Box
+                sx={{
+                    display: loading ? 'flex' : 'none',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                }}
+            >
+                <CircularProgress 
+                    sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                />
+            </Box>
             <form noValidate action={handleSubmit(handleNextForm)} > 
                 <Stack
                     id='academic-institution-section'

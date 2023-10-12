@@ -5,6 +5,7 @@ import StudentReviewInput from "./StudentReviewInput";
 import ProfessorReviewInput from "./ProfessorReviewInput";
 import { useState } from "react";
 import { registerUser } from "@/lib/actions/auth-actions";
+import LoadingBackDrop from "@/components/loading/LoadingBackDrop";
 
 const ReviewForm = ({ 
     profileType, 
@@ -42,7 +43,16 @@ const ReviewForm = ({
         }
     }
 
+    const [loading, setLoading] = useState(false);
+    const triggerLoading = () => {
+        setLoading(true);
+    }
+    const closeLoading = () => {
+        setLoading(false);
+    }
+
     const handleSubmitForm = async () => {
+        triggerLoading();
         const { success } = await registerUser(
             profileType, 
             schoolName, 
@@ -71,6 +81,7 @@ const ReviewForm = ({
             setAlert(false);
             router.push('/?success=true') 
         } else {
+            closeLoading();
             setAlert(true); 
         }
     }
@@ -85,6 +96,7 @@ const ReviewForm = ({
                 maxWidth: '500px',
             }}
         >
+            <LoadingBackDrop loading={loading} />
             <form noValidate action={handleSubmitForm}>
                 <Alert
                     severity='error'
