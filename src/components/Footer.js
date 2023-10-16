@@ -17,7 +17,13 @@ const Footer = () => {
                     my: 1
                 }}
             >
-                <Link href="/" >
+                <Link 
+                    href="/" 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000'
+                    }}
+                >
                     <Typography
                         sx={{
                             color: 'text.primary',
@@ -26,7 +32,13 @@ const Footer = () => {
                         Portfolio
                     </Typography>
                 </Link>
-                <Link href="https://github.com/victoresteban295" >
+                <Link 
+                    href="https://github.com/victoresteban295" 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000'
+                    }}
+                >
                     <Typography
                         sx={{
                             color: 'text.primary',
@@ -35,7 +47,13 @@ const Footer = () => {
                         GitHub
                     </Typography>
                 </Link>
-                <Link href="https://www.linkedin.com/in/victor-esteban295/" >
+                <Link 
+                    href="https://www.linkedin.com/in/victor-esteban295/" 
+                    style={{
+                        textDecoration: 'none',
+                        color: '#000'
+                    }}
+                >
                     <Typography
                         sx={{
                             color: 'text.primary',

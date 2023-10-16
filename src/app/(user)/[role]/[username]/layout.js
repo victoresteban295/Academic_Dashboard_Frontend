@@ -45,8 +45,6 @@ const UserLayout = async ({ children, params }) => {
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            height: '500px'
-                            
                         }}
                     >
                         <Box
@@ -69,7 +67,7 @@ const UserLayout = async ({ children, params }) => {
                             id="main-content-container"
                             sx={{
                                 flexGrow: '10',
-                                maxWidth: '1500px',
+                                maxWidth: '1000px',
                                 bgcolor: 'tan'
                             }}
                         >
