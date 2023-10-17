@@ -1,25 +1,6 @@
 import { Box } from "@mui/material"
 import { cookies } from "next/dist/client/components/headers";
 
-const getUserChecklists = async (username) => {
-    const cookieStore = cookies(); 
-    const { value: jwt } = cookieStore.get('accessToken');
-
-    const res = await fetch(`http://localhost:8080/api/${username}/get/checklists`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    if(!res.ok) {
-        notFound();
-    }
-
-    return res.json();
-}
-
 const getUserGrouplists = async (username) => {
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
@@ -42,7 +23,6 @@ const getUserGrouplists = async (username) => {
 const ChecklistPageLayout = async ({ children, params}) => {
 
     const { username } = params;
-    console.log(username);
     /* const checklists = await getUserChecklists(username); */
     /* const grouplists = await getUserGrouplists(username); */
     /**/

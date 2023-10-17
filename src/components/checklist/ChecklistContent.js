@@ -21,7 +21,7 @@ const getChecklist = async (username, listId) => {
     return res.json();
 }
 
-const ChecklistWidget = async ({ username }) => {
+const ChecklistContent = async ({ username }) => {
     /* const checklist = await getChecklist(username, "dkerd"); */
 
     return (
@@ -53,9 +53,8 @@ const ChecklistWidget = async ({ username }) => {
             >
 
             </Box>
-
         </Box> 
     )
 }
 
-export default ChecklistWidget;
+export default ChecklistContent;

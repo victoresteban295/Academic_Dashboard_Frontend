@@ -1,12 +1,13 @@
-import ChecklistWidget from "@/components/checklist/ChecklistWidget";
+import ChecklistContent from "@/components/checklist/ChecklistContent";
 
-const ChecklistPage = () => {
-
+const ChecklistContentPage = ({ params }) => {
+    const { username, listId } = params;
     return (
-        <>
-            <ChecklistWidget />
-        </>
+        <ChecklistContent 
+            username={username}
+            listId={listId}
+        />
     )
 }
 
-export default ChecklistPage;
+export default ChecklistContentPage;

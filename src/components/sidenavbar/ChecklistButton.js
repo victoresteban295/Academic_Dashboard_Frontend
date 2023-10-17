@@ -9,7 +9,12 @@ const ChecklistButton = ({ username, role }) => {
     const isActive = pathname.includes('/checklist');
     const router = useRouter();
     const handleClick = () => {
-        router.push(`/${role}/${username}/checklist`) 
+        const lastVisitedList = localStorage.getItem("LastVisitedList");
+        if(lastVisitedList === null) {
+            router.push(`/${role}/${username}/checklist`) 
+        } else {
+            router.push(`/${role}/${username}/checklist/${lastVisitedList}`); 
+        }
     }
 
     return (
