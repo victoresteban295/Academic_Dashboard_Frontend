@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const DashboardButton = ({ username, role }) => {
-
     const pathname = usePathname();
     const isActive = pathname === (`/${role}/${username}`);
 

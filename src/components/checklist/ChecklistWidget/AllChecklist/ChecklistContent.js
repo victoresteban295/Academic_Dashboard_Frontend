@@ -1,12 +1,14 @@
-import { Box } from "@mui/material";
-import TitleSection from "./ChecklistSection/TitleSection";
+"use client"
+import { Box, Divider } from "@mui/material";
+import TitleSection from "./TitleSection";
 
-const ChecklistSection = ({ currentList, listId, title, checkpoints }) => {
-    let displayList;
-    if(listId === currentList) {
-        displayList = {}
+const ChecklistContent = ({ listId, title, checkpoints }) => {
+
+    let isCurrent;
+    if(localStorage.getItem("currentList") === listId) {
+        isCurrent = {}
     } else {
-        displayList = {
+        isCurrent = {
             display: 'none',
         }
     }
@@ -17,20 +19,20 @@ const ChecklistSection = ({ currentList, listId, title, checkpoints }) => {
             sx={{
                 width: '100%',
                 height: '500px',
-                ...displayList,
+                ...isCurrent,
             }}
         >
             <Box
-                className="checklist-title-section-container"
+                className="checklist-title-section"
                 sx={{
                     width: '100%',
                     p: 1,
-                    bgcolor: 'grey',
                 }}
             >
                 <TitleSection
                     title={title}
                 /> 
+                <Divider />
             </Box>
             <Box
                 className="checkpoints-section"
@@ -46,4 +48,4 @@ const ChecklistSection = ({ currentList, listId, title, checkpoints }) => {
     )
 }
 
-export default ChecklistSection;
+export default ChecklistContent;

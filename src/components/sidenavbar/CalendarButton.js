@@ -1,38 +1,41 @@
 "use client"
 import { CalendarMonth, CalendarMonthOutlined } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const CalendarButton = ({ username, role }) => {
-
     const pathname = usePathname();
     const isActive = pathname.includes('/calendar');
-    const router = useRouter();
-    const handleClick = () => {
-        router.push(`/${role}/${username}/calendar`) 
-    }
 
     return (
-        <Button
-            variant='text'
-            startIcon={isActive ? <CalendarMonth /> : <CalendarMonthOutlined />}
-            onClick={handleClick}
-            sx={{
-                color: 'text.primary',
-                "&hover": {
-                    background: '#ccc5b9'
-                }
-            }}
+        <Link
+            href={`/${role}/${username}/calendar`} 
+            style={{
+                textDecoration: 'none',
+                color: '#000',
+            }} 
         >
-            <Typography
-                variant="button"
+            <Button
+                variant='text'
+                startIcon={isActive ? <CalendarMonth /> : <CalendarMonthOutlined />}
                 sx={{
-                    fontWeight: '700'
+                    color: 'text.primary',
+                    "&hover": {
+                        background: '#ccc5b9'
+                    }
                 }}
             >
-                Calendar
-            </Typography>
-        </Button>
+                <Typography
+                    variant="button"
+                    sx={{
+                        fontWeight: '700'
+                    }}
+                >
+                    Calendar
+                </Typography>
+            </Button>
+        </Link>
     )
 }
 
