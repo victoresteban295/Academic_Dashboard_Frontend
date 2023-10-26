@@ -12,6 +12,10 @@ const TitleSection = ({ title }) => {
         >
             <Typography
                 variant='h6'
+                sx={{
+                    fontWeight: '700'
+                }}
+                
             >
                 {title} 
             </Typography>

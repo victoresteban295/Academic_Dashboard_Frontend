@@ -68,6 +68,7 @@ const UserLayout = async ({ children, params }) => {
                             sx={{
                                 flexGrow: '10',
                                 maxWidth: '1000px',
+                                minHeight: '500px',
                             }}
                         >
                             {children}

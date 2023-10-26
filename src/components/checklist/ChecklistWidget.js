@@ -2,7 +2,7 @@ import getAllChecklists from "@/lib/utils/checklist/getAllChecklists";
 import NoList from "./ChecklistWidget/NoList";
 import AllChecklistContent from "./ChecklistWidget/AllChecklistContent";
 
-const ChecklistWidget = async ({ username }) => {
+const ChecklistWidget = async ({ username, reloadPage }) => {
     const checklists = await getAllChecklists(username);
     const hasChecklists = checklists.length > 0;
     
@@ -11,6 +11,7 @@ const ChecklistWidget = async ({ username }) => {
             {hasChecklists ? (
                 <AllChecklistContent 
                     checklists={checklists}
+                    reloadPage={reloadPage}
                 />
             ) : (
                 <NoList 

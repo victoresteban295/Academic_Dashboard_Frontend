@@ -29,6 +29,7 @@ const ChecklistPage = async ({ params }) => {
                 <Suspense fallback={<h3>Loading...</h3>} >
                     <ChecklistWidget
                         username={username}
+                        reloadPage={reloadPage}
                     />
                 </Suspense>
             </Box>

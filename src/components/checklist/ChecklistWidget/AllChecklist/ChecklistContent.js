@@ -1,8 +1,9 @@
 "use client"
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import TitleSection from "./TitleSection";
+import CheckpointsSection from "./CheckpointsSection";
 
-const ChecklistContent = ({ listId, title, checkpoints }) => {
+const ChecklistContent = ({ reloadPage, listId, title, checkpoints }) => {
 
     let isCurrent;
     if(localStorage.getItem("currentList") === listId) {
@@ -18,7 +19,6 @@ const ChecklistContent = ({ listId, title, checkpoints }) => {
             className="checklist-widget"
             sx={{
                 width: '100%',
-                height: '500px',
                 ...isCurrent,
             }}
         >
@@ -32,16 +32,36 @@ const ChecklistContent = ({ listId, title, checkpoints }) => {
                 <TitleSection
                     title={title}
                 /> 
-                <Divider />
             </Box>
             <Box
-                className="checkpoints-section"
+                className="checklist-content-section"
                 sx={{
                     width: '100%',
-                    height: '300px'
+                    px: 2,
                 }}
             >
+                <Stack
+                    className='checkpoints-section'
+                    divider={<Divider variant='middle' flexItem />}
+                    spacing={0}
+                    sx={{
+                        width: '100%',
+                    }}
+                >
+                    {checkpoints.map((checkpoint) => {
+                        const { content, subpoints, isComplete, isSubpoint } = checkpoint;
+                        return(
+                            <CheckpointsSection 
+                                reloadPage={reloadPage}
+                                content={content}
+                                subpoints={subpoints}
+                                isComplete={isComplete}
+                                isSubpoint={isSubpoint}
+                            />
+                        )
+                    })}
 
+                </Stack>
             </Box>
         </Box> 
 
