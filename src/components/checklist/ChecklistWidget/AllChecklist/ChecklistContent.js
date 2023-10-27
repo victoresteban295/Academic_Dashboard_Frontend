@@ -3,10 +3,10 @@ import { Box, Divider, Stack } from "@mui/material";
 import TitleSection from "./TitleSection";
 import CheckpointsSection from "./CheckpointsSection";
 
-const ChecklistContent = ({ reloadPage, listId, title, checkpoints }) => {
+const ChecklistContent = ({ activeList, handleActiveList, listId, title, checkpoints }) => {
 
     let isCurrent;
-    if(localStorage.getItem("currentList") === listId) {
+    if(activeList === listId) {
         isCurrent = {}
     } else {
         isCurrent = {
@@ -52,7 +52,6 @@ const ChecklistContent = ({ reloadPage, listId, title, checkpoints }) => {
                         const { content, subpoints, isComplete, isSubpoint } = checkpoint;
                         return(
                             <CheckpointsSection 
-                                reloadPage={reloadPage}
                                 content={content}
                                 subpoints={subpoints}
                                 isComplete={isComplete}

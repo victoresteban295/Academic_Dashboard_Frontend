@@ -1,51 +1,30 @@
-import ChecklistWidget from "@/components/checklist/ChecklistWidget";
-import ChecklistsWidget from "@/components/checklist/ChecklistsWidget";
-import { Box } from "@mui/material";
-import { revalidatePath } from "next/cache";
-import { Suspense } from "react";
+import ChecklistPageContent from "@/components/checklist/ChecklistPageContent";
+import getAllChecklists from "@/lib/utils/checklist/getAllChecklists";
+import getChecklists from "@/lib/utils/checklist/getChecklists";
+import getGrouplists from "@/lib/utils/checklist/getGrouplists";
 
 const ChecklistPage = async ({ params }) => {
     const { username } = params;
-    const reloadPage = async () => {
-        'use server'
-        revalidatePath('/[role]/[username]/checklist');
-    }
 
+    //Fetching Method Calls
+    const allChecklistsData = getAllChecklists(username);
+    const checklistsData = getChecklists(username);
+    const grouplistsData = getGrouplists(username);
+
+    //Fetch all Data in Parallel
+    const [allChecklists, checklists, grouplists] = await Promise
+        .all([allChecklistsData, checklistsData, grouplistsData]);
+
+    //Fetch Data in parallel Here and pass it to checklistpagecontent component
     return (
-        <Box
-            className="checklist-page"
-            sx={{
-                display: 'flex',
-                width: '100%',
-            }}
-        >
-            <Box
-                className='checklist-widget-container'
-                sx={{
-                    flexGrow: 4,
-                    p: 1,
-                }}
-            >
-                <Suspense fallback={<h3>Loading...</h3>} >
-                    <ChecklistWidget
-                        username={username}
-                        reloadPage={reloadPage}
-                    />
-                </Suspense>
-            </Box>
-            <Box
-                className='lists-widget-container'
-                sx={{
-                    flexGrow: 1,
-                    p: 1,
-                }}
-            >
-                <ChecklistsWidget
-                    username={username}
-                    reloadPage={reloadPage}
-                />
-            </Box>
-        </Box>
+        <>
+            <ChecklistPageContent 
+                username={username}
+                allChecklists={allChecklists}
+                checklists={checklists}
+                grouplists={grouplists}
+            />
+        </>
     )
 }
 

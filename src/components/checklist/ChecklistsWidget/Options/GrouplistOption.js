@@ -4,7 +4,7 @@ import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 
-const GrouplistOption = ({ reloadPage, title, groupId, checklists }) => {
+const GrouplistOption = ({ username, activeList, handleActiveList, title, groupId, checklists }) => {
     const [isExpanded, setExpanded] = useState(false);
     const handleOpen = () => {
         setExpanded(true);
@@ -65,7 +65,9 @@ const GrouplistOption = ({ reloadPage, title, groupId, checklists }) => {
                     const { title, listId } = checklist;
                     return(
                         <ChecklistOption
-                            reloadPage={reloadPage}
+                            username={username}
+                            activeList={activeList}
+                            handleActiveList={handleActiveList}
                             title={title}
                             listId={listId}
                         />

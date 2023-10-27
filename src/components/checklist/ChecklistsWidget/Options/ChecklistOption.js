@@ -2,9 +2,9 @@
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 
-const ChecklistOption = ({ reloadPage, title, listId }) => {
+const ChecklistOption = ({ username, activeList, handleActiveList, title, listId }) => {
     let isActive; 
-    const isCurrent = localStorage.getItem("currentList") === listId
+    const isCurrent = activeList === listId
     if(isCurrent) {
         isActive = {
             bgcolor: '#cecece',
@@ -17,8 +17,7 @@ const ChecklistOption = ({ reloadPage, title, listId }) => {
 
     //Change Checklist Content 
     const handleClick = () => {
-        localStorage.setItem("currentList", listId);
-        reloadPage();
+        handleActiveList(listId);
     } 
 
     return (

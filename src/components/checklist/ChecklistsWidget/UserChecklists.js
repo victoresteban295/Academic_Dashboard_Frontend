@@ -1,9 +1,8 @@
 import { Stack } from "@mui/material";
 import ChecklistOption from "./Options/ChecklistOption";
 
-const UserChecklists = async ({ userChecklists, reloadPage }) => {
+const UserChecklists = ({ username, activeList, handleActiveList, checklists }) => {
 
-    const checklists = await userChecklists;
     let display;
     if(checklists.length > 0) {
         display = {}
@@ -25,7 +24,9 @@ const UserChecklists = async ({ userChecklists, reloadPage }) => {
                 const { title, listId } = checklist;
                 return(
                     <ChecklistOption 
-                        reloadPage={reloadPage}
+                        username={username}
+                        activeList={activeList}
+                        handleActiveList={handleActiveList}
                         title={title}
                         listId={listId}
                     />

@@ -2,13 +2,8 @@ import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
 import UserChecklists from "./ChecklistsWidget/UserChecklists";
 import UserGrouplists from "./ChecklistsWidget/UserGrouplists";
 import { Add } from "@mui/icons-material";
-import getChecklists from "@/lib/utils/checklist/getChecklists";
-import getGrouplists from "@/lib/utils/checklist/getGrouplists";
-import { Suspense } from "react";
 
-const ChecklistsWidget = ({ username, reloadPage }) => {
-    const userChecklists = getChecklists(username);
-    const userGrouplists = getGrouplists(username);
+const ChecklistsWidget = ({ username, activeList, handleActiveList, checklists, grouplists}) => {
     return (
         <Box>
             <Box
@@ -33,18 +28,18 @@ const ChecklistsWidget = ({ username, reloadPage }) => {
                 spacing={3}
                 divider={<Divider flexItem />}
             >
-                <Suspense fallback={<h3>Loading Checklists...</h3>} >
-                    <UserChecklists 
-                        userChecklists={userChecklists}
-                        reloadPage={reloadPage}
-                    />
-                </Suspense>
-                <Suspense fallback={<h3>Loading Grouplists...</h3>} >
-                    <UserGrouplists 
-                        userGrouplists={userGrouplists}
-                        reloadPage={reloadPage}
-                    />
-                </Suspense>
+                <UserChecklists 
+                    username={username}
+                    activeList={activeList}
+                    handleActiveList={handleActiveList}
+                    checklists={checklists}
+                />
+                <UserGrouplists 
+                    username={username}
+                    activeList={activeList}
+                    handleActiveList={handleActiveList}
+                    grouplists={grouplists}
+                />
             </Stack>
         </Box>
     )

@@ -1,20 +1,16 @@
 "use client"
 import ChecklistContent from "./AllChecklist/ChecklistContent";
 
-const AllChecklistContent = ({ checklists, reloadPage }) => {
-
-    if(localStorage.getItem("currentList") === null) {
-        const { listId } = checklists[0];
-        localStorage.setItem("currentList", listId)
-    } 
+const AllChecklistContent = ({ allChecklists, activeList, handleActiveList }) => {
 
     return (
         <>
-            {checklists.map((checklist) => {
+            {allChecklists.map((checklist) => {
                 const { listId, title, checkpoints } = checklist;
                 return(
                     <ChecklistContent 
-                        reloadPage={reloadPage}
+                        activeList={activeList}
+                        handleActiveList={handleActiveList}
                         listId={listId}
                         title={title}
                         checkpoints={checkpoints}

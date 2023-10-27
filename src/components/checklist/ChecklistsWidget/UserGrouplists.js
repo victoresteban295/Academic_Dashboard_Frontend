@@ -1,9 +1,7 @@
 import { Stack } from "@mui/material";
 import GrouplistOption from "./Options/GrouplistOption";
 
-const UserGrouplists = async ({ userGrouplists, reloadPage }) => {
-    //Fetch User's Grouplist
-    const grouplists = await userGrouplists;
+const UserGrouplists = ({ username, activeList, handleActiveList, grouplists }) => {
 
     //Don't Display if User has not Grouplist
     let display;
@@ -26,7 +24,9 @@ const UserGrouplists = async ({ userGrouplists, reloadPage }) => {
                 const { title, groupId, checklists } = grouplist;
                 return(
                     <GrouplistOption 
-                        reloadPage={reloadPage}
+                        username={username}
+                        activeList={activeList}
+                        handleActiveList={handleActiveList}
                         title={title}
                         groupId={groupId}
                         checklists={checklists}
