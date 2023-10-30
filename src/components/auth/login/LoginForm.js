@@ -47,6 +47,7 @@ const LoginForm = ({ triggerLoading, closeLoading }) => {
 
     const handleLoginForm = async (data) => {
         triggerLoading();
+        localStorage.clear(); //Clear In-Case Logout
         const res = await fetch('http://localhost:3000/api/auth/login', {
             method: "POST",
             headers: {

@@ -1,7 +1,7 @@
-import { CheckBoxOutlineBlank } from "@mui/icons-material";
-import { Box, IconButton, InputBase } from "@mui/material";
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
+import { Box, IconButton, InputBase, Typography } from "@mui/material";
 
-const SubpointsSection = ({ reloadPage, content, isComplete, isSubpoint }) => {
+const SubpointsSection = ({ content, isCompleted }) => {
     return (
         <Box
             sx={{
@@ -9,15 +9,32 @@ const SubpointsSection = ({ reloadPage, content, isComplete, isSubpoint }) => {
                 alignItems: 'center',
             }}
         >
-            <IconButton size='large'>
-                <CheckBoxOutlineBlank fontSize='inherit' />
-            </IconButton>
-            <InputBase 
-                value={content}
-                sx={{
-                    flexGrow: 1,
-                }}
-            />
+            {isCompleted ? (
+                <IconButton size='large'>
+                    <CheckBoxOutlined fontSize='inherit' />
+                </IconButton>
+            ) : (
+                <IconButton size='large'>
+                    <CheckBoxOutlineBlank fontSize='inherit' />
+                </IconButton>
+            )}
+            {isCompleted ? (
+                <Typography
+                    variant='body2'
+                    sx={{
+                        textDecoration: 'line-through',
+                    }}
+                >
+                    {content}
+                </Typography>
+            ) : (
+                <InputBase 
+                    value={content}
+                    sx={{
+                        flexGrow: 1,
+                    }}
+                />
+            )}
         </Box>
     )
 }

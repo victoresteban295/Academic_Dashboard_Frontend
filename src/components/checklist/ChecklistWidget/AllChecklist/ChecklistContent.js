@@ -3,7 +3,14 @@ import { Box, Divider, Stack } from "@mui/material";
 import TitleSection from "./TitleSection";
 import CheckpointsSection from "./CheckpointsSection";
 
-const ChecklistContent = ({ activeList, handleActiveList, listId, title, checkpoints }) => {
+const ChecklistContent = ({ 
+    isGrouped, 
+    activeList, 
+    handleActiveList, 
+    listId, 
+    title, 
+    checkpoints, 
+    completedPoints }) => {
 
     let isCurrent;
     if(activeList === listId) {
@@ -31,6 +38,7 @@ const ChecklistContent = ({ activeList, handleActiveList, listId, title, checkpo
             >
                 <TitleSection
                     title={title}
+                    isGrouped={isGrouped}
                 /> 
             </Box>
             <Box
@@ -49,17 +57,29 @@ const ChecklistContent = ({ activeList, handleActiveList, listId, title, checkpo
                     }}
                 >
                     {checkpoints.map((checkpoint) => {
-                        const { content, subpoints, isComplete, isSubpoint } = checkpoint;
+                        const { content, subpoints, completedSubpoints, isSubpoint } = checkpoint;
                         return(
                             <CheckpointsSection 
                                 content={content}
                                 subpoints={subpoints}
-                                isComplete={isComplete}
+                                completedSubpoints={completedSubpoints}
+                                isCompleted={false}
                                 isSubpoint={isSubpoint}
                             />
                         )
                     })}
-
+                    {completedPoints.map((completedPoint) => {
+                        const { content, subpoints, completedSubpoints, isSubpoint } = completedPoint;
+                        return(
+                            <CheckpointsSection 
+                                content={content}
+                                subpoints={subpoints}
+                                completedSubpoints={completedSubpoints}
+                                isCompleted={true}
+                                isSubpoint={isSubpoint}
+                            />
+                        )
+                    })}
                 </Stack>
             </Box>
         </Box> 

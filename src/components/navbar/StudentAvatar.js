@@ -32,6 +32,7 @@ const StudentAvatar = ({ studentInitials, username, role }) => {
         });
 
         if(res.ok) {
+            localStorage.clear();
             router.push('/');
         } else {
             closeLoading();

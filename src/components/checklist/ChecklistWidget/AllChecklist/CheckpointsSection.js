@@ -2,7 +2,7 @@ import { CheckBoxOutlineBlank, CheckBoxOutlined, DeleteOutline } from "@mui/icon
 import { Box, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
 import SubpointsSection from "./SubpointsSection";
 
-const CheckpointsSection = ({ reloadPage, content, subpoints, isComplete, isSubpoint }) => {
+const CheckpointsSection = ({ content, subpoints, completedSubpoints, isCompleted, isSubpoint }) => {
     return (
         <Stack
             spacing={0}
@@ -13,15 +13,33 @@ const CheckpointsSection = ({ reloadPage, content, subpoints, isComplete, isSubp
                     alignItems: 'center',
                 }}
             >
-                <IconButton size='large'>
-                    <CheckBoxOutlineBlank fontSize='inherit' />
-                </IconButton>
-                <InputBase 
-                    value={content}
-                    sx={{
-                        flexGrow: 1,
-                    }}
-                />
+                {isCompleted ? (
+                    <IconButton size='large'>
+                        <CheckBoxOutlined fontSize='inherit' />
+                    </IconButton>
+                ) : (
+                    <IconButton size='large'>
+                        <CheckBoxOutlineBlank fontSize='inherit' />
+                    </IconButton>
+                )}
+
+                {isCompleted ? (
+                    <Typography
+                        variant='body2'
+                        sx={{
+                            textDecoration: 'line-through',
+                        }}
+                    >
+                        {content}
+                    </Typography>
+                ) : (
+                    <InputBase 
+                        value={content}
+                        sx={{
+                            flexGrow: 1,
+                        }}
+                    />
+                )}
             </Box>
             {subpoints.length > 0 ? <Divider variant='middle' flexItem/> : <Box></Box>}
             <Stack
@@ -34,17 +52,23 @@ const CheckpointsSection = ({ reloadPage, content, subpoints, isComplete, isSubp
                 }}
             >
                 {subpoints.map((subpoint) => {
-                    const { content, isComplete, isSubpoint } = subpoint;
+                    const { content } = subpoint;
                     return(
                         <SubpointsSection
-                            reloadPage={reloadPage}
                             content={content}
-                            isComplete={isComplete}
-                            isSubpoint={isSubpoint}
+                            isCompleted={false}
                         />
                     )
                 })}
-
+                {completedSubpoints.map((completedSubpoint) => {
+                    const { content } = completedSubpoint;
+                    return(
+                        <SubpointsSection
+                            content={content}
+                            isCompleted={true}
+                        />
+                    )
+                })}
             </Stack>
         </Stack>
     )

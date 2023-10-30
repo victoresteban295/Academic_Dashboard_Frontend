@@ -7,7 +7,9 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
     const isCurrent = activeList === listId
     if(isCurrent) {
         isActive = {
-            bgcolor: '#cecece',
+            borderStyle: 'solid',
+            borderWidth: '2px',
+            borderColor: '#000',
         }
     } else {
         isActive = {
@@ -39,9 +41,9 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
             >
                 {title}
             </Button>
-            <IconButton size='small'>
-                <MoreVert fontSize='inherit' />
-            </IconButton>
+            {/* <IconButton size='small'> */}
+            {/*     <MoreVert fontSize='inherit' /> */}
+            {/* </IconButton> */}
         </Box>
     )
 }
