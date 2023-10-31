@@ -1,13 +1,24 @@
-import { CheckBoxOutlineBlank, CheckBoxOutlined, DeleteOutline } from "@mui/icons-material";
-import { Box, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
+import { Add, CheckBoxOutlineBlank, CheckBoxOutlined, Delete, DeleteOutline } from "@mui/icons-material";
+import { Box, Divider, IconButton, InputBase, Stack, Tooltip, Typography } from "@mui/material";
 import SubpointsSection from "./SubpointsSection";
+import { useState } from "react";
 
-const CheckpointsSection = ({ content, subpoints, completedSubpoints, isCompleted, isSubpoint }) => {
+const CheckpointsSection = ({ 
+    showAllEdit, 
+    content, 
+    subpoints, 
+    completedSubpoints, 
+    isCompleted, 
+    isSubpoint }) => {
+
+    const [showEdit, setShowEdit] = useState(false);
     return (
         <Stack
             spacing={0}
         >
             <Box
+                onMouseOver={() => setShowEdit(true)}
+                onMouseOut={() => setShowEdit(false)}
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
@@ -40,6 +51,50 @@ const CheckpointsSection = ({ content, subpoints, completedSubpoints, isComplete
                         }}
                     />
                 )}
+                {!showAllEdit && (
+                    <Box>
+                        {showEdit && (
+                            <Tooltip title="Add Subpoint">
+                                <IconButton size='small'>
+                                    <Add fontSize='inherit' />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                        {showEdit && (
+                            <Tooltip title="Delete Checkpoint">
+                                <IconButton size='small'>
+                                    <Delete 
+                                        fontSize='inherit' 
+                                        sx={{
+                                            color: '#ef476f',
+                                        }}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                    </Box>
+                )}
+                <Box>
+                    {showAllEdit && (
+                        <Tooltip title="Add Subpoint">
+                            <IconButton size='small'>
+                                <Add fontSize='inherit' />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                    {showAllEdit && (
+                        <Tooltip title="Delete Checkpoint">
+                            <IconButton size='small'>
+                                <Delete 
+                                    fontSize='inherit' 
+                                    sx={{
+                                        color: '#ef476f',
+                                    }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </Box>
             </Box>
             {subpoints.length > 0 ? <Divider variant='middle' flexItem/> : <Box></Box>}
             <Stack

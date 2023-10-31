@@ -2,6 +2,7 @@
 import ChecklistContent from "./AllChecklist/ChecklistContent";
 
 const AllChecklistContent = ({ 
+    username,
     allChecklists, 
     groupedListIds, 
     activeList, 
@@ -14,6 +15,7 @@ const AllChecklistContent = ({
                 const isGrouped = groupedListIds.includes(listId);
                 return(
                     <ChecklistContent 
+                        username={username}
                         isGrouped={isGrouped}
                         activeList={activeList}
                         handleActiveList={handleActiveList}

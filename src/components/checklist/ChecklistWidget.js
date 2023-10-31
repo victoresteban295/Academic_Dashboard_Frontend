@@ -15,6 +15,7 @@ const ChecklistWidget = ({
         <>
             {hasChecklists ? (
                 <AllChecklistContent 
+                    username={username}
                     allChecklists={allChecklists}
                     groupedListIds={groupedListIds}
                     activeList={activeList}
