@@ -16,7 +16,7 @@ export const renameCheclistTitle = async (username, listId, title) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
 
-    /* //Backend REST API */
+    /* Backend REST API */
     const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/title/${listId}`, {
         cache: "no-cache",
         method: "PUT", 

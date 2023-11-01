@@ -44,12 +44,14 @@ const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists 
             <Box
                 className='checklist-widget-container'
                 sx={{
-                    flexGrow: 4,
+                    flexGrow: 1,
+                    maxWidth: '750px',
                     p: 1,
                 }}
             >
                 <ChecklistWidget
                     username={username}
+                    grouplists={grouplists}
                     groupedListIds={groupedListIds}
                     activeList={currentList}
                     handleActiveList={handleActiveList}
@@ -60,6 +62,7 @@ const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists 
                 className='lists-widget-container'
                 sx={{
                     flexGrow: 1,
+                    maxWidth: '250px',
                     p: 1,
                 }}
             >

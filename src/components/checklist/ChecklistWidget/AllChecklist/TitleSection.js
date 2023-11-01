@@ -5,9 +5,13 @@ import { Add, MoreVert } from "@mui/icons-material";
 import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import AddToGroupBackdrop from "./AddToGroupBackdrop";
 
 const TitleSection = ({ 
+    username,
+    listId,
     title, 
+    grouplists,
     isGrouped, 
     handleChecklistTitle, 
     showAllEdit,
@@ -23,7 +27,7 @@ const TitleSection = ({
         resolver: zodResolver(ChecklistTitleSchema), //Zod Validation Schema
     });
 
-    //Menu's State Value & Functions
+    //Options Menu's State Value & Functions
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -31,6 +35,16 @@ const TitleSection = ({
     }
     const handleClose = () => {
         setAnchorEl(null);
+    }
+
+    /* Backdrop State Value & Function */
+    /* Add Checklst to Group */
+    const [openAddToGroup, setOpenAddToGroup] = useState(false);
+    const handleOpenAddToGroup = () => {
+        setOpenAddToGroup(true);
+    }
+    const handleCloseAddToGroup = () => {
+        setOpenAddToGroup(false);
     }
 
     /* Change Title Method */
@@ -48,6 +62,14 @@ const TitleSection = ({
                 justifyContent: 'space-between'
             }}
         >
+            <AddToGroupBackdrop 
+                username={username}
+                listId={listId}
+                open={openAddToGroup}
+                handleOpen={handleOpenAddToGroup}
+                handleClose={handleCloseAddToGroup}
+                grouplists={grouplists}
+            />
             <Controller 
                 name="checklistTitle"
                 control={control}
@@ -106,7 +128,7 @@ const TitleSection = ({
                         <MenuItem onClick={showAllEditButtons} >
                             Edit Checklist
                         </MenuItem>
-                        <MenuItem
+                        <MenuItem onClick={handleOpenAddToGroup}
                             sx={{
                                 display: isGrouped ? 'none' : 'block'
                             }}
@@ -140,10 +162,19 @@ const TitleSection = ({
             )}
             {showAllEdit && (
                 <Button
+                    size='small'
                     variant="contained"
                     onClick={unshowAllEditButtons}
                 >
-                    Done Editing
+                    <Typography
+                        variant='button'
+                        sx={{
+                            color: '#000',
+                            fontWeight: '700',
+                        }}
+                    >
+                        Finish 
+                    </Typography>
                 </Button>
             )}
         </Box>

@@ -4,6 +4,7 @@ import ChecklistContent from "./AllChecklist/ChecklistContent";
 const AllChecklistContent = ({ 
     username,
     allChecklists, 
+    grouplists,
     groupedListIds, 
     activeList, 
     handleActiveList }) => {
@@ -17,6 +18,7 @@ const AllChecklistContent = ({
                     <ChecklistContent 
                         username={username}
                         isGrouped={isGrouped}
+                        grouplists={grouplists}
                         activeList={activeList}
                         handleActiveList={handleActiveList}
                         listId={listId}

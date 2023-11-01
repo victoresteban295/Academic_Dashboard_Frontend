@@ -4,6 +4,7 @@ import AllChecklistContent from "./ChecklistWidget/AllChecklistContent";
 
 const ChecklistWidget = ({ 
     username, 
+    grouplists,
     groupedListIds, 
     activeList, 
     handleActiveList, 
@@ -17,6 +18,7 @@ const ChecklistWidget = ({
                 <AllChecklistContent 
                     username={username}
                     allChecklists={allChecklists}
+                    grouplists={grouplists}
                     groupedListIds={groupedListIds}
                     activeList={activeList}
                     handleActiveList={handleActiveList}

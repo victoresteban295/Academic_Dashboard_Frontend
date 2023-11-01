@@ -8,6 +8,7 @@ import { useState } from "react";
 const ChecklistContent = ({ 
     username,
     isGrouped, 
+    grouplists,
     activeList, 
     handleActiveList, 
     listId, 
@@ -29,6 +30,10 @@ const ChecklistContent = ({
         renameCheclistTitle(username, listId, newTitle);
     }
 
+    const handleAddChecklistToGroup = () => {
+
+    }
+
     return (
         <>
             {(activeList === listId) && (
@@ -46,7 +51,10 @@ const ChecklistContent = ({
                         }}
                     >
                         <TitleSection
+                            username={username}
+                            listId={listId}
                             title={title}
+                            grouplists={grouplists}
                             isGrouped={isGrouped}
                             handleChecklistTitle={handleChecklistTitle}
                             showAllEdit={showAllEdit}
