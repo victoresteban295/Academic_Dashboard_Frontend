@@ -7,16 +7,6 @@ import ChecklistsWidget from "./ChecklistsWidget";
 
 const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists }) => {
 
-    //Create a List of all Checklists that belong to Group
-    const groupedListIds = [];
-    grouplists.map((grouplist) => {
-        const { checklists } = grouplist;
-        checklists.map((checklist) => {
-            const { listId } = checklist;
-            groupedListIds.push(listId);
-        })
-    })
-
     let list;
     if(localStorage.getItem("currentList") === null) {
         const { listId } = allChecklists[0];
@@ -52,7 +42,6 @@ const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists 
                 <ChecklistWidget
                     username={username}
                     grouplists={grouplists}
-                    groupedListIds={groupedListIds}
                     activeList={currentList}
                     handleActiveList={handleActiveList}
                     allChecklists={allChecklists}   

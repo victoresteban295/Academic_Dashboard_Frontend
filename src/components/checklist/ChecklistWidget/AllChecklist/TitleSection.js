@@ -6,13 +6,15 @@ import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, T
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AddToGroupBackdrop from "./AddToGroupBackdrop";
+import { removeChecklistFromGroup } from "@/lib/utils/checklist/modifyGrouplist";
+import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
 
 const TitleSection = ({ 
     username,
     listId,
     title, 
     grouplists,
-    isGrouped, 
+    groupId,
     handleChecklistTitle, 
     showAllEdit,
     showAllEditButtons, 
@@ -47,12 +49,28 @@ const TitleSection = ({
         setOpenAddToGroup(false);
     }
 
+    /* Backdrop State Value & Function */
+    /* Move From Group to Group */
+    const [openMoveToGroup, setOpenMoveToGroup] = useState(false);
+    const handleOpenMoveToGroup = () => {
+        setOpenMoveToGroup(true);
+    }
+    const handleCloseMoveToGroup = () => {
+        setOpenMoveToGroup(false);
+    }
+
     /* Change Title Method */
     const handleTitleChange = (event) => {
         handleChecklistTitle(event.target.value);
         reloadChecklistpage();
     }
-
+    
+    /* Remove Checklist From Current Group */
+    const removeFromGroup = () => {
+        removeChecklistFromGroup(username, listId, groupId);
+        handleClose();
+        reloadChecklistpage();
+    }
 
     return (
         <Box
@@ -66,8 +84,15 @@ const TitleSection = ({
                 username={username}
                 listId={listId}
                 open={openAddToGroup}
-                handleOpen={handleOpenAddToGroup}
                 handleClose={handleCloseAddToGroup}
+                grouplists={grouplists}
+            />
+            <MoveToGroupBackdrop 
+                username={username}
+                listId={listId}
+                fromGroupId={groupId}
+                open={openMoveToGroup}
+                handleClose={handleCloseMoveToGroup}
                 grouplists={grouplists}
             />
             <Controller 
@@ -128,23 +153,26 @@ const TitleSection = ({
                         <MenuItem onClick={showAllEditButtons} >
                             Edit Checklist
                         </MenuItem>
-                        <MenuItem onClick={handleOpenAddToGroup}
+                        <MenuItem 
+                            onClick={handleOpenAddToGroup}
                             sx={{
-                                display: isGrouped ? 'none' : 'block'
+                                display: (groupId === '') ? 'block' : 'none'
                             }}
                         >
                             Add to Group
                         </MenuItem>
-                        <MenuItem
+                        <MenuItem 
+                            onClick={handleOpenMoveToGroup}
                             sx={{
-                                display: isGrouped ? 'block' : 'none'
+                                display: (groupId === '') ? 'none' : 'block'
                             }}
                         >
                             Move to Different Group
                         </MenuItem>
                         <MenuItem
+                            onClick={removeFromGroup}
                             sx={{
-                                display: isGrouped ? 'block' : 'none'
+                                display: (groupId === '') ? 'none' : 'block'
                             }}
                         >
                             Remove From Group

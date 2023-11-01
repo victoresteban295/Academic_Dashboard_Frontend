@@ -5,24 +5,22 @@ const AllChecklistContent = ({
     username,
     allChecklists, 
     grouplists,
-    groupedListIds, 
     activeList, 
     handleActiveList }) => {
 
     return (
         <>
             {allChecklists.map((checklist) => {
-                const { listId, title, checkpoints, completedPoints } = checklist;
-                const isGrouped = groupedListIds.includes(listId);
+                const { listId, title, groupId, checkpoints, completedPoints } = checklist;
                 return(
                     <ChecklistContent 
                         username={username}
-                        isGrouped={isGrouped}
                         grouplists={grouplists}
                         activeList={activeList}
                         handleActiveList={handleActiveList}
                         listId={listId}
                         title={title}
+                        groupId={groupId}
                         checkpoints={checkpoints}
                         completedPoints={completedPoints}
                     />

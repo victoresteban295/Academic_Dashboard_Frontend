@@ -7,12 +7,12 @@ import { useState } from "react";
 
 const ChecklistContent = ({ 
     username,
-    isGrouped, 
     grouplists,
     activeList, 
     handleActiveList, 
     listId, 
     title, 
+    groupId,
     checkpoints, 
     completedPoints }) => {
 
@@ -55,7 +55,7 @@ const ChecklistContent = ({
                             listId={listId}
                             title={title}
                             grouplists={grouplists}
-                            isGrouped={isGrouped}
+                            groupId={groupId}
                             handleChecklistTitle={handleChecklistTitle}
                             showAllEdit={showAllEdit}
                             showAllEditButtons={showAllEditButtons}

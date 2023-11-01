@@ -1,11 +1,12 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/modifyChecklist";
-import { addChecklistToGroup, createGrouplist } from "@/lib/utils/checklist/modifyGrouplist";
+import { createGrouplist, moveChecklistGroupToGroup } from "@/lib/utils/checklist/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-const AddToGroupBackdrop = ({ 
-    username,
-    listId,
+const MoveToGroupBackdrop = ({ 
+    username, 
+    listId, 
+    fromGroupId,
     open, 
     handleClose, 
     grouplists }) => {
@@ -23,15 +24,15 @@ const AddToGroupBackdrop = ({
     }
 
     /* Add Checklist to Group */
-    const addToGroup = async () => {
+    const MoveToGroup = async () => {
         handleClose(); //Close Backdrop Menu
         //Selected New Group
         if(selectedGroupId === 'new') { 
             const { groupId: newGroupId } = await createGrouplist(username, newGroup); //Create New Group
-            addChecklistToGroup(username, listId, newGroupId); //Add Checklist to New Group
+            moveChecklistGroupToGroup(username, listId, fromGroupId, newGroupId); //Move to Different Group
         //Selected Existing Group
         } else { 
-            addChecklistToGroup(username, listId, selectedGroupId); //Add Checklist to Selected Group
+            moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
         }
         reloadChecklistpage();
     }
@@ -75,7 +76,7 @@ const AddToGroupBackdrop = ({
                             fontWeight: '700',
                         }}
                     >
-                        Add Checklist to Group
+                        Move Checklist to Different Group
                     </Typography>
                 </Box>
                 <Stack
@@ -95,9 +96,11 @@ const AddToGroupBackdrop = ({
                             >
                                 {grouplists.map((grouplist) => {
                                     const { groupId, title } = grouplist;
-                                    return (
-                                        <FormControlLabel value={groupId} control={<Radio />} label={title} />
-                                    )
+                                    if(fromGroupId != groupId) {
+                                        return (
+                                            <FormControlLabel value={groupId} control={<Radio />} label={title} />
+                                        )
+                                    }
                                 })}
                                 <FormControlLabel 
                                     value={'new'} 
@@ -119,7 +122,7 @@ const AddToGroupBackdrop = ({
                             variant="contained"
                             size='small'
                             disabled={(selectedGroupId === '') || ((selectedGroupId === 'new') && (newGroup === ''))}
-                            onClick={addToGroup}
+                            onClick={MoveToGroup}
                         >
                             <Typography
                                 sx={{
@@ -127,15 +130,14 @@ const AddToGroupBackdrop = ({
                                     fontWeight: '700',
                                 }}
                             >
-                                Add
+                                Move 
                             </Typography>
                         </Button>
                     </Box>
                 </Stack>
             </Box>
-
         </Popover>
-    ) 
+    )
 }
 
-export default AddToGroupBackdrop;
+export default MoveToGroupBackdrop;
