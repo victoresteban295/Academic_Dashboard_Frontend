@@ -1,9 +1,10 @@
 "use client"
-import { Box, Divider, Stack } from "@mui/material";
+import { Box, Divider, InputBase, Stack } from "@mui/material";
 import TitleSection from "./TitleSection";
 import CheckpointsSection from "./CheckpointsSection";
 import { renameCheclistTitle } from "@/lib/utils/checklist/modifyChecklist";
 import { useState } from "react";
+import NewCheckpointSection from "./NewCheckpointSection";
 
 const ChecklistContent = ({ 
     username,
@@ -25,13 +26,17 @@ const ChecklistContent = ({
         setShowAllEdit(false);
     }
 
+    const [showNewPoint, setShowNewPoint] = useState(false);
+    const displayNewPoint = () => {
+        setShowNewPoint(true);
+    }
+    const hideNewPoint = () => {
+        setShowNewPoint(false);
+    }
+
     /* Rename Checklist's Title */
     const handleChecklistTitle = (newTitle) => {
         renameCheclistTitle(username, listId, newTitle);
-    }
-
-    const handleAddChecklistToGroup = () => {
-
     }
 
     return (
@@ -60,6 +65,8 @@ const ChecklistContent = ({
                             showAllEdit={showAllEdit}
                             showAllEditButtons={showAllEditButtons}
                             unshowAllEditButtons={unshowAllEditButtons}
+                            showNewPoint={showNewPoint}
+                            displayNewPoint={displayNewPoint}
                         /> 
                     </Box>
                     <Box
@@ -90,6 +97,11 @@ const ChecklistContent = ({
                                     />
                                 )
                             })}
+                            <NewCheckpointSection 
+                                showNewPoint={showNewPoint}
+                                displayNewPoint={displayNewPoint}
+                                hideNewPoint={hideNewPoint}
+                            />
                             {completedPoints.map((completedPoint) => {
                                 const { content, subpoints, completedSubpoints, isSubpoint } = completedPoint;
                                 return(

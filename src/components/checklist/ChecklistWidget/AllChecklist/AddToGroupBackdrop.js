@@ -27,8 +27,15 @@ const AddToGroupBackdrop = ({
         handleClose(); //Close Backdrop Menu
         //Selected New Group
         if(selectedGroupId === 'new') { 
-            const { groupId: newGroupId } = await createGrouplist(username, newGroup); //Create New Group
-            addChecklistToGroup(username, listId, newGroupId); //Add Checklist to New Group
+            //Ensure User's Input Isn't Just Empty Spaces
+            if(newGroup.trim() != "") {
+                const { groupId: newGroupId } = await createGrouplist(username, newGroup); //Create New Group
+                addChecklistToGroup(username, listId, newGroupId); //Add Checklist to New Group
+            //If so, Do Nothing & Reset Input
+            } else {
+                setNewGroup('');
+                setSelectedGroupId('');
+            }
         //Selected Existing Group
         } else { 
             addChecklistToGroup(username, listId, selectedGroupId); //Add Checklist to Selected Group
@@ -105,6 +112,7 @@ const AddToGroupBackdrop = ({
                                     label={
                                         <InputBase  
                                             value={newGroup}
+                                            inputProps={{maxLength: 20}}
                                             disabled={!("new" === selectedGroupId)}
                                             placeholder='Create New Group'
                                             onChange={(event) => setNewGroup(event.target.value)}

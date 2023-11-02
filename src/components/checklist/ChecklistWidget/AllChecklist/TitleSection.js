@@ -18,10 +18,12 @@ const TitleSection = ({
     handleChecklistTitle, 
     showAllEdit,
     showAllEditButtons, 
-    unshowAllEditButtons }) => {
+    unshowAllEditButtons, 
+    showNewPoint, 
+    displayNewPoint }) => {
 
     /* React Hook From */
-    const { control } = useForm({
+    const { control, getValues } = useForm({
         mode: 'onBlur', 
         defaultValues: {
             checklistTitle: title,
@@ -105,6 +107,11 @@ const TitleSection = ({
                             placeholder="Add Checklist Title"
                             onChange={onChange}
                             onBlur={handleTitleChange}
+                            onKeyDown={(e) => {
+                                if(e.key === 'Enter') {
+                                    e.target.blur();
+                                }
+                            }}
                             inputProps={{maxLength: 50}}
                             sx={{
                                 fontSize: '20px',
@@ -123,7 +130,11 @@ const TitleSection = ({
                     }}
                 >
                     <Tooltip title="Add Checkpoint">
-                        <IconButton size='small'>
+                        <IconButton 
+                            size='small'
+                            disabled={showNewPoint}
+                            onClick={displayNewPoint}
+                        >
                             <Add fontSize='inherit' />
                         </IconButton>
                     </Tooltip>
