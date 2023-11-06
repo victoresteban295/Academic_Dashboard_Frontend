@@ -19,10 +19,8 @@ const GrouplistOption = ({ username, activeList, handleActiveList, title, groupI
             className="grouplist-container"
             spacing={1}
             sx={{
-                borderStyle: 'solid',
-                borderWidth: '1px',
-                borderColor: '#cecece',
-                my: isExpanded ? 1 : 0,
+                boxShadow: '1px 1px 4px 2px #cecece',
+                my: isExpanded ? 1 : 0.5,
                 py: isExpanded ? 1 : 0,
             }}
         >

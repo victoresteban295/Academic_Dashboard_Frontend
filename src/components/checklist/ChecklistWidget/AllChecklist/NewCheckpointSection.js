@@ -2,21 +2,15 @@ import { CheckBoxOutlineBlank, Close } from "@mui/icons-material";
 import { Box, IconButton, InputBase } from "@mui/material";
 import { useState } from "react";
 
-const NewCheckpointSection = ({ showNewPoint, displayNewPoint, hideNewPoint }) => {
+const NewCheckpointSection = ({ showNewPoint, displayNewPoint, hideNewPoint, createNewCheckpoint }) => {
     const [newPoint, setNewPoint] = useState('');
-    const [cancel, setCancel] = useState(false);
     const createNewPoint = () => {
-        if(!cancel) {
-            const checkpoint = newPoint.trim();
-            if(checkpoint != '') {
-                console.log("Call Backend Function");
-                console.log(checkpoint)
-                setNewPoint('');
-            }
+        const checkpoint = newPoint.trim();
+        if(checkpoint != '') {
+            createNewCheckpoint(checkpoint);
         }
         hideNewPoint();
         setNewPoint('');
-        setCancel(false);
     }
 
     return (
@@ -47,15 +41,17 @@ const NewCheckpointSection = ({ showNewPoint, displayNewPoint, hideNewPoint }) =
                             flexGrow: 1,
                         }}
                     />
-                    <IconButton 
-                        onClick={() => {
-                            setCancel(true);
-                            setNewPoint('');
-                        }}
-                        size='small'
-                    >
-                        <Close fontSize='inherit' />
-                    </IconButton>
+                    {newPoint.trim() === '' && (
+                        <IconButton 
+                            onClick={() => {
+                                setCancel(true);
+                                setNewPoint('');
+                            }}
+                            size='small'
+                        >
+                            <Close fontSize='inherit' />
+                        </IconButton>
+                    )}
                 </Box>
             )}
         </>

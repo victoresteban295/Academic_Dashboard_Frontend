@@ -30,8 +30,25 @@ export const renameCheclistTitle = async (username, listId, title) => {
     });
 }
 
-const modifyCheckpoints = async (username, listId, checklist) => {
+export const modifyCheckpoints = async (username, listId, checkpoints, completedPoints) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/checkpoints/${listId}`, {
+        cache: "no-cache",
+        method: "PUT", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+            checkpoints: checkpoints,
+            completedPoints: completedPoints,
+        })
+    });
+    
+    return res.json();
 }
 
 const deleteChecklist = async (username, listId) => {

@@ -23,7 +23,7 @@ const TitleSection = ({
     displayNewPoint }) => {
 
     /* React Hook From */
-    const { control, getValues } = useForm({
+    const { control } = useForm({
         mode: 'onBlur', 
         defaultValues: {
             checklistTitle: title,
