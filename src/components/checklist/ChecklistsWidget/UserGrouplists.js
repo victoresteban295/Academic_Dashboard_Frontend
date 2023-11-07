@@ -1,11 +1,16 @@
 import { Stack } from "@mui/material";
 import GrouplistOption from "./Options/GrouplistOption";
 
-const UserGrouplists = ({ username, activeList, handleActiveList, grouplists }) => {
+const UserGrouplists = ({ 
+    username, 
+    groups,
+    changeGroups,
+    activeList, 
+    handleActiveList }) => {
 
     //Don't Display if User has not Grouplist
     let display;
-    if(grouplists.length > 0) {
+    if(groups.length > 0) {
         display = {}
     } else {
         display = {
@@ -20,8 +25,8 @@ const UserGrouplists = ({ username, activeList, handleActiveList, grouplists }) 
                 ...display,
             }}
         >
-            {grouplists.map((grouplist) => {
-                const { title, groupId, checklists } = grouplist;
+            {groups.map((group) => {
+                const { title, groupId, checklists } = group;
                 return(
                     <GrouplistOption 
                         username={username}

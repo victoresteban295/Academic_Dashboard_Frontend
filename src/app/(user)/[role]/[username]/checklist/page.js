@@ -21,7 +21,7 @@ const ChecklistPage = async ({ params }) => {
             <ChecklistPageContent 
                 username={username}
                 allChecklists={allChecklists}
-                checklists={checklists}
+                lists={checklists}
                 grouplists={grouplists}
             />
         </>

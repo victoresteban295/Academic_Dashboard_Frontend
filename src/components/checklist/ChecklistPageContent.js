@@ -5,7 +5,19 @@ import { useState } from "react";
 import ChecklistWidget from "./ChecklistWidget";
 import ChecklistsWidget from "./ChecklistsWidget";
 
-const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists }) => {
+const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) => {
+
+    //User's Checklists
+    const [checklists, setChecklists] = useState(lists);
+    const changeChecklists = (checklists) => {
+        setChecklists(checklists);
+    }
+
+    //User's Groups w/ Checklists
+    const [groups, setGroups] = useState(grouplists);
+    const changeGroups = (groups) => {
+        setGroups(groups)
+    }
 
     let list;
     if(localStorage.getItem("currentList") === null) {
@@ -41,10 +53,12 @@ const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists 
             >
                 <ChecklistWidget
                     username={username}
-                    grouplists={grouplists}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    groups={groups}
+                    changeGroups={changeGroups}
                     activeList={currentList}
                     handleActiveList={handleActiveList}
-                    allChecklists={allChecklists}   
                 />
             </Box>
             <Box
@@ -57,10 +71,12 @@ const ChecklistPageContent = ({ username, allChecklists, checklists, grouplists 
             >
                 <ChecklistsWidget
                     username={username}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    groups={groups}
+                    changeGroups={changeGroups}
                     activeList={currentList}
                     handleActiveList={handleActiveList}
-                    checklists={checklists}
-                    grouplists={grouplists}
                 />
             </Box>
         </Box>

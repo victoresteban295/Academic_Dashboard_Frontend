@@ -13,7 +13,7 @@ const TitleSection = ({
     username,
     listId,
     title, 
-    grouplists,
+    groups,
     groupId,
     handleChecklistTitle, 
     showAllEdit,
@@ -87,7 +87,7 @@ const TitleSection = ({
                 listId={listId}
                 open={openAddToGroup}
                 handleClose={handleCloseAddToGroup}
-                grouplists={grouplists}
+                groups={groups}
             />
             <MoveToGroupBackdrop 
                 username={username}
@@ -95,7 +95,7 @@ const TitleSection = ({
                 fromGroupId={groupId}
                 open={openMoveToGroup}
                 handleClose={handleCloseMoveToGroup}
-                grouplists={grouplists}
+                groups={groups}
             />
             <Controller 
                 name="checklistTitle"

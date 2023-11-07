@@ -3,7 +3,14 @@ import UserChecklists from "./ChecklistsWidget/UserChecklists";
 import UserGrouplists from "./ChecklistsWidget/UserGrouplists";
 import { Add } from "@mui/icons-material";
 
-const ChecklistsWidget = ({ username, activeList, handleActiveList, checklists, grouplists}) => {
+const ChecklistsWidget = ({ 
+    username, 
+    checklists,
+    changeChecklist,
+    groups,
+    changeGroups,
+    activeList, 
+    handleActiveList }) => {
     return (
         <Box>
             <Box
@@ -30,15 +37,16 @@ const ChecklistsWidget = ({ username, activeList, handleActiveList, checklists, 
             >
                 <UserChecklists 
                     username={username}
+                    checklists={checklists}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
-                    checklists={checklists}
                 />
                 <UserGrouplists 
                     username={username}
+                    groups={groups}
+                    changeGroups={changeGroups}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
-                    grouplists={grouplists}
                 />
             </Stack>
         </Box>

@@ -8,7 +8,10 @@ import NewCheckpointSection from "./NewCheckpointSection";
 
 const ChecklistContent = ({ 
     username,
-    grouplists,
+    groups,
+    changeGroups,
+    checklists,
+    changeChecklists,
     activeList, 
     handleActiveList, 
     listId, 
@@ -40,6 +43,25 @@ const ChecklistContent = ({
 
     /* Rename Checklist's Title */
     const handleChecklistTitle = (newTitle) => {
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        if(groupId === '') {
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    checklist.title = newTitle;
+                }
+            })
+        } else {
+            updatedGroups.map(group => {
+                group.checklists.map(checklist => {
+                    if(checklist.listId === listId) {
+                        checklist.title = newTitle;
+                    }
+                })
+            })
+        }
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
         renameCheclistTitle(username, listId, newTitle);
     }
 
@@ -167,7 +189,7 @@ const ChecklistContent = ({
                             username={username}
                             listId={listId}
                             title={title}
-                            grouplists={grouplists}
+                            groups={groups}
                             groupId={groupId}
                             handleChecklistTitle={handleChecklistTitle}
                             showAllEdit={showAllEdit}

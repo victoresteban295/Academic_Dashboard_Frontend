@@ -9,7 +9,7 @@ const MoveToGroupBackdrop = ({
     fromGroupId,
     open, 
     handleClose, 
-    grouplists }) => {
+    groups }) => {
 
     const [selectedGroupId, setSelectedGroupId] = useState('');
     const [newGroup, setNewGroup] = useState('');
@@ -101,8 +101,8 @@ const MoveToGroupBackdrop = ({
                                 spacing={0.25}
                                 divider={<Divider variant='middle' />}
                             >
-                                {grouplists.map((grouplist) => {
-                                    const { groupId, title } = grouplist;
+                                {groups.map((group) => {
+                                    const { groupId, title } = group;
                                     if(fromGroupId != groupId) {
                                         return (
                                             <FormControlLabel value={groupId} control={<Radio />} label={title} />
