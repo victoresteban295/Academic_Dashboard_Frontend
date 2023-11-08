@@ -1,5 +1,3 @@
-import { reloadChecklistpage } from "@/lib/utils/checklist/modifyChecklist";
-import { addChecklistToGroup, createGrouplist } from "@/lib/utils/checklist/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -8,7 +6,9 @@ const AddToGroupBackdrop = ({
     listId,
     open, 
     handleClose, 
-    groups }) => {
+    groups, 
+    addToExistingGroup, 
+    addToNewGroup }) => {
 
     const [selectedGroupId, setSelectedGroupId] = useState('');
     const [newGroup, setNewGroup] = useState('');
@@ -22,15 +22,13 @@ const AddToGroupBackdrop = ({
         setNewGroup('');
     }
 
-    /* Add Checklist to Group */
-    const addToGroup = async () => {
+    const addToGroup = () => {
         handleClose(); //Close Backdrop Menu
         //Selected New Group
         if(selectedGroupId === 'new') { 
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                const { groupId: newGroupId } = await createGrouplist(username, newGroup); //Create New Group
-                addChecklistToGroup(username, listId, newGroupId); //Add Checklist to New Group
+                addToNewGroup(listId, newGroup); 
             //If so, Do Nothing & Reset Input
             } else {
                 setNewGroup('');
@@ -38,9 +36,8 @@ const AddToGroupBackdrop = ({
             }
         //Selected Existing Group
         } else { 
-            addChecklistToGroup(username, listId, selectedGroupId); //Add Checklist to Selected Group
+            addToExistingGroup(listId, selectedGroupId);
         }
-        reloadChecklistpage();
     }
 
     return (

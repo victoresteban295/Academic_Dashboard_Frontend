@@ -1,5 +1,3 @@
-import { reloadChecklistpage } from "@/lib/utils/checklist/modifyChecklist";
-import { createGrouplist, moveChecklistGroupToGroup } from "@/lib/utils/checklist/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -9,7 +7,9 @@ const MoveToGroupBackdrop = ({
     fromGroupId,
     open, 
     handleClose, 
-    groups }) => {
+    groups, 
+    moveListGroupToGroup, 
+    moveListGroupToNewGroup}) => {
 
     const [selectedGroupId, setSelectedGroupId] = useState('');
     const [newGroup, setNewGroup] = useState('');
@@ -23,25 +23,22 @@ const MoveToGroupBackdrop = ({
         setNewGroup('');
     }
 
-    /* Add Checklist to Group */
-    const MoveToGroup = async () => {
-        handleClose(); //Close Backdrop Menu
+    const MoveToGroup = () => {
+        handleClose(); //Close Menu
         //Selected New Group
-        if(selectedGroupId === 'new') { 
+        if(selectedGroupId === 'new') {
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                const { groupId: newGroupId } = await createGrouplist(username, newGroup); //Create New Group
-                moveChecklistGroupToGroup(username, listId, fromGroupId, newGroupId); //Move to Different Group
-            //If so, Do Nothing & Reset Input
-            } else {
-                setNewGroup('');
-                setSelectedGroupId('');
-            }
-        //Selected Existing Group
-        } else { 
-            moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
+                moveListGroupToNewGroup(listId, fromGroupId, newGroup);
+            } 
+        } else {
+            //Move to Different Group
+            moveListGroupToGroup(listId, fromGroupId, selectedGroupId); 
         }
-        reloadChecklistpage();
+
+        //Reset Options
+        setNewGroup('');
+        setSelectedGroupId('');
     }
 
     return (

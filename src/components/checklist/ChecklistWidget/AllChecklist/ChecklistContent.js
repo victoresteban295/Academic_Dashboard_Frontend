@@ -5,6 +5,7 @@ import CheckpointsSection from "./CheckpointsSection";
 import { modifyCheckpoints, reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/modifyChecklist";
 import { useState } from "react";
 import NewCheckpointSection from "./NewCheckpointSection";
+import { addChecklistToGroup, createGrouplist, moveChecklistGroupToGroup, removeChecklistFromGroup } from "@/lib/utils/checklist/modifyGrouplist";
 
 const ChecklistContent = ({ 
     username,
@@ -41,7 +42,9 @@ const ChecklistContent = ({
         setShowNewPoint(false);
     }
 
+    /****************************/
     /* Rename Checklist's Title */
+    /****************************/
     const handleChecklistTitle = (newTitle) => {
         let updatedLists = [...checklists];
         let updatedGroups = [...groups];
@@ -60,16 +63,204 @@ const ChecklistContent = ({
                 })
             })
         }
+
+        //Update State Value
         changeChecklists(updatedLists);
         changeGroups(updatedGroups);
+
+        //Backend API: Update Database
         renameCheclistTitle(username, listId, newTitle);
+        reloadChecklistpage();
     }
 
+    /***********************************/
+    /* Add Checklist To Existing Group */
+    /***********************************/
+    const addToExistingGroup = (listId, groupId) => {
+        let mvingList; //Checklist Being Moved
+
+        // Remove Checklist From Non-Group List
+        let updatedLists = checklists.filter((checklist) => {
+            let isTarget = checklist.listId === listId;
+            if(isTarget) {
+                mvingList = {...checklist, groupId: groupId};
+            }
+            return !isTarget;
+        });
+
+        //Add Checklist to Group
+        let updatedGroups = [...groups];
+        updatedGroups.map(group => {
+            if(group.groupId === groupId) {
+                group.checklists.push(mvingList);
+            }
+        })
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        addChecklistToGroup(username, listId, groupId);
+        reloadChecklistpage();
+    }
+
+    /******************************/
+    /* Add Checklist To New Group */
+    /******************************/
+    const addToNewGroup = async ( listId, newTitle) => {
+        let mvingList; //Checklist Being Moved
+
+        // Remove Checklist From Non-Group List
+        let updatedLists = checklists.filter((checklist) => {
+            let isTarget = checklist.listId === listId;
+            if(isTarget) {
+                mvingList = {...checklist, groupId: 'temp'};
+            }
+            return !isTarget;
+        });
+
+        //Temporary Grouplist
+        const newGroup = {
+            objectId: '',
+            groupId: 'temp', 
+            title: newTitle,
+            checklists: [mvingList] 
+        }
+        let updatedGroups = [...groups, newGroup];
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        const { groupId } = await createGrouplist(username, newTitle);
+        addChecklistToGroup(username, listId, groupId); //Backend Call
+        reloadChecklistpage();
+    }
+
+    /*************************************/
+    /* Move Checklist To Different Group */
+    /*************************************/
+    const moveListGroupToGroup = (listId, fromGroupId, toGroupId) => {
+        let mvingList; //Checklist Being Moved
+        let updatedGroups = [...groups];
+
+        //Loop to Remove Checklist From Original Group
+        updatedGroups.map(group => {
+            let updatedLists;
+            if(group.groupId === fromGroupId) {
+                updatedLists = group.checklists.filter(checklist => {
+                    let isTarget = checklist.listId === listId;
+                    if(isTarget) {
+                        mvingList = {...checklist, groupId: toGroupId}
+                    }
+                    return !isTarget;
+                })
+                group.checklists = updatedLists;
+            }
+        })
+
+        //Loop to Move Checklist To New Group
+        updatedGroups.map(group => {
+            let updatedLists;
+            if(group.groupId === toGroupId) {
+                updatedLists = [...group.checklists, mvingList];
+                group.checklists = updatedLists;
+            }
+        })
+
+        //Update State Value
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); //Move to Different Group
+        reloadChecklistpage();
+    }
+
+    /*******************************/
+    /* Move Checklist To New Group */
+    /*******************************/
+    const moveListGroupToNewGroup = async (listId, fromGroupId, newGroupTilte) => {
+        let mvingList; //Checklist Being Moved
+        let updatedGroups = [...groups];
+
+        //Loop to Remove Checklist From Original Group
+        updatedGroups.map(group => {
+            let updatedLists;
+            if(group.groupId === fromGroupId) {
+                updatedLists = group.checklists.filter(checklist => {
+                    let isTarget = checklist.listId === listId;
+                    if(isTarget) {
+                        mvingList = {...checklist, groupId: 'temp'}
+                    }
+                    return !isTarget;
+                })
+                group.checklists = updatedLists;
+            }
+        })
+
+        //Temporary Grouplist
+        const newGroup = {
+            objectId: '',
+            groupId: 'temp', 
+            title: newGroupTilte,
+            checklists: [mvingList] 
+        }
+
+        //Add New Group to Groups
+        updatedGroups.push(newGroup);
+
+        //Update State Value
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        const { groupId: toGroupId } = await createGrouplist(username, newGroupTilte);
+        moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
+        reloadChecklistpage();
+    }
+
+    /***************************************/
+    /* Remove Checklist From Current Group */
+    /***************************************/
+    const removeListFromGroup = (listId, groupId) => {
+        let mvingList; //Checklist Being Moved
+
+        let updatedGroups = [...groups];
+        updatedGroups.map(group => {
+            if(group.groupId === groupId) {
+
+                //Filter Out Checklist From Group
+                let groupedList = group.checklists.filter(checklist => {
+                    let isTarget = checklist.listId === listId;
+                    if(isTarget) {
+                        mvingList = {...checklist, groupId: ''};
+                    }
+                    return !isTarget;
+                })
+                group.checklists = groupedList;
+            }
+        })
+
+        //Add Checklist to Non-Grouped List
+        let updatedLists = [...checklists, mvingList];
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        removeChecklistFromGroup(username, listId, groupId);
+        reloadChecklistpage();
+    }
+
+    /*************************/
     /* Create New Checkpoint */
-    const createNewCheckpoint = (newPoint) => {
+    /*************************/
+    const createNewCheckpoint = (content) => {
         //Create New Checkpoint Object
         const checkpoint = {
-            content: newPoint,
+            content: content,
             subpoints: [],
             completedSubpoints: []
         }
@@ -77,6 +268,7 @@ const ChecklistContent = ({
         modifyCheckpoints(username, listId, checkpoints, completedPoints);
         reloadChecklistpage();
     }
+
 
     /* Mark Checkpoint as Complete */
     const markAsCompletePoint = (index) => {
@@ -192,6 +384,11 @@ const ChecklistContent = ({
                             groups={groups}
                             groupId={groupId}
                             handleChecklistTitle={handleChecklistTitle}
+                            addToExistingGroup={addToExistingGroup}
+                            addToNewGroup={addToNewGroup}
+                            moveListGroupToGroup={moveListGroupToGroup}
+                            moveListGroupToNewGroup={moveListGroupToNewGroup}
+                            removeListFromGroup={removeListFromGroup}
                             showAllEdit={showAllEdit}
                             showAllEditButtons={showAllEditButtons}
                             unshowAllEditButtons={unshowAllEditButtons}

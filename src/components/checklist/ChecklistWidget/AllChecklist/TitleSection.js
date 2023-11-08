@@ -16,6 +16,11 @@ const TitleSection = ({
     groups,
     groupId,
     handleChecklistTitle, 
+    addToExistingGroup,
+    addToNewGroup,
+    moveListGroupToGroup,
+    moveListGroupToNewGroup,
+    removeListFromGroup,
     showAllEdit,
     showAllEditButtons, 
     unshowAllEditButtons, 
@@ -31,7 +36,7 @@ const TitleSection = ({
         resolver: zodResolver(ChecklistTitleSchema), //Zod Validation Schema
     });
 
-    //Options Menu's State Value & Functions
+    /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -69,9 +74,8 @@ const TitleSection = ({
     
     /* Remove Checklist From Current Group */
     const removeFromGroup = () => {
-        removeChecklistFromGroup(username, listId, groupId);
         handleClose();
-        reloadChecklistpage();
+        removeListFromGroup(listId, groupId);
     }
 
     return (
@@ -88,6 +92,8 @@ const TitleSection = ({
                 open={openAddToGroup}
                 handleClose={handleCloseAddToGroup}
                 groups={groups}
+                addToExistingGroup={addToExistingGroup}
+                addToNewGroup={addToNewGroup}
             />
             <MoveToGroupBackdrop 
                 username={username}
@@ -96,6 +102,8 @@ const TitleSection = ({
                 open={openMoveToGroup}
                 handleClose={handleCloseMoveToGroup}
                 groups={groups}
+                moveListGroupToGroup={moveListGroupToGroup}
+                moveListGroupToNewGroup={moveListGroupToNewGroup}
             />
             <Controller 
                 name="checklistTitle"

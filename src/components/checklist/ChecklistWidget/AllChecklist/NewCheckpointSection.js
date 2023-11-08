@@ -2,9 +2,18 @@ import { CheckBoxOutlineBlank, Close } from "@mui/icons-material";
 import { Box, IconButton, InputBase } from "@mui/material";
 import { useState } from "react";
 
-const NewCheckpointSection = ({ showNewPoint, displayNewPoint, hideNewPoint, createNewCheckpoint }) => {
+const NewCheckpointSection = ({ 
+    showNewPoint, 
+    displayNewPoint, 
+    hideNewPoint, 
+    createNewCheckpoint }) => {
+
+    //New Checkpoint
     const [newPoint, setNewPoint] = useState('');
+
+    //Create new Checkpoint
     const createNewPoint = () => {
+        //Ensure User Input Isn't Blank
         const checkpoint = newPoint.trim();
         if(checkpoint != '') {
             createNewCheckpoint(checkpoint);
