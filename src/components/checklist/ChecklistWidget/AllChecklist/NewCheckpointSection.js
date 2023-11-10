@@ -12,58 +12,66 @@ const NewCheckpointSection = ({
     const [newPoint, setNewPoint] = useState('');
 
     //Create new Checkpoint
-    const createNewPoint = () => {
+    const createNewPoint01 = () => {
         //Ensure User Input Isn't Blank
         const checkpoint = newPoint.trim();
         if(checkpoint != '') {
             createNewCheckpoint(checkpoint);
         }
+        setNewPoint('');
         hideNewPoint();
+        displayNewPoint();
+    }
+
+    const createNewPoint = () => {
+        //Ensure User Input Isn't Blank
+        const checkpoint = newPoint.trim();
+        if(checkpoint != '') {
+            createNewCheckpoint(checkpoint);
+        } else {
+            hideNewPoint();
+        }
         setNewPoint('');
     }
 
     return (
-        <>
-            {showNewPoint && (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+            }}
+        >
+            <IconButton size='large'>
+                <CheckBoxOutlineBlank fontSize='inherit' />
+            </IconButton>
+            <InputBase
+                value={newPoint}
+                autoFocus={true}
+                placeholder="Create New Checkpoint"
+                onChange={(e) => setNewPoint(e.target.value)}
+                onBlur={() => {
+                    createNewPoint();
+                    hideNewPoint();
+                }}
+                onKeyDown={(e) => {
+                    if(e.key === 'Enter') {
+                        createNewPoint();
+                    }
+                }}
+                inputProps={{maxLength: 50}}
+                sx={{
+                    flexGrow: 1,
+                }}
+            />
+            {newPoint.trim() === '' && (
+                <IconButton 
+                    onClick={hideNewPoint}
+                    size='small'
                 >
-                    <IconButton size='large'>
-                        <CheckBoxOutlineBlank fontSize='inherit' />
-                    </IconButton>
-                    <InputBase
-                        value={newPoint}
-                        autoFocus={true}
-                        placeholder="Create New Checkpoint"
-                        onChange={(e) => setNewPoint(e.target.value)}
-                        onBlur={createNewPoint}
-                        onKeyDown={(e) => {
-                            if(e.key === 'Enter') {
-                                e.target.blur();
-                            }
-                        }}
-                        inputProps={{maxLength: 50}}
-                        sx={{
-                            flexGrow: 1,
-                        }}
-                    />
-                    {newPoint.trim() === '' && (
-                        <IconButton 
-                            onClick={() => {
-                                setCancel(true);
-                                setNewPoint('');
-                            }}
-                            size='small'
-                        >
-                            <Close fontSize='inherit' />
-                        </IconButton>
-                    )}
-                </Box>
+                    <Close fontSize='inherit' />
+                </IconButton>
             )}
-        </>
+        </Box>
     )
 }
 

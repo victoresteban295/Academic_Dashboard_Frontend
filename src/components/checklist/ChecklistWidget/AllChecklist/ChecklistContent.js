@@ -21,9 +21,6 @@ const ChecklistContent = ({
     checkpoints, 
     completedPoints }) => {
 
-    let pointIndex = -1;
-    let compIndex = -1;
-
     //Displays Edit Buttons
     const [showAllEdit, setShowAllEdit] = useState(false);
     const showAllEditButtons = () => {
@@ -259,13 +256,52 @@ const ChecklistContent = ({
     /*************************/
     const createNewCheckpoint = (content) => {
         //Create New Checkpoint Object
-        const checkpoint = {
+        let checkpoint = {
+            index: '',
             content: content,
             subpoints: [],
             completedSubpoints: []
         }
-        checkpoints.push(checkpoint); //Add New Checkpoint
-        modifyCheckpoints(username, listId, checkpoints, completedPoints);
+
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let updatedPoints;
+        //Checklist is Not Grouped
+        if(groupId === '') {
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    //Update New Checkpoint's Index
+                    checkpoint.index = checklist.checkpoints.length;
+                    //Updated Checkpoints List
+                    updatedPoints = [...checklist.checkpoints, checkpoint]
+                    //Add Checkpoint to Checkpoints
+                    checklist.checkpoints = updatedPoints;
+                }
+            })
+        //Checklist is Grouped
+        } else {
+            updatedGroups.map(group => {
+                if(group.groupId === groupId) {
+                    group.checklists.map(checklist => {
+                        if(checklist.listId === listId) {
+                            //Update New Checkpoint's Index
+                            checkpoint.index = checklist.checkpoints.length;
+                            //Updated Checkpoints List
+                            updatedPoints = [...checklist.checkpoints, checkpoint]
+                            //Add Checkpoint to Checkpoints
+                            checklist.checkpoints = updatedPoints;
+                        }
+                    })
+                }
+            }) 
+        }
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Updated Database
+        modifyCheckpoints(username, listId, updatedPoints, completedPoints);
         reloadChecklistpage();
     }
 
@@ -316,13 +352,54 @@ const ChecklistContent = ({
         reloadChecklistpage();
     }
 
+    /*****************************/
     /* Modify Checkpoint Content */
+    /*****************************/
     const modifyCheckpoint = (index, content) => {
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let newCheckpoints;
+
+        //Delete Checkpoint if Content is Blank
         if(content.trim() === '') {
             //delete checkpoint
         } else {
-            checkpoints[index].content = content; //Modify Checkpoint's Content
-            modifyCheckpoints(username, listId, checkpoints, completedPoints);
+            //Checklist is Not Grouped
+            if(groupId === '') {
+                //Iterate to Find Checklist Being Modified
+                updatedLists.map(checklist => {
+                    if(checklist.listId === listId) {
+                        //Assign New Checkpoint's Content
+                        checklist.checkpoints[index].content = content;
+                        //Update Changes
+                        newCheckpoints = checklist.checkpoints;
+                    }
+                })
+
+            //Checklist is Grouped
+            } else {
+                //Iterate to Find Checklist's Group
+                updatedGroups.map(group => {
+                    if(group.groupId === groupId) {
+                        //Iterate to Find Checklist Being Modified
+                        group.checklists.map(checklist => {
+                            if(checklist.listId === listId) {
+                                //Assign New Checkpoint's Content
+                                checklist.checkpoints[index].content = content;
+                                //Update Changes
+                                newCheckpoints = checklist.checkpoints;
+                            }
+                        })
+                    }
+                }) 
+            }
+            
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            modifyCheckpoints(username, listId, newCheckpoints, completedPoints);
         }
         reloadChecklistpage();
     }
@@ -330,35 +407,126 @@ const ChecklistContent = ({
     /* Delete Checkpoint & it's Subpoints */
     const deleteCheckpoint = (isComplete, index) => {
         if(isComplete) {
-            completedPoints.splice(index, 1);
+            let updatedPoints = completedPoints.splice(index, 1);
+            modifyCheckpoints(username, listId, checkpoints, updatedPoints);
         } else {
-            checkpoints.splice(index, 1);
+            let updatedPoints = checkpoints.splice(index, 1);
+            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
         }
-        modifyCheckpoints(username, listId, checkpoints, completedPoints);
+        /* modifyCheckpoints(username, listId, checkpoints, completedPoints); */
         reloadChecklistpage();
     }
 
+    /**********************************/
     /* Add New Subpoint to Checkpoint */
+    /**********************************/
     const addSubpoint = (index, subContent) => {
-        //Create New Checkpoint Object
-        const subpoint = {
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let newCheckpoints;
+
+        //Create New Subpoint Object
+        let subpoint = {
+            index: '',
             content: subContent,
             subpoints: [],
             completedSubpoints: []
         }
-        checkpoints[index].subpoints.push(subpoint); //Add New Subpoint
-        modifyCheckpoints(username, listId, checkpoints, completedPoints);
+    
+        //Checklist is Not Grouped
+        if(groupId === '') {
+            //Iterate to Find Checklist Benig Modified
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    //Extract Original Subpoints List
+                    let subpoints = checklist.checkpoints[index].subpoints;
+                    //Updated New Subpoint's Index
+                    subpoint.index = subpoints.length;
+                    //Add Subpoint to Subpoints List
+                    checklist.checkpoints[index].subpoints.push(subpoint);
+                    //Update Changes
+                    newCheckpoints = checklist.checkpoints;
+                }
+            })
+
+        //Checklist is Grouped
+        } else {
+            //Iterate to Find Checklist's Group
+            updatedGroups.map(group => {
+                if(group.groupId === groupId) {
+                    //Iterate to Find Checklist Being Modified
+                    group.checklists.map(checklist => {
+                        if(checklist.listId === listId) {
+                            //Extract Original Subpoints List
+                            let subpoints = checklist.checkpoints[index].subpoints;
+                            //Updated New Subpoint's Index
+                            subpoint.index = subpoints.length;
+                            //Add Subpoint to Subpoints List
+                            checklist.checkpoints[index].subpoints.push(subpoint);
+                            //Update Changes
+                            newCheckpoints = checklist.checkpoints;
+                        }
+                    })
+                }
+            }) 
+        }
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, newCheckpoints, completedPoints);
+        reloadChecklistpage();
     }
 
+    /*****************************/
     /* Modify Subpoint's Content */
-    const modifySubpoint = (index, subIndex, subContent) => {
+    /*****************************/
+    const modifySubpoint = (pointIdx, subpointIdx, subContent) => {
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let newCheckpoints;
+
+        //Delete Subpoint If Blank
         if(subContent.trim() === '') {
             //delete subpoint
         } else {
-            //Modify Subpoint's Content
-            checkpoints[index].subpoints[subIndex].content = subContent;
-            modifyCheckpoints(username, listId, checkpoints, completedPoints);
+            //Checklist is Not Grouped
+            if(groupId === '') {
+                //Iterate to Find Checklist Being Modified
+                updatedLists.map(checklist => {
+                    if(checklist.listId === listId) {
+                        //Assign New Checkpoint's Content
+                        checklist.checkpoints[pointIdx].subpoints[subpointIdx].content = subContent;
+                        newCheckpoints = checklist.checkpoints
+                    }
+                })
+            //Checklist is Grouped
+            } else {
+                //Iterate to Find Checklist's Group
+                updatedGroups.map(group => {
+                    if(group.groupId === groupId) {
+                        //Iterate to Find Checklist Being Modified
+                        group.checklists.map(checklist => {
+                            if(checklist.listId === listId) {
+                                //Assign New Checkpoint's Content
+                                checklist.checkpoints[pointIdx].subpoints[subpointIdx].content = subContent;
+                                newCheckpoints = checklist.checkpoints
+                            }
+                        })
+                    }
+                }) 
+            }
+
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            modifyCheckpoints(username, listId, newCheckpoints, completedPoints);
         }
+        reloadChecklistpage();
     }
 
     return (
@@ -412,12 +580,11 @@ const ChecklistContent = ({
                             }}
                         >
                             {checkpoints.map((checkpoint) => {
-                                const { content, subpoints, completedSubpoints } = checkpoint;
-                                pointIndex += 1;
+                                const { index, content, subpoints, completedSubpoints } = checkpoint;
                                 return(
                                     <CheckpointsSection 
                                         showAllEdit={showAllEdit}
-                                        index={pointIndex}
+                                        index={index}
                                         content={content}
                                         subpoints={subpoints}
                                         completedSubpoints={completedSubpoints}
@@ -440,12 +607,11 @@ const ChecklistContent = ({
                                 />
                             )}
                             {completedPoints.map((completedPoint) => {
-                                const { content, subpoints, completedSubpoints, isSubpoint } = completedPoint;
-                                compIndex += 1;
+                                const { index, content, subpoints, completedSubpoints } = completedPoint;
                                 return(
                                     <CheckpointsSection 
                                         showAllEdit={showAllEdit}
-                                        index={compIndex}
+                                        index={index}
                                         content={content}
                                         subpoints={subpoints}
                                         completedSubpoints={completedSubpoints}
