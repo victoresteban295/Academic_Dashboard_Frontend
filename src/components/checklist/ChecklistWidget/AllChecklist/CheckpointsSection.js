@@ -18,6 +18,9 @@ const CheckpointsSection = ({
     modifySubpoint, 
     addSubpoint }) => {
 
+    //NOTE: Enables To Delete Checkpoint w/o Error
+    const [isUpdating, setUpdating] = useState(false);
+
     //Displays Checkpoint's Edit Icon Buttons
     const [showEdit, setShowEdit] = useState(false);
 
@@ -61,13 +64,14 @@ const CheckpointsSection = ({
 
     /* Modify Checkpoint's Content */
     const handleContent = () => {
+        setUpdating(false);
         modifyCheckpoint(index, newContent);
     }
 
 
     /* Delete Checkpoint & it's Content */
     const handleDeletePoint = () => {
-        deleteCheckpoint(isCompleted, index);
+        deleteCheckpoint(isComplete, index);
     }
 
     /* Modify Subpoint's Content */
@@ -105,7 +109,7 @@ const CheckpointsSection = ({
 
                 {isComplete ? (
                     <Typography
-                        variant='body2'
+                        variant='body1'
                         sx={{
                             flexGrow: 1,
                             textDecoration: 'line-through',
@@ -115,15 +119,19 @@ const CheckpointsSection = ({
                     </Typography>
                 ) : (
                     <InputBase 
-                        value={newContent}
+                        value={isUpdating ? newContent : content}
                         placeholder="Add Checkpoint"
-                        onChange={(e) => setNewContent(e.target.value)}
+                        onChange={(e) => {
+                            setUpdating(true);
+                            setNewContent(e.target.value)
+                        }}
                         onBlur={handleContent}
                         onKeyDown={(e) => {
                             if(e.key === 'Enter') {
                                 e.target.blur();
                             }
                         }}
+                        inputProps={{maxLength: 50}}
                         sx={{
                             flexGrow: 1,
                         }}
