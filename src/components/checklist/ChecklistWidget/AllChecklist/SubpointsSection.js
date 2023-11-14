@@ -7,13 +7,24 @@ const SubpointsSection = ({
     index,
     content, 
     isCompleted, 
-    handleSubContent }) => {
+    handleSubContent, 
+    handleDeleteSubpoint }) => {
+
+    //NOTE: Enables To Delete Checkpoint w/o Error
+    const [isUpdating, setUpdating] = useState(false);
 
     const [showEdit, setShowEdit] = useState(false);
     const [newContent, setNewContent] = useState(content);
 
+    /* Modify Subpoint's Content */
     const handleNewSubcontent = () => {
+        setUpdating(false);
         handleSubContent(index, newContent);
+    }
+
+    /* Delete Subpoint's Content */
+    const deleteSubpoint = (isCompleted, index) => {
+        handleDeleteSubpoint(isCompleted, index);
     }
 
     return (
@@ -46,9 +57,12 @@ const SubpointsSection = ({
                 </Typography>
             ) : (
                 <InputBase 
-                    value={newContent}
+                    value={isUpdating ? newContent: content}
                     placeholder="Add Subpoint"
-                    onChange={(e) => setNewContent(e.target.value)}
+                    onChange={(e) => {
+                        setUpdating(true);
+                        setNewContent(e.target.value)
+                    }}
                     onBlur={handleNewSubcontent}
                     onKeyDown={(e) => {
                         if(e.key === 'Enter') {
@@ -64,7 +78,10 @@ const SubpointsSection = ({
                 <Box>
                     {showEdit && (
                         <Tooltip title="Delete Checkpoint">
-                            <IconButton size='small'>
+                            <IconButton 
+                                size='small'
+                                onClick={deleteSubpoint}
+                            >
                                 <Delete
                                     fontSize='inherit' 
                                     sx={{
@@ -79,7 +96,10 @@ const SubpointsSection = ({
             <Box>
                 {showAllEdit && (
                     <Tooltip title="Delete Checkpoint">
-                        <IconButton size='small'>
+                        <IconButton 
+                            size='small'
+                            onClick={deleteSubpoint}
+                        >
                             <Delete 
                                 fontSize='inherit' 
                                 sx={{

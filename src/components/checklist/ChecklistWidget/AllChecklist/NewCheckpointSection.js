@@ -6,6 +6,7 @@ const NewCheckpointSection = ({
     showNewPoint, 
     displayNewPoint, 
     hideNewPoint, 
+    isSubpoint,
     createNewCheckpoint }) => {
 
     //New Checkpoint
@@ -47,7 +48,7 @@ const NewCheckpointSection = ({
             <InputBase
                 value={newPoint}
                 autoFocus={true}
-                placeholder="Create New Checkpoint"
+                placeholder={isSubpoint ? "Create New Subpoint" : "Create New Checkpoint"}
                 onChange={(e) => setNewPoint(e.target.value)}
                 onBlur={() => {
                     createNewPoint();

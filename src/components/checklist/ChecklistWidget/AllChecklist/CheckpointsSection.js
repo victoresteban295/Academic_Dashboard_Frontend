@@ -16,7 +16,8 @@ const CheckpointsSection = ({
     unmarkAsCompletePoint,
     deleteCheckpoint,
     modifySubpoint, 
-    addSubpoint }) => {
+    addSubpoint, 
+    deleteSubpoint }) => {
 
     //NOTE: Enables To Delete Checkpoint w/o Error
     const [isUpdating, setUpdating] = useState(false);
@@ -30,9 +31,9 @@ const CheckpointsSection = ({
     //Has Checkpoint Been Completed
     const [isComplete, setComplete] = useState(isCompleted);
 
-    //Used to Simultaneously Mark all Subpoints as Complete or Incomplete
-    const [subComplete, setSubComplete] = useState(true);
-    const [subIncomplete, setSubIncomplete] = useState(false);
+    /* //Used to Simultaneously Mark all Subpoints as Complete or Incomplete */
+    /* const [subComplete, setSubComplete] = useState(true); */
+    /* const [subIncomplete, setSubIncomplete] = useState(false); */
 
     /* Display New Subpoint UI */
     const [showNewPoint, setShowNewPoint] = useState(false);
@@ -50,15 +51,15 @@ const CheckpointsSection = ({
 
     /* Mark Checkpoint as Complete */
     const markAsComplete = () => {
-        setComplete(true); 
-        setSubIncomplete(true);
+        /* setComplete(true);  */
+        /* setSubIncomplete(true); */
         markAsCompletePoint(index);
     }
 
     /* Unmark Checkpoint as Complete */
     const unmarkAsComplete = () => {
-        setComplete(false);
-        setSubComplete(false);
+        /* setComplete(false); */
+        /* setSubComplete(false); */
         unmarkAsCompletePoint(index);
     }
 
@@ -77,6 +78,11 @@ const CheckpointsSection = ({
     /* Modify Subpoint's Content */
     const handleSubContent = (subpointIdx, subContent) => {
         modifySubpoint(index, subpointIdx, subContent);
+    }
+
+    /* Delete Subpoint */
+    const handleDeleteSubpoint = (isSubpointComplete, subpointIdx) => {
+        deleteSubpoint(isCompleted, isSubpointComplete, index, subpointIdx);
     }
 
     return (
@@ -216,6 +222,7 @@ const CheckpointsSection = ({
                             content={content}
                             isCompleted={false}
                             handleSubContent={handleSubContent}
+                            handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )
                 })}
@@ -224,6 +231,7 @@ const CheckpointsSection = ({
                         showNewPoint={showNewPoint}
                         displayNewPoint={displayNewPoint}
                         hideNewPoint={hideNewPoint}
+                        isSubpoint={true}
                         createNewCheckpoint={createNewSubpoint}
                     />
                 )}
@@ -236,6 +244,7 @@ const CheckpointsSection = ({
                             content={content}
                             isCompleted={true}
                             handleSubContent={handleSubContent}
+                            handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )
                 })}

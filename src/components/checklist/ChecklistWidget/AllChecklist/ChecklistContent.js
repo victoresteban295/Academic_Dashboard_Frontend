@@ -306,49 +306,283 @@ const ChecklistContent = ({
     }
 
 
+    /*******************************/
     /* Mark Checkpoint as Complete */
+    /*******************************/
     const markAsCompletePoint = (index) => {
-        /* //Mark all subpoints as Complete */
-        /* const subpoints = checkpoints[index].subpoints; */
-        /* subpoints.map(subpoint => { */
-        /*     //Move All Elements in subpoints to completedSubpoints */
-        /*     checkpoints[index].completedSubpoints.push(subpoint); */
-        /* }) */
-        /* checkpoints[index].subpoints = []; //Empty out subpoints */
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let updatedPoints;
+        let updatedCompletedPoints;
+        
+        //Checklist is Not Grouped
+        if(groupId === '') {
+            //Iterate to Find Checklist Being Modified
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    //Completed Checkpoint
+                    let completePoint;
 
-        //Push Completed Checkpoint to CompletedPoints List
-        completedPoints.push(checkpoints[index]);
-        //Remove Completed Checkpoint from Checkpoints List
-        checkpoints.splice(index, 1); 
-        //Update Changes
-        modifyCheckpoints(
-            username, 
-            listId, 
-            checkpoints, 
-            completedPoints); 
+                    //Extract Checklist's Checkpoints
+                    let outdatedPoints = checklist.checkpoints;
+                    
+                    //Filter Out The Checkpoint That Was Completed
+                    updatedPoints = outdatedPoints.filter(checkpoint => {
+                        if(checkpoint.index === index) {
+                            //Extract Complete Checkpoint
+                            completePoint = checkpoint;
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    })
+
+                    //Re-assign Index for Each Checkpoint (Non-Complete)
+                    for(let i=0; i < updatedPoints.length; i++) {
+                        updatedPoints[i].index = i;
+                    }
+
+                    //Extract Recently Completed Checkpoint's Subpoints
+                    let subpoints = completePoint.subpoints;
+
+                    //Extract Recently Completed Checkpoint's Completed Subpoints
+                    let completedSubpoints = completePoint.completedSubpoints;
+
+                    //Completed Subpoint's Original Length
+                    let compLength = completedSubpoints.length;
+
+                    //Updated Subpoint Index & Move to Completed Subpoints
+                    for(let i=0; i < subpoints.length; i++) {
+                        let subpoint = subpoints[i];
+                        subpoint.index = compLength + i;
+                        completedSubpoints.push(subpoint);
+                    }
+
+                    //Updated Completed Checkpoint's Subpoints
+                    completePoint.subpoints = [];
+                    completePoint.completedSubpoints = completedSubpoints;
+
+                    //Update Checklist's Completed Checkpoints
+                    checklist.checkpoints = updatedPoints;
+                    checklist.completedPoints.push(completePoint);
+                    updatedCompletedPoints = checklist.completedPoints;
+
+                    //Re-assign Index for Each Completed Checkpoint
+                    for(let i=0; i < updatedCompletedPoints.length; i++) {
+                        updatedCompletedPoints[i].index = i;
+                    }
+
+                    //Updated Checklist's Completed Checkpoints 
+                    checklist.completedPoints = updatedCompletedPoints;
+                }
+            })
+
+        //Checklist is Grouped
+        } else {
+            //Iterate to Find Checklist's Group
+            updatedGroups.map(group => {
+                if(group.groupId === groupId) {
+                    //Iterate to Find Checklist Being Modified
+                    group.checklists.map(checklist => {
+                        if(checklist.listId === listId) {
+                            //Completed Checkpoint
+                            let completePoint;
+
+                            //Extract Checklist's Checkpoints
+                            let outdatedPoints = checklist.checkpoints;
+                            
+                            //Filter Out The Checkpoint That Was Completed
+                            updatedPoints = outdatedPoints.filter(checkpoint => {
+                                if(checkpoint.index === index) {
+                                    //Extract Complete Checkpoint
+                                    completePoint = checkpoint;
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            })
+
+                            //Re-assign Index for Each Checkpoint
+                            for(let i=0; i < updatedPoints.length; i++) {
+                                updatedPoints[i].index = i;
+                            }
+
+                            //Extract Checkpoint's Subpoints
+                            let subpoints = completePoint.subpoints;
+
+                            //Extract Checkpoint's Completed Subpoints
+                            let completedSubpoints = completePoint.completedSubpoints;
+
+                            //Completed Subpoint's Original Length
+                            let compLength = completePoint.completedSubpoints.length;
+
+                            //Updated Subpoint Index & Move to Completed Subpoints
+                            for(let i=0; i < subpoints.length; i++) {
+                                let subpoint = subpoints[i];
+                                subpoint.index = compLength + i;
+                                completedSubpoints.push(subpoint);
+                            }
+
+                            //Updated Completed Checkpoint's Subpoints
+                            completePoint.subpoints = [];
+                            completePoint.completedSubpoints = completedSubpoints;
+
+                            //Updated Checklist's Completed Checkpoints
+                            checklist.checkpoints = updatedPoints;
+                            checklist.completedPoints.push(completePoint);
+                            updatedCompletedPoints = checklist.completedPoints;
+
+                            //Re-assign Index for Each Completed Checkpoint
+                            for(let i=0; i < updatedCompletedPoints.length; i++) {
+                                updatedCompletedPoints[i].index = i;
+                            }
+
+                            //Updated Checklist's Completed Checkpoints 
+                            checklist.completedPoints = updatedCompletedPoints;
+                        }
+                    })
+                }
+            }) 
+        }
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
         reloadChecklistpage();
     }
 
+    /*********************************/
     /* UnMark Checkpoint as Complete */
+    /*********************************/
     const unmarkAsCompletePoint = (index) => {
-        /* //Mark all completedSubpoints as Incomplete */
-        /* const completedSubpoints = checkpoints[index].completedSubpoints; */
-        /* completedSubpoints.map(subpoint => { */
-        /*     //Move All Elements in completedSubpoints to subpoints */
-        /*     checkpoints[index].subpoints.push(subpoint); */
-        /* }) */
-        /* checkpoints[index].completedSubpoints = []; //Empty out completedSubpoints */
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let updatedPoints;
+        let updatedCompletedPoints;
 
-        //Push Checkpoint to Checkpoint List
-        checkpoints.push(completedPoints[index]);
-        //Remove Checkpoint from Completed Checkpoints List
-        completedPoints.splice(index, 1); 
-        //Update Changes
-        modifyCheckpoints(
-            username, 
-            listId, 
-            checkpoints, 
-            completedPoints); 
+        //Checklist is Not Grouped
+        if(groupId === '') {
+            //Iterate to Find Checklist Being Modified
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    //Incompleted Checkpoint
+                    let incompPoint;
+
+                    //Extract Checklist's Completed Checkpoints 
+                    let outdatedCompPoints = checklist.completedPoints;
+
+                    //Filter Out The Checkpoint Marked As Incomplete
+                    updatedCompletedPoints = outdatedCompPoints.filter(checkpoint => {
+                        if(checkpoint.index === index) {
+                            //Extract Incomplete Checkpoint
+                            incompPoint = checkpoint;
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    })
+
+                    //Re-assign Index for Each Checkpoint (Completed)
+                    for(let i=0; i < updatedCompletedPoints.length; i++) {
+                        updatedCompletedPoints[i].index = i;
+                    }
+
+                    //Mark Subpoints as Incomplete (if-any)
+                    if(incompPoint.completedSubpoints.length > 0) {
+                        //Extract Recently Incompleted Checkpoint's Completed Subpoints
+                        let compSubpoints = incompPoint.completedSubpoints;
+
+                        //Move Them to Subpoints (Incomplete)
+                        incompPoint.subpoints = compSubpoints;
+
+                        //Empty Out The Completed Subpoints
+                        incompPoint.completedSubpoints = [];
+                    }
+
+                    //Update Checklist's Checkpoints
+                    checklist.completedPoints = updatedCompletedPoints;
+                    checklist.checkpoints.push(incompPoint);
+                    updatedPoints = checklist.checkpoints;
+
+                    //Re-assign Index for Each Incomplete Checkpoint
+                    for(let i=0; i < updatedPoints.length; i++) {
+                        updatedPoints[i].index = i;
+                    }
+
+                    //Update Checklist's Completed Checkpoints
+                    checklist.checkpoints = updatedPoints;
+                }
+            })
+
+        //Checklist is Grouped
+        } else {
+            //Iterate to Find Checklist's Group
+            updatedGroups.map(group => {
+                if(group.groupId === groupId) {
+                    //Iterate to Find Checklist Being Modified
+                    group.checklists.map(checklist => {
+                        if(checklist.listId === listId) {
+                            //Incompleted Checkpoint
+                            let incompPoint;
+
+                            //Extract Checklist's Completed Checkpoints 
+                            let outdatedCompPoints = checklist.completedPoints;
+
+                            //Filter Out The Checkpoint Marked As Incomplete
+                            updatedCompletedPoints = outdatedCompPoints.filter(checkpoint => {
+                                if(checkpoint.index === index) {
+                                    //Extract Incomplete Checkpoint
+                                    incompPoint = checkpoint;
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            })
+
+                            //Re-assign Index for Each Checkpoint (Completed)
+                            for(let i=0; i < updatedCompletedPoints.length; i++) {
+                                updatedCompletedPoints[i].index = i;
+                            }
+
+                            //Mark Subpoints as Incomplete (if-any)
+                            if(incompPoint.completedSubpoints.length > 0) {
+                                //Extract Recently Incompleted Checkpoint's Completed Subpoints
+                                let compSubpoints = incompPoint.completedSubpoints;
+
+                                //Move Them to Subpoints (Incomplete)
+                                incompPoint.subpoints = compSubpoints;
+
+                                //Empty Out The Completed Subpoints
+                                incompPoint.completedSubpoints = [];
+                            }
+
+                            //Update Checklist's Checkpoints
+                            checklist.completedPoints = updatedCompletedPoints;
+                            checklist.checkpoints.push(incompPoint);
+                            updatedPoints = checklist.checkpoints;
+
+                            //Re-assign Index for Each Incomplete Checkpoint
+                            for(let i=0; i < updatedPoints.length; i++) {
+                                updatedPoints[i].index = i;
+                            }
+
+                            //Update Checklist's Completed Checkpoints
+                            checklist.checkpoints = updatedPoints;
+                        }
+                    })
+                }
+            }) 
+        }
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
         reloadChecklistpage();
     }
 
@@ -412,7 +646,6 @@ const ChecklistContent = ({
         let updatedGroups = [...groups];
         let updatedPoints;
         let updatedCompletedPoints;
-
 
         //Checklist is Not Grouped
         if(groupId === '') {
@@ -625,6 +858,187 @@ const ChecklistContent = ({
         reloadChecklistpage();
     }
 
+    /* Delete Subpoint */
+    const deleteSubpoint = (
+        isPointComplete, 
+        isSubpointComplete, 
+        pointIdx, 
+        subpointIdx) => {
+
+        let updatedLists = [...checklists];
+        let updatedGroups = [...groups];
+        let updatedPoints;
+        let updatedCompletedPoints;
+
+        //Checklist is Not Grouped
+        if(groupId === '') {
+            //Iterate to Find Checklist Being Modified
+            updatedLists.map(checklist => {
+                if(checklist.listId === listId) {
+                    //Checklist is Completed
+                    if(isPointComplete) {
+                        //Extract Checklist's Completed Points
+                        updatedCompletedPoints = checklist.completedPoints;
+                        //Extract Checkpoint's Completed Subpoints
+                        let outdatedSubpoints = updatedCompletedPoints[pointIdx].completedSubpoints;
+
+                        //Filter Out Subpoint Being Deleted
+                        let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                            return subpoint.index != subpointIdx;
+                        })
+
+                        //Re-assign Index for Each Subpoint
+                        for(let i=0; i < updatedSubpoints.length; i++) {
+                            updatedSubpoints[i].index = i;
+                        }
+
+                        //Updated Checkpoint's Completed Subpoints
+                        updatedCompletedPoints[pointIdx].completedSubpoints = updatedSubpoints;
+                        updatedPoints = checklist.checkpoints;
+
+                    //Checklist is Not Completed
+                    } else {
+                        //Subpoint Being Deleted is Completed
+                        if(isSubpointComplete) {
+                            //Extract Checklist's Checkpoints
+                            updatedPoints = checklist.checkpoints;
+
+                            //Extract Checkpoint's Completed Subpoints
+                            let outdatedSubpoints = updatedPoints[pointIdx].completedSubpoints;
+
+                            //Filter Out Subpoint Being Deleted
+                            let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                                return subpoint.index != subpointIdx;
+                            })
+
+                            //Re-assign Index for Each Subpoint
+                            for(let i=0; i < updatedSubpoints.length; i++) {
+                                updatedSubpoints[i].index = i;
+                            }
+
+                            //Updated Checkpoint's Completed Subpoints
+                            updatedPoints[pointIdx].completedSubpoints = updatedSubpoints;
+                            updatedCompletedPoints = checklist.completedPoints;
+
+                        //Subpoint Being Deleted is Not Completed
+                        } else {
+                            //Extract Checklist's Checkpoints
+                            updatedPoints = checklist.checkpoints;
+
+                            //Extract Checkpoint's Subpoints
+                            let outdatedSubpoints = updatedPoints[pointIdx].subpoints;
+
+                            //Filter Out Subpoint Being Deleted
+                            let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                                return subpoint.index != subpointIdx;
+                            })
+
+                            //Re-assign Index for Each Subpoint
+                            for(let i=0; i < updatedSubpoints.length; i++) {
+                                updatedSubpoints[i].index = i;
+                            }
+
+                            //Updated Checkpoint's Completed Subpoints
+                            updatedPoints[pointIdx].subpoints = updatedSubpoints;
+                            updatedCompletedPoints = checklist.completedPoints;
+
+                        }
+                    }
+                }
+            })
+
+        //Checklist is Grouped
+        } else {
+            //Iterate to Find Checklist's Group
+            updatedGroups.map(group => {
+                if(group.groupId === groupId) {
+                    //Iterate to Find Checklist Being Modified
+                    group.checklists.map(checklist => {
+                        if(checklist.listId === listId) {
+                            //Checklist is Completed
+                            if(isPointComplete) {
+                                //Extract Checklist's Completed Points
+                                updatedCompletedPoints = checklist.completedPoints;
+                                //Extract Checkpoint's Completed Subpoints
+                                let outdatedSubpoints = updatedCompletedPoints[pointIdx].completedSubpoints;
+
+                                //Filter Out Subpoint Being Deleted
+                                let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                                    return subpoint.index != subpointIdx;
+                                })
+
+                                //Re-assign Index for Each Subpoint
+                                for(let i=0; i < updatedSubpoints.length; i++) {
+                                    updatedSubpoints[i].index = i;
+                                }
+
+                                //Updated Checkpoint's Completed Subpoints
+                                updatedCompletedPoints[pointIdx].completedSubpoints = updatedSubpoints;
+                                updatedPoints = checklist.checkpoints;
+
+                            //Checklist is Not Completed
+                            } else {
+                                //Subpoint Being Deleted is Completed
+                                if(isSubpointComplete) {
+                                    //Extract Checklist's Checkpoints
+                                    updatedPoints = checklist.checkpoints;
+
+                                    //Extract Checkpoint's Completed Subpoints
+                                    let outdatedSubpoints = updatedPoints[pointIdx].completedSubpoints;
+
+                                    //Filter Out Subpoint Being Deleted
+                                    let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                                        return subpoint.index != subpointIdx;
+                                    })
+
+                                    //Re-assign Index for Each Subpoint
+                                    for(let i=0; i < updatedSubpoints.length; i++) {
+                                        updatedSubpoints[i].index = i;
+                                    }
+
+                                    //Updated Checkpoint's Completed Subpoints
+                                    updatedPoints[pointIdx].completedSubpoints = updatedSubpoints;
+                                    updatedCompletedPoints = checklist.completedPoints;
+
+                                //Subpoint Being Deleted is Not Completed
+                                } else {
+                                    //Extract Checklist's Checkpoints
+                                    updatedPoints = checklist.checkpoints;
+
+                                    //Extract Checkpoint's Subpoints
+                                    let outdatedSubpoints = updatedPoints[pointIdx].subpoints;
+
+                                    //Filter Out Subpoint Being Deleted
+                                    let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+                                        return subpoint.index != subpointIdx;
+                                    })
+
+                                    //Re-assign Index for Each Subpoint
+                                    for(let i=0; i < updatedSubpoints.length; i++) {
+                                        updatedSubpoints[i].index = i;
+                                    }
+
+                                    //Updated Checkpoint's Completed Subpoints
+                                    updatedPoints[pointIdx].subpoints = updatedSubpoints;
+                                    updatedCompletedPoints = checklist.completedPoints;
+
+                                }
+                            }
+                        }
+                    })
+                }
+            }) 
+        }
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+        reloadChecklistpage();
+    }
+
     return (
         <>
             {(activeList === listId) && (
@@ -691,6 +1105,7 @@ const ChecklistContent = ({
                                         deleteCheckpoint={deleteCheckpoint}
                                         modifySubpoint={modifySubpoint}
                                         addSubpoint={addSubpoint}
+                                        deleteSubpoint={deleteSubpoint}
                                     />
                                 )
                             })}
@@ -699,6 +1114,7 @@ const ChecklistContent = ({
                                     showNewPoint={showNewPoint}
                                     displayNewPoint={displayNewPoint}
                                     hideNewPoint={hideNewPoint}
+                                    isSubpoint={false}
                                     createNewCheckpoint={createNewCheckpoint}
                                 />
                             )}
