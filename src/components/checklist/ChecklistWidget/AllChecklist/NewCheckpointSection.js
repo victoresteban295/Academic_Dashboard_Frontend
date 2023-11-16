@@ -13,17 +13,6 @@ const NewCheckpointSection = ({
     const [newPoint, setNewPoint] = useState('');
 
     //Create new Checkpoint
-    const createNewPoint01 = () => {
-        //Ensure User Input Isn't Blank
-        const checkpoint = newPoint.trim();
-        if(checkpoint != '') {
-            createNewCheckpoint(checkpoint);
-        }
-        setNewPoint('');
-        hideNewPoint();
-        displayNewPoint();
-    }
-
     const createNewPoint = () => {
         //Ensure User Input Isn't Blank
         const checkpoint = newPoint.trim();

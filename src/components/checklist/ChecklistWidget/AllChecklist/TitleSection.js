@@ -1,25 +1,23 @@
 import { ChecklistTitleSchema } from "@/lib/schemas/checklistSchema";
-import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/modifyChecklist";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AddToGroupBackdrop from "./AddToGroupBackdrop";
-import { removeChecklistFromGroup } from "@/lib/utils/checklist/modifyGrouplist";
 import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
+import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
+import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
 
 const TitleSection = ({ 
     username,
     listId,
     title, 
-    groups,
     groupId,
-    handleChecklistTitle, 
-    addToExistingGroup,
-    addToNewGroup,
-    moveListGroupToGroup,
-    moveListGroupToNewGroup,
+    groups,
+    changeGroups,
+    checklists,
+    changeChecklists,
     removeListFromGroup,
     showAllEdit,
     showAllEditButtons, 
@@ -66,9 +64,23 @@ const TitleSection = ({
         setOpenMoveToGroup(false);
     }
 
-    /* Change Title Method */
-    const handleTitleChange = (event) => {
-        handleChecklistTitle(event.target.value);
+    //Rename Checklist
+    const modifyTitle = (event) => {
+        //Modify Checklist's Title
+        const newTitle = event.target.value; //New Checklist's Title
+        const {updatedLists, updatedGroups} = handleChecklistTitle(
+            checklists, 
+            groups, 
+            groupId, 
+            listId, 
+            newTitle);
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        renameCheclistTitle(username, listId, newTitle);
         reloadChecklistpage();
     }
     
@@ -92,8 +104,9 @@ const TitleSection = ({
                 open={openAddToGroup}
                 handleClose={handleCloseAddToGroup}
                 groups={groups}
-                addToExistingGroup={addToExistingGroup}
-                addToNewGroup={addToNewGroup}
+                changeGroups={changeGroups}
+                checklists={checklists}
+                changeChecklists={changeChecklists}
             />
             <MoveToGroupBackdrop 
                 username={username}
@@ -102,8 +115,7 @@ const TitleSection = ({
                 open={openMoveToGroup}
                 handleClose={handleCloseMoveToGroup}
                 groups={groups}
-                moveListGroupToGroup={moveListGroupToGroup}
-                moveListGroupToNewGroup={moveListGroupToNewGroup}
+                changeGroups={changeGroups}
             />
             <Controller 
                 name="checklistTitle"
@@ -114,7 +126,7 @@ const TitleSection = ({
                             value={value}
                             placeholder="Add Checklist Title"
                             onChange={onChange}
-                            onBlur={handleTitleChange}
+                            onBlur={modifyTitle}
                             onKeyDown={(e) => {
                                 if(e.key === 'Enter') {
                                     e.target.blur();

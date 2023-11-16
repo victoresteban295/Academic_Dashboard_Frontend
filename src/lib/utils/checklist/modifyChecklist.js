@@ -8,7 +8,7 @@ export const reloadChecklistpage = async () => {
     revalidatePath('/[role]/[username]/checklist');
 }
 
-const createChecklist = async (username, title) => {
+export const createChecklist = async (username, title) => {
 
 }
 
@@ -28,6 +28,8 @@ export const renameCheclistTitle = async (username, listId, title) => {
             title: title,
         })
     });
+
+    return res.json();
 }
 
 export const modifyCheckpoints = async (username, listId, checkpoints, completedPoints) => {

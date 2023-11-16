@@ -8,6 +8,8 @@ const SubpointsSection = ({
     content, 
     isCompleted, 
     handleSubContent, 
+    handleMarkAsCompleteSubpoint,
+    handleUnmarkAsCompleteSubpoint,
     handleDeleteSubpoint }) => {
 
     //NOTE: Enables To Delete Checkpoint w/o Error
@@ -20,6 +22,16 @@ const SubpointsSection = ({
     const handleNewSubcontent = () => {
         setUpdating(false);
         handleSubContent(index, newContent);
+    }
+
+    /* Mark Supoint As Complete */
+    const markAsComplete = () => {
+        handleMarkAsCompleteSubpoint(index);
+    }
+
+    /* Unmark Supoint As Complete */
+    const unmarkAsComplete = () => {
+        handleUnmarkAsCompleteSubpoint(index);
     }
 
     /* Delete Subpoint's Content */
@@ -37,11 +49,17 @@ const SubpointsSection = ({
             }}
         >
             {isCompleted ? (
-                <IconButton size='large'>
+                <IconButton 
+                    size='large'
+                    onClick={unmarkAsComplete}
+                >
                     <CheckBoxOutlined fontSize='inherit' />
                 </IconButton>
             ) : (
-                <IconButton size='large'>
+                <IconButton 
+                    size='large'
+                    onClick={markAsComplete}
+                >
                     <CheckBoxOutlineBlank fontSize='inherit' />
                 </IconButton>
             )}

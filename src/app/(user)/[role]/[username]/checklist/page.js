@@ -1,7 +1,6 @@
 import ChecklistPageContent from "@/components/checklist/ChecklistPageContent";
-import getAllChecklists from "@/lib/utils/checklist/getAllChecklists";
-import getChecklists from "@/lib/utils/checklist/getChecklists";
-import getGrouplists from "@/lib/utils/checklist/getGrouplists";
+import { getAllChecklists, getChecklists } from "@/lib/utils/checklist/backend/backendChecklist";
+import { getGrouplists } from "@/lib/utils/checklist/backend/backendGrouplist";
 
 const ChecklistPage = async ({ params }) => {
     const { username } = params;

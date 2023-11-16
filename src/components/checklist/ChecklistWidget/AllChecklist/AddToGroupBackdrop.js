@@ -1,3 +1,6 @@
+import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
+import { addChecklistToGroup, createGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { addToExistingGroup, addToNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -7,28 +10,48 @@ const AddToGroupBackdrop = ({
     open, 
     handleClose, 
     groups, 
-    addToExistingGroup, 
-    addToNewGroup }) => {
+    changeGroups,
+    checklists,
+    changeChecklists }) => {
 
+    //GroupId of Selected Group
     const [selectedGroupId, setSelectedGroupId] = useState('');
+    //Title of New Group to Create
     const [newGroup, setNewGroup] = useState('');
+    //Selected Item in Menu (groupId)
     const handleSelect = (event) => {
         setSelectedGroupId(event.target.value);
     }
 
+    //Close Menu & Reset Options
     const handleCloseBackdrop = () => {
         handleClose();
         setSelectedGroupId('');
         setNewGroup('');
     }
 
-    const addToGroup = () => {
+    //Add (Non-Grouped) Checklist to Group
+    const addToGroup = async () => {
         handleClose(); //Close Backdrop Menu
         //Selected New Group
         if(selectedGroupId === 'new') { 
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                addToNewGroup(listId, newGroup); 
+                //Add Checklist To New Group
+                const { updatedLists, updatedGroups } = addToNewGroup(
+                    checklists, 
+                    groups, 
+                    listId, 
+                    newGroup); 
+
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
+
+                //Backend API: Update Database
+                const { groupId } = await createGrouplist(username, newGroup);
+                addChecklistToGroup(username, listId, groupId);
+                reloadChecklistpage();
             //If so, Do Nothing & Reset Input
             } else {
                 setNewGroup('');
@@ -36,7 +59,20 @@ const AddToGroupBackdrop = ({
             }
         //Selected Existing Group
         } else { 
-            addToExistingGroup(listId, selectedGroupId);
+            //Add Checklist to Existing Group
+            const { updatedLists, updatedGroups } = addToExistingGroup(
+                checklists, 
+                groups, 
+                listId, 
+                selectedGroupId);
+
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            addChecklistToGroup(username, listId, selectedGroupId);
+            reloadChecklistpage();
         }
     }
 
@@ -138,7 +174,6 @@ const AddToGroupBackdrop = ({
                     </Box>
                 </Stack>
             </Box>
-
         </Popover>
     ) 
 }

@@ -15,8 +15,10 @@ const CheckpointsSection = ({
     markAsCompletePoint,
     unmarkAsCompletePoint,
     deleteCheckpoint,
-    modifySubpoint, 
     addSubpoint, 
+    modifySubpoint, 
+    markAsCompleteSubpoint,
+    unmarkAsCompleteSubpoint,
     deleteSubpoint }) => {
 
     //NOTE: Enables To Delete Checkpoint w/o Error
@@ -78,6 +80,15 @@ const CheckpointsSection = ({
     /* Modify Subpoint's Content */
     const handleSubContent = (subpointIdx, subContent) => {
         modifySubpoint(index, subpointIdx, subContent);
+    }
+
+    /* Mark Subpoint As Complete */
+    const handleMarkAsCompleteSubpoint = (subpointIdx) => {
+        markAsCompleteSubpoint(index, subpointIdx);
+    }
+
+    const handleUnmarkAsCompleteSubpoint = (subpointIdx) => {
+        unmarkAsCompleteSubpoint(isCompleted, index, subpointIdx);
     }
 
     /* Delete Subpoint */
@@ -222,6 +233,8 @@ const CheckpointsSection = ({
                             content={content}
                             isCompleted={false}
                             handleSubContent={handleSubContent}
+                            handleMarkAsCompleteSubpoint={handleMarkAsCompleteSubpoint}
+                            handleUnmarkAsCompleteSubpoint={handleUnmarkAsCompleteSubpoint}
                             handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )
@@ -244,6 +257,8 @@ const CheckpointsSection = ({
                             content={content}
                             isCompleted={true}
                             handleSubContent={handleSubContent}
+                            handleMarkAsCompleteSubpoint={handleMarkAsCompleteSubpoint}
+                            handleUnmarkAsCompleteSubpoint={handleUnmarkAsCompleteSubpoint}
                             handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )

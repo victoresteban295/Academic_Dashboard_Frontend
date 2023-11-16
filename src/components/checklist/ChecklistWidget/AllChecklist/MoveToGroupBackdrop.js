@@ -1,3 +1,6 @@
+import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
+import { createGrouplist, moveChecklistGroupToGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { moveListGroupToGroup, moveListGroupToNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -8,32 +11,59 @@ const MoveToGroupBackdrop = ({
     open, 
     handleClose, 
     groups, 
-    moveListGroupToGroup, 
-    moveListGroupToNewGroup}) => {
+    changeGroups }) => {
 
+    //GroupId of Selected Group
     const [selectedGroupId, setSelectedGroupId] = useState('');
+    //Title of New Group to Create
     const [newGroup, setNewGroup] = useState('');
+    //Selected Item in Menu (groupId)
     const handleSelect = (event) => {
         setSelectedGroupId(event.target.value);
     }
 
+    //Close Menu & Reset Options
     const handleCloseBackdrop = () => {
         handleClose();
         setSelectedGroupId('');
         setNewGroup('');
     }
 
-    const MoveToGroup = () => {
+    //Move (Grouped) Checklist to Different Group
+    const MoveToGroup = async () => {
         handleClose(); //Close Menu
         //Selected New Group
         if(selectedGroupId === 'new') {
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                moveListGroupToNewGroup(listId, fromGroupId, newGroup);
+                const { updatedGroups } = moveListGroupToNewGroup(
+                    groups,
+                    listId, 
+                    fromGroupId, 
+                    newGroup);
+
+                //Update State Value
+                changeGroups(updatedGroups);
+
+                //Backend API: Update Database
+                const { groupId: toGroupId } = await createGrouplist(username, newGroup);
+                moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
+                reloadChecklistpage();
             } 
         } else {
             //Move to Different Group
-            moveListGroupToGroup(listId, fromGroupId, selectedGroupId); 
+            const { updatedGroups } = moveListGroupToGroup(
+                groups, 
+                listId, 
+                fromGroupId, 
+                selectedGroupId); 
+
+            //Update State Value
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
+            reloadChecklistpage();
         }
 
         //Reset Options
