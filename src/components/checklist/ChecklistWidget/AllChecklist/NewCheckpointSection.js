@@ -1,23 +1,71 @@
+import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
+import { createNewCheckpoint } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
+import { addSubpoint } from "@/lib/utils/checklist/frontend/modifySubpoint";
 import { CheckBoxOutlineBlank, Close } from "@mui/icons-material";
 import { Box, IconButton, InputBase } from "@mui/material";
 import { useState } from "react";
 
 const NewCheckpointSection = ({ 
-    showNewPoint, 
-    displayNewPoint, 
+    username,
+    listId,
+    groupId,
+    index,
+    groups,
+    changeGroups,
+    checklists,
+    changeChecklists,
     hideNewPoint, 
-    isSubpoint,
-    createNewCheckpoint }) => {
+    isSubpoint }) => {
 
     //New Checkpoint
     const [newPoint, setNewPoint] = useState('');
 
-    //Create new Checkpoint
+    //Create New Checkpoint || Subpoint
     const createNewPoint = () => {
+        let updatedLists, updatedGroups, updatedPoints, completedPoints;
         //Ensure User Input Isn't Blank
         const checkpoint = newPoint.trim();
         if(checkpoint != '') {
-            createNewCheckpoint(checkpoint);
+            //Creating a New Checkpoint 
+            if(!isSubpoint) {
+                //Create New Checkpoint 
+                const updates = createNewCheckpoint(
+                        checklists, 
+                        groups, 
+                        listId, 
+                        groupId, 
+                        checkpoint);
+
+                updatedLists = updates.updatedLists;
+                updatedGroups = updates.updatedGroups;
+                updatedPoints = updates.updatedPoints;
+                completedPoints = updates.completedPoints;
+
+            //Creating a New Subpoint
+            } else {
+                //Create New Subpoint
+                const updates = addSubpoint(
+                    checklists, 
+                    groups, 
+                    listId, 
+                    groupId, 
+                    index, 
+                    checkpoint);
+
+                updatedLists = updates.updatedLists;
+                updatedGroups = updates.updatedGroups;
+                updatedPoints = updates.updatedPoints;
+                completedPoints = updates.completedPoints;
+
+            }
+
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+
+            //Backend API: Updated Database
+            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+            reloadChecklistpage();
         } else {
             hideNewPoint();
         }

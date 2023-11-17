@@ -1,21 +1,25 @@
-import { Add, CheckBoxOutlineBlank, CheckBoxOutlined, Delete, DeleteOutline } from "@mui/icons-material";
+import { Add, CheckBoxOutlineBlank, CheckBoxOutlined, Delete } from "@mui/icons-material";
 import { Box, Divider, IconButton, InputBase, Stack, Tooltip, Typography } from "@mui/material";
 import SubpointsSection from "./SubpointsSection";
 import { useState } from "react";
 import NewCheckpointSection from "./NewCheckpointSection";
+import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
+import { deleteCheckpoint, markAsCompletePoint, modifyCheckpoint, unmarkAsCompletePoint } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
 
 const CheckpointsSection = ({ 
     showAllEdit, 
+    username,
+    listId,
+    groupId,
+    groups,
+    changeGroups,
+    checklists,
+    changeChecklists,
     index,
     content, 
     subpoints, 
     completedSubpoints, 
     isCompleted, 
-    modifyCheckpoint, 
-    markAsCompletePoint,
-    unmarkAsCompletePoint,
-    deleteCheckpoint,
-    addSubpoint, 
     modifySubpoint, 
     markAsCompleteSubpoint,
     unmarkAsCompleteSubpoint,
@@ -30,13 +34,6 @@ const CheckpointsSection = ({
     //Checkpoint's Modified Content
     const [newContent, setNewContent] = useState(content);
 
-    //Has Checkpoint Been Completed
-    const [isComplete, setComplete] = useState(isCompleted);
-
-    /* //Used to Simultaneously Mark all Subpoints as Complete or Incomplete */
-    /* const [subComplete, setSubComplete] = useState(true); */
-    /* const [subIncomplete, setSubIncomplete] = useState(false); */
-
     /* Display New Subpoint UI */
     const [showNewPoint, setShowNewPoint] = useState(false);
     const displayNewPoint = () => {
@@ -46,35 +43,79 @@ const CheckpointsSection = ({
         setShowNewPoint(false);
     }
 
-    /* Create New Supoint */
-    const createNewSubpoint = (subContent) => {
-        addSubpoint(index, subContent);
-    }
-
-    /* Mark Checkpoint as Complete */
-    const markAsComplete = () => {
-        /* setComplete(true);  */
-        /* setSubIncomplete(true); */
-        markAsCompletePoint(index);
-    }
-
-    /* Unmark Checkpoint as Complete */
-    const unmarkAsComplete = () => {
-        /* setComplete(false); */
-        /* setSubComplete(false); */
-        unmarkAsCompletePoint(index);
-    }
-
-    /* Modify Checkpoint's Content */
+    // Modify Checkpoint's Content
     const handleContent = () => {
         setUpdating(false);
-        modifyCheckpoint(index, newContent);
+        const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
+            checklists,
+            groups,
+            listId,
+            groupId,
+            index, 
+            newContent);
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+        reloadChecklistpage();
     }
 
+    // Mark Checkpoint as Complete
+    const markAsComplete = () => {
+        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompletePoint(
+            checklists,
+            groups,
+            listId,
+            groupId,
+            index);
 
-    /* Delete Checkpoint & it's Content */
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+        reloadChecklistpage();
+    }
+
+    // Unmark Checkpoint as Complete 
+    const unmarkAsComplete = () => {
+        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = unmarkAsCompletePoint(
+            checklists,
+            groups,
+            listId,
+            groupId,
+            index);
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+        reloadChecklistpage();
+    }
+
+    // Delete Checkpoint & it's Content 
     const handleDeletePoint = () => {
-        deleteCheckpoint(isComplete, index);
+        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = deleteCheckpoint(
+            checklists,
+            groups,
+            listId,
+            groupId,
+            isCompleted, 
+            index);
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+        reloadChecklistpage();
     }
 
     /* Modify Subpoint's Content */
@@ -108,7 +149,7 @@ const CheckpointsSection = ({
                     alignItems: 'center',
                 }}
             >
-                {isComplete ? (
+                {isCompleted ? (
                     <IconButton 
                         size='large'
                         onClick={unmarkAsComplete}
@@ -124,7 +165,7 @@ const CheckpointsSection = ({
                     </IconButton>
                 )}
 
-                {isComplete ? (
+                {isCompleted ? (
                     <Typography
                         variant='body1'
                         sx={{
@@ -156,7 +197,7 @@ const CheckpointsSection = ({
                 )}
                 {!showAllEdit && (
                     <Box>
-                        {(showEdit && !isComplete) && (
+                        {(showEdit && !isCompleted) && (
                             <Tooltip title="Add Subpoint">
                                 <IconButton 
                                     size='small'
@@ -185,7 +226,7 @@ const CheckpointsSection = ({
                     </Box>
                 )}
                 <Box>
-                    {(showAllEdit && !isComplete) && (
+                    {(showAllEdit && !isCompleted) && (
                         <Tooltip title="Add Subpoint">
                             <IconButton 
                                 size='small'
@@ -241,11 +282,18 @@ const CheckpointsSection = ({
                 })}
                 {showNewPoint && (
                     <NewCheckpointSection
+                        username={username}
+                        listId={listId}
+                        groupId={groupId}
+                        index={index}
+                        groups={groups}
+                        changeGroups={changeGroups}
+                        checklists={checklists}
+                        changeChecklists={changeChecklists}
                         showNewPoint={showNewPoint}
                         displayNewPoint={displayNewPoint}
                         hideNewPoint={hideNewPoint}
                         isSubpoint={true}
-                        createNewCheckpoint={createNewSubpoint}
                     />
                 )}
                 {completedSubpoints.map((completedSubpoint) => {

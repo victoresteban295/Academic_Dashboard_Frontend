@@ -130,3 +130,38 @@ export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTil
         updatedGroups: updatedGroups
     }
 }
+
+/***************************************/
+/* Remove Checklist From Current Group */
+/***************************************/
+export const removeListFromGroup = (checklists, groups, listId, groupId) => {
+    let mvingList; //Checklist Being Moved
+
+    let updatedGroups = [...groups];
+    updatedGroups.map(group => {
+        if(group.groupId === groupId) {
+
+            //Filter Out Checklist From Group
+            let groupedList = group.checklists.filter(checklist => {
+                let isTarget = checklist.listId === listId;
+                if(isTarget) {
+                    mvingList = {...checklist, groupId: ''};
+                }
+                return !isTarget;
+            })
+            group.checklists = groupedList;
+        }
+    })
+
+    //Add Checklist to Non-Grouped List
+    let updatedLists = [...checklists, mvingList];
+
+    return {
+        updatedLists: updatedLists,
+        updatedGroups: updatedGroups,
+    }
+}
+
+
+
+

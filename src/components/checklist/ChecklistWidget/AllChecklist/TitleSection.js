@@ -8,6 +8,8 @@ import AddToGroupBackdrop from "./AddToGroupBackdrop";
 import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
+import { removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { removeChecklistFromGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
 
 const TitleSection = ({ 
     username,
@@ -18,7 +20,6 @@ const TitleSection = ({
     changeGroups,
     checklists,
     changeChecklists,
-    removeListFromGroup,
     showAllEdit,
     showAllEditButtons, 
     unshowAllEditButtons, 
@@ -44,7 +45,7 @@ const TitleSection = ({
         setAnchorEl(null);
     }
 
-    /* Backdrop State Value & Function */
+    /* Backdrop Menu State Value & Function */
     /* Add Checklst to Group */
     const [openAddToGroup, setOpenAddToGroup] = useState(false);
     const handleOpenAddToGroup = () => {
@@ -54,7 +55,7 @@ const TitleSection = ({
         setOpenAddToGroup(false);
     }
 
-    /* Backdrop State Value & Function */
+    /* Backdrop Menu State Value & Function */
     /* Move From Group to Group */
     const [openMoveToGroup, setOpenMoveToGroup] = useState(false);
     const handleOpenMoveToGroup = () => {
@@ -84,10 +85,24 @@ const TitleSection = ({
         reloadChecklistpage();
     }
     
-    /* Remove Checklist From Current Group */
+    // Remove Checklist From Current Group
     const removeFromGroup = () => {
         handleClose();
-        removeListFromGroup(listId, groupId);
+        //Remove (Grouped) Checklist to Non-Grouped Checklists 
+        const { updatedLists, updatedGroups } = removeListFromGroup(
+            checklists, 
+            groups, 
+            listId, 
+            groupId);
+
+        //Update State Value
+        changeChecklists(updatedLists);
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        removeChecklistFromGroup(username, listId, groupId);
+        reloadChecklistpage();
+
     }
 
     return (
