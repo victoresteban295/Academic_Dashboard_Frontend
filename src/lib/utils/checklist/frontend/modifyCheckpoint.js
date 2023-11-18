@@ -4,7 +4,7 @@
  *        -> modifyCheckpoint() | Line 70
  *        -> markAsCompletePoint() | Line 124
  *        -> unmarkAsCompletePoint() | Line 232
- *        -> deleteCheckpoint() | Line
+ *        -> deleteCheckpoint() | Line 332
  * */
 
 

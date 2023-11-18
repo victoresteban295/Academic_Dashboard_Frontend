@@ -19,11 +19,7 @@ const CheckpointsSection = ({
     content, 
     subpoints, 
     completedSubpoints, 
-    isCompleted, 
-    modifySubpoint, 
-    markAsCompleteSubpoint,
-    unmarkAsCompleteSubpoint,
-    deleteSubpoint }) => {
+    isCompleted }) => {
 
     //NOTE: Enables To Delete Checkpoint w/o Error
     const [isUpdating, setUpdating] = useState(false);
@@ -116,25 +112,6 @@ const CheckpointsSection = ({
         //Backend API: Update Database
         modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
         reloadChecklistpage();
-    }
-
-    /* Modify Subpoint's Content */
-    const handleSubContent = (subpointIdx, subContent) => {
-        modifySubpoint(index, subpointIdx, subContent);
-    }
-
-    /* Mark Subpoint As Complete */
-    const handleMarkAsCompleteSubpoint = (subpointIdx) => {
-        markAsCompleteSubpoint(index, subpointIdx);
-    }
-
-    const handleUnmarkAsCompleteSubpoint = (subpointIdx) => {
-        unmarkAsCompleteSubpoint(isCompleted, index, subpointIdx);
-    }
-
-    /* Delete Subpoint */
-    const handleDeleteSubpoint = (isSubpointComplete, subpointIdx) => {
-        deleteSubpoint(isCompleted, isSubpointComplete, index, subpointIdx);
     }
 
     return (
@@ -266,17 +243,22 @@ const CheckpointsSection = ({
                 }}
             >
                 {subpoints.map((subpoint) => {
-                    const { index, content } = subpoint;
+                    const { index: subpointIdx, content } = subpoint;
                     return(
                         <SubpointsSection
+                            username={username}
+                            isParentComplete={isCompleted}
+                            listId={listId}
+                            groupId={groupId}
+                            pointIdx={index}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            checklists={checklists}
+                            changeChecklists={changeChecklists}
                             showAllEdit={showAllEdit}
-                            index={index}
+                            subpointIdx={subpointIdx}
                             content={content}
                             isCompleted={false}
-                            handleSubContent={handleSubContent}
-                            handleMarkAsCompleteSubpoint={handleMarkAsCompleteSubpoint}
-                            handleUnmarkAsCompleteSubpoint={handleUnmarkAsCompleteSubpoint}
-                            handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )
                 })}
@@ -290,24 +272,27 @@ const CheckpointsSection = ({
                         changeGroups={changeGroups}
                         checklists={checklists}
                         changeChecklists={changeChecklists}
-                        showNewPoint={showNewPoint}
-                        displayNewPoint={displayNewPoint}
                         hideNewPoint={hideNewPoint}
                         isSubpoint={true}
                     />
                 )}
                 {completedSubpoints.map((completedSubpoint) => {
-                    const { index, content } = completedSubpoint;
+                    const { index: subpointIdx, content } = completedSubpoint;
                     return(
                         <SubpointsSection
+                            username={username}
+                            isParentComplete={isCompleted}
+                            listId={listId}
+                            groupId={groupId}
+                            pointIdx={index}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            checklists={checklists}
+                            changeChecklists={changeChecklists}
                             showAllEdit={showAllEdit}
-                            index={index}
+                            subpointIdx={subpointIdx}
                             content={content}
                             isCompleted={true}
-                            handleSubContent={handleSubContent}
-                            handleMarkAsCompleteSubpoint={handleMarkAsCompleteSubpoint}
-                            handleUnmarkAsCompleteSubpoint={handleUnmarkAsCompleteSubpoint}
-                            handleDeleteSubpoint={handleDeleteSubpoint}
                         />
                     )
                 })}
