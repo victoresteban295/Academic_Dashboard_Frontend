@@ -29,3 +29,7 @@ export const handleChecklistTitle = (checklists, groups, groupId, listId, newTit
         updatedGroups: updatedGroups,
     }
 }
+
+export const createNewChecklist = () => {
+
+}

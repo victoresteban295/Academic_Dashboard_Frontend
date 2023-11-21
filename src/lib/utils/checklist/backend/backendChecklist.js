@@ -63,7 +63,23 @@ export const getChecklists = async (username) => {
 /* Create a New Checklist (Non-Grouped) */
 /****************************************/
 export const createChecklist = async (username, title) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    const res = await fetch(`http://localhost:8080/api/checklist/${username}/new`, {
+        cache: "no-cache",
+        method: "POST", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+            title: title,
+        })
+    });
+
+    return res.json();
 }
 
 /****************************************************/
