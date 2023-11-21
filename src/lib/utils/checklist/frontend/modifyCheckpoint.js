@@ -3,8 +3,8 @@
  *        -> createNewCheckpoint() | Line 14
  *        -> modifyCheckpoint() | Line 70
  *        -> markAsCompletePoint() | Line 124
- *        -> unmarkAsCompletePoint() | Line 232
- *        -> deleteCheckpoint() | Line 332
+ *        -> unmarkAsCompletePoint() | Line 238
+ *        -> deleteCheckpoint() | Line 334
  * */
 
 
@@ -135,6 +135,9 @@ export const markAsCompletePoint = (checklists, groups, listId, groupId, index) 
                 const updates = markAsComplete(checklist, index);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -149,6 +152,9 @@ export const markAsCompletePoint = (checklists, groups, listId, groupId, index) 
                         const updates = markAsComplete(checklist, index);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }
@@ -243,6 +249,9 @@ export const unmarkAsCompletePoint = (checklists, groups, listId, groupId, index
                 const updates = unmarkAsComplete(checklist, index);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -257,6 +266,9 @@ export const unmarkAsCompletePoint = (checklists, groups, listId, groupId, index
                         const updates = unmarkAsComplete(checklist, index);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }
@@ -343,6 +355,9 @@ export const deleteCheckpoint = (checklists, groups, listId, groupId, isComplete
                 const updates = removeCheckpoint(checklist, isComplete, index);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -357,6 +372,9 @@ export const deleteCheckpoint = (checklists, groups, listId, groupId, isComplete
                         const updates = removeCheckpoint(checklist, isComplete, index);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }

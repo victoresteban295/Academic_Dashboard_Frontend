@@ -1,10 +1,10 @@
 /*
  * NOTE: 
- *        -> addSubpoint() | Line 
- *        -> modifySubpoint() | Line 
- *        -> markAsCompleteSubpoint() | Line 
- *        -> unmarkAsCompleteSubpoint() | Line 
- *        -> deleteSubpoint() | Line 
+ *        -> addSubpoint() | Line 14
+ *        -> modifySubpoint() | Line 92
+ *        -> markAsCompleteSubpoint() | Line 144
+ *        -> unmarkAsCompleteSubpoint() | Line 301
+ *        -> deleteSubpoint() | Line 419
  * */
 
 
@@ -25,6 +25,9 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
                 const updates = addNewSubpoint(checklist, pointIdx, subContent);
                 newCheckpoints = updates.newCheckpoints;
                 completedPoints = updates.completedPoints;
+
+                checklist.checkpoints = newCheckpoints;
+                checklist.completedPoints = completedPoints;
             }
         })
 
@@ -39,6 +42,9 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
                         const updates = addNewSubpoint(checklist, pointIdx, subContent);
                         newCheckpoints = updates.newCheckpoints;
                         completedPoints = updates.completedPoints;
+
+                        checklist.checkpoints = newCheckpoints;
+                        checklist.completedPoints = completedPoints;
                     }
                 })
             }
@@ -149,6 +155,9 @@ export const markAsCompleteSubpoint = (checklists, groups, listId, groupId, poin
                 const updates = markAsComplete(checklist, pointIdx, subpointIdx);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -163,6 +172,9 @@ export const markAsCompleteSubpoint = (checklists, groups, listId, groupId, poin
                         const updates = markAsComplete(checklist, pointIdx, subpointIdx);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }
@@ -300,6 +312,9 @@ export const unmarkAsCompleteSubpoint = (checklists, groups, listId, groupId, is
                 const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -314,6 +329,9 @@ export const unmarkAsCompleteSubpoint = (checklists, groups, listId, groupId, is
                         const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }
@@ -331,319 +349,68 @@ export const unmarkAsCompleteSubpoint = (checklists, groups, listId, groupId, is
 const unmarkAsComplete = (checklist, isPointComplete, pointIdx, subpointIdx) => {
     let updatedPoints; //Updated Checkpoints List
     let updatedCompletedPoints; //Updated Completed Checkpoints List
-    /* If Parent Checkpoint is Marked as Complete 
-     * Then Mark Parent Checkpoint as Incomplete */
-    if(isPointComplete) {
-        //Parent Checkpoint
-        let incompPoint;
 
-        //Extract Checklist's Completed Checkpoints 
-        let outdatedCompPoints = checklist.completedPoints;
+    //Checkpoint that contains subpoint being unmarked
+    let parentCheckpoint = isPointComplete ? (
+        checklist.completedPoints[pointIdx]
+    ) : (
+        checklist.checkpoints[pointIdx]);
+    let unmarkSubpoint; //Subpoint Being Unmarked
 
-        //Filter Out The Checkpoint Marked As Incomplete
-        updatedCompletedPoints = outdatedCompPoints.filter(checkpoint => {
-            if(checkpoint.index === pointIdx) {
-                //Extract Incomplete Checkpoint
-                incompPoint = checkpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-
-        //Re-assign Index for Each Checkpoint (Completed)
-        for(let i=0; i < updatedCompletedPoints.length; i++) {
-            updatedCompletedPoints[i].index = i;
+    /* Remove Subpoint From Completed Subpoints List */
+    let completedSubpoints = parentCheckpoint.completedSubpoints.filter(subpoint => {
+        if(subpoint.index === subpointIdx) {
+            unmarkSubpoint = subpoint;
+            return false;
+        } else {
+            return true;
         }
-
-        //Subpoint Marked as Incomplete
-        let incompSubpoint;
-
-        //Filter Out Subpoint from Completed Subpoint List
-        let outdatedCompSubpoints = incompPoint.completedSubpoints;
-        let updatedCompSubpoints = outdatedCompSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                incompSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-
-        //Re-assign Index for Each Completed Subpoint 
-        for(let i=0; i < updatedCompSubpoints.length; i++) {
-            updatedCompSubpoints[i].index = i;
-        }
-
-        //Update Parent Checkpoint's Completed Subpoints List
-        incompPoint.completedSubpoints = updatedCompSubpoints;
-
-        incompSubpoint.index = 1; //Update Subpoint's Index
-
-        //Update Parent Checkpoint's Subpoints List
-        incompPoint.subpoints.push(incompSubpoint);
-
-        //Extract Checklist's Checkpoints List
-        let outdatedPoints = checklist.checkpoints;
-
-        //Update Unmarked Checkpoint's Index
-        incompPoint.index = outdatedPoints.length;
-
-        //Push Unmarked Checkpoint to Checkpoints List
-        outdatedPoints.push(incompPoint);
-
-        //Updated Checkpoints
-        updatedPoints = outdatedPoints;
-          
-    //Parent Checkpoint is Incomplete
-    } else {
-        let incompSubpoint; //Subpoint Being Unmarked
-
-        //Extract Checkpoint's Completed Subpoints List
-        let outdatedCompSubpoints = checklist.checkpoints[pointIdx].completedSubpoints;
-
-        //Filter out Subpoint from Marked Subpoints List
-        let updatedCompSubpoints = outdatedCompSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                incompSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-
-        //Re-assign Index for Each Completed Subpoint
-        for(let i=0; i < updatedCompSubpoints; i++) {
-            updatedCompSubpoints[i].index = i;
-        }
-
-        //Update Parent Checkpoint's Completed Subpoints List
-        checklist.checkpoints[pointIdx].completedSubpoints = updatedCompSubpoints;
-
-        //Extract Checkpoint's Subpoints List
-        let outdatedSubpoints = checklist.checkpoints[pointIdx].subpoints;
-        //Update Subpoint's Index
-        incompSubpoint.index = outdatedSubpoints.length;
-
-        //Add Subpoint Being Unmarked to Subpoints List
-        outdatedSubpoints.push(incompSubpoint);
-        //Updated Parent Checkpoint's Subpoints List
-        checklist.checkpoints[pointIdx].subpoints = outdatedSubpoints;
-
-        //Updated Checkpoints & Completed Checkpoints
-        updatedPoints = checklist.checkpoints;
-        updatedCompletedPoints = checklist.completedSubpoints;
+    })
+    //Re-assign Index for Each Completed Subpoint 
+    for(let i=0; i < completedSubpoints.length; i++) {
+        completedSubpoints[i].index = i;
     }
 
-    return {
-        updatedPoints: updatedPoints,
-        updatedCompletedPoints: updatedCompletedPoints
-    }
-}
+    //Update Completed Subpoints List in Parent Checkpoint
+    parentCheckpoint.completedSubpoints = completedSubpoints;
 
-const unmarkAsComplete02 = (checklist, isPointComplete, pointIdx, subpointIdx) => {
-    let updatedPoints; //Updated Checkpoints List
-    let updatedCompletedPoints; //Updated Completed Checkpoints List
+    /* Add Subpoint to (Non-Completed) Subpoints List */
+    let subpoints = parentCheckpoint.subpoints;
+    unmarkSubpoint.index = subpoints.length;
+    subpoints.push(unmarkSubpoint); //Add to subpoints List
+
+    //Updated Subpoints List in Parent Checkpoint
+    parentCheckpoint.subpoints = subpoints;
 
     //If Marked As Complete, Unmark Parent Checkpoint
     if(isPointComplete) {
-        let unmarkCheckpoint; //Parent Checkpoint Being Unmarked
-
-        /***********************************************/
-        /****** Update Completed Checkpoints List ******/
-        /***********************************************/
-        //Filter Out Checkpoint Being Unmarked
+        /* Remove Parent Checkpoint From Completed Checkpoints List */
         updatedCompletedPoints = checklist.completedPoints.filter(checkpoint => {
-            if(checkpoint.index === pointIdx) {
-                //Extract Unmarked Checkpoint
-                unmarkCheckpoint = checkpoint;
-                return false;
-            } else {
-                return true;
-            }
+            return checkpoint.index != pointIdx;
         })
-
-        //Re-assign Index for Each Completed Checkpoint
+        /* Re-assign Index for Each Completed Checkpoint */
         for(let i=0; i < updatedCompletedPoints.length; i++) {
             updatedCompletedPoints[i].index = i;
         }
-
-        /***********************************************/
-        /****** Update Unmarked Parent Checkpoint ******/
-        /***********************************************/
-        let unmarkSubpoint; //Subpoint Being Unmarked
-        //Filter Out Subpoint Being Umarked From Completed Subpoints List
-        let completedSubpoints = unmarkCheckpoint.completedSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                unmarkSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-        //Re-assign Index for Each Completed Subpoint 
-        for(let i=0; i < completedSubpoints.length; i++) {
-            completedSubpoints[i].index = i;
-        }
-        //Update Completed Subpoints List in Parent Checkpoint
-        unmarkCheckpoint.completedSubpoints = completedSubpoints;
-
-        //Update (Non-Completed) Subpoints List in Parent Checkpoint
-        unmarkSubpoint.index = 0; //Update Index
-        let subpoints = unmarkCheckpoint.subpoints;
-        subpoints.push(unmarkSubpoint); //Add unmark subpoint
-        unmarkCheckpoint.subpoints = subpoints; //Update Subpoints List
-
-        /*****************************************************/
-        /****** Update (Non-Completed) Checkpoints List ******/
-        /*****************************************************/
-        updatedPoints = checklist.checkpoints;
-        updatedPoints.push(unmarkCheckpoint);
-
+        /* Add Parent Checkpoint To (Non-Completed) Checkpoints List */
+        updatedPoints = checklist.checkpoints; //Extract Checkpoints List
+        parentCheckpoint.index = updatedPoints.length; //Update Parent Checkpoint's Index
+        updatedPoints.push(parentCheckpoint); //Add Parent Checkpoint to New List
 
     //Parent Checkpoint Isn't Completed
     } else {
-        let unmarkSubpoint; //Subpoint Being Unmarked
-
-        //Filter Out Subpoint Being Umarked From Completed Subpoints List
-        let completedSubpoints = unmarkCheckpoint.completedSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                unmarkSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-        //Re-assign Index for Each Completed Subpoint 
-        for(let i=0; i < completedSubpoints.length; i++) {
-            completedSubpoints[i].index = i;
-        }
-        //Update Completed Subpoints List in Parent Checkpoint
-        unmarkCheckpoint.completedSubpoints = completedSubpoints;
-
-        //Update (Non-Completed) Subpoints List in Parent Checkpoint
-        unmarkSubpoint.index = 0; //Update Index
-        let subpoints = unmarkCheckpoint.subpoints;
-        subpoints.push(unmarkSubpoint); //Add unmark subpoint
-        unmarkCheckpoint.subpoints = subpoints; //Update Subpoints List
-
-        /*****************************************************/
-        /****** Update (Non-Completed) Checkpoints List ******/
-        /*****************************************************/
+        //Updated Modified Checkpoint
         updatedPoints = checklist.checkpoints;
-        updatedPoints.push(unmarkCheckpoint);
+        updatedPoints[pointIdx] = parentCheckpoint;
 
-        
+        //Extract Original Completed Checkpoints List
+        updatedCompletedPoints = checklist.completedPoints;
     }
 
     return {
         updatedPoints: updatedPoints,
         updatedCompletedPoints: updatedCompletedPoints
     }
-}
-
-const unmarkAsComplete03 = (checklist, isPointComplete, pointIdx, subpointIdx) => {
-    let updatedPoints; //Updated Checkpoints List
-    let updatedCompletedPoints; //Updated Completed Checkpoints List
-    let checkpoint; //Parent Checkpoint Being Unmarked
-
-    //If Marked As Complete, Unmark Parent Checkpoint
-    if(isPointComplete) {
-
-        /***********************************************/
-        /****** Update Completed Checkpoints List ******/
-        /***********************************************/
-        //Filter Out Checkpoint Being Unmarked
-        updatedCompletedPoints = checklist.completedPoints.filter(checkpoint => {
-            if(checkpoint.index === pointIdx) {
-                //Extract Unmarked Checkpoint
-                checkpoint = checkpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-
-        //Re-assign Index for Each Completed Checkpoint
-        for(let i=0; i < updatedCompletedPoints.length; i++) {
-            updatedCompletedPoints[i].index = i;
-        }
-
-        /***********************************************/
-        /****** Update Unmarked Parent Checkpoint ******/
-        /***********************************************/
-        let unmarkSubpoint; //Subpoint Being Unmarked
-        //Filter Out Subpoint Being Umarked From Completed Subpoints List
-        let completedSubpoints = unmarkCheckpoint.completedSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                unmarkSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-        //Re-assign Index for Each Completed Subpoint 
-        for(let i=0; i < completedSubpoints.length; i++) {
-            completedSubpoints[i].index = i;
-        }
-        //Update Completed Subpoints List in Parent Checkpoint
-        unmarkCheckpoint.completedSubpoints = completedSubpoints;
-
-        //Update (Non-Completed) Subpoints List in Parent Checkpoint
-        unmarkSubpoint.index = 0; //Update Index
-        let subpoints = unmarkCheckpoint.subpoints;
-        subpoints.push(unmarkSubpoint); //Add unmark subpoint
-        unmarkCheckpoint.subpoints = subpoints; //Update Subpoints List
-
-        /*****************************************************/
-        /****** Update (Non-Completed) Checkpoints List ******/
-        /*****************************************************/
-        updatedPoints = checklist.checkpoints;
-        updatedPoints.push(unmarkCheckpoint);
-
-
-    //Parent Checkpoint Isn't Completed
-    } else {
-        let unmarkSubpoint; //Subpoint Being Unmarked
-
-        //Filter Out Subpoint Being Umarked From Completed Subpoints List
-        let completedSubpoints = unmarkCheckpoint.completedSubpoints.filter(subpoint => {
-            if(subpoint.index === subpointIdx) {
-                unmarkSubpoint = subpoint;
-                return false;
-            } else {
-                return true;
-            }
-        })
-        //Re-assign Index for Each Completed Subpoint 
-        for(let i=0; i < completedSubpoints.length; i++) {
-            completedSubpoints[i].index = i;
-        }
-        //Update Completed Subpoints List in Parent Checkpoint
-        unmarkCheckpoint.completedSubpoints = completedSubpoints;
-
-        //Update (Non-Completed) Subpoints List in Parent Checkpoint
-        unmarkSubpoint.index = 0; //Update Index
-        let subpoints = unmarkCheckpoint.subpoints;
-        subpoints.push(unmarkSubpoint); //Add unmark subpoint
-        unmarkCheckpoint.subpoints = subpoints; //Update Subpoints List
-
-        /*****************************************************/
-        /****** Update (Non-Completed) Checkpoints List ******/
-        /*****************************************************/
-        updatedPoints = checklist.checkpoints;
-        updatedPoints.push(unmarkCheckpoint);
-
-        
-    }
-
-    return {
-        updatedPoints: updatedPoints,
-        updatedCompletedPoints: updatedCompletedPoints
-    }
-    /*********************************************************************/
-    /****** Move Subpoint From Completed List to Non-Completed List ******/
-    /*********************************************************************/
 }
 
 /***************************************/
@@ -669,9 +436,12 @@ export const deleteSubpoint = (
         //Iterate to Find Checklist Being Modified
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                const updates = removeSubpoint(isPointComplete, isSubpointComplete, pointIdx, subpointIdx);
+                const updates = removeSubpoint(checklist, isPointComplete, isSubpointComplete, pointIdx, subpointIdx);
                 updatedPoints = updates.updatedPoints;
                 updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                checklist.checkpoints = updatedPoints;
+                checklist.completedPoints = updatedCompletedPoints;
             }
         })
 
@@ -683,9 +453,12 @@ export const deleteSubpoint = (
                 //Iterate to Find Checklist Being Modified
                 group.checklists.map(checklist => {
                     if(checklist.listId === listId) {
-                        const updates = removeSubpoint(isPointComplete, isSubpointComplete, pointIdx, subpointIdx);
+                        const updates = removeSubpoint(checklist, isPointComplete, isSubpointComplete, pointIdx, subpointIdx);
                         updatedPoints = updates.updatedPoints;
                         updatedCompletedPoints = updates.updatedCompletedPoints;
+
+                        checklist.checkpoints = updatedPoints;
+                        checklist.completedPoints = updatedCompletedPoints;
                     }
                 })
             }
@@ -701,81 +474,45 @@ export const deleteSubpoint = (
 
 }
 
-const removeSubpoint = (isPointComplete, isSubpointComplete, pointIdx, subpointIdx) => {
-    let updatedPoints;
-    let updatedCompletedPoints;
-    //Checklist is Completed
-    if(isPointComplete) {
-        //Extract Checklist's Completed Points
-        updatedCompletedPoints = checklist.completedPoints;
-        //Extract Checkpoint's Completed Subpoints
-        let outdatedSubpoints = updatedCompletedPoints[pointIdx].completedSubpoints;
+const removeSubpoint = (checklist, isPointComplete, isSubpointComplete, pointIdx, subpointIdx) => {
+    let updatedPoints = checklist.checkpoints; //Updated Checkpoints List
+    let updatedCompletedPoints = checklist.completedPoints; //Updated Completed Checkpoints List
 
-        //Filter Out Subpoint Being Deleted
-        let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
+    //Parent Checkpoint
+    const checkpoint = isPointComplete ? (
+        checklist.completedPoints[pointIdx]
+    ) : (
+        checklist.checkpoints[pointIdx]);
+
+    //Delete Subpoint From Subpoints List
+    const subpoints = isSubpointComplete ? (
+        checkpoint.completedSubpoints.filter(subpoint => {
             return subpoint.index != subpointIdx;
         })
+    ) : (
+        checkpoint.subpoints.filter(subpoint => {
+            return subpoint.index != subpointIdx;
+        }));
 
-        //Re-assign Index for Each Subpoint
-        for(let i=0; i < updatedSubpoints.length; i++) {
-            updatedSubpoints[i].index = i;
-        }
-
-        //Updated Checkpoint's Completed Subpoints
-        updatedCompletedPoints[pointIdx].completedSubpoints = updatedSubpoints;
-        updatedPoints = checklist.checkpoints;
-
-    //Checklist is Not Completed
-    } else {
-        //Subpoint Being Deleted is Completed
-        if(isSubpointComplete) {
-            //Extract Checklist's Checkpoints
-            updatedPoints = checklist.checkpoints;
-
-            //Extract Checkpoint's Completed Subpoints
-            let outdatedSubpoints = updatedPoints[pointIdx].completedSubpoints;
-
-            //Filter Out Subpoint Being Deleted
-            let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
-                return subpoint.index != subpointIdx;
-            })
-
-            //Re-assign Index for Each Subpoint
-            for(let i=0; i < updatedSubpoints.length; i++) {
-                updatedSubpoints[i].index = i;
-            }
-
-            //Updated Checkpoint's Completed Subpoints
-            updatedPoints[pointIdx].completedSubpoints = updatedSubpoints;
-            updatedCompletedPoints = checklist.completedPoints;
-
-        //Subpoint Being Deleted is Not Completed
-        } else {
-            //Extract Checklist's Checkpoints
-            updatedPoints = checklist.checkpoints;
-
-            //Extract Checkpoint's Subpoints
-            let outdatedSubpoints = updatedPoints[pointIdx].subpoints;
-
-            //Filter Out Subpoint Being Deleted
-            let updatedSubpoints = outdatedSubpoints.filter(subpoint => {
-                return subpoint.index != subpointIdx;
-            })
-
-            //Re-assign Index for Each Subpoint
-            for(let i=0; i < updatedSubpoints.length; i++) {
-                updatedSubpoints[i].index = i;
-            }
-
-            //Updated Checkpoint's Completed Subpoints
-            updatedPoints[pointIdx].subpoints = updatedSubpoints;
-            updatedCompletedPoints = checklist.completedPoints;
-
-        }
+    //Re-assign Subpoint's Index
+    for(let i=0; i < subpoints.length; i++) {
+        subpoints[i].index = i;
     }
 
+    //Parent Checkpoint is Completed
+    if(isPointComplete) {
+        updatedCompletedPoints[pointIdx].completedSubpoints = subpoints;
+    //Parent Checkpoint is Not Completed
+    } else {
+        if(isSubpointComplete) {
+            updatedPoints[pointIdx].completedSubpoints = subpoints;
+        } else {
+            updatedPoints[pointIdx].subpoints = subpoints;
+        }
+    }
+    
     return {
         updatedPoints: updatedPoints,
         updatedCompletedPoints: updatedCompletedPoints
-    }
+    } 
 }
