@@ -3,7 +3,6 @@ import UserChecklists from "./ChecklistsWidget/UserChecklists";
 import UserGrouplists from "./ChecklistsWidget/UserGrouplists";
 import { Add } from "@mui/icons-material";
 import { useState } from "react";
-import { createChecklist, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import NewChecklistBackdrop from "./ChecklistsWidget/Backdrops/NewChecklistBackdrop";
 
 const ChecklistsWidget = ({ 
@@ -41,8 +40,6 @@ const ChecklistsWidget = ({
                 username={username}
                 open={openNewList} 
                 handleClose={handleCloseNewList}
-                groups={groups}
-                changeGroups={changeGroups}
                 checklists={checklists}
                 changeChecklists={changeChecklists}
             />

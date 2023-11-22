@@ -62,7 +62,7 @@ export const getChecklists = async (username) => {
 /****************************************/
 /* Create a New Checklist (Non-Grouped) */
 /****************************************/
-export const createChecklist = async (username, title) => {
+export const createChecklist = async (username, title, listId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
 
@@ -76,6 +76,7 @@ export const createChecklist = async (username, title) => {
         },
         body: JSON.stringify({
             title: title,
+            listId: listId
         })
     });
 

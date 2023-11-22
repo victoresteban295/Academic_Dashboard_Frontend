@@ -10,6 +10,7 @@ import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
 import { removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { removeChecklistFromGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
+import DeleteListBackdrop from "../../ChecklistsWidget/Backdrops/DeleteListBackdrop";
 
 const TitleSection = ({ 
     username,
@@ -63,6 +64,16 @@ const TitleSection = ({
     }
     const handleCloseMoveToGroup = () => {
         setOpenMoveToGroup(false);
+    }
+
+    /* Backdrop Menu State Value & Function */
+    /* Create New Checklist */
+    const [openDeleteList, setOpenDeleteList] = useState(false);
+    const handleOpenDeleteList = () => {
+        setOpenDeleteList(true);
+    }
+    const handleCloseDeleteList = () => {
+        setOpenDeleteList(false);
     }
 
     //Rename Checklist
@@ -129,6 +140,16 @@ const TitleSection = ({
                 fromGroupId={groupId}
                 open={openMoveToGroup}
                 handleClose={handleCloseMoveToGroup}
+                groups={groups}
+                changeGroups={changeGroups}
+            />
+            <DeleteListBackdrop 
+                username={username}
+                title={title}
+                open={openDeleteList}
+                handleClose={handleCloseDeleteList}
+                checklists={checklists}
+                changeChecklists={changeChecklists}
                 groups={groups}
                 changeGroups={changeGroups}
             />
@@ -225,6 +246,7 @@ const TitleSection = ({
                         </MenuItem>
                         <Divider />
                         <MenuItem
+                            onClick={handleOpenDeleteList}
                             sx={{
                                 color: '#ef476f',
                             }}

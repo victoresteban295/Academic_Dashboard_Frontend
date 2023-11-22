@@ -1,13 +1,12 @@
 import { createChecklist, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
-import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
+import { createNewChecklist } from "@/lib/utils/checklist/frontend/modifyChecklist";
+import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const NewChecklistBackdrop = ({ 
     username,
     open, 
     handleClose, 
-    groups, 
-    changeGroups,
     checklists,
     changeChecklists }) => {
 
@@ -24,7 +23,13 @@ const NewChecklistBackdrop = ({
     const handleNewChecklist = () => {
         handleClose(); //Close Backdrop
 
-        createChecklist(username, title);
+        //Create New Checklist
+        const { updatedLists, listId } = createNewChecklist(checklists, title);
+        //Update State Value
+        changeChecklists(updatedLists);
+
+        //Backend API: Update Database
+        createChecklist(username, title, listId);
         reloadChecklistpage();
     }
 
@@ -45,17 +50,17 @@ const NewChecklistBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
-            <Box
+            <Stack
+                spacing={1}
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
                     p: 2,
                 }}
             >
                 <Box 
                     sx={{
                         display: 'flex',
+                        flexGrow: 1,
                         alignItems: 'center',
                     }}
                 >
@@ -63,69 +68,41 @@ const NewChecklistBackdrop = ({
                         variant='h6'
                         sx={{
                             flexGrow: 1,
+                            align: 'center',
                             mx: 1,
                             fontWeight: '700',
                         }}
                     >
-                        Add Checklist to Group
+                        Create New Checklist
                     </Typography>
                 </Box>
-                <Stack
-                    spacing={1}
-                    sx={{
-                        width: '250px',
-                    }}
-                >
-                    <FormControl>
-                        <RadioGroup
-                            value={selectedGroupId}
-                            onChange={handleSelect}
+                <FilledInput 
+                    value={title}
+                    autoFocus
+                    hiddenLabel
+                    disableUnderline
+                    placeholder='New Checklist Title'
+                    onChange={(event) => setTitle(event.target.value)}
+                />
+                <Box>
+                    <Button
+                        variant="contained"
+                        size='small'
+                        disabled={title === ''}
+                        onClick={handleNewChecklist}
+                    >
+                        <Typography
+                            sx={{
+                                color: '#000',
+                                fontWeight: '700',
+                            }}
                         >
-                            <Stack
-                                spacing={0.25}
-                                divider={<Divider variant='middle' />}
-                            >
-                                {groups.map((group) => {
-                                    const { groupId, title } = group;
-                                    return (
-                                        <FormControlLabel value={groupId} control={<Radio />} label={title} />
-                                    )
-                                })}
-                                <FormControlLabel 
-                                    value={'new'} 
-                                    control={<Radio />} 
-                                    label={
-                                        <InputBase  
-                                            value={newGroup}
-                                            inputProps={{maxLength: 20}}
-                                            disabled={!("new" === selectedGroupId)}
-                                            placeholder='Create New Group'
-                                            onChange={(event) => setNewGroup(event.target.value)}
-                                        />
-                                    } 
-                                />
-                            </Stack>
-                        </RadioGroup>
-                    </FormControl>
-                    <Box>
-                        <Button
-                            variant="contained"
-                            size='small'
-                            disabled={(selectedGroupId === '') || ((selectedGroupId === 'new') && (newGroup === ''))}
-                            onClick={addToGroup}
-                        >
-                            <Typography
-                                sx={{
-                                    color: '#000',
-                                    fontWeight: '700',
-                                }}
-                            >
-                                Add
-                            </Typography>
-                        </Button>
-                    </Box>
-                </Stack>
-            </Box>
+                            Create
+                        </Typography>
+                    </Button>
+                </Box>
+
+            </Stack>
         </Popover>
     ) 
 }
