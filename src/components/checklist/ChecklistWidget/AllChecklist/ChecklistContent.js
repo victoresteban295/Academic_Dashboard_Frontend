@@ -62,6 +62,7 @@ const ChecklistContent = ({
                             changeGroups={changeGroups}
                             checklists={checklists}
                             changeChecklists={changeChecklists}
+                            handleActiveList={handleActiveList}
                             showAllEdit={showAllEdit}
                             showAllEditButtons={showAllEditButtons}
                             unshowAllEditButtons={unshowAllEditButtons}

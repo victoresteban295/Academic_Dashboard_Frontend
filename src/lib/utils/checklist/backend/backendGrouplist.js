@@ -29,7 +29,7 @@ export const getGrouplists = async (username) => {
 /******************************/
 /* Create New Empty Grouplist */
 /******************************/
-export const createGrouplist = async (username, title) => {
+export const createGrouplist = async (username, title, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
 
@@ -43,6 +43,7 @@ export const createGrouplist = async (username, title) => {
         },
         body: JSON.stringify({
             title: title,
+            groupId: groupId,
         })
     });
 
@@ -133,5 +134,16 @@ export const removeChecklistFromGroup = async (username, listId, groupId) => {
 /* Delete Grouplist w/ Checklists */
 /**********************************/
 export const deleteGrouplist = async (username, groupId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    await fetch(`http://localhost:8080/api/grouplist/${username}/delete/${groupId}`, {
+        cache: "no-cache",
+        method: "DELETE", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        }
+    });
 }

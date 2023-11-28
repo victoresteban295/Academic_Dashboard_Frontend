@@ -3,8 +3,17 @@ import { Box, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mu
 import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
+import DeleteGroupBackdrop from "../Backdrops/DeleteGroupBackdrop";
 
-const GrouplistOption = ({ username, activeList, handleActiveList, title, groupId, checklists }) => {
+const GrouplistOption = ({ 
+    username, 
+    activeList, 
+    handleActiveList, 
+    groups,
+    changeGroups,
+    title, 
+    groupId, 
+    checklists }) => {
     /* ListIds of All Checklists Under This Group */
     const listIds = [];
     checklists.map(checklist => {
@@ -30,6 +39,16 @@ const GrouplistOption = ({ username, activeList, handleActiveList, title, groupI
         setAnchorEl(null);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Create New Checklist */
+    const [openDeleteGroup, setOpenDeleteGroup] = useState(false);
+    const handleOpenDeleteGroup = () => {
+        setOpenDeleteGroup(true);
+    }
+    const handleCloseDeleteGroup = () => {
+        setOpenDeleteGroup(false);
+    }
+
     return (
         <Stack
             id={groupId}
@@ -41,6 +60,18 @@ const GrouplistOption = ({ username, activeList, handleActiveList, title, groupI
                 py: isExpanded ? 1 : 0,
             }}
         >
+            <DeleteGroupBackdrop 
+                username={username}
+                groupId={groupId}
+                title={title}
+                checklists={checklists}
+                open={openDeleteGroup}
+                handleClose={handleCloseDeleteGroup}
+                groups={groups}
+                changeGroups={changeGroups}
+                activeList={activeList}
+                handleActiveList={handleActiveList}
+            />
             <Box
                 className="grouplist-title-section"
                 sx={{
@@ -93,6 +124,7 @@ const GrouplistOption = ({ username, activeList, handleActiveList, title, groupI
                     </MenuItem>
                     <Divider />
                     <MenuItem
+                        onClick={handleOpenDeleteGroup}
                         sx={{
                             color: '#ef476f'
                         }}

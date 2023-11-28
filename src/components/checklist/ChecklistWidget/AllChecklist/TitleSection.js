@@ -21,6 +21,7 @@ const TitleSection = ({
     changeGroups,
     checklists,
     changeChecklists,
+    handleActiveList,
     showAllEdit,
     showAllEditButtons, 
     unshowAllEditButtons, 
@@ -145,6 +146,8 @@ const TitleSection = ({
             />
             <DeleteListBackdrop 
                 username={username}
+                groupId={groupId}
+                listId={listId}
                 title={title}
                 open={openDeleteList}
                 handleClose={handleCloseDeleteList}
@@ -152,6 +155,7 @@ const TitleSection = ({
                 changeChecklists={changeChecklists}
                 groups={groups}
                 changeGroups={changeGroups}
+                handleActiveList={handleActiveList}
             />
             <Controller 
                 name="checklistTitle"

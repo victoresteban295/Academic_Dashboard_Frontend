@@ -38,7 +38,7 @@ const AddToGroupBackdrop = ({
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
                 //Add Checklist To New Group
-                const { updatedLists, updatedGroups } = addToNewGroup(
+                const { updatedLists, updatedGroups, groupId } = addToNewGroup(
                     checklists, 
                     groups, 
                     listId, 
@@ -49,8 +49,8 @@ const AddToGroupBackdrop = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                const { groupId } = await createGrouplist(username, newGroup);
-                addChecklistToGroup(username, listId, groupId);
+                const { groupId: newGroupId } = await createGrouplist(username, newGroup, groupId);
+                addChecklistToGroup(username, listId, newGroupId);
                 reloadChecklistpage();
             //If so, Do Nothing & Reset Input
             } else {

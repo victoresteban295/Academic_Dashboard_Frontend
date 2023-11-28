@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 /*************************/
 /* Reload Checklist Page */
 /*************************/
-export const reloadChecklistpage = async () => {
+export const reloadChecklistpage = () => {
     revalidatePath('/[role]/[username]/checklist');
 }
 
@@ -133,6 +133,17 @@ export const modifyCheckpoints = async (username, listId, checkpoints, completed
 /********************************************/
 /* Delete Checklist (Grouped & Non-Grouped) */
 /********************************************/
-const deleteChecklist = async (username, listId) => {
+export const deleteChecklist = async (username, listId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    await fetch(`http://localhost:8080/api/checklist/${username}/delete/${listId}`, {
+        cache: "no-cache",
+        method: "DELETE", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        }
+    });
 }

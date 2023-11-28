@@ -1,3 +1,39 @@
+import { nanoid } from "nanoid";
+
+/*******************/
+/*Create New Group */
+/*******************/
+export const createNewGroup = (groups, title) => {
+    //Create New Group Object
+    const groupId = nanoid(10);
+    const group = {
+        objectId: '',
+        groupId: groupId,
+        title: title, 
+        checklists: []
+    }
+
+    //Add Group to Groups List
+    let updatedGroups = [...groups, group];
+
+    return {
+        updatedGroups: updatedGroups,
+        groupId: groupId,
+    }
+}
+
+/****************/
+/* Delete Group */
+/****************/
+export const deleteGroup = (groups, groupId) => {
+    //Filter Out Group Getting Deleted
+    const updatedGroups = groups.filter(group => {
+        return group.groupId != groupId;
+    })
+
+    return updatedGroups;
+}
+
 /***********************************/
 /* Add Checklist To Existing Group */
 /***********************************/
@@ -32,20 +68,21 @@ export const addToExistingGroup = (checklists, groups, listId, groupId) => {
 /******************************/
 export const addToNewGroup = (checklists, groups, listId, newTitle) => {
     let mvingList; //Checklist Being Moved
+    const groupId = nanoid(10);
 
     // Remove Checklist From Non-Group List
     let updatedLists = checklists.filter((checklist) => {
         let isTarget = checklist.listId === listId;
         if(isTarget) {
-            mvingList = {...checklist, groupId: 'temp'};
+            mvingList = {...checklist, groupId: groupId};
         }
         return !isTarget;
     });
 
-    //Temporary Grouplist
+    //New Group
     const newGroup = {
         objectId: '',
-        groupId: 'temp', 
+        groupId: groupId, 
         title: newTitle,
         checklists: [mvingList] 
     }
@@ -53,7 +90,8 @@ export const addToNewGroup = (checklists, groups, listId, newTitle) => {
 
     return {
         updatedLists: updatedLists,
-        updatedGroups: updatedGroups
+        updatedGroups: updatedGroups,
+        groupId: groupId,
     }
 }
 
@@ -97,6 +135,7 @@ export const moveListGroupToGroup = (groups, listId, fromGroupId, toGroupId) => 
 /* Move Checklist To New Group */
 /*******************************/
 export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTilte) => {
+    const groupId = nanoid(10);
     let mvingList; //Checklist Being Moved
     let updatedGroups = [...groups];
 
@@ -107,7 +146,7 @@ export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTil
             updatedLists = group.checklists.filter(checklist => {
                 let isTarget = checklist.listId === listId;
                 if(isTarget) {
-                    mvingList = {...checklist, groupId: 'temp'}
+                    mvingList = {...checklist, groupId: groupId}
                 }
                 return !isTarget;
             })
@@ -118,7 +157,7 @@ export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTil
     //Temporary Grouplist
     const newGroup = {
         objectId: '',
-        groupId: 'temp', 
+        groupId: groupId, 
         title: newGroupTilte,
         checklists: [mvingList] 
     }
@@ -127,7 +166,8 @@ export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTil
     updatedGroups.push(newGroup);
 
     return {
-        updatedGroups: updatedGroups
+        updatedGroups: updatedGroups,
+        groupId: groupId,
     }
 }
 

@@ -1,20 +1,22 @@
-import { deleteChecklist, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
-import { removeChecklist } from "@/lib/utils/checklist/frontend/modifyChecklist";
 import { Cancel, Delete } from "@mui/icons-material";
 import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 
-const DeleteListBackdrop = ({
+const DeleteGroupBackdrop = ({
     username, 
     groupId,
-    listId,
     title,
+    checklists,
     open,
     handleClose,
-    checklists,
-    changeChecklists, 
     groups, 
     changeGroups, 
+    activeList,
     handleActiveList }) => {
+    
+    let listIds = [];
+    checklists.map(checklist => {
+        listIds.push(checklist.listId);
+    })
 
     //Close Backdrop
     const handleCloseBackdrop = () => {
@@ -24,24 +26,14 @@ const DeleteListBackdrop = ({
     //Delete Current Checklist
     const handleDeleteChecklist = () => {
         handleClose(); //Close Backdrop
-        const {updatedLists, updatedGroups, activeList} = removeChecklist(
-            checklists, groups, listId, groupId);
-
-        //Set New Active List (if-any)
-        if(activeList != '') {
-            handleActiveList(activeList);
-        } else {
-            //Reset Active List
-            localStorage.removeItem("currentList");
+        //Display Warning | Deleting Active Checklist
+        if(listIds.includes(activeList)) {
+            
         }
 
         //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
 
         //Backend API: Update Database
-        deleteChecklist(username, listId);
-        reloadChecklistpage();
     }
 
     return (
@@ -75,7 +67,13 @@ const DeleteListBackdrop = ({
                         fontWeight: '700',
                     }}
                 >
-                    {`Delete ${title} Checklist?`}
+                    {`Delete ${title} Group?`}
+                </Typography>
+                <Typography
+                    variant='subtitle1'
+                    align='center'
+                >
+                    All checklists under this group will be deleted!
                 </Typography>
                 <Box
                     sx={{
@@ -128,4 +126,4 @@ const DeleteListBackdrop = ({
 
 }
 
-export default DeleteListBackdrop;
+export default DeleteGroupBackdrop;

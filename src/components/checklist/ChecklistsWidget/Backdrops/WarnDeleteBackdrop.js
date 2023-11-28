@@ -1,17 +1,11 @@
-import { deleteChecklist, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
-import { removeChecklist } from "@/lib/utils/checklist/frontend/modifyChecklist";
-import { Cancel, Delete } from "@mui/icons-material";
+import { Cancel, Delete, Warning } from "@mui/icons-material";
 import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 
-const DeleteListBackdrop = ({
+const WarnDeleteBackdrop = ({
     username, 
     groupId,
-    listId,
-    title,
     open,
     handleClose,
-    checklists,
-    changeChecklists, 
     groups, 
     changeGroups, 
     handleActiveList }) => {
@@ -24,24 +18,10 @@ const DeleteListBackdrop = ({
     //Delete Current Checklist
     const handleDeleteChecklist = () => {
         handleClose(); //Close Backdrop
-        const {updatedLists, updatedGroups, activeList} = removeChecklist(
-            checklists, groups, listId, groupId);
-
-        //Set New Active List (if-any)
-        if(activeList != '') {
-            handleActiveList(activeList);
-        } else {
-            //Reset Active List
-            localStorage.removeItem("currentList");
-        }
 
         //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
 
         //Backend API: Update Database
-        deleteChecklist(username, listId);
-        reloadChecklistpage();
     }
 
     return (
@@ -68,16 +48,26 @@ const DeleteListBackdrop = ({
                     p: 2,
                 }}
             >
-                <Typography
-                    variant='h6'
-                    align='center'
+                <Box
+                    className="warning-message-container"
                     sx={{
-                        fontWeight: '700',
+                        display: 'flex',
                     }}
                 >
-                    {`Delete ${title} Checklist?`}
-                </Typography>
+                    <Warning 
+                        color='error'
+                        fontSize='large'
+                    />
+                    <Typography
+                        variant='body2'
+                        align='center'
+                    >
+                        {`The current checklist you're viewing will be deleted if ${title} 
+                        group is delted!`}
+                    </Typography>
+                </Box>
                 <Box
+                    className="buttons-container"
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -128,4 +118,4 @@ const DeleteListBackdrop = ({
 
 }
 
-export default DeleteListBackdrop;
+export default WarnDeleteBackdrop;

@@ -24,6 +24,9 @@ let theme = createTheme({
         },
         widget: {
             background: '#fff'
+        },
+        error: {
+            main: '#ef476f'
         }
     },
     typography: {

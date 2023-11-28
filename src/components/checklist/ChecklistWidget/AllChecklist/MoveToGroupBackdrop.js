@@ -36,7 +36,7 @@ const MoveToGroupBackdrop = ({
         if(selectedGroupId === 'new') {
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                const { updatedGroups } = moveListGroupToNewGroup(
+                const { updatedGroups, groupId } = moveListGroupToNewGroup(
                     groups,
                     listId, 
                     fromGroupId, 
@@ -46,7 +46,7 @@ const MoveToGroupBackdrop = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                const { groupId: toGroupId } = await createGrouplist(username, newGroup);
+                const { groupId: toGroupId } = await createGrouplist(username, newGroup, groupId);
                 moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
                 reloadChecklistpage();
             } 

@@ -4,6 +4,7 @@ import UserGrouplists from "./ChecklistsWidget/UserGrouplists";
 import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import NewChecklistBackdrop from "./ChecklistsWidget/Backdrops/NewChecklistBackdrop";
+import NewGroupBackdrop from "./ChecklistsWidget/Backdrops/NewGroupBackdrop";
 
 const ChecklistsWidget = ({ 
     username, 
@@ -34,6 +35,16 @@ const ChecklistsWidget = ({
         setOpenNewList(false);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Create New Checklist */
+    const [openNewGroup, setOpenNewGroup] = useState(false);
+    const handleOpenNewGroup = () => {
+        setOpenNewGroup(true);
+    }
+    const handleCloseNewGroup = () => {
+        setOpenNewGroup(false);
+    }
+
     return (
         <Box>
             <NewChecklistBackdrop 
@@ -42,6 +53,13 @@ const ChecklistsWidget = ({
                 handleClose={handleCloseNewList}
                 checklists={checklists}
                 changeChecklists={changeChecklists}
+            />
+            <NewGroupBackdrop 
+                username={username}
+                open={openNewGroup} 
+                handleClose={handleCloseNewGroup}
+                groups={groups}
+                changeGroups={changeGroups}
             />
             <Box
                 className="my-checklist-title"
@@ -84,7 +102,9 @@ const ChecklistsWidget = ({
                         Create New Checklist
                     </MenuItem>
                     <Divider />
-                    <MenuItem>
+                    <MenuItem
+                        onClick={handleOpenNewGroup}
+                    >
                         Create New Group
                     </MenuItem>
                 </Menu>
