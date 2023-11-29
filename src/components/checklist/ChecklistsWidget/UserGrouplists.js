@@ -4,6 +4,7 @@ import GrouplistOption from "./Options/GrouplistOption";
 const UserGrouplists = ({ 
     username, 
     groups,
+    allChecklists,
     changeGroups,
     activeList, 
     handleActiveList }) => {
@@ -32,6 +33,7 @@ const UserGrouplists = ({
                         username={username}
                         activeList={activeList}
                         handleActiveList={handleActiveList}
+                        allChecklists={allChecklists}
                         groups={groups}
                         changeGroups={changeGroups}
                         title={title}

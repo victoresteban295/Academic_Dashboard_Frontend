@@ -121,6 +121,7 @@ const ChecklistsWidget = ({
                 />
                 <UserGrouplists 
                     username={username}
+                    allChecklists={checklists}
                     groups={groups}
                     changeGroups={changeGroups}
                     activeList={activeList}

@@ -1,27 +1,21 @@
-import { Cancel, Delete, Warning } from "@mui/icons-material";
+import { Cancel, Delete, WarningTwoTone } from "@mui/icons-material";
 import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 
 const WarnDeleteBackdrop = ({
-    username, 
-    groupId,
+    title,
     open,
     handleClose,
-    groups, 
-    changeGroups, 
-    handleActiveList }) => {
+    handleDeleteGroup }) => {
 
     //Close Backdrop
     const handleCloseBackdrop = () => {
         handleClose(); //Close Backdrop
     }
 
-    //Delete Current Checklist
-    const handleDeleteChecklist = () => {
+    //Delete Group 
+    const deleteGroup = () => {
         handleClose(); //Close Backdrop
-
-        //Update State Value
-
-        //Backend API: Update Database
+        handleDeleteGroup(); 
     }
 
     return (
@@ -42,28 +36,39 @@ const WarnDeleteBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <Stack
-                spacing={1}
+                spacing={2}
                 sx={{
                     display: 'flex',
                     p: 2,
+                    maxWidth: '350px',
                 }}
             >
                 <Box
                     className="warning-message-container"
                     sx={{
                         display: 'flex',
+                        flexDirection: {xs: 'column', sm: 'row'},
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}
                 >
-                    <Warning 
+                    <WarningTwoTone 
                         color='error'
-                        fontSize='large'
+                        sx={{
+                            width: '50px',
+                            height: '50px',
+                            mb: {xs: 1, sm: 0}
+                        }}
                     />
                     <Typography
-                        variant='body2'
+                        variant='body1'
                         align='center'
+                        sx={{
+                            mx: 1,
+                        }}
                     >
                         {`The current checklist you're viewing will be deleted if ${title} 
-                        group is delted!`}
+                        group is deleted!`}
                     </Typography>
                 </Box>
                 <Box
@@ -76,7 +81,7 @@ const WarnDeleteBackdrop = ({
                     <Button
                         variant='contained'
                         startIcon={<Delete sx={{color: '#000'}} />}
-                        onClick={handleDeleteChecklist}
+                        onClick={deleteGroup}
                         color='error'
                         sx={{
                             mx: 1,

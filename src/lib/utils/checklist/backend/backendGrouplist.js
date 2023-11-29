@@ -130,9 +130,9 @@ export const removeChecklistFromGroup = async (username, listId, groupId) => {
     return res.json();
 }
 
-/**********************************/
-/* Delete Grouplist w/ Checklists */
-/**********************************/
+/****************/
+/* Delete Group */
+/****************/
 export const deleteGrouplist = async (username, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');

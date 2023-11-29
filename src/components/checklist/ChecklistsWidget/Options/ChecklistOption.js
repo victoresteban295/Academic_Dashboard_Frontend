@@ -1,6 +1,5 @@
 "use client"
-import { MoreVert } from "@mui/icons-material";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 const ChecklistOption = ({ username, activeList, handleActiveList, title, listId }) => {
     let isActive; 
@@ -41,9 +40,6 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
             >
                 {title}
             </Button>
-            {/* <IconButton size='small'> */}
-            {/*     <MoreVert fontSize='inherit' /> */}
-            {/* </IconButton> */}
         </Box>
     )
 }

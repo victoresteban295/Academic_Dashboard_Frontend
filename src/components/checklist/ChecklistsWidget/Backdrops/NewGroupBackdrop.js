@@ -22,7 +22,7 @@ const NewGroupBackdrop = ({
 
     //Create New Checklist
     const handleNewGroup = () => {
-        handleClose(); //Close Backdrop
+        handleCloseBackdrop();
 
         //Create New Group
         const {updatedGroups, groupId } = createNewGroup(groups, title);

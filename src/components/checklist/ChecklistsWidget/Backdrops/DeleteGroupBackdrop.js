@@ -2,16 +2,13 @@ import { Cancel, Delete } from "@mui/icons-material";
 import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 
 const DeleteGroupBackdrop = ({
-    username, 
-    groupId,
     title,
     checklists,
     open,
     handleClose,
-    groups, 
-    changeGroups, 
-    activeList,
-    handleActiveList }) => {
+    handleOpenWarnDelete,
+    handleDeleteGroup,
+    activeList }) => {
     
     let listIds = [];
     checklists.map(checklist => {
@@ -23,17 +20,17 @@ const DeleteGroupBackdrop = ({
         handleClose(); //Close Backdrop
     }
 
-    //Delete Current Checklist
-    const handleDeleteChecklist = () => {
+    //Delete Group
+    const deleteGroup = () => {
         handleClose(); //Close Backdrop
         //Display Warning | Deleting Active Checklist
         if(listIds.includes(activeList)) {
-            
+            //Display Warning: Deleting Active List
+            handleOpenWarnDelete();
+        } else {
+            handleDeleteGroup();
         }
 
-        //Update State Value
-
-        //Backend API: Update Database
     }
 
     return (
@@ -84,7 +81,7 @@ const DeleteGroupBackdrop = ({
                     <Button
                         variant='contained'
                         startIcon={<Delete sx={{color: '#000'}} />}
-                        onClick={handleDeleteChecklist}
+                        onClick={deleteGroup}
                         color='error'
                         sx={{
                             mx: 1,

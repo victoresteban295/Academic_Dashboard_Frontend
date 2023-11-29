@@ -4,21 +4,35 @@ import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import DeleteGroupBackdrop from "../Backdrops/DeleteGroupBackdrop";
+import WarnDeleteBackdrop from "../Backdrops/WarnDeleteBackdrop";
+import { deleteGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { deleteGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 
 const GrouplistOption = ({ 
     username, 
     activeList, 
     handleActiveList, 
+    allChecklists,
     groups,
     changeGroups,
     title, 
     groupId, 
     checklists }) => {
+
     /* ListIds of All Checklists Under This Group */
     const listIds = [];
     checklists.map(checklist => {
         listIds.push(checklist.listId);
     });
+
+    /* All ListIds of All the User's Checklists (Grouped & Non-Grouped) */
+    let allListIds = allChecklists.map(checklist => checklist.listId);
+    groups.map(group => {
+        group.checklists.map(checklist => {
+            allListIds.push(checklist.listId);
+        })
+    })
     
     /* Expands Groups UI (Exposes Grouped Checklists)*/
     const [isExpanded, setExpanded] = useState(listIds.includes(activeList));
@@ -49,6 +63,38 @@ const GrouplistOption = ({
         setOpenDeleteGroup(false);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Create New Checklist */
+    const [openWarnDelete, setOpenWarnDelete] = useState(false);
+    const handleOpenWarnDelete = () => {
+        setOpenWarnDelete(true);
+    }
+    const handleCloseWarnDelete = () => {
+        setOpenWarnDelete(false);
+    }
+
+    /* Delete Group */
+    const handleDeleteGroup = () => {
+        handleClose(); //Close Group Tab
+        const updatedGroups = deleteGroup(groups, groupId);
+
+        //Current Checklist is Under Deleted Group
+        if(listIds.includes(activeList) && allListIds.length > 0) {
+            //Set New Active List to User's 1st Checklist
+            handleActiveList(allListIds[0]);
+        } else if(listIds.includes(activeList) && allListIds.length === 0) {
+            //User Has No More Checklist
+            localStorage.removeItem("currentList");
+        }
+
+        //Update State Value
+        changeGroups(updatedGroups);
+
+        //Backend API: Update Database
+        deleteGrouplist(username, groupId);
+        reloadChecklistpage();
+    }
+
     return (
         <Stack
             id={groupId}
@@ -61,16 +107,19 @@ const GrouplistOption = ({
             }}
         >
             <DeleteGroupBackdrop 
-                username={username}
-                groupId={groupId}
                 title={title}
                 checklists={checklists}
                 open={openDeleteGroup}
                 handleClose={handleCloseDeleteGroup}
-                groups={groups}
-                changeGroups={changeGroups}
+                handleOpenWarnDelete={handleOpenWarnDelete}
+                handleDeleteGroup={handleDeleteGroup}
                 activeList={activeList}
-                handleActiveList={handleActiveList}
+            />
+            <WarnDeleteBackdrop 
+                title={title}
+                open={openWarnDelete}
+                handleClose={handleCloseWarnDelete}
+                handleDeleteGroup={handleDeleteGroup}
             />
             <Box
                 className="grouplist-title-section"

@@ -21,7 +21,7 @@ const NewChecklistBackdrop = ({
 
     //Create New Checklist
     const handleNewChecklist = () => {
-        handleClose(); //Close Backdrop
+        handleCloseBackdrop();
 
         //Create New Checklist
         const { updatedLists, listId } = createNewChecklist(checklists, title);
