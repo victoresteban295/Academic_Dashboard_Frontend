@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
 import { cookies } from "next/dist/client/components/headers";
 import { notFound } from "next/navigation";
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import SideNavbar from '@/components/SideNavbar';
 
 const getData = async (role, username) => {
@@ -34,47 +34,84 @@ const UserLayout = async ({ children, params }) => {
         <html lang="en">
             <body>
                 <ThemeRegistry options={{ key: 'mui'}}>
-                    <Navbar 
-                        username={user.username}
-                        firstname={user.firstname}
-                        lastname={user.lastname}
-                        role={role}
-                    />
                     <Box
-                        id="page-container"
+                        id="page"
                         sx={{
                             display: 'flex',
-                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            justifyContent: 'stretch',
+                            height: '100vh',
                         }}
                     >
+                        <Navbar 
+                            username={user.username}
+                            firstname={user.firstname}
+                            lastname={user.lastname}
+                            role={role}
+                        />
                         <Box
-                            id="sidenavbar-container"
+                            id="page-content"
                             sx={{
-                                display: {xs: 'none', sm: 'flex'},
-                                flexGrow: '1',
+                                display: 'flex',
                                 justifyContent: 'center',
-                                maxWidth: '175px',
-                                mt: 2,
-                                mx: 1,
+                                alignItems: 'stretch',
+                                height: 'inherit',
                             }}
                         >
-                            <SideNavbar
-                                username={user.username}
-                                role={role}
-                            />
-                        </Box>
-                        <Box
-                            id="main-content-container"
-                            sx={{
-                                flexGrow: '10',
-                                maxWidth: '1000px',
-                                minHeight: '500px',
-                            }}
-                        >
-                            {children}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexGrow: 1,
+                                    maxWidth: '1175px',
+                                }}
+                            >
+                                <Stack
+                                    justifyContent='space-between'
+                                    alignItems='stretch'
+                                    sx={{
+                                        flexGrow: 1,
+                                    }} 
+                                >
+                                    <Box
+                                        id="interactive-content"
+                                        sx={{
+                                            display: 'flex',
+                                            maxWidth: '1175px',
+                                            flexGrow: 1,
+                                        }}
+                                    >
+                                        <Box
+                                            id="sidenavbar-container"
+                                            sx={{
+                                                display: {xs: 'none', sm: 'flex'},
+                                                flexGrow: '1',
+                                                justifyContent: 'center',
+                                                maxWidth: '175px',
+                                                mt: 2,
+                                                mx: 1,
+                                            }}
+                                        >
+                                            <SideNavbar
+                                                username={user.username}
+                                                role={role}
+                                            />
+                                        </Box>
+                                        <Box
+                                            id="main-content-container"
+                                            sx={{
+                                                flexGrow: '10',
+                                                maxWidth: '1000px',
+                                                minHeight: '500px',
+                                            }}
+                                        >
+                                            {children}
+                                        </Box>
+                                    </Box>
+                                    <Footer />
+                                </Stack>
+                            </Box>
                         </Box>
                     </Box>
-                    <Footer />
                 </ThemeRegistry>
             </body>
         </html>

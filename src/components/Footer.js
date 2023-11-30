@@ -4,7 +4,11 @@ import Link from "next/link";
 const Footer = () => {
     let currentYear = new Date().getFullYear().toString();
     return (
-        <Box>
+        <Box
+            sx={{
+                my: 1
+            }}
+        >
             <Typography align="center" variant="subtitle1">
                 © {currentYear} Victor Esteban. All Right Reserved 
             </Typography>
@@ -14,7 +18,7 @@ const Footer = () => {
                 spacing={2}
                 justifyContent='center'
                 sx={{
-                    my: 1
+                    my: {xs: 0, sm: 1}
                 }}
             >
                 <Link 
@@ -34,6 +38,8 @@ const Footer = () => {
                 </Link>
                 <Link 
                     href="https://github.com/victoresteban295" 
+                    rel='noopener noreferrer'
+                    target='_blank'
                     style={{
                         textDecoration: 'none',
                         color: '#000'
@@ -49,6 +55,8 @@ const Footer = () => {
                 </Link>
                 <Link 
                     href="https://www.linkedin.com/in/victor-esteban295/" 
+                    rel='noopener noreferrer'
+                    target='_blank'
                     style={{
                         textDecoration: 'none',
                         color: '#000'
