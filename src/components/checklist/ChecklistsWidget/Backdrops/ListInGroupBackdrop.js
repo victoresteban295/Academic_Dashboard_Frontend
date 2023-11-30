@@ -1,17 +1,19 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
-import { createGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
-import { createNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { addNewChecklistToGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { newChecklistToGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-const NewGroupBackdrop = ({ 
+const ListInGroupBackdrop = ({ 
     username,
+    group,
+    groupId,
     open, 
     handleClose, 
     groups,
     changeGroups }) => {
 
-    //Title of New Group to Create
+    //Title of New Checklist to Create Under Group
     const [title, setTitle] = useState('');
 
     //Close Menu & Reset Options
@@ -20,18 +22,21 @@ const NewGroupBackdrop = ({
         setTitle('');
     }
 
-    //Create New Group 
+    //Create New Checklist Under Group 
     const handleNewGroup = () => {
         handleCloseBackdrop();
 
-        //Create New Group
-        const {updatedGroups, groupId } = createNewGroup(groups, title);
+        //Create New Checklist Under Group
+        const { updatedGroups, listId } = newChecklistToGroup(
+            groups, 
+            title, 
+            groupId);
 
         //Update State Value
-        changeGroups(updatedGroups);
+        changeGroups(updatedGroups); 
 
         //Backend API: Update Database
-        createGrouplist(username, title, groupId);
+        addNewChecklistToGroup(username, listId, title, groupId);
         reloadChecklistpage();
     }
 
@@ -57,6 +62,7 @@ const NewGroupBackdrop = ({
                 sx={{
                     display: 'flex',
                     p: 2,
+                    maxWidth:'300px'
                 }}
             >
                 <Box 
@@ -68,6 +74,7 @@ const NewGroupBackdrop = ({
                 >
                     <Typography
                         variant='h6'
+                        align='center'
                         sx={{
                             flexGrow: 1,
                             align: 'center',
@@ -75,7 +82,8 @@ const NewGroupBackdrop = ({
                             fontWeight: '700',
                         }}
                     >
-                        Create New Group
+                        
+                        {`Create New Checklist Under ${group} Group`}
                     </Typography>
                 </Box>
                 <FilledInput 
@@ -83,7 +91,7 @@ const NewGroupBackdrop = ({
                     autoFocus
                     hiddenLabel
                     disableUnderline
-                    placeholder='New Group Title'
+                    placeholder='New Checklist Title'
                     onChange={(event) => setTitle(event.target.value)}
                 />
                 <Box>
@@ -108,4 +116,4 @@ const NewGroupBackdrop = ({
     ) 
 }
 
-export default NewGroupBackdrop;
+export default ListInGroupBackdrop;

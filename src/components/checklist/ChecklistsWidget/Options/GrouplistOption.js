@@ -8,6 +8,8 @@ import WarnDeleteBackdrop from "../Backdrops/WarnDeleteBackdrop";
 import { deleteGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { deleteGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
+import RenameGroupBackdrop from "../Backdrops/RenameGroupBackdrop";
+import ListInGroupBackdrop from "../Backdrops/ListInGroupBackdrop";
 
 const GrouplistOption = ({ 
     username, 
@@ -54,7 +56,27 @@ const GrouplistOption = ({
     }
 
     /* Backdrop Menu State Value & Function */
-    /* Create New Checklist */
+    /* Rename Group */
+    const [openRenameGroup, setOpenRenameGroup] = useState(false);
+    const handleOpenRenameGroup = () => {
+        setOpenRenameGroup(true);
+    }
+    const handleCloseRenameGroup = () => {
+        setOpenRenameGroup(false);
+    }
+
+    /* Backdrop Menu State Value & Function */
+    /* Create New Checklist Under Group */
+    const [openListInGroup, setOpenListInGroup] = useState(false);
+    const handleOpenListInGroup = () => {
+        setOpenListInGroup(true);
+    }
+    const handleCloseListInGroup = () => {
+        setOpenListInGroup(false);
+    }
+
+    /* Backdrop Menu State Value & Function */
+    /* Delete Group */
     const [openDeleteGroup, setOpenDeleteGroup] = useState(false);
     const handleOpenDeleteGroup = () => {
         setOpenDeleteGroup(true);
@@ -64,7 +86,7 @@ const GrouplistOption = ({
     }
 
     /* Backdrop Menu State Value & Function */
-    /* Create New Checklist */
+    /* Warn Current Checklist is Under Deleted Group */
     const [openWarnDelete, setOpenWarnDelete] = useState(false);
     const handleOpenWarnDelete = () => {
         setOpenWarnDelete(true);
@@ -106,6 +128,24 @@ const GrouplistOption = ({
                 py: isExpanded ? 1 : 0,
             }}
         >
+            <RenameGroupBackdrop 
+                username={username}
+                title={title}
+                groupId={groupId}
+                open={openRenameGroup}
+                handleClose={handleCloseRenameGroup}
+                groups={groups}
+                changeGroups={changeGroups}
+            />
+            <ListInGroupBackdrop
+                username={username}
+                group={title}
+                groupId={groupId}
+                open={openListInGroup}
+                handleClose={handleCloseListInGroup}
+                groups={groups} 
+                changeGroups={changeGroups}
+            />
             <DeleteGroupBackdrop 
                 title={title}
                 checklists={checklists}
@@ -165,10 +205,14 @@ const GrouplistOption = ({
                         horizontal: 'right',
                     }}
                 >
-                    <MenuItem>
+                    <MenuItem
+                        onClick={handleOpenRenameGroup}
+                    >
                         Rename Group
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem
+                        onClick={handleOpenListInGroup}
+                    >
                         Add New Checklist
                     </MenuItem>
                     <Divider />

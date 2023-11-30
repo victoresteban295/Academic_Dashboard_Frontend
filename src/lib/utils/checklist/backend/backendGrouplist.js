@@ -54,14 +54,47 @@ export const createGrouplist = async (username, title, groupId) => {
 /* Rename Grouplist's Title */
 /****************************/
 export const modifyGroupTitle = async (username, groupId, title) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/modify/title/${groupId}`, {
+        cache: "no-cache",
+        method: "PUT", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+            title: title,
+        })
+    });
+
+    return res.json();
 }
 
 /******************************************/
 /* Create a New Checklist Under Grouplist */
 /******************************************/
-export const addNewChecklistToGroup = async (username, listTitle, groupId) => {
+export const addNewChecklistToGroup = async (username, listId, title, groupId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
 
+    /* Backend REST API */
+    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/new/checklist/${groupId}`, {
+        cache: "no-cache",
+        method: "PUT", 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+            title: title,
+            listId: listId,
+        })
+    });
+
+    return res.json();
 }
 
 /*******************************************************/

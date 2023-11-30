@@ -1,37 +1,39 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
-import { createGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
-import { createNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { modifyGroupTitle } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { renameGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-const NewGroupBackdrop = ({ 
+const RenameGroupBackdrop = ({ 
     username,
+    title,
+    groupId,
     open, 
     handleClose, 
     groups,
     changeGroups }) => {
 
-    //Title of New Group to Create
-    const [title, setTitle] = useState('');
+    //New Title of Group Being Renamed
+    const [rename, setRename] = useState('');
 
     //Close Menu & Reset Options
     const handleCloseBackdrop = () => {
         handleClose(); //Close Backdrop
-        setTitle('');
+        setRename('');
     }
 
-    //Create New Group 
-    const handleNewGroup = () => {
+    //Rename Group
+    const handleRenameGroup = () => {
         handleCloseBackdrop();
 
-        //Create New Group
-        const {updatedGroups, groupId } = createNewGroup(groups, title);
+        //Rename Group
+        const updatedGroups = renameGroup(groups, rename, groupId);
 
         //Update State Value
         changeGroups(updatedGroups);
 
         //Backend API: Update Database
-        createGrouplist(username, title, groupId);
+        modifyGroupTitle(username, groupId, rename);
         reloadChecklistpage();
     }
 
@@ -75,23 +77,23 @@ const NewGroupBackdrop = ({
                             fontWeight: '700',
                         }}
                     >
-                        Create New Group
+                        {`Rename ${title} Group`}
                     </Typography>
                 </Box>
                 <FilledInput 
-                    value={title}
+                    value={rename}
                     autoFocus
                     hiddenLabel
                     disableUnderline
-                    placeholder='New Group Title'
-                    onChange={(event) => setTitle(event.target.value)}
+                    placeholder='Rename Group Title'
+                    onChange={(event) => setRename(event.target.value)}
                 />
                 <Box>
                     <Button
                         variant="contained"
                         size='small'
-                        disabled={title === ''}
-                        onClick={handleNewGroup}
+                        disabled={rename === ''}
+                        onClick={handleRenameGroup}
                     >
                         <Typography
                             sx={{
@@ -99,7 +101,7 @@ const NewGroupBackdrop = ({
                                 fontWeight: '700',
                             }}
                         >
-                            Create
+                            Rename
                         </Typography>
                     </Button>
                 </Box>
@@ -108,4 +110,4 @@ const NewGroupBackdrop = ({
     ) 
 }
 
-export default NewGroupBackdrop;
+export default RenameGroupBackdrop;

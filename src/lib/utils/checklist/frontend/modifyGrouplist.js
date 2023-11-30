@@ -23,6 +23,20 @@ export const createNewGroup = (groups, title) => {
 }
 
 /****************/
+/* Rename Group */
+/****************/
+export const renameGroup = (groups, newTitle, groupId) => {
+    const updatedGroups = groups.map(group => {
+        if(group.groupId === groupId) {
+            group.title = newTitle;
+        }
+        return group;
+    })
+
+    return updatedGroups;
+}
+
+/****************/
 /* Delete Group */
 /****************/
 export const deleteGroup = (groups, groupId) => {
@@ -32,6 +46,35 @@ export const deleteGroup = (groups, groupId) => {
     })
 
     return updatedGroups;
+}
+
+/*********************************************/
+/* Create New Checklist Under Existing Group */
+/*********************************************/
+export const newChecklistToGroup = (groups, title, groupId) => {
+    //Create New Checklist
+    const listId = nanoid(10);
+    const checklist = {
+        objectId: '',
+        listId: listId,
+        title: title, 
+        groupId: groupId,
+        checkpoints: [],
+        completedPoints: []
+    }
+
+    //Add New Checklist to Group
+    const updatedGroups = groups.map(group => {
+        if(group.groupId === groupId) {
+            group.checklists.push(checklist);
+        }
+        return group;
+    })
+
+    return {
+        updatedGroups: updatedGroups,
+        listId: listId
+    }
 }
 
 /***********************************/
