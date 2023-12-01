@@ -36,7 +36,7 @@ const ChecklistsWidget = ({
     }
 
     /* Backdrop Menu State Value & Function */
-    /* Create New Checklist */
+    /* Create New Group */
     const [openNewGroup, setOpenNewGroup] = useState(false);
     const handleOpenNewGroup = () => {
         setOpenNewGroup(true);
@@ -46,13 +46,18 @@ const ChecklistsWidget = ({
     }
 
     return (
-        <Box>
+        <Box
+            sx={{
+                width: '100%'
+            }}
+        >
             <NewChecklistBackdrop 
                 username={username}
                 open={openNewList} 
                 handleClose={handleCloseNewList}
                 checklists={checklists}
                 changeChecklists={changeChecklists}
+                handleActiveList={handleActiveList}
             />
             <NewGroupBackdrop 
                 username={username}
@@ -110,12 +115,13 @@ const ChecklistsWidget = ({
                 </Menu>
             </Box>
             <Stack
-                spacing={3}
+                spacing={1}
                 divider={<Divider flexItem />}
             >
                 <UserChecklists 
                     username={username}
                     checklists={checklists}
+                    changeChecklists={changeChecklists}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
                 />

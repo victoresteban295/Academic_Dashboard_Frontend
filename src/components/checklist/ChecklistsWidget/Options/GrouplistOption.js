@@ -145,6 +145,7 @@ const GrouplistOption = ({
                 handleClose={handleCloseListInGroup}
                 groups={groups} 
                 changeGroups={changeGroups}
+                handleActiveList={handleActiveList}
             />
             <DeleteGroupBackdrop 
                 title={title}
@@ -226,27 +227,41 @@ const GrouplistOption = ({
                     </MenuItem>
                 </Menu>
             </Box>
-            <Stack
-                className='grouplist-checklists-section'
-                spacing={0.5}
-                sx={{
-                    display: isExpanded ? 'inline' : 'none',
-                    px: 1,
-                }}
-            >
-                {checklists.map((checklist) => {
-                    const { title, listId } = checklist;
-                    return(
-                        <ChecklistOption
-                            username={username}
-                            activeList={activeList}
-                            handleActiveList={handleActiveList}
-                            title={title}
-                            listId={listId}
-                        />
-                    )
-                })}
-            </Stack>
+            {checklists.length > 0 ? (
+                <Stack
+                    className='grouplist-checklists-section'
+                    spacing={0.5}
+                    sx={{
+                        display: isExpanded ? 'inline' : 'none',
+                        px: 1,
+                    }}
+                >
+                    {checklists.map((checklist) => {
+                        const { title, listId } = checklist;
+                        return(
+                            <ChecklistOption
+                                username={username}
+                                activeList={activeList}
+                                handleActiveList={handleActiveList}
+                                title={title}
+                                listId={listId}
+                            />
+                        )
+                    })}
+                </Stack>
+            ) : (
+                <Typography
+                    variant='body2'
+                    align='center'
+                    sx={{
+                        display: isExpanded ? 'inline' : 'none',
+                        fontWeight: '700',
+                        px: 1,
+                    }}
+                >
+                    No checklist under this group
+                </Typography>
+            )}
         </Stack>
     )
 }

@@ -8,7 +8,8 @@ const NewChecklistBackdrop = ({
     open, 
     handleClose, 
     checklists,
-    changeChecklists }) => {
+    changeChecklists, 
+    handleActiveList }) => {
 
     //Title of New Checklist to Create
     const [title, setTitle] = useState('');
@@ -25,6 +26,8 @@ const NewChecklistBackdrop = ({
 
         //Create New Checklist
         const { updatedLists, listId } = createNewChecklist(checklists, title);
+        //Set Checklist as Last Visited
+        handleActiveList(listId);
         //Update State Value
         changeChecklists(updatedLists);
 

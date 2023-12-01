@@ -10,8 +10,15 @@ const ChecklistWidget = ({
     activeList, 
     handleActiveList }) => {
 
+    let allChecklists = [...checklists];
+    groups.map(group => {
+        group.checklists.map(checklist => {
+            allChecklists.push(checklist);
+        })
+    })
+
     //Determine If User has Checklist
-    const hasChecklists = (checklists.length > 0) || (groups.length > 0);
+    const hasChecklists = allChecklists.length > 0; 
     
     return (
         <>
@@ -27,6 +34,10 @@ const ChecklistWidget = ({
                 />
             ) : (
                 <NoList 
+                    username={username}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    handleActiveList={handleActiveList}
                 />
             )}
         </>

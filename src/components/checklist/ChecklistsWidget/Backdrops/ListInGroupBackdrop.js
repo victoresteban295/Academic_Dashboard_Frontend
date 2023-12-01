@@ -11,7 +11,8 @@ const ListInGroupBackdrop = ({
     open, 
     handleClose, 
     groups,
-    changeGroups }) => {
+    changeGroups, 
+    handleActiveList }) => {
 
     //Title of New Checklist to Create Under Group
     const [title, setTitle] = useState('');
@@ -31,6 +32,9 @@ const ListInGroupBackdrop = ({
             groups, 
             title, 
             groupId);
+
+        //Set to Last Visited Checklist
+        handleActiveList(listId);
 
         //Update State Value
         changeGroups(updatedGroups); 

@@ -19,14 +19,23 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
         setGroups(groups)
     }
 
-    let list;
-    if(localStorage.getItem("currentList") === null) {
+    //Has User Visited a Checklist
+    let hasActiveList = localStorage.getItem("currentList") != null;
+    let list; //ListId of Last Visited Checklist
+
+    //User Hasn't Visited a Checklist But Has Checklists
+    if(!hasActiveList && allChecklists.length > 0) {
+        //Set Last Visited Checklist to User's 1st Checklist
         const { listId } = allChecklists[0];
         list = listId;
         localStorage.setItem("currentList", listId);
+
+    //User Has Visited a Checklist
     } else {
+        //Set Current Checklist to Last Visited Checklist
         list = localStorage.getItem("currentList");
     }
+
     const [currentList, setCurrentList] = useState(list);
 
     //Change Current Checklist Being Viewed
@@ -64,6 +73,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
             <Box
                 className='lists-widget-container'
                 sx={{
+                    display: {xs: 'none', sm: 'block'},
                     flexGrow: 1,
                     maxWidth: '250px',
                     p: 1,

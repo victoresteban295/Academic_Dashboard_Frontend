@@ -84,7 +84,7 @@ const UserLayout = async ({ children, params }) => {
                                             id="sidenavbar-container"
                                             sx={{
                                                 display: {xs: 'none', sm: 'flex'},
-                                                flexGrow: '1',
+                                                flexGrow: 1,
                                                 justifyContent: 'center',
                                                 maxWidth: '175px',
                                                 mt: 2,
@@ -99,9 +99,8 @@ const UserLayout = async ({ children, params }) => {
                                         <Box
                                             id="main-content-container"
                                             sx={{
-                                                flexGrow: '10',
                                                 maxWidth: '1000px',
-                                                minHeight: '500px',
+                                                flexGrow: 1,
                                             }}
                                         >
                                             {children}

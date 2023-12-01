@@ -30,6 +30,7 @@ const ChecklistContent = ({
 
     /* Display New Chekpoint UI */
     const [showNewPoint, setShowNewPoint] = useState(false);
+    
     const displayNewPoint = () => {
         setShowNewPoint(true);
     }
@@ -82,7 +83,7 @@ const ChecklistContent = ({
                             divider={<Divider variant='middle' flexItem />}
                             spacing={0}
                             sx={{
-                                width: '100%',
+                                maxWidth: '100%',
                             }}
                         >
                             {checkpoints.map((checkpoint) => {

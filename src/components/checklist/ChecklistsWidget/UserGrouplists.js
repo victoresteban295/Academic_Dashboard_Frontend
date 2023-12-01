@@ -1,5 +1,8 @@
-import { Stack } from "@mui/material";
+import { Stack, Box, Button } from "@mui/material";
 import GrouplistOption from "./Options/GrouplistOption";
+import { AddCircleOutline } from "@mui/icons-material";
+import { useState } from "react";
+import NewGroupBackdrop from "./Backdrops/NewGroupBackdrop";
 
 const UserGrouplists = ({ 
     username, 
@@ -9,41 +12,71 @@ const UserGrouplists = ({
     activeList, 
     handleActiveList }) => {
 
-    //Don't Display if User has not Grouplist
-    let display;
-    if(groups.length > 0) {
-        display = {}
-    } else {
-        display = {
-            display: 'none',
-        }
+    /* Backdrop Menu State Value & Function */
+    /* Create New Group */
+    const [openNewGroup, setOpenNewGroup] = useState(false);
+    const handleOpenNewGroup = () => {
+        setOpenNewGroup(true);
+    }
+    const handleCloseNewGroup = () => {
+        setOpenNewGroup(false);
     }
 
+    //Does User Have an Groups
+    const hasGroups = groups.length > 0;
+
     return (
-        <Stack
-            className='user-grouplists-section'
-            sx={{
-                ...display,
-            }}
-        >
-            {groups.map((group) => {
-                const { title, groupId, checklists } = group;
-                return(
-                    <GrouplistOption 
+        <>
+            {hasGroups ? (
+                <Stack
+                    className='user-grouplists-section'
+                >
+                    {groups.map((group) => {
+                        const { title, groupId, checklists } = group;
+                        return(
+                            <GrouplistOption 
+                                username={username}
+                                activeList={activeList}
+                                handleActiveList={handleActiveList}
+                                allChecklists={allChecklists}
+                                groups={groups}
+                                changeGroups={changeGroups}
+                                title={title}
+                                groupId={groupId}
+                                checklists={checklists}
+                            />
+                        )
+                    })}
+                </Stack>
+            ) : (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        borderWidth: '2px',
+                        borderStyle: 'dashed',
+                    }}
+                >
+                    <NewGroupBackdrop
                         username={username}
-                        activeList={activeList}
-                        handleActiveList={handleActiveList}
-                        allChecklists={allChecklists}
+                        open={openNewGroup} 
+                        handleClose={handleCloseNewGroup}
                         groups={groups}
                         changeGroups={changeGroups}
-                        title={title}
-                        groupId={groupId}
-                        checklists={checklists}
                     />
-                )
-            })}
-
-        </Stack>
+                    <Button
+                        startIcon={<AddCircleOutline />}
+                        variant="text"
+                        onClick={handleOpenNewGroup}
+                        sx={{
+                            width: '100%',
+                            color: '#000',
+                        }}
+                    >
+                        Create New Group 
+                    </Button>
+                </Box>
+            )}
+        </>
     )
 }
 
