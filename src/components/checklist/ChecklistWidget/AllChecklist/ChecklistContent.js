@@ -63,6 +63,7 @@ const ChecklistContent = ({
                             changeGroups={changeGroups}
                             checklists={checklists}
                             changeChecklists={changeChecklists}
+                            activeList={activeList}
                             handleActiveList={handleActiveList}
                             showAllEdit={showAllEdit}
                             showAllEditButtons={showAllEditButtons}
@@ -83,7 +84,7 @@ const ChecklistContent = ({
                             divider={<Divider variant='middle' flexItem />}
                             spacing={0}
                             sx={{
-                                maxWidth: '100%',
+                                width: '100%',
                             }}
                         >
                             {checkpoints.map((checkpoint) => {

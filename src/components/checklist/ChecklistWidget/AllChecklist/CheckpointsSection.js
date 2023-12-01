@@ -117,6 +117,9 @@ const CheckpointsSection = ({
     return (
         <Stack
             spacing={0}
+            sx={{
+                width: '100%',
+            }}
         >
             <Box
                 onMouseOver={() => setShowEdit(true)}
@@ -173,7 +176,8 @@ const CheckpointsSection = ({
                     />
                 )}
                 {!showAllEdit && (
-                    <Box>
+                    <Box
+                    >
                         {(showEdit && !isCompleted) && (
                             <Tooltip title="Add Subpoint">
                                 <IconButton 

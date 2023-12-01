@@ -11,6 +11,7 @@ import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyCheck
 import { removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { removeChecklistFromGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
 import DeleteListBackdrop from "../../ChecklistsWidget/Backdrops/DeleteListBackdrop";
+import MyChecklistMenu from "./MyChecklistMenu";
 
 const TitleSection = ({ 
     username,
@@ -21,6 +22,7 @@ const TitleSection = ({
     changeGroups,
     checklists,
     changeChecklists,
+    activeList,
     handleActiveList,
     showAllEdit,
     showAllEditButtons, 
@@ -206,6 +208,15 @@ const TitleSection = ({
                             <MoreVert fontSize='inherit' />
                         </IconButton>
                     </Tooltip>
+                    <MyChecklistMenu 
+                        username={username}
+                        checklists={checklists}
+                        changeChecklists={changeChecklists}
+                        groups={groups}
+                        changeGroups={changeGroups}
+                        activeList={activeList}
+                        handleActiveList={handleActiveList}
+                    />
                     <Menu
                         anchorEl={anchorEl}
                         id="checklist-options-menu"
@@ -222,7 +233,7 @@ const TitleSection = ({
                         }}
                     >
                         <MenuItem onClick={showAllEditButtons} >
-                            Edit Checklist
+                            Edit Checkpoints
                         </MenuItem>
                         <MenuItem 
                             onClick={handleOpenAddToGroup}

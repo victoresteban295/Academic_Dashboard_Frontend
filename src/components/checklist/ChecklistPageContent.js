@@ -73,7 +73,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
             <Box
                 className='lists-widget-container'
                 sx={{
-                    display: {xs: 'none', sm: 'block'},
+                    display: {xs: 'none', sm: 'none', md: 'block'},
                     flexGrow: 1,
                     maxWidth: '250px',
                     p: 1,

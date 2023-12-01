@@ -45,7 +45,7 @@ const NoList = ({ username, checklists, changeChecklists, handleActiveList }) =>
             <Box
                 className='checklist-option' 
                 sx={{
-                    display: {xs: 'flex', sm: 'none'},
+                    display: {sm: 'flex', md: 'none'},
                     borderWidth: '2px',
                     borderStyle: 'dashed',
                     borderRadius: '10px',
