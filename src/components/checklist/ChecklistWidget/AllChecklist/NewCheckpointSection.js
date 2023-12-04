@@ -96,7 +96,7 @@ const NewCheckpointSection = ({
                         createNewPoint();
                     }
                 }}
-                inputProps={{maxLength: 50}}
+                inputProps={{maxLength: 200}}
                 sx={{
                     flexGrow: 1,
                 }}

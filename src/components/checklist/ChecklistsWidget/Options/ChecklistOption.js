@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 const ChecklistOption = ({ username, activeList, handleActiveList, title, listId }) => {
     let isActive; 
@@ -38,7 +38,12 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
                     color: '#000'
                 }}
             >
-                {title}
+                <Typography
+                    noWrap={true}
+                    variant="button"
+                >
+                    {title}
+                </Typography>
             </Button>
         </Box>
     )

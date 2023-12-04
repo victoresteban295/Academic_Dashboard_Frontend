@@ -26,10 +26,10 @@ const NewChecklistBackdrop = ({
 
         //Create New Checklist
         const { updatedLists, listId } = createNewChecklist(checklists, title);
-        //Set Checklist as Last Visited
-        handleActiveList(listId);
         //Update State Value
         changeChecklists(updatedLists);
+        //Set Checklist as Last Visited
+        handleActiveList(listId);
 
         //Backend API: Update Database
         createChecklist(username, title, listId);
@@ -86,6 +86,7 @@ const NewChecklistBackdrop = ({
                     disableUnderline
                     placeholder='New Checklist Title'
                     onChange={(event) => setTitle(event.target.value)}
+                    inputProps={{maxLength: 50}}
                 />
                 <Box>
                     <Button

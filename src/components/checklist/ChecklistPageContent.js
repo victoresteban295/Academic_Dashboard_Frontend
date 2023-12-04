@@ -50,6 +50,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
             sx={{
                 display: 'flex',
                 width: '100%',
+                height: '100%',
             }}
         >
             <Box
@@ -79,15 +80,23 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                     p: 1,
                 }}
             >
-                <ChecklistsWidget
-                    username={username}
-                    checklists={checklists}
-                    changeChecklists={changeChecklists}
-                    groups={groups}
-                    changeGroups={changeGroups}
-                    activeList={currentList}
-                    handleActiveList={handleActiveList}
-                />
+                <Box
+                    sx={{
+                        width: '100%',
+                        position: 'sticky',
+                        top: '74px',
+                    }}
+                >
+                    <ChecklistsWidget
+                        username={username}
+                        checklists={checklists}
+                        changeChecklists={changeChecklists}
+                        groups={groups}
+                        changeGroups={changeGroups}
+                        activeList={currentList}
+                        handleActiveList={handleActiveList}
+                    />
+                </Box>
             </Box>
         </Box>
     )

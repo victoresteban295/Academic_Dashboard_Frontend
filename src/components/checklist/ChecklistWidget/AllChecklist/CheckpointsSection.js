@@ -158,6 +158,7 @@ const CheckpointsSection = ({
                 ) : (
                     <InputBase 
                         value={isUpdating ? newContent : content}
+                        multiline={true}
                         placeholder="Add Checkpoint"
                         onChange={(e) => {
                             setUpdating(true);
@@ -169,7 +170,7 @@ const CheckpointsSection = ({
                                 e.target.blur();
                             }
                         }}
-                        inputProps={{maxLength: 50}}
+                        inputProps={{maxLength: 200}}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -177,6 +178,9 @@ const CheckpointsSection = ({
                 )}
                 {!showAllEdit && (
                     <Box
+                        sx={{
+                            width: '60px',
+                        }}
                     >
                         {(showEdit && !isCompleted) && (
                             <Tooltip title="Add Subpoint">

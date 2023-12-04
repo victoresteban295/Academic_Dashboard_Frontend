@@ -124,7 +124,7 @@ const TitleSection = ({
             className="checklist-title-section"
             sx={{
                 display: 'flex',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
             }}
         >
             <AddToGroupBackdrop 
@@ -189,6 +189,7 @@ const TitleSection = ({
                     className="title-icons"
                     sx={{
                         display: 'flex',
+                        ml: 2,
                     }}
                 >
                     <Tooltip title="Add Checkpoint">

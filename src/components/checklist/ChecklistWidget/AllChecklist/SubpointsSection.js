@@ -143,6 +143,7 @@ const SubpointsSection = ({
             ) : (
                 <InputBase 
                     value={isUpdating ? newContent : content}
+                    multiline={true}
                     placeholder="Add Subpoint"
                     onChange={(e) => {
                         setUpdating(true);
@@ -154,13 +155,18 @@ const SubpointsSection = ({
                             e.target.blur();
                         }
                     }}
+                    inputProps={{maxLength: 200}}
                     sx={{
                         flexGrow: 1,
                     }}
                 />
             )}
             {!showAllEdit && (
-                <Box>
+                <Box
+                    sx={{
+                        width: '30px',
+                    }}
+                >
                     {showEdit && (
                         <Tooltip title="Delete Checkpoint">
                             <IconButton 

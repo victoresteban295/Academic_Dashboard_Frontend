@@ -39,7 +39,6 @@ const UserLayout = async ({ children, params }) => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'stretch',
                             height: '100vh',
                         }}
                     >
@@ -50,15 +49,15 @@ const UserLayout = async ({ children, params }) => {
                             role={role}
                         />
                         <Box
-                            id="page-content"
+                            id="page-content-container"
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
-                                alignItems: 'stretch',
-                                height: 'inherit',
+                                flexGrow: 1,
                             }}
                         >
                             <Box
+                                id="center-page-container"
                                 sx={{
                                     display: 'flex',
                                     flexGrow: 1,
@@ -66,18 +65,18 @@ const UserLayout = async ({ children, params }) => {
                                 }}
                             >
                                 <Stack
-                                    justifyContent='space-between'
-                                    alignItems='stretch'
+                                    id="maincontent-footer-container"
                                     sx={{
                                         flexGrow: 1,
+                                        width: '100%',
                                     }} 
                                 >
                                     <Box
-                                        id="interactive-content"
+                                        id="main-content"
                                         sx={{
                                             display: 'flex',
-                                            maxWidth: '1175px',
-                                            flexGrow: 1,
+                                            width: '100%',
+                                            height: '100%',
                                         }}
                                     >
                                         <Box
@@ -91,10 +90,17 @@ const UserLayout = async ({ children, params }) => {
                                                 mx: 1,
                                             }}
                                         >
-                                            <SideNavbar
-                                                username={user.username}
-                                                role={role}
-                                            />
+                                            <Box
+                                                sx={{
+                                                    width: '100%',
+                                                }}
+                                            >
+                                                <SideNavbar
+                                                    username={user.username}
+                                                    role={role}
+                                                />
+
+                                            </Box>
                                         </Box>
                                         <Box
                                             id="main-content-container"

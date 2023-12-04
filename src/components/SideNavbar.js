@@ -11,8 +11,10 @@ const SideNavbar = ({ username, role }) => {
             spacing = {1}
             sx={{
                 alignItems: 'flex-start',
-                flexGrow: '1',
-                maxWidth: '175px'
+                flexGrow: 1,
+                width: '100%',
+                position: 'sticky',
+                top: '80px',
             }}
         >
             <NavButtons 

@@ -6,7 +6,8 @@ const Footer = () => {
     return (
         <Box
             sx={{
-                my: 1
+                mt: 4,
+                mb: 2,
             }}
         >
             <Typography align="center" variant="subtitle1">

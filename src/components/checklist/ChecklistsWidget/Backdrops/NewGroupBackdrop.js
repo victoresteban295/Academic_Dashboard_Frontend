@@ -85,6 +85,7 @@ const NewGroupBackdrop = ({
                     disableUnderline
                     placeholder='New Group Title'
                     onChange={(event) => setTitle(event.target.value)}
+                    inputProps={{maxLength: 20}}
                 />
                 <Box>
                     <Button

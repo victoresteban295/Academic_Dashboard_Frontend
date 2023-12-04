@@ -167,9 +167,16 @@ const GrouplistOption = ({
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                 }}
             >
-                <Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '90%'
+                    }}
+                >
                     {isExpanded ? (
                         <IconButton size='small' onClick={handleClose}>
                             <ExpandLess fontSize='inherit' />
@@ -180,6 +187,7 @@ const GrouplistOption = ({
                         </IconButton>
                     )}
                     <Typography
+                        noWrap={true}
                         variant="button"
                     >
                         {title}
