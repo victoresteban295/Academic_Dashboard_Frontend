@@ -67,6 +67,8 @@ const UserLayout = async ({ children, params }) => {
                                 display: 'flex',
                                 flexGrow: 1,
                                 maxWidth: '1175px',
+                                pt: '70px',
+                                boxSizing: 'border-box'
                             }}
                         >
                             <Stack

@@ -11,7 +11,8 @@ const MoveToGroupBackdrop = ({
     open, 
     handleClose, 
     groups, 
-    changeGroups }) => {
+    changeGroups, 
+    handleOpenAlert }) => {
 
     //GroupId of Selected Group
     const [selectedGroupId, setSelectedGroupId] = useState('');
@@ -51,19 +52,23 @@ const MoveToGroupBackdrop = ({
                 reloadChecklistpage();
             } 
         } else {
-            //Move to Different Group
-            const { updatedGroups } = moveListGroupToGroup(
-                groups, 
-                listId, 
-                fromGroupId, 
-                selectedGroupId); 
+            try{
+                //Move to Different Group
+                const { updatedGroups } = moveListGroupToGroup(
+                    groups, 
+                    listId, 
+                    fromGroupId, 
+                    selectedGroupId); 
 
-            //Update State Value
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
-            reloadChecklistpage();
+                //Backend API: Update Database
+                moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+            }
         }
 
         //Reset Options

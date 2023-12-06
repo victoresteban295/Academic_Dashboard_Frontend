@@ -9,7 +9,8 @@ const NewGroupBackdrop = ({
     open, 
     handleClose, 
     groups,
-    changeGroups }) => {
+    changeGroups, 
+    handleOpenAlert }) => {
 
     //Title of New Group to Create
     const [title, setTitle] = useState('');
@@ -22,17 +23,21 @@ const NewGroupBackdrop = ({
 
     //Create New Group 
     const handleNewGroup = () => {
-        handleCloseBackdrop();
+        try {
+            handleCloseBackdrop();
+            //Create New Group
+            const {updatedGroups, groupId } = createNewGroup(groups, title);
 
-        //Create New Group
-        const {updatedGroups, groupId } = createNewGroup(groups, title);
+            //Update State Value
+            changeGroups(updatedGroups);
 
-        //Update State Value
-        changeGroups(updatedGroups);
+            //Backend API: Update Database
+            createGrouplist(username, title, groupId);
+            reloadChecklistpage();
 
-        //Backend API: Update Database
-        createGrouplist(username, title, groupId);
-        reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+        }
     }
 
     return (

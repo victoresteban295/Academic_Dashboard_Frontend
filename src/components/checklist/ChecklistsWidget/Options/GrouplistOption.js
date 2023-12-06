@@ -1,5 +1,5 @@
 "use client"
-import { Box, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Alert, Box, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
 import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
@@ -35,6 +35,19 @@ const GrouplistOption = ({
             allListIds.push(checklist.listId);
         })
     })
+
+    /* Error Message Displaying in Alert */
+    const [errorMsg, setErrorMsg] = useState('');
+    /* Display Alert with Error Message */
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
     
     /* Expands Groups UI (Exposes Grouped Checklists)*/
     const [isExpanded, setExpanded] = useState(listIds.includes(activeList));
@@ -128,6 +141,27 @@ const GrouplistOption = ({
                 py: isExpanded ? 1 : 0,
             }}
         >
+            <Snackbar
+                open={openAlert}
+                anchorOrigin={{
+                    vertical: 'top', 
+                    horizontal: 'right',
+                }}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        position: 'relative',
+                        top: {xs: '0px', sm: '0px', md: '50px'},
+                    }}
+                >
+                    {errorMsg}
+                </Alert>
+            </Snackbar> 
             <RenameGroupBackdrop 
                 username={username}
                 title={title}
@@ -146,6 +180,7 @@ const GrouplistOption = ({
                 groups={groups} 
                 changeGroups={changeGroups}
                 handleActiveList={handleActiveList}
+                handleOpenAlert={handleOpenAlert}
             />
             <DeleteGroupBackdrop 
                 title={title}

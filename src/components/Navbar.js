@@ -20,8 +20,8 @@ const Navbar = ({username, firstname, lastname, role}) => {
     }
 
     return (
-        <Box sx={{position:'sticky', top:'0px', zIndex:'999',}}>
-            <AppBar position='sticky'>
+        <Box sx={{position:'fixed', top:'0px', zIndex:'999',}}>
+            <AppBar position='fixed'>
                 <Toolbar disableGutters>
                         <Box
                             sx={{

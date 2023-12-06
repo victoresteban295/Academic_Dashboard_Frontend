@@ -12,7 +12,8 @@ const ListInGroupBackdrop = ({
     handleClose, 
     groups,
     changeGroups, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
 
     //Title of New Checklist to Create Under Group
     const [title, setTitle] = useState('');
@@ -24,24 +25,27 @@ const ListInGroupBackdrop = ({
     }
 
     //Create New Checklist Under Group 
-    const handleNewGroup = () => {
-        handleCloseBackdrop();
+    const handleNewListToGroup = () => {
+        try {
+            handleCloseBackdrop();
+            //Create New Checklist Under Group
+            const { updatedGroups, listId } = newChecklistToGroup(
+                groups, 
+                title, 
+                groupId);
 
-        //Create New Checklist Under Group
-        const { updatedGroups, listId } = newChecklistToGroup(
-            groups, 
-            title, 
-            groupId);
+            //Set to Last Visited Checklist
+            handleActiveList(listId);
 
-        //Set to Last Visited Checklist
-        handleActiveList(listId);
+            //Update State Value
+            changeGroups(updatedGroups); 
 
-        //Update State Value
-        changeGroups(updatedGroups); 
-
-        //Backend API: Update Database
-        addNewChecklistToGroup(username, listId, title, groupId);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            addNewChecklistToGroup(username, listId, title, groupId);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+        }
     }
 
     return (
@@ -103,7 +107,7 @@ const ListInGroupBackdrop = ({
                         variant="contained"
                         size='small'
                         disabled={title === ''}
-                        onClick={handleNewGroup}
+                        onClick={handleNewListToGroup}
                     >
                         <Typography
                             sx={{

@@ -1,5 +1,5 @@
 import { Add, MoreVert } from "@mui/icons-material";
-import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Snackbar, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddToGroupBackdrop from "./AddToGroupBackdrop";
 import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
@@ -29,6 +29,19 @@ const TitleSection = ({
 
     /* Checklist Title */
     const [newTitle, setNewTitle] = useState(title);
+
+    /* Error Message Displaying in Alert */
+    const [errorMsg, setErrorMsg] = useState('');
+    /* Display Alert with Error Message */
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
 
     /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);
@@ -122,6 +135,27 @@ const TitleSection = ({
                 justifyContent: 'space-between',
             }}
         >
+            <Snackbar
+                open={openAlert}
+                anchorOrigin={{
+                    vertical: 'top', 
+                    horizontal: 'right',
+                }}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        position: 'relative',
+                        top: {xs: '0px', sm: '0px', md: '50px'},
+                    }}
+                >
+                    {errorMsg}
+                </Alert>
+            </Snackbar> 
             <AddToGroupBackdrop 
                 username={username}
                 listId={listId}
@@ -131,6 +165,7 @@ const TitleSection = ({
                 changeGroups={changeGroups}
                 checklists={checklists}
                 changeChecklists={changeChecklists}
+                handleOpenAlert={handleOpenAlert}
             />
             <MoveToGroupBackdrop 
                 username={username}
@@ -140,6 +175,7 @@ const TitleSection = ({
                 handleClose={handleCloseMoveToGroup}
                 groups={groups}
                 changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
             />
             <DeleteListBackdrop 
                 username={username}

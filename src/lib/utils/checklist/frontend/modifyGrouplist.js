@@ -4,21 +4,27 @@ import { nanoid } from "nanoid";
 /*Create New Group */
 /*******************/
 export const createNewGroup = (groups, title) => {
-    //Create New Group Object
-    const groupId = nanoid(10);
-    const group = {
-        objectId: '',
-        groupId: groupId,
-        title: title, 
-        checklists: []
-    }
+    //User's Groups Limit is 20
+    if(groups.length < 20) {
+        //Create New Group Object
+        const groupId = nanoid(10);
+        const group = {
+            objectId: '',
+            groupId: groupId,
+            title: title, 
+            checklists: []
+        }
 
-    //Add Group to Groups List
-    let updatedGroups = [...groups, group];
+        //Add Group to Groups List
+        let updatedGroups = [...groups, group];
 
-    return {
-        updatedGroups: updatedGroups,
-        groupId: groupId,
+        return {
+            updatedGroups: updatedGroups,
+            groupId: groupId,
+        }
+    //User Reached Groups Limit
+    } else {
+        throw new Error("Group Limit Exceeded: 20");
     }
 }
 
@@ -66,7 +72,11 @@ export const newChecklistToGroup = (groups, title, groupId) => {
     //Add New Checklist to Group
     const updatedGroups = groups.map(group => {
         if(group.groupId === groupId) {
-            group.checklists.push(checklist);
+            if(group.checklists.length < 20) {
+                group.checklists.push(checklist);
+            } else {
+                throw new Error("Checklist Under Group Limit Exceeded: 20");
+            }
         }
         return group;
     })
@@ -96,7 +106,13 @@ export const addToExistingGroup = (checklists, groups, listId, groupId) => {
     let updatedGroups = [...groups];
     updatedGroups.map(group => {
         if(group.groupId === groupId) {
-            group.checklists.push(mvingList);
+            //Ensure Checklist Under Group Limit
+            if(group.checklists.length < 20) {
+                group.checklists.push(mvingList);
+            //Checklist Under Group Limit Exceeded
+            } else {
+                throw new Error("Checklist Under Group Limit Exceeded: 20");
+            }
         }
     })
     
@@ -164,8 +180,14 @@ export const moveListGroupToGroup = (groups, listId, fromGroupId, toGroupId) => 
     updatedGroups.map(group => {
         let updatedLists;
         if(group.groupId === toGroupId) {
-            updatedLists = [...group.checklists, mvingList];
-            group.checklists = updatedLists;
+            //Ensure Checklist Under Group Limit
+            if(group.checklists.length < 20) {
+                updatedLists = [...group.checklists, mvingList];
+                group.checklists = updatedLists;
+            //Checklist Under Group Limit Exceeded
+            } else {
+                throw new Error("Checklist Under Group Limit Exceeded: 20");
+            }
         }
     })
 

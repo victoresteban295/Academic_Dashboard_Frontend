@@ -60,29 +60,33 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
 }
 
 const addNewSubpoint = (checklist, pointIdx, subContent) => {
-    //Create New Subpoint Object
-    let subpoint = {
-        index: '',
-        content: subContent,
-        subpoints: [],
-        completedSubpoints: []
-    }
-    let newCheckpoints; //Updated Checkpoints List
-    let completedPoints; //Completed Checkpoints List
+    if(checklist.checkpoints[pointIdx].subpoints.length < 50) {
+        //Create New Subpoint Object
+        let subpoint = {
+            index: '',
+            content: subContent,
+            subpoints: [],
+            completedSubpoints: []
+        }
+        let newCheckpoints; //Updated Checkpoints List
+        let completedPoints; //Completed Checkpoints List
 
-    //Extract Original Subpoints List
-    let subpoints = checklist.checkpoints[pointIdx].subpoints;
-    //Updated New Subpoint's Index
-    subpoint.index = subpoints.length;
-    //Add Subpoint to Subpoints List
-    checklist.checkpoints[pointIdx].subpoints.push(subpoint);
-    //Update Changes
-    newCheckpoints = checklist.checkpoints;
-    completedPoints = checklist.completedPoints;
+        //Extract Original Subpoints List
+        let subpoints = checklist.checkpoints[pointIdx].subpoints;
+        //Updated New Subpoint's Index
+        subpoint.index = subpoints.length;
+        //Add Subpoint to Subpoints List
+        checklist.checkpoints[pointIdx].subpoints.push(subpoint);
+        //Update Changes
+        newCheckpoints = checklist.checkpoints;
+        completedPoints = checklist.completedPoints;
 
-    return {
-        newCheckpoints: newCheckpoints,
-        completedPoints: completedPoints,
+        return {
+            newCheckpoints: newCheckpoints,
+            completedPoints: completedPoints,
+        }
+    } else {
+        throw new Error("Subpoints Limit Exceeded: 50");
     }
 }
 

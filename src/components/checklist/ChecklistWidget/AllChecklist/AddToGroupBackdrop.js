@@ -12,7 +12,8 @@ const AddToGroupBackdrop = ({
     groups, 
     changeGroups,
     checklists,
-    changeChecklists }) => {
+    changeChecklists, 
+    handleOpenAlert }) => {
 
     //GroupId of Selected Group
     const [selectedGroupId, setSelectedGroupId] = useState('');
@@ -59,20 +60,25 @@ const AddToGroupBackdrop = ({
             }
         //Selected Existing Group
         } else { 
-            //Add Checklist to Existing Group
-            const { updatedLists, updatedGroups } = addToExistingGroup(
-                checklists, 
-                groups, 
-                listId, 
-                selectedGroupId);
+            try {
+                //Add Checklist to Existing Group
+                const { updatedLists, updatedGroups } = addToExistingGroup(
+                    checklists, 
+                    groups, 
+                    listId, 
+                    selectedGroupId);
 
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            addChecklistToGroup(username, listId, selectedGroupId);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                addChecklistToGroup(username, listId, selectedGroupId);
+                reloadChecklistpage();
+
+            } catch(error) {
+                handleOpenAlert(error.message);
+            }
         }
     }
 

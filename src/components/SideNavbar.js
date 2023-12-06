@@ -14,7 +14,7 @@ const SideNavbar = ({ username, role }) => {
                 flexGrow: 1,
                 width: '100%',
                 position: 'sticky',
-                top: '80px',
+                top: '70px',
             }}
         >
             <NavButtons 

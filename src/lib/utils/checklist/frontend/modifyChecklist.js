@@ -4,25 +4,30 @@ import { nanoid } from "nanoid";
 /* Create a New Checklist in (Non-Grouped) Checklists */
 /******************************************************/
 export const createNewChecklist = (checklists, title) => {
-    const listId = nanoid(10);
-    //New Checklist
-    const checklist = {
-        objectId: '', 
-        listId: listId,
-        title: title,
-        groupId: '',
-        checkpoints : [],
-        completedPoints: []
-    }
+    //User's Non-Grouped Checklist Limit is 20 
+    if(checklists.length < 20) {
+        const listId = nanoid(10);
+        //New Checklist
+        const checklist = {
+            objectId: '', 
+            listId: listId,
+            title: title,
+            groupId: '',
+            checkpoints : [],
+            completedPoints: []
+        }
 
-    //Add Newly Create Checklist to Lists
-    let updatedLists = [...checklists];
-    updatedLists.push(checklist);
-    return {
-        updatedLists: updatedLists,
-        listId: listId
+        //Add Newly Create Checklist to Lists
+        let updatedLists = [...checklists];
+        updatedLists.push(checklist);
+        return {
+            updatedLists: updatedLists,
+            listId: listId
+        }
+    //User Reached Checklist Limit
+    } else {
+        throw new Error("Checklist Limit Exceeded: 20");
     }
-    
 }
 
 /****************************/

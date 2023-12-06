@@ -9,7 +9,8 @@ const NewChecklistBackdrop = ({
     handleClose, 
     checklists,
     changeChecklists, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
 
     //Title of New Checklist to Create
     const [title, setTitle] = useState('');
@@ -22,18 +23,21 @@ const NewChecklistBackdrop = ({
 
     //Create New Checklist
     const handleNewChecklist = () => {
-        handleCloseBackdrop();
+        try{
+            handleCloseBackdrop();
+            //Create New Checklist
+            const { updatedLists, listId } = createNewChecklist(checklists, title);
+            //Update State Value
+            changeChecklists(updatedLists);
+            //Set Checklist as Last Visited
+            handleActiveList(listId);
 
-        //Create New Checklist
-        const { updatedLists, listId } = createNewChecklist(checklists, title);
-        //Update State Value
-        changeChecklists(updatedLists);
-        //Set Checklist as Last Visited
-        handleActiveList(listId);
-
-        //Backend API: Update Database
-        createChecklist(username, title, listId);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            createChecklist(username, title, listId);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+        }
     }
 
     return (
@@ -69,6 +73,7 @@ const NewChecklistBackdrop = ({
                 >
                     <Typography
                         variant='h6'
+                        align='center'
                         sx={{
                             flexGrow: 1,
                             align: 'center',

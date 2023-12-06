@@ -2,7 +2,7 @@ import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/ba
 import { createNewCheckpoint } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
 import { addSubpoint } from "@/lib/utils/checklist/frontend/modifySubpoint";
 import { CheckBoxOutlineBlank, Close } from "@mui/icons-material";
-import { Box, IconButton, InputBase } from "@mui/material";
+import { Alert, Box, IconButton, InputBase, Snackbar } from "@mui/material";
 import { useState } from "react";
 
 const NewCheckpointSection = ({ 
@@ -20,52 +20,69 @@ const NewCheckpointSection = ({
     //New Checkpoint
     const [newPoint, setNewPoint] = useState('');
 
+    /* Error Message Displaying in Alert */
+    const [errorMsg, setErrorMsg] = useState('');
+    /* Display Alert with Error Message */
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
+
     //Create New Checkpoint || Subpoint
     const createNewPoint = () => {
         let updatedLists, updatedGroups, updatedPoints, completedPoints;
         //Ensure User Input Isn't Blank
         const checkpoint = newPoint.trim();
         if(checkpoint != '') {
-            //Creating a New Checkpoint 
-            if(!isSubpoint) {
-                //Create New Checkpoint 
-                const updates = createNewCheckpoint(
+            try {
+                //Creating a New Checkpoint 
+                if(!isSubpoint) {
+                    //Create New Checkpoint 
+                    const updates = createNewCheckpoint(
+                            checklists, 
+                            groups, 
+                            listId, 
+                            groupId, 
+                            checkpoint);
+
+                    updatedLists = updates.updatedLists;
+                    updatedGroups = updates.updatedGroups;
+                    updatedPoints = updates.updatedPoints;
+                    completedPoints = updates.completedPoints;
+
+                //Creating a New Subpoint
+                } else {
+                    //Create New Subpoint
+                    const updates = addSubpoint(
                         checklists, 
                         groups, 
                         listId, 
                         groupId, 
+                        index, 
                         checkpoint);
 
-                updatedLists = updates.updatedLists;
-                updatedGroups = updates.updatedGroups;
-                updatedPoints = updates.updatedPoints;
-                completedPoints = updates.completedPoints;
+                    updatedLists = updates.updatedLists;
+                    updatedGroups = updates.updatedGroups;
+                    updatedPoints = updates.updatedPoints;
+                    completedPoints = updates.completedPoints;
 
-            //Creating a New Subpoint
-            } else {
-                //Create New Subpoint
-                const updates = addSubpoint(
-                    checklists, 
-                    groups, 
-                    listId, 
-                    groupId, 
-                    index, 
-                    checkpoint);
+                }
 
-                updatedLists = updates.updatedLists;
-                updatedGroups = updates.updatedGroups;
-                updatedPoints = updates.updatedPoints;
-                completedPoints = updates.completedPoints;
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
+                //Backend API: Updated Database
+                modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
             }
-
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
-
-            //Backend API: Updated Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
         } else {
             hideNewPoint();
         }
@@ -79,6 +96,27 @@ const NewCheckpointSection = ({
                 alignItems: 'center',
             }}
         >
+            <Snackbar
+                open={openAlert}
+                anchorOrigin={{
+                    vertical: 'top', 
+                    horizontal: 'right',
+                }}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        position: 'relative',
+                        top: {xs: '0px', sm: '0px', md: '50px'},
+                    }}
+                >
+                    {errorMsg}
+                </Alert>
+            </Snackbar> 
             <IconButton size='large'>
                 <CheckBoxOutlineBlank fontSize='inherit' />
             </IconButton>

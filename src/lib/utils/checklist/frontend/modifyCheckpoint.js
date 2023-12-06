@@ -28,13 +28,19 @@ export const createNewCheckpoint = (checklists, groups, listId, groupId, content
     if(groupId === '') {
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                //Update New Checkpoint's Index
-                checkpoint.index = checklist.checkpoints.length;
-                //Updated Checkpoints List
-                updatedPoints = [...checklist.checkpoints, checkpoint]
-                //Add Checkpoint to Checkpoints
-                checklist.checkpoints = updatedPoints;
-                completedPoints = checklist.completedPoints;
+                //Ensure Checkpoints Limit
+                if(checklist.checkpoints.length < 50) {
+                    //Update New Checkpoint's Index
+                    checkpoint.index = checklist.checkpoints.length;
+                    //Updated Checkpoints List
+                    updatedPoints = [...checklist.checkpoints, checkpoint]
+                    //Add Checkpoint to Checkpoints
+                    checklist.checkpoints = updatedPoints;
+                    completedPoints = checklist.completedPoints;
+                //Checkpoints Limit Exceeded
+                } else {
+                    throw new Error("Checkpoints Limit Exceeded: 50");
+                }
             }
         })
     //Checklist is Grouped
@@ -43,13 +49,17 @@ export const createNewCheckpoint = (checklists, groups, listId, groupId, content
             if(group.groupId === groupId) {
                 group.checklists.map(checklist => {
                     if(checklist.listId === listId) {
-                        //Update New Checkpoint's Index
-                        checkpoint.index = checklist.checkpoints.length;
-                        //Updated Checkpoints List
-                        updatedPoints = [...checklist.checkpoints, checkpoint]
-                        //Add Checkpoint to Checkpoints
-                        checklist.checkpoints = updatedPoints;
-                        completedPoints = checklist.completedPoints;
+                        if(checklist.checkpoints.length < 50) {
+                            //Update New Checkpoint's Index
+                            checkpoint.index = checklist.checkpoints.length;
+                            //Updated Checkpoints List
+                            updatedPoints = [...checklist.checkpoints, checkpoint]
+                            //Add Checkpoint to Checkpoints
+                            checklist.checkpoints = updatedPoints;
+                            completedPoints = checklist.completedPoints;
+                        } else {
+                            throw new Error("Checkpoints Limit Exceeded: 50");
+                        }
                     }
                 })
             }

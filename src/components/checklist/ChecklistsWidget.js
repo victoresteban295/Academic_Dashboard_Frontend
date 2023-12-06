@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Alert, Box, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
 import UserChecklists from "./ChecklistsWidget/UserChecklists";
 import UserGrouplists from "./ChecklistsWidget/UserGrouplists";
 import { Add } from "@mui/icons-material";
@@ -25,6 +25,19 @@ const ChecklistsWidget = ({
         setAnchorEl(null);
     }
 
+    /* Error Message Displaying in Alert */
+    const [errorMsg, setErrorMsg] = useState('');
+    /* Display Alert with Error Message */
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
+
     /* Backdrop Menu State Value & Function */
     /* Create New Checklist */
     const [openNewList, setOpenNewList] = useState(false);
@@ -48,9 +61,30 @@ const ChecklistsWidget = ({
     return (
         <Box
             sx={{
-                width: '100%'
+                width: '100%',
             }}
         >
+            <Snackbar
+                open={openAlert}
+                anchorOrigin={{
+                    vertical: 'top', 
+                    horizontal: 'right',
+                }}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        position: 'relative',
+                        top: {xs: '0px', sm: '0px', md: '50px'},
+                    }}
+                >
+                    {errorMsg}
+                </Alert>
+            </Snackbar> 
             <NewChecklistBackdrop 
                 username={username}
                 open={openNewList} 
@@ -58,6 +92,7 @@ const ChecklistsWidget = ({
                 checklists={checklists}
                 changeChecklists={changeChecklists}
                 handleActiveList={handleActiveList}
+                handleOpenAlert={handleOpenAlert}
             />
             <NewGroupBackdrop 
                 username={username}
@@ -65,6 +100,7 @@ const ChecklistsWidget = ({
                 handleClose={handleCloseNewGroup}
                 groups={groups}
                 changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
             />
             <Box
                 className="my-checklist-title"

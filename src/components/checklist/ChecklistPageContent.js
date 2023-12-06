@@ -84,7 +84,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                     sx={{
                         width: '100%',
                         position: 'sticky',
-                        top: '74px',
+                        top: '70px',
                     }}
                 >
                     <ChecklistsWidget
