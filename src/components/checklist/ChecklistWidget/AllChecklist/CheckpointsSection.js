@@ -41,22 +41,26 @@ const CheckpointsSection = ({
 
     // Modify Checkpoint's Content
     const handleContent = () => {
-        setUpdating(false);
-        const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
-            checklists,
-            groups,
-            listId,
-            groupId,
-            index, 
-            newContent);
+        if(newContent.trim() != '') {
+            setUpdating(false);
+            const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
+                checklists,
+                groups,
+                listId,
+                groupId,
+                index, 
+                newContent);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+            reloadChecklistpage();
+        } else {
+            setNewContent(content);
+        }
     }
 
     // Mark Checkpoint as Complete

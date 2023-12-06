@@ -8,22 +8,20 @@ import { notFound } from "next/navigation";
 export const getGrouplists = async (username) => {
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/${username}/get/grouplists`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/${username}/get/grouplists`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    if(!res.ok) {
-        //NOTE: throw Error instead
-        notFound();
+    } catch(error) {
+        throw new Error("Failed to Load Groups");
     }
-
-    return res.json();
 }
 
 /******************************/
@@ -32,22 +30,25 @@ export const getGrouplists = async (username) => {
 export const createGrouplist = async (username, title, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/new`, {
+            cache: "no-cache",
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                title: title,
+                groupId: groupId,
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/new`, {
-        cache: "no-cache",
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            title: title,
-            groupId: groupId,
-        })
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Create New Group");
+    }
 }
 
 /****************************/
@@ -56,21 +57,24 @@ export const createGrouplist = async (username, title, groupId) => {
 export const modifyGroupTitle = async (username, groupId, title) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/modify/title/${groupId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                title: title,
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/modify/title/${groupId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            title: title,
-        })
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Rename Group's Title");
+    }
 }
 
 /******************************************/
@@ -79,22 +83,25 @@ export const modifyGroupTitle = async (username, groupId, title) => {
 export const addNewChecklistToGroup = async (username, listId, title, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/new/checklist/${groupId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                title: title,
+                listId: listId,
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/new/checklist/${groupId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            title: title,
-            listId: listId,
-        })
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Create New Checklist Under Group");
+    }
 }
 
 /*******************************************************/
@@ -103,18 +110,21 @@ export const addNewChecklistToGroup = async (username, listId, title, groupId) =
 export const addChecklistToGroup = async (username, listId, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/add/${listId}/to/${groupId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/add/${listId}/to/${groupId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Move Checklist to Group");
+    }
 }
 
 /******************************************************/
@@ -123,17 +133,21 @@ export const addChecklistToGroup = async (username, listId, groupId) => {
 export const moveChecklistGroupToGroup = async (username, listId, fromGroupId, toGroupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/move/${listId}/from/${fromGroupId}/to/${toGroupId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/move/${listId}/from/${fromGroupId}/to/${toGroupId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Move Checklist to Different Group");
+    }
 }
 
 /******************************/
@@ -149,18 +163,21 @@ export const reorderGroupsChecklists = async (username, checklists, groupId) => 
 export const removeChecklistFromGroup = async (username, listId, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/remove/${listId}/from/${groupId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/grouplist/${username}/remove/${listId}/from/${groupId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Remove Checklist From Group");
+    }
 }
 
 /****************/
@@ -169,14 +186,17 @@ export const removeChecklistFromGroup = async (username, listId, groupId) => {
 export const deleteGrouplist = async (username, groupId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
-
-    /* Backend REST API */
-    await fetch(`http://localhost:8080/api/grouplist/${username}/delete/${groupId}`, {
-        cache: "no-cache",
-        method: "DELETE", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
+    try{
+        /* Backend REST API */
+        await fetch(`http://localhost:8080/api/grouplist/${username}/delete/${groupId}`, {
+            cache: "no-cache",
+            method: "DELETE", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+    } catch(error) {
+        throw new Error("Failed to Delete Group");
+    }
 }

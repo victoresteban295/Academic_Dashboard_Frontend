@@ -27,16 +27,20 @@ const ProfessorAvatar = ({ professorInitials, username, role }) => {
 
     const handleLogout = async () => {
         triggerLoading();
-        const res = await fetch('http://localhost:3000/api/auth/logout', {
-            method: "POST",
-        });
-
-        if(res.ok) {
-            localStorage.clear();
-            router.push('/');
-        } else {
+        try{
+            const res = await fetch('http://localhost:3000/api/auth/logout', {
+                method: "POST",
+            });
+            if(res.ok) {
+                localStorage.clear();
+                router.push('/');
+            } else {
+                closeLoading();
+                alert("Something Went Wrong! - try again later");
+            }
+        } catch(error) {
             closeLoading();
-            alert("Something Went Wrong!");
+            alert("Something Went Wrong! - try again later");
         }
     }
 

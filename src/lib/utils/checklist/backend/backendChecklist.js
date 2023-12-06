@@ -1,6 +1,5 @@
 'use server'
 import { cookies } from "next/dist/client/components/headers";
-import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 
@@ -17,22 +16,20 @@ export const reloadChecklistpage = () => {
 export const getAllChecklists = async (username) => {
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/${username}/get/all/checklists`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/${username}/get/all/checklists`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    if(!res.ok) {
-        //NOTE: throw Error instead
-        notFound();
+    } catch(error) {
+        throw new Error("Failed to Load User's Checklists");
     }
-
-    return res.json();
 }
 
 /*************************************/
@@ -41,22 +38,21 @@ export const getAllChecklists = async (username) => {
 export const getChecklists = async (username) => {
     const cookieStore = cookies(); 
     const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/${username}/get/checklists`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/${username}/get/checklists`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
-
-    if(!res.ok) {
-        //NOTE: throw Error instead
-        notFound();
+    } catch(error) {
+        throw new Error("Failed to Load Checklists");
     }
 
-    return res.json();
 }
 
 /****************************************/
@@ -65,22 +61,25 @@ export const getChecklists = async (username) => {
 export const createChecklist = async (username, title, listId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/checklist/${username}/new`, {
+            cache: "no-cache",
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                title: title,
+                listId: listId
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/checklist/${username}/new`, {
-        cache: "no-cache",
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            title: title,
-            listId: listId
-        })
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Create New Checklist");
+    }
 }
 
 /****************************************************/
@@ -89,21 +88,24 @@ export const createChecklist = async (username, title, listId) => {
 export const renameCheclistTitle = async (username, listId, title) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/title/${listId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                title: title,
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/title/${listId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            title: title,
-        })
-    });
-
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Rename Checklist's Title");
+    }
 }
 
 /**********************************************************/
@@ -112,22 +114,25 @@ export const renameCheclistTitle = async (username, listId, title) => {
 export const modifyCheckpoints = async (username, listId, checkpoints, completedPoints) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/checkpoints/${listId}`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                checkpoints: checkpoints,
+                completedPoints: completedPoints,
+            })
+        });
+        return res.json();
 
-    /* Backend REST API */
-    const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/checkpoints/${listId}`, {
-        cache: "no-cache",
-        method: "PUT", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-            checkpoints: checkpoints,
-            completedPoints: completedPoints,
-        })
-    });
-    
-    return res.json();
+    } catch(error) {
+        throw new Error("Failed to Modify Checklist's Checkpoints");
+    }
 }
 
 /********************************************/
@@ -136,14 +141,18 @@ export const modifyCheckpoints = async (username, listId, checkpoints, completed
 export const deleteChecklist = async (username, listId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        await fetch(`http://localhost:8080/api/checklist/${username}/delete/${listId}`, {
+            cache: "no-cache",
+            method: "DELETE", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
+        });
 
-    /* Backend REST API */
-    await fetch(`http://localhost:8080/api/checklist/${username}/delete/${listId}`, {
-        cache: "no-cache",
-        method: "DELETE", 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
-        }
-    });
+    } catch(error) {
+        throw new Error("Failed to Delete Checklist");
+    }
 }

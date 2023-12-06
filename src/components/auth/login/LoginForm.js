@@ -17,26 +17,13 @@ const LoginForm = ({ triggerLoading, closeLoading }) => {
 
     /* User Entered Incorrect Username/Password */
     const [alert, setAlert] = useState(false);
-    let displayAlert;
-    if(alert) {
-        displayAlert = {}
-    } else {
-        displayAlert = {
-            display: 'none',
-        }
-    }
 
     /* User Successfully Created Account */
     const searchParams = useSearchParams();
     const [regSuccess, setSuccess] = useState(searchParams.get('success') === 'true');
-    let displaySuccess;
-    if(regSuccess) {
-        displaySuccess = {}
-    } else {
-        displaySuccess = {
-            display: 'none',
-        }
-    }
+
+    /* Backend Rest API Error */
+    const [displayWarning, setdisplayWarning] = useState(false);
 
     /* Handle Password View */
     const [showPassword, setShowPassword] = useState(false);
@@ -63,10 +50,16 @@ const LoginForm = ({ triggerLoading, closeLoading }) => {
             const body = await res.json(); //Get User's role
             setAlert(false);
             router.push(`/${body.role}/${data.username}`);
+        } else if (res.status >= 400 && res.status <= 499) {
+            closeLoading();
+            setdisplayWarning(false);
+            setSuccess(false);
+            setAlert(true);
         } else {
             closeLoading();
             setSuccess(false);
-            setAlert(true);
+            setAlert(false);
+            setdisplayWarning(true);
         }
     }
 
@@ -75,24 +68,36 @@ const LoginForm = ({ triggerLoading, closeLoading }) => {
             <Stack
                 spacing={1}
             >
-                <Alert
-                    severity="success"
-                    sx={{
-                        width: '100%',
-                        ...displaySuccess,
-                    }} 
-                > 
-                    Account Successfully Created
-                </Alert>
-                <Alert
-                    severity="error"
-                    sx={{
-                        width: '100%',
-                        ...displayAlert,
-                    }} 
-                > 
-                    Wrong Username/Password 
-                </Alert>
+                {regSuccess && (
+                    <Alert
+                        severity="success"
+                        sx={{
+                            width: '100%',
+                        }} 
+                    > 
+                        Account Successfully Created
+                    </Alert>
+                )}
+                {alert && (
+                    <Alert
+                        severity="error"
+                        sx={{
+                            width: '100%',
+                        }} 
+                    > 
+                        Wrong Username/Password 
+                    </Alert>
+                )}
+                {displayWarning && (
+                    <Alert
+                        severity="warning"
+                        sx={{
+                            maxWidth: '266px',
+                        }} 
+                    > 
+                        Something went wrong on our end - Please try again later!
+                    </Alert>
+                )}
                 <TextField 
                     label="Username" 
                     variant="outlined" 

@@ -27,23 +27,27 @@ const SubpointsSection = ({
 
     // Modify Subpoint's Content 
     const handleNewSubcontent = () => {
-        setUpdating(false);
-        const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifySubpoint(
-            checklists, 
-            groups, 
-            listId,
-            groupId,
-            pointIdx,
-            subpointIdx,
-            newContent)
+        if(newContent.trim() != '') {
+            setUpdating(false);
+            const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifySubpoint(
+                checklists, 
+                groups, 
+                listId,
+                groupId,
+                pointIdx,
+                subpointIdx,
+                newContent)
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+            reloadChecklistpage();
+        } else {
+            setNewContent(content);
+        }
     }
 
     // Mark Supoint As Complete 

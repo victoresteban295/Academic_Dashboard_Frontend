@@ -1,31 +1,36 @@
 "use server"
 
 export const validateInstitution = async (data) => {
-    //Backend REST API
-    const res = await fetch('http://localhost:8080/api/auth/institution/verify', {
-        cache: "no-cache",
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            profile: data.profileType,
-            codeId: data.schoolId
-        })
-    });
 
-    //Extract Data From Response
-    const body = await res.json();
+    try {
+        //Backend REST API
+        const res = await fetch('http://localhost:8080/api/auth/institution/verify', {
+            cache: "no-cache",
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                profile: data.profileType,
+                codeId: data.schoolId
+            })
+        });
 
-    if(res.ok) {
-        return {
-            success: true,
-            ...body,
+        //Extract Data From Response
+        const body = await res.json();
+
+        if(res.ok) {
+            return {
+                success: true,
+                ...body,
+            }
+        } else {
+            return {
+                success: false
+            }
         }
-    } else {
-        return {
-            success: false
-        }
+    } catch (error) {
+        throw new Error("Failed to Validate New User")
     }
     
 }

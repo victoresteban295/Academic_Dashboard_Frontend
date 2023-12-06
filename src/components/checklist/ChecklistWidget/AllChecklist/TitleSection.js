@@ -1,9 +1,6 @@
-import { ChecklistTitleSchema } from "@/lib/schemas/checklistSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import AddToGroupBackdrop from "./AddToGroupBackdrop";
 import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
@@ -30,14 +27,8 @@ const TitleSection = ({
     showNewPoint, 
     displayNewPoint }) => {
 
-    /* React Hook From */
-    const { control } = useForm({
-        mode: 'onBlur', 
-        defaultValues: {
-            checklistTitle: title,
-        },
-        resolver: zodResolver(ChecklistTitleSchema), //Zod Validation Schema
-    });
+    /* Checklist Title */
+    const [newTitle, setNewTitle] = useState(title);
 
     /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);
@@ -81,22 +72,26 @@ const TitleSection = ({
 
     //Rename Checklist
     const modifyTitle = (event) => {
-        //Modify Checklist's Title
-        const newTitle = event.target.value; //New Checklist's Title
-        const {updatedLists, updatedGroups} = handleChecklistTitle(
-            checklists, 
-            groups, 
-            groupId, 
-            listId, 
-            newTitle);
+        if(newTitle.trim() != '') {
+            //Modify Checklist's Title
+            const newTitle = event.target.value; //New Checklist's Title
+            const {updatedLists, updatedGroups} = handleChecklistTitle(
+                checklists, 
+                groups, 
+                groupId, 
+                listId, 
+                newTitle);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        renameCheclistTitle(username, listId, newTitle);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            renameCheclistTitle(username, listId, newTitle);
+            reloadChecklistpage();
+        } else {
+            setNewTitle(title);
+        } 
     }
     
     // Remove Checklist From Current Group
@@ -159,29 +154,21 @@ const TitleSection = ({
                 changeGroups={changeGroups}
                 handleActiveList={handleActiveList}
             />
-            <Controller 
-                name="checklistTitle"
-                control={control}
-                render={({field: { onChange, value}}) => {
-                    return (
-                        <InputBase
-                            value={value}
-                            placeholder="Add Checklist Title"
-                            onChange={onChange}
-                            onBlur={modifyTitle}
-                            onKeyDown={(e) => {
-                                if(e.key === 'Enter') {
-                                    e.target.blur();
-                                }
-                            }}
-                            inputProps={{maxLength: 50}}
-                            sx={{
-                                fontSize: '20px',
-                                fontWeight: '700',
-                                flexGrow: 4,
-                            }}
-                        />
-                    )
+            <InputBase
+                value={newTitle}
+                placeholder="Add Checklist Title"
+                onChange={(e) => setNewTitle(e.target.value)}
+                onBlur={modifyTitle}
+                onKeyDown={(e) => {
+                    if(e.key === 'Enter') {
+                        e.target.blur();
+                    }
+                }}
+                inputProps={{maxLength: 50}}
+                sx={{
+                    fontSize: '20px',
+                    fontWeight: '700',
+                    flexGrow: 4,
                 }}
             />
             {(!showAllEdit) && (
