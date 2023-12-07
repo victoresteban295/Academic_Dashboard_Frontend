@@ -82,6 +82,32 @@ export const createChecklist = async (username, title, listId) => {
     }
 }
 
+/*******************************************/
+/* Reorder User's Checklists (Non-Grouped) */
+/*******************************************/
+export const reorderUserChecklists = async (username, checklists) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/checklist/${username}/reorder`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                checklists: checklists,
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to User's Checklists");
+    }
+}
+
 /****************************************************/
 /* Rename Checklist's Title (Grouped & Non-Grouped) */
 /****************************************************/

@@ -1,7 +1,11 @@
 "use client"
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { Box, Button, Typography } from "@mui/material";
 
 const ChecklistOption = ({ username, activeList, handleActiveList, title, listId }) => {
+
+    /* Determine if User is Currently Viewing this Checklist*/
     let isActive; 
     const isCurrent = activeList === listId
     if(isCurrent) {
@@ -16,36 +20,59 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
         }
     }
 
+    /* Dnd-kit: Make Component Draggable */
+    const { 
+        attributes, 
+        listeners, 
+        setNodeRef, 
+        transform, 
+        transition 
+    } = useSortable({id: listId});
+
+    /* Allows us to pick up draggable componenet */
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
+
     //Change Checklist Content 
     const handleClick = () => {
         handleActiveList(listId);
     } 
 
     return (
-        <Box
-            className='checklist-option' 
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                borderRadius: '10px',
-                ...isActive,
-            }}
+        <div
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
         >
-            <Button
-                variant="text"
-                onClick={handleClick}
+            <Box
+                className='checklist-option' 
                 sx={{
-                    color: '#000'
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    borderRadius: '10px',
+                    ...isActive,
                 }}
             >
-                <Typography
-                    noWrap={true}
-                    variant="button"
+                <Button
+                    variant="text"
+                    onClick={handleClick}
+                    sx={{
+                        color: '#000'
+                    }}
                 >
-                    {title}
-                </Typography>
-            </Button>
-        </Box>
+                    <Typography
+                        noWrap={true}
+                        variant="button"
+                    >
+                        {title}
+                    </Typography>
+                </Button>
+            </Box>
+
+        </div>
     )
 }
 

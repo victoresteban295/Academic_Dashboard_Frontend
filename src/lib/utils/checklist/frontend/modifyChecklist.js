@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import { nanoid } from "nanoid";
 
 /******************************************************/
@@ -60,6 +61,25 @@ export const handleChecklistTitle = (checklists, groups, groupId, listId, newTit
         updatedLists: updatedLists,
         updatedGroups: updatedGroups,
     }
+}
+
+/*****************************************/
+/* Reorder User's Non-Grouped Checklists */
+/*****************************************/
+export const reorderChecklists = (checklists, activeId, overId) => {
+    let activeIdx; //Index of Active Checklist
+    let overIdx; //Index of Over Checklist
+    let outdatedLists = [...checklists];
+
+    outdatedLists.map(checklist => {
+        if(activeId === checklist.listId) {
+            activeIdx = checklists.indexOf(checklist);
+        } else if(overId === checklist.listId) {
+            overIdx = checklists.indexOf(checklist);
+        }
+    });
+
+    return arrayMove(checklists, activeIdx, overIdx);
 }
 
 /********************/
