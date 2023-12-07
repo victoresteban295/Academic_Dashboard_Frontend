@@ -30,6 +30,9 @@ const TitleSection = ({
     /* Checklist Title */
     const [newTitle, setNewTitle] = useState(title);
 
+    //NOTE: Enables To Delete Checklist w/o Bug 
+    const [isUpdating, setUpdating] = useState(false);
+
     /* Error Message Displaying in Alert */
     const [errorMsg, setErrorMsg] = useState('');
     /* Display Alert with Error Message */
@@ -86,6 +89,7 @@ const TitleSection = ({
     //Rename Checklist
     const modifyTitle = (event) => {
         if(newTitle.trim() != '') {
+            setUpdating(false);
             //Modify Checklist's Title
             const newTitle = event.target.value; //New Checklist's Title
             const {updatedLists, updatedGroups} = handleChecklistTitle(
@@ -191,9 +195,12 @@ const TitleSection = ({
                 handleActiveList={handleActiveList}
             />
             <InputBase
-                value={newTitle}
+                value={isUpdating ? newTitle : title}
                 placeholder="Add Checklist Title"
-                onChange={(e) => setNewTitle(e.target.value)}
+                onChange={(e) =>{
+                    setUpdating(true);
+                    setNewTitle(e.target.value)
+                }}
                 onBlur={modifyTitle}
                 onKeyDown={(e) => {
                     if(e.key === 'Enter') {
