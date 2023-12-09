@@ -5,13 +5,18 @@ import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import DeleteGroupBackdrop from "../Backdrops/DeleteGroupBackdrop";
 import WarnDeleteBackdrop from "../Backdrops/WarnDeleteBackdrop";
-import { deleteGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
-import { deleteGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { deleteGroup, reorderGroupChecklist } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { deleteGrouplist, reorderChecklists } from "@/lib/utils/checklist/backend/backendGrouplist";
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import RenameGroupBackdrop from "../Backdrops/RenameGroupBackdrop";
 import ListInGroupBackdrop from "../Backdrops/ListInGroupBackdrop";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 const GrouplistOption = ({ 
+    activeGroup,
     username, 
     activeList, 
     handleActiveList, 
@@ -47,6 +52,54 @@ const GrouplistOption = ({
     const handleCloseAlert = () => {
         setErrorMsg('');
         setOpenAlert(false);
+    }
+
+    /* Dnd-kit: Make Component Draggable */
+    const { 
+        attributes, 
+        listeners, 
+        setNodeRef, 
+        transform, 
+        transition 
+    } = useSortable({id: groupId});
+    const mouseSensor = useSensor(MouseSensor, {
+        //Require the mouse to move 10px before activating drag
+        activationConstraint: {
+            distance: 10,
+        }
+    });
+    const touchSensor = useSensor(TouchSensor, {
+        //For Touch Screen: Require touch to move 10px before activating drag
+        activationConstraint: {
+            distance: 10,
+        }
+    });
+    const sensors = useSensors(mouseSensor, touchSensor);
+    const handleDragEnd = (event) => {
+        //active = component getting dragged
+        //over = component where the draggable component was passed over & placed
+        const {active, over} = event;
+        if(active.id !== over.id) {
+            //Re-order Groups
+            const { 
+                updatedGroups, 
+                modifiedGroup 
+            } = reorderGroupChecklist(groups, groupId, active.id, over.id);
+            
+            //Update State Value
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            reorderChecklists(username, modifiedGroup);
+            reloadChecklistpage();
+        }
+    }
+    /* Is Group Currently Being Dragged */
+    const isActive = activeGroup === groupId;
+    /* Allows us to pick up draggable componenet */
+    const style = {
+        transform: CSS.Transform.toString(transform && {...transform, scaleY: 1}),
+        transition,
     }
     
     /* Expands Groups UI (Exposes Grouped Checklists)*/
@@ -131,181 +184,201 @@ const GrouplistOption = ({
     }
 
     return (
-        <Stack
-            id={groupId}
-            className="grouplist-container"
-            spacing={1}
-            sx={{
-                boxShadow: '1px 1px 4px 2px #cecece',
-                my: isExpanded ? 1 : 0.5,
-                py: isExpanded ? 1 : 0,
-            }}
+        <div
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
         >
-            <Snackbar
-                open={openAlert}
-                anchorOrigin={{
-                    vertical: 'top', 
-                    horizontal: 'right',
-                }}
-                autoHideDuration={6000}
-                onClose={handleCloseAlert}
-            >
-                <Alert
-                    onClose={handleCloseAlert}
-                    severity="error"
-                    sx={{
-                        width: '100%',
-                        position: 'relative',
-                        top: {xs: '0px', sm: '0px', md: '50px'},
-                    }}
-                >
-                    {errorMsg}
-                </Alert>
-            </Snackbar> 
-            <RenameGroupBackdrop 
-                username={username}
-                title={title}
-                groupId={groupId}
-                open={openRenameGroup}
-                handleClose={handleCloseRenameGroup}
-                groups={groups}
-                changeGroups={changeGroups}
-            />
-            <ListInGroupBackdrop
-                username={username}
-                group={title}
-                groupId={groupId}
-                open={openListInGroup}
-                handleClose={handleCloseListInGroup}
-                groups={groups} 
-                changeGroups={changeGroups}
-                handleActiveList={handleActiveList}
-                handleOpenAlert={handleOpenAlert}
-            />
-            <DeleteGroupBackdrop 
-                title={title}
-                checklists={checklists}
-                open={openDeleteGroup}
-                handleClose={handleCloseDeleteGroup}
-                handleOpenWarnDelete={handleOpenWarnDelete}
-                handleDeleteGroup={handleDeleteGroup}
-                activeList={activeList}
-            />
-            <WarnDeleteBackdrop 
-                title={title}
-                open={openWarnDelete}
-                handleClose={handleCloseWarnDelete}
-                handleDeleteGroup={handleDeleteGroup}
-            />
-            <Box
-                className="grouplist-title-section"
+            <Stack
+                id={groupId}
+                className="grouplist-container"
+                spacing={1}
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    boxShadow: '1px 1px 4px 2px #cecece',
+                    my: (isExpanded && !isActive) ? 1 : 0.5,
+                    py: (isExpanded && !isActive) ? 1 : 0,
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '90%'
-                    }}
-                >
-                    {isExpanded ? (
-                        <IconButton size='small' onClick={handleClose}>
-                            <ExpandLess fontSize='inherit' />
-                        </IconButton>
-                    ) : (
-                        <IconButton size='small' onClick={handleOpen}>
-                            <ExpandMore fontSize='inherit' />
-                        </IconButton>
-                    )}
-                    <Typography
-                        noWrap={true}
-                        variant="button"
-                    >
-                        {title}
-                    </Typography>
-                </Box>
-                <IconButton 
-                    onClick={openOptions}
-                    size='small'
-                >
-                    <MoreVert fontSize='inherit' />
-                </IconButton>
-                <Menu
-                    anchorEl={anchorEl}
-                    id="groups-options-menu"
-                    open={open}
-                    onClose={openOptions}
-                    onClick={closeOptions}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
+                <Snackbar
+                    open={openAlert}
                     anchorOrigin={{
-                        vertical: 'bottom',
+                        vertical: 'top', 
                         horizontal: 'right',
                     }}
+                    autoHideDuration={6000}
+                    onClose={handleCloseAlert}
                 >
-                    <MenuItem
-                        onClick={handleOpenRenameGroup}
-                    >
-                        Rename Group
-                    </MenuItem>
-                    <MenuItem
-                        onClick={handleOpenListInGroup}
-                    >
-                        Add New Checklist
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem
-                        onClick={handleOpenDeleteGroup}
+                    <Alert
+                        onClose={handleCloseAlert}
+                        severity="error"
                         sx={{
-                            color: '#ef476f'
+                            width: '100%',
+                            position: 'relative',
+                            top: {xs: '0px', sm: '0px', md: '50px'},
                         }}
                     >
-                        Delete Group
-                    </MenuItem>
-                </Menu>
-            </Box>
-            {checklists.length > 0 ? (
-                <Stack
-                    className='grouplist-checklists-section'
-                    spacing={0.5}
+                        {errorMsg}
+                    </Alert>
+                </Snackbar> 
+                <RenameGroupBackdrop 
+                    username={username}
+                    title={title}
+                    groupId={groupId}
+                    open={openRenameGroup}
+                    handleClose={handleCloseRenameGroup}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                />
+                <ListInGroupBackdrop
+                    username={username}
+                    group={title}
+                    groupId={groupId}
+                    open={openListInGroup}
+                    handleClose={handleCloseListInGroup}
+                    groups={groups} 
+                    changeGroups={changeGroups}
+                    handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
+                />
+                <DeleteGroupBackdrop 
+                    title={title}
+                    checklists={checklists}
+                    open={openDeleteGroup}
+                    handleClose={handleCloseDeleteGroup}
+                    handleOpenWarnDelete={handleOpenWarnDelete}
+                    handleDeleteGroup={handleDeleteGroup}
+                    activeList={activeList}
+                />
+                <WarnDeleteBackdrop 
+                    title={title}
+                    open={openWarnDelete}
+                    handleClose={handleCloseWarnDelete}
+                    handleDeleteGroup={handleDeleteGroup}
+                />
+                <Box
+                    className="grouplist-title-section"
                     sx={{
-                        display: isExpanded ? 'inline' : 'none',
-                        px: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                     }}
                 >
-                    {checklists.map((checklist) => {
-                        const { title, listId } = checklist;
-                        return(
-                            <ChecklistOption
-                                username={username}
-                                activeList={activeList}
-                                handleActiveList={handleActiveList}
-                                title={title}
-                                listId={listId}
-                            />
-                        )
-                    })}
-                </Stack>
-            ) : (
-                <Typography
-                    variant='body2'
-                    align='center'
-                    sx={{
-                        display: isExpanded ? 'inline' : 'none',
-                        fontWeight: '700',
-                        px: 1,
-                    }}
-                >
-                    No checklist under this group
-                </Typography>
-            )}
-        </Stack>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '90%'
+                        }}
+                    >
+                        {(isExpanded && !isActive) ? (
+                            <IconButton size='small' onClick={handleClose}>
+                                <ExpandLess fontSize='inherit' />
+                            </IconButton>
+                        ) : (
+                            <IconButton size='small' onClick={handleOpen}>
+                                <ExpandMore fontSize='inherit' />
+                            </IconButton>
+                        )}
+                        <Typography
+                            noWrap={true}
+                            variant="button"
+                        >
+                            {title}
+                        </Typography>
+                    </Box>
+                    <IconButton 
+                        onClick={openOptions}
+                        size='small'
+                    >
+                        <MoreVert fontSize='inherit' />
+                    </IconButton>
+                    <Menu
+                        anchorEl={anchorEl}
+                        id="groups-options-menu"
+                        open={open}
+                        onClose={openOptions}
+                        onClick={closeOptions}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <MenuItem
+                            onClick={handleOpenRenameGroup}
+                        >
+                            Rename Group
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenListInGroup}
+                        >
+                            Add New Checklist
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem
+                            onClick={handleOpenDeleteGroup}
+                            sx={{
+                                color: '#ef476f'
+                            }}
+                        >
+                            Delete Group
+                        </MenuItem>
+                    </Menu>
+                </Box>
+                {checklists.length > 0 ? (
+                    <DndContext
+                        collisionDetection={closestCenter} 
+                        onDragEnd={handleDragEnd}
+                        sensors={sensors}
+                        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+                    >
+                        <Stack
+                            className='grouplist-checklists-section'
+                            spacing={0.5}
+                            sx={{
+                                display: (isExpanded && !isActive) ? 'inline' : 'none',
+                                px: 1,
+                            }}
+                        >
+                            <SortableContext
+                                items={checklists.map(list => list.listId)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                {checklists.map((checklist) => {
+                                    const { title, listId } = checklist;
+                                    return(
+                                        <ChecklistOption
+                                            key={listId}
+                                            username={username}
+                                            activeList={activeList}
+                                            handleActiveList={handleActiveList}
+                                            title={title}
+                                            listId={listId}
+                                        />
+                                    )
+                                })}
+                            </SortableContext>
+                        </Stack>
+                    </DndContext>
+                ) : (
+                    <Typography
+                        variant='body2'
+                        align='center'
+                        sx={{
+                            display: (isExpanded && !isActive) ? 'inline' : 'none',
+                            fontWeight: '700',
+                            px: 1,
+                        }}
+                    >
+                        No checklist under this group
+                    </Typography>
+                )}
+            </Stack>
+        </div>
     )
 }
 

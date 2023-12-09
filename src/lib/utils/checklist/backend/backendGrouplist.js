@@ -1,6 +1,5 @@
 'use server'
 import { cookies } from "next/dist/client/components/headers";
-import { notFound } from "next/navigation";
 
 /***************************************************/
 /* Get All User's Grouplists w/ Grouped Checklists */
@@ -74,6 +73,58 @@ export const modifyGroupTitle = async (username, groupId, title) => {
 
     } catch(error) {
         throw new Error("Failed to Rename Group's Title");
+    }
+}
+
+/*************************/
+/* Reorder User's Groups */
+/*************************/
+export const reorderUserGroups = async (username, groups) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/reorder`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                grouplists: groups,
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to Reorder User's Groups");
+    }
+}
+
+/*****************************/
+/* Reorder Group's Checklist */
+/*****************************/
+export const reorderChecklists = async (username, group) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try {
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/api/grouplist/${username}/reorder/checklists`, {
+            cache: "no-cache",
+            method: "PUT", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                grouplist: group,
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to Reorder Group's Checklists");
     }
 }
 

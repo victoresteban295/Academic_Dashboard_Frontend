@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import { nanoid } from "nanoid";
 
 /*******************/
@@ -52,6 +53,59 @@ export const deleteGroup = (groups, groupId) => {
     })
 
     return updatedGroups;
+}
+
+
+/*************************/
+/* Reorder User's Groups */
+/*************************/
+export const reorderGroups = (groups, activeId, overId) => {
+    let activeIdx; //Index of Active Group 
+    let overIdx; //Index of Over Group
+    let outdatedGroups = [...groups];
+
+    outdatedGroups.map(group => {
+        if(activeId === group.groupId) {
+            activeIdx = groups.indexOf(group);
+        } else if(overId === group.groupId) {
+            overIdx = groups.indexOf(group);
+        }
+    });
+
+    return arrayMove(groups, activeIdx, overIdx);
+}
+
+export const reorderGroupChecklist = (groups, groupId, activeId, overId) => {
+    let activeIdx; //Index of Active Group 
+    let overIdx; //Index of Over Group
+    let updatedGroups = [...groups];
+    let modifiedGroup;
+    
+    for(const group of updatedGroups) {
+        //Find Group w/ Re-ordered Checklist
+        if(group.groupId === groupId) {
+            //Extract Group's Checklist
+            const checklists = group.checklists;
+
+            //Loop to Get Index of Active and Over Checklist
+            for(const checklist of checklists) {
+                if(activeId === checklist.listId) {
+                    activeIdx = checklists.indexOf(checklist);
+                } else if(overId === checklist.listId) {
+                    overIdx = checklists.indexOf(checklist)
+                }
+            } 
+
+            //Re-order Group's Checklists
+            group.checklists = arrayMove(checklists, activeIdx, overIdx);
+            modifiedGroup = group;
+        } 
+    }
+
+    return {
+        updatedGroups: updatedGroups, 
+        modifiedGroup: modifiedGroup
+    } 
 }
 
 /*********************************************/

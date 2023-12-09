@@ -3,6 +3,12 @@ import GrouplistOption from "./Options/GrouplistOption";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useState } from "react";
 import NewGroupBackdrop from "./Backdrops/NewGroupBackdrop";
+import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { reorderGroups } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { reorderUserGroups } from "@/lib/utils/checklist/backend/backendGrouplist";
+import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 
 const UserGrouplists = ({ 
     username, 
@@ -11,6 +17,8 @@ const UserGrouplists = ({
     changeGroups,
     activeList, 
     handleActiveList }) => {
+
+    const [activeGroup, setActiveGroup] = useState('');
 
     /* Backdrop Menu State Value & Function */
     /* Create New Group */
@@ -22,32 +30,83 @@ const UserGrouplists = ({
         setOpenNewGroup(false);
     }
 
+    /* Dnd-Kit: Draggable Functionality */
+    const mouseSensor = useSensor(MouseSensor, {
+        //Require the mouse to move 10px before activating drag
+        activationConstraint: {
+            distance: 10,
+        }
+    });
+    const touchSensor = useSensor(TouchSensor, {
+        //For Touch Screen: Require touch to move 10px before activating drag
+        activationConstraint: {
+            delay: 500,
+        }
+    });
+    const sensors = useSensors(mouseSensor, touchSensor);
+    const handleDragStart = (event) => {
+        const { active } = event;
+        setActiveGroup(active.id);
+    }
+    const handleDragEnd = (event) => {
+        setActiveGroup('');
+        //active = component getting dragged
+        //over = component where the draggable component was passed over & placed
+        const {active, over} = event;
+        if(active.id !== over.id) {
+            //Re-order Groups
+            const updatedGroups = reorderGroups(groups, active.id, over.id);
+            
+            //Update State Value
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            reorderUserGroups(username, updatedGroups);
+            reloadChecklistpage();
+        }
+    }
+
     //Does User Have an Groups
     const hasGroups = groups.length > 0;
 
     return (
         <>
             {hasGroups ? (
-                <Stack
-                    className='user-grouplists-section'
+                <DndContext
+                    collisionDetection={closestCenter} 
+                    onDragEnd={handleDragEnd}
+                    onDragStart={handleDragStart}
+                    sensors={sensors}
+                    modifiers={[restrictToVerticalAxis, restrictToParentElement]}
                 >
-                    {groups.map((group) => {
-                        const { title, groupId, checklists } = group;
-                        return(
-                            <GrouplistOption 
-                                username={username}
-                                activeList={activeList}
-                                handleActiveList={handleActiveList}
-                                allChecklists={allChecklists}
-                                groups={groups}
-                                changeGroups={changeGroups}
-                                title={title}
-                                groupId={groupId}
-                                checklists={checklists}
-                            />
-                        )
-                    })}
-                </Stack>
+                    <Stack
+                        className='user-grouplists-section'
+                    >
+                        <SortableContext
+                            items={groups.map(group => group.groupId)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            {groups.map((group) => {
+                                const { title, groupId, checklists } = group;
+                                return(
+                                    <GrouplistOption 
+                                        key={groupId}
+                                        activeGroup={activeGroup}
+                                        username={username}
+                                        activeList={activeList}
+                                        handleActiveList={handleActiveList}
+                                        allChecklists={allChecklists}
+                                        groups={groups}
+                                        changeGroups={changeGroups}
+                                        title={title}
+                                        groupId={groupId}
+                                        checklists={checklists}
+                                    />
+                                )
+                            })}
+                        </SortableContext>
+                    </Stack>
+                </DndContext>
             ) : (
                 <Box
                     sx={{
