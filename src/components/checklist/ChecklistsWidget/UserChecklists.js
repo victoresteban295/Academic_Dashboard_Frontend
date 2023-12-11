@@ -38,11 +38,19 @@ const UserChecklists = ({
     const touchSensor = useSensor(TouchSensor, {
         //For Touch Screen: Require touch to move 10px before activating drag
         activationConstraint: {
-            distance: 10,
+            delay: 1000,
+            tolerance: 0,
         }
     });
     const sensors = useSensors(mouseSensor, touchSensor);
+    //Checklist Getting Dragged
+    const [activeChecklist, setActiveChecklist] = useState(''); 
+    const handleDragStart = (event) => {
+        const { active } = event;
+        setActiveChecklist(active.id);
+    }
     const handleDragEnd = (event) => {
+        setActiveChecklist('');
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
@@ -64,6 +72,7 @@ const UserChecklists = ({
             {hasChecklists ? (
                 <DndContext
                     collisionDetection={closestCenter} 
+                    onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     sensors={sensors}
                     modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -81,6 +90,7 @@ const UserChecklists = ({
                                 return(
                                     <ChecklistOption 
                                         key={listId}
+                                        activeChecklist={activeChecklist}
                                         username={username}
                                         activeList={activeList}
                                         handleActiveList={handleActiveList}

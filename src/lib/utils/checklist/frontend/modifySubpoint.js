@@ -7,6 +7,8 @@
  *        -> deleteSubpoint() | Line 419
  * */
 
+import { arrayMove } from "@dnd-kit/sortable";
+
 
 /******************************************************/
 /*********** Add New Subpoint to Checkpoint ***********/
@@ -519,4 +521,86 @@ const removeSubpoint = (checklist, isPointComplete, isSubpointComplete, pointIdx
         updatedPoints: updatedPoints,
         updatedCompletedPoints: updatedCompletedPoints
     } 
+}
+
+export const reorderSubpoints = (
+    checklists, 
+    groups, 
+    listId, 
+    groupId, 
+    pointIdx, 
+    activeIdx, 
+    overIdx) => {
+
+    let updatedLists = [...checklists];
+    let updatedGroups = [...groups];
+    let updatedPoints;
+    let completedPoints;
+
+    //Checklist is Not Grouped
+    if(groupId === '') {
+        for(const checklist of updatedLists) {
+            //Find Checklist
+            if(checklist.listId === listId) {
+                for(const checkpoint of checklist.checkpoints) {
+                    //Find Checkpoint
+                    if(checkpoint.index === pointIdx) {
+                        //Re-order Subpoints
+                        const reorderSubpoints = arrayMove(
+                            checkpoint.subpoints, 
+                            activeIdx, 
+                            overIdx);
+                        //Re-assign Indices 
+                        for(let i=0; i < reorderSubpoints.length; i++) {
+                            reorderSubpoints[i].index = i.toString();
+                        }
+                        //Assign Reorder Subpoints to Checkpoint
+                        checkpoint.subpoints = reorderSubpoints;
+                    }
+                }
+                updatedPoints = checklist.checkpoints;
+                completedPoints = checklist.completedPoints;
+            }
+        }
+
+    //Checklist is Grouped
+    } else {
+        for(const group of updatedGroups) {
+            //Find Group
+            if(group.groupId === groupId) {
+                for(const checklist of group.checklists) {
+                    //Find Checklist
+                    if(checklist.listId === listId) {
+                        for(const checkpoint of checklist.checkpoints) {
+                            //Find Checkpoint
+                            if(checkpoint.index === pointIdx) {
+                                //Re-order Subpoints
+                                const reorderSubpoints = arrayMove(
+                                    checkpoint.subpoints, 
+                                    activeIdx, 
+                                    overIdx);
+                                //Re-assign Indices 
+                                for(let i=0; i < reorderSubpoints.length; i++) {
+                                    reorderSubpoints[i].index = i.toString();
+                                }
+                                //Assign Reorder Subpoints to Checkpoint
+                                checkpoint.subpoints = reorderSubpoints;
+                            }
+                        }
+                        updatedPoints = checklist.checkpoints;
+                        completedPoints = checklist.completedPoints;
+                    }
+                }
+            } 
+        }
+
+    }
+
+    return {
+        updatedLists: updatedLists,
+        updatedGroups: updatedGroups,
+        updatedPoints: updatedPoints,
+        completedPoints: completedPoints,
+    }
+
 }

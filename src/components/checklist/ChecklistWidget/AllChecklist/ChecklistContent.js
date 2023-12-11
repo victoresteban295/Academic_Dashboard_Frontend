@@ -1,9 +1,10 @@
 "use client"
 import { Box, Divider, Stack } from "@mui/material";
-import TitleSection from "./TitleSection";
-import CheckpointsSection from "./CheckpointsSection";
 import { useState } from "react";
-import NewCheckpointSection from "./NewCheckpointSection";
+import CheckpointsSection from "./ChecklistContent/CheckpointsSection/CheckpointsSection";
+import NewCheckpointSection from "./ChecklistContent/NewCheckpointSection";
+import TitleSection from "./ChecklistContent/TitleSection/TitleSection";
+import UnmarkPointsSection from "./ChecklistContent/UnmarkPointsSection";
 
 const ChecklistContent = ({ 
     username,
@@ -19,7 +20,7 @@ const ChecklistContent = ({
     checkpoints, 
     completedPoints }) => {
 
-    //Displays Edit Buttons
+    /* Displays Edit Buttons */
     const [showAllEdit, setShowAllEdit] = useState(false);
     const showAllEditButtons = () => {
         setShowAllEdit(true);
@@ -79,52 +80,33 @@ const ChecklistContent = ({
                             px: 2,
                         }}
                     >
-                        <Stack
-                            className='checkpoints-section'
-                            divider={<Divider variant='middle' flexItem />}
-                            spacing={0}
-                            sx={{
-                                width: '100%',
-                            }}
-                        >
-                            {checkpoints.map((checkpoint) => {
-                                const { index, content, subpoints, completedSubpoints } = checkpoint;
-                                return(
-                                    <CheckpointsSection 
-                                        showAllEdit={showAllEdit}
-                                        username={username}
-                                        listId={listId}
-                                        groupId={groupId}
-                                        groups={groups}
-                                        changeGroups={changeGroups}
-                                        checklists={checklists}
-                                        changeChecklists={changeChecklists}
-                                        index={index}
-                                        content={content}
-                                        subpoints={subpoints}
-                                        completedSubpoints={completedSubpoints}
-                                        isCompleted={false}
+                            <Stack
+                                className='markPoint-unmarkPoints-stack'
+                                divider={
+                                    <Divider 
+                                        variant='middle' 
+                                        flexItem 
                                     />
-                                )
-                            })}
-                            {showNewPoint && (
-                                <NewCheckpointSection 
+                                }
+                                spacing={0}
+                                sx={{
+                                    width: '100%',
+                                }}
+                            >
+                                <UnmarkPointsSection 
                                     username={username}
-                                    listId={listId}
-                                    groupId={groupId}
-                                    groups={groups}
-                                    changeGroups={changeGroups}
                                     checklists={checklists}
                                     changeChecklists={changeChecklists}
-                                    hideNewPoint={hideNewPoint}
-                                    isSubpoint={false}
+                                    groups={groups}
+                                    changeGroups={changeGroups}
+                                    listId={listId}
+                                    groupId={groupId}
+                                    checkpoints={checkpoints}
+                                    completedPoints={completedPoints}
+                                    showAllEdit={showAllEdit}
                                 />
-                            )}
-                            {completedPoints.map((completedPoint) => {
-                                const { index, content, subpoints, completedSubpoints } = completedPoint;
-                                return(
-                                    <CheckpointsSection 
-                                        showAllEdit={showAllEdit}
+                                {showNewPoint && (
+                                    <NewCheckpointSection 
                                         username={username}
                                         listId={listId}
                                         groupId={groupId}
@@ -132,15 +114,32 @@ const ChecklistContent = ({
                                         changeGroups={changeGroups}
                                         checklists={checklists}
                                         changeChecklists={changeChecklists}
-                                        index={index}
-                                        content={content}
-                                        subpoints={subpoints}
-                                        completedSubpoints={completedSubpoints}
-                                        isCompleted={true}
+                                        hideNewPoint={hideNewPoint}
+                                        isSubpoint={false}
                                     />
-                                )
-                            })}
-                        </Stack>
+                                )}
+                                {completedPoints.map((completedPoint) => {
+                                    const { index, content, subpoints, completedSubpoints } = completedPoint;
+                                    return(
+                                        <CheckpointsSection 
+                                            key={index}
+                                            showAllEdit={showAllEdit}
+                                            username={username}
+                                            listId={listId}
+                                            groupId={groupId}
+                                            groups={groups}
+                                            changeGroups={changeGroups}
+                                            checklists={checklists}
+                                            changeChecklists={changeChecklists}
+                                            index={index}
+                                            content={content}
+                                            subpoints={subpoints}
+                                            completedSubpoints={completedSubpoints}
+                                            isCompleted={true}
+                                        />
+                                    )
+                                })}
+                            </Stack>
                     </Box>
                 </Box> 
             )}

@@ -7,6 +7,8 @@
  *        -> deleteCheckpoint() | Line 334
  * */
 
+import { arrayMove } from "@dnd-kit/sortable";
+
 
 /*************************/
 /* Create New Checkpoint */
@@ -441,5 +443,71 @@ const removeCheckpoint = (checklist, isComplete, index) => {
     return {
         updatedPoints: updatedPoints,
         updatedCompletedPoints: updatedCompletedPoints
+    }
+}
+
+export const reorderCheckpoints = (
+    checklists, 
+    groups, 
+    listId, 
+    groupId, 
+    activeIdx, 
+    overIdx) => {
+
+    let updatedLists = [...checklists];
+    let updatedGroups = [...groups];
+    let updatedPoints;
+
+    
+    //Checklist is Not Grouped
+    if(groupId === '') {
+        for(const checklist of updatedLists) {
+            //Find Checklist
+            if(checklist.listId === listId) {
+                //Re-order Checkpoints
+                const reorderPoints = arrayMove(
+                    checklist.checkpoints, 
+                    activeIdx, 
+                    overIdx);
+                //Re-assign Indices
+                for(let i = 0; i < reorderPoints.length; i++) {
+                    reorderPoints[i].index = i.toString();
+                }
+                updatedPoints = reorderPoints;
+                //Assign Reorder Checkpoints
+                checklist.checkpoints = reorderPoints;
+            }  
+        }
+
+    //Checklist is Grouped
+    } else {
+        for(const group of updatedGroups) {
+            //Find Group
+            if(group.groupId === groupId) {
+                for(const checklist of group.checklists) {
+                    //Find Checklist
+                    if(checklist.listId === listId) {
+                        //Re-order Checkpoints
+                        const reorderPoints = arrayMove(
+                            checklist.checkpoints, 
+                            activeIdx, 
+                            overIdx);
+                        //Re-assign Indices
+                        for(let i = 0; i < reorderPoints.length; i++) {
+                            reorderPoints[i].index = i.toString();
+                        }
+                        updatedPoints = reorderPoints;
+                        //Assign Reorder Checkpoints
+                        checklist.checkpoints = reorderPoints;
+                    }  
+                }
+            }
+        }
+    }
+
+    return {
+        updatedLists: updatedLists,
+        updatedGroups: updatedGroups,
+        updatedPoints: updatedPoints,
     }
 }

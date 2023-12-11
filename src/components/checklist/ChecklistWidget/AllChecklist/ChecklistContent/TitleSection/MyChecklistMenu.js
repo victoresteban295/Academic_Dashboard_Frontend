@@ -1,7 +1,7 @@
+import ChecklistsWidget from "@/components/checklist/ChecklistsWidget";
 import { MenuOpen } from "@mui/icons-material";
 import { Box, Drawer, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
-import ChecklistsWidget from "../../ChecklistsWidget";
 
 const MyChecklistMenu = ({
     username,

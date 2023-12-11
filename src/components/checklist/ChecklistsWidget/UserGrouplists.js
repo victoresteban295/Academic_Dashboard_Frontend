@@ -18,7 +18,6 @@ const UserGrouplists = ({
     activeList, 
     handleActiveList }) => {
 
-    const [activeGroup, setActiveGroup] = useState('');
 
     /* Backdrop Menu State Value & Function */
     /* Create New Group */
@@ -40,10 +39,12 @@ const UserGrouplists = ({
     const touchSensor = useSensor(TouchSensor, {
         //For Touch Screen: Require touch to move 10px before activating drag
         activationConstraint: {
-            delay: 500,
+            delay: 1000,
+            tolerance: 0,
         }
     });
     const sensors = useSensors(mouseSensor, touchSensor);
+    const [activeGroup, setActiveGroup] = useState('');
     const handleDragStart = (event) => {
         const { active } = event;
         setActiveGroup(active.id);

@@ -1,13 +1,13 @@
 import { Add, MoreVert } from "@mui/icons-material";
 import { Alert, Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Snackbar, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import AddToGroupBackdrop from "./AddToGroupBackdrop";
-import MoveToGroupBackdrop from "./MoveToGroupBackdrop";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
 import { removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { removeChecklistFromGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
-import DeleteListBackdrop from "../../ChecklistsWidget/Backdrops/DeleteListBackdrop";
+import AddToGroupBackdrop from "../Backdrop/AddToGroupBackdrop";
+import MoveToGroupBackdrop from "../Backdrop/MoveToGroupBackdrop";
+import DeleteListBackdrop from "@/components/checklist/ChecklistsWidget/Backdrops/DeleteListBackdrop";
 import MyChecklistMenu from "./MyChecklistMenu";
 
 const TitleSection = ({ 

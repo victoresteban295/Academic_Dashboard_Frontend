@@ -1,5 +1,5 @@
 "use client"
-import { Alert, Box, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
 import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
@@ -71,11 +71,19 @@ const GrouplistOption = ({
     const touchSensor = useSensor(TouchSensor, {
         //For Touch Screen: Require touch to move 10px before activating drag
         activationConstraint: {
-            distance: 10,
+            delay: 1000,
+            tolerance: 0,
         }
     });
     const sensors = useSensors(mouseSensor, touchSensor);
+    //Checklist Getting Dragged
+    const [activeChecklist, setActiveChecklist] = useState('');
+    const handleDragStart = (event) => {
+        const { active } = event;
+        setActiveChecklist(active.id);
+    }
     const handleDragEnd = (event) => {
+        setActiveChecklist('');
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
@@ -198,6 +206,7 @@ const GrouplistOption = ({
                     boxShadow: '1px 1px 4px 2px #cecece',
                     my: (isExpanded && !isActive) ? 1 : 0.5,
                     py: (isExpanded && !isActive) ? 1 : 0,
+                    bgcolor: isActive ? '#cecece' : ''
                 }}
             >
                 <Snackbar
@@ -268,24 +277,70 @@ const GrouplistOption = ({
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            width: '90%'
+                            width: '90%',
+                            color: 'text.primary'
                         }}
                     >
                         {(isExpanded && !isActive) ? (
-                            <IconButton size='small' onClick={handleClose}>
-                                <ExpandLess fontSize='inherit' />
-                            </IconButton>
+                            <Button
+                                variant="text"
+                                onClick={handleClose}
+                                startIcon={
+                                    <ExpandLess 
+                                        fontSize='small'
+                                    />
+                                }
+                                sx={{
+                                    flexGrow: 1,
+                                    color: 'text.primary',
+                                    display: 'flex',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        justifyContent: 'flex-start',
+                                    }}
+                                >
+                                    <Typography
+                                        noWrap={true}
+                                        variant="button"
+                                    >
+                                        {title}
+                                    </Typography>
+                                </Box>
+                            </Button> 
                         ) : (
-                            <IconButton size='small' onClick={handleOpen}>
-                                <ExpandMore fontSize='inherit' />
-                            </IconButton>
+                            <Button
+                                variant="text"
+                                onClick={handleOpen}
+                                startIcon={
+                                    <ExpandMore 
+                                        fontSize='small'
+                                    />
+                                }
+                                sx={{
+                                    flexGrow: 1,
+                                    color: 'text.primary'
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        justifyContent: 'flex-start',
+                                    }}
+                                >
+                                    <Typography
+                                        noWrap={true}
+                                        variant="button"
+                                    >
+                                        {title}
+                                    </Typography>
+                                </Box>
+                            </Button> 
                         )}
-                        <Typography
-                            noWrap={true}
-                            variant="button"
-                        >
-                            {title}
-                        </Typography>
                     </Box>
                     <IconButton 
                         onClick={openOptions}
@@ -332,6 +387,7 @@ const GrouplistOption = ({
                 {checklists.length > 0 ? (
                     <DndContext
                         collisionDetection={closestCenter} 
+                        onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                         sensors={sensors}
                         modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -353,6 +409,7 @@ const GrouplistOption = ({
                                     return(
                                         <ChecklistOption
                                             key={listId}
+                                            activeChecklist={activeChecklist}
                                             username={username}
                                             activeList={activeList}
                                             handleActiveList={handleActiveList}

@@ -3,7 +3,13 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Box, Button, Typography } from "@mui/material";
 
-const ChecklistOption = ({ username, activeList, handleActiveList, title, listId }) => {
+const ChecklistOption = ({ 
+    username, 
+    activeChecklist,
+    activeList, 
+    handleActiveList, 
+    title, 
+    listId }) => {
 
     /* Determine if User is Currently Viewing this Checklist*/
     let isActive; 
@@ -40,6 +46,9 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
         handleActiveList(listId);
     } 
 
+    //Checklist is Being Dragged
+    const isActiveChecklist = activeChecklist === listId;
+
     return (
         <div
             ref={setNodeRef}
@@ -53,6 +62,7 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
                     display: 'flex',
                     justifyContent: 'space-between',
                     borderRadius: '10px',
+                    bgcolor: isActiveChecklist ? '#cecece' : '',
                     ...isActive,
                 }}
             >
@@ -60,12 +70,17 @@ const ChecklistOption = ({ username, activeList, handleActiveList, title, listId
                     variant="text"
                     onClick={handleClick}
                     sx={{
-                        color: '#000'
+                        color: 'text.primary',
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        width: '100%',
                     }}
                 >
                     <Typography
                         noWrap={true}
                         variant="button"
+                        sx={{
+                        }}
                     >
                         {title}
                     </Typography>
