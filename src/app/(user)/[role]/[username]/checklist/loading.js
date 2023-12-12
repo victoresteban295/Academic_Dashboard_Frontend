@@ -2,6 +2,9 @@ import { Add } from "@mui/icons-material";
 import { Box, Divider, IconButton, Skeleton, Stack, Typography } from "@mui/material";
 
 const ChecklistLoading = () => {
+    const lgth8 = [1,2,3,4,5,6,7,8];
+    const lgth3 = [1,2,3];
+
     return (
         <Box
             className="checklist-page"
@@ -53,9 +56,10 @@ const ChecklistLoading = () => {
                                 width: '100%',
                             }}
                         >
-                            {[1,2,3,4,5,6,7,8].map(() => {
+                            {lgth8.map((index) => {
                                 return (
                                     <Box
+                                        key={index}
                                         sx={{
                                             display: 'flex'
                                         }}
@@ -123,9 +127,10 @@ const ChecklistLoading = () => {
                             <Stack
                                 spacing={0}
                             >
-                                {[1,2,3].map(() => {
+                                {lgth3.map((index) => {
                                     return (
                                         <Box
+                                            key={index}
                                             sx={{
                                                 display: 'flex',
                                             }}
@@ -148,9 +153,10 @@ const ChecklistLoading = () => {
                             <Stack
                                 spacing={0}
                             >
-                                {[1,2,3].map(() => {
+                                {lgth3.map((index) => {
                                     return (
                                         <Box
+                                            key={index}
                                             sx={{
                                                 display: 'flex'
                                             }}

@@ -143,6 +143,7 @@ const AddToGroupBackdrop = ({
                                     const { groupId, title } = group;
                                     return (
                                         <FormControlLabel 
+                                            key={groupId}
                                             value={groupId} 
                                             control={<Radio />} 
                                             label={title} 

@@ -18,7 +18,6 @@ const UserGrouplists = ({
     activeList, 
     handleActiveList }) => {
 
-
     /* Backdrop Menu State Value & Function */
     /* Create New Group */
     const [openNewGroup, setOpenNewGroup] = useState(false);

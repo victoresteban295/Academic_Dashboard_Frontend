@@ -3,13 +3,11 @@ import { Box, Divider, IconButton, InputBase, Stack, Tooltip, Typography } from 
 import { useState } from "react";
 import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { deleteCheckpoint, markAsCompletePoint, modifyCheckpoint, unmarkAsCompletePoint } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
-import { restrictToParentElement } from "@dnd-kit/modifiers";
-import { reorderSubpoints } from "@/lib/utils/checklist/frontend/modifySubpoint";
 import SubpointsSection from "../SubpointsSection/SubpointsSection";
 import NewCheckpointSection from "../NewCheckpointSection";
+import UnmarkSubpointsSection from "./UnmarkSubpointsSection";
 
 const CheckpointsSection = ({ 
     activeCheckpoint,
@@ -49,57 +47,6 @@ const CheckpointsSection = ({
     }
 
     /* Dnd-kit: Make Component Draggable */
-    /* Converts Component into Dropable Container */
-    const mouseSensor = useSensor(MouseSensor, {
-        //Require the mouse to move 10px before activating drag
-        activationConstraint: {
-            distance: 10,
-        }
-    });
-    const touchSensor = useSensor(TouchSensor, {
-        //For Touch Screen: Require touch to move 10px before activating drag
-        activationConstraint: {
-            delay: 1000,
-            tolerance: 0,
-        }
-    });
-    const sensors = useSensors(mouseSensor, touchSensor);
-    //Subpoint Getting Dragged
-    const [activeSubpoint, setActiveSubpoint] = useState(''); 
-    const handleDragStart = (event) => {
-        const { active } = event;
-        setActiveSubpoint(active.id);
-    }
-    const handleDragEnd = (event) => {
-        setActiveSubpoint('');
-        //active = component getting dragged
-        //over = component where the draggable component was passed over & placed
-        const {active, over} = event;
-        if(active.id !== over.id) {
-            //Re-order Checkpoints
-            const { 
-                updatedLists, 
-                updatedGroups, 
-                updatedPoints, 
-                completedPoints
-            } = reorderSubpoints(
-                checklists, 
-                groups,
-                listId,
-                groupId,
-                index,
-                active.id,
-                over.id);
-
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
-
-            //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
-        }
-    }
     /* Converts Component into Draggable Item */
     const { 
         attributes, 
@@ -334,102 +281,65 @@ const CheckpointsSection = ({
             </Box>
             {((subpoints.length > 0) || (completedSubpoints.length > 0)) && !showNewPoint ? <Divider variant='middle' flexItem/> : <Box></Box>}
             { showNewPoint ? <Divider variant='middle' flexItem/> : <Box></Box>}
-            <DndContext
-                collisionDetection={closestCenter}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                sensors={sensors}
-                modifiers={[restrictToParentElement]}
+            <Stack
+                className='supoints-section'
+                divider={<Divider variant='middle' flexItem />}
+                spacing={0}
+                sx={{
+                    flexGrow: 1,
+                    pl: 4,
+                }}
             >
-                <Stack
-                    className='supoints-section'
-                    divider={<Divider variant='middle' flexItem />}
-                    spacing={0}
-                    sx={{
-                        flexGrow: 1,
-                        pl: 4,
-                    }}
-                >
-                    <SortableContext
-                        items={subpoints.map(subpoint => subpoint.index)}
-                        strategy={verticalListSortingStrategy} 
-                    >
-                        <Stack
-                            className='supoints-section'
-                            divider={
-                                (activeSubpoint === '') &&
-                                <Divider 
-                                    variant='middle' 
-                                    flexItem 
-                                />
-                            }
-                            spacing={0}
-                            sx={{
-                                flexGrow: 1,
-                            }}
-                        >
-                            {subpoints.map((subpoint) => {
-                                const { index: subpointIdx, content } = subpoint;
-                                return(
-                                    <SubpointsSection
-                                        key={subpointIdx}
-                                        activeSubpoint={activeSubpoint}
-                                        username={username}
-                                        isParentComplete={isCompleted}
-                                        listId={listId}
-                                        groupId={groupId}
-                                        pointIdx={index}
-                                        groups={groups}
-                                        changeGroups={changeGroups}
-                                        checklists={checklists}
-                                        changeChecklists={changeChecklists}
-                                        showAllEdit={showAllEdit}
-                                        subpointIdx={subpointIdx}
-                                        content={content}
-                                        isCompleted={false}
-                                    />
-                                )
-                            })}
-                        </Stack>
-                    </SortableContext>
-                    {showNewPoint && (
-                        <NewCheckpointSection
+                <UnmarkSubpointsSection 
+                    username={username}
+                    showAllEdit={showAllEdit} 
+                    isParentComplete={isCompleted}
+                    listId={listId}
+                    groupId={groupId}
+                    pointIdx={index}
+                    subpoints={subpoints}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                />
+                {showNewPoint && (
+                    <NewCheckpointSection
+                        username={username}
+                        listId={listId}
+                        groupId={groupId}
+                        index={index}
+                        groups={groups}
+                        changeGroups={changeGroups}
+                        checklists={checklists}
+                        changeChecklists={changeChecklists}
+                        hideNewPoint={hideNewPoint}
+                        isSubpoint={true}
+                    />
+                )}
+                {completedSubpoints.map((completedSubpoint) => {
+                    const { index: subpointIdx, content } = completedSubpoint;
+                    return(
+                        <SubpointsSection
+                            key={subpointIdx}
+                            activeSubpoint={''}
                             username={username}
+                            isParentComplete={isCompleted}
                             listId={listId}
                             groupId={groupId}
-                            index={index}
+                            pointIdx={index}
                             groups={groups}
                             changeGroups={changeGroups}
                             checklists={checklists}
                             changeChecklists={changeChecklists}
-                            hideNewPoint={hideNewPoint}
-                            isSubpoint={true}
+                            showAllEdit={showAllEdit}
+                            subpointIdx={subpointIdx}
+                            content={content}
+                            isCompleted={true}
                         />
-                    )}
-                    {completedSubpoints.map((completedSubpoint) => {
-                        const { index: subpointIdx, content } = completedSubpoint;
-                        return(
-                            <SubpointsSection
-                                key={subpointIdx}
-                                activeSubpoint={''}
-                                username={username}
-                                isParentComplete={isCompleted}
-                                listId={listId}
-                                groupId={groupId}
-                                pointIdx={index}
-                                groups={groups}
-                                changeGroups={changeGroups}
-                                checklists={checklists}
-                                changeChecklists={changeChecklists}
-                                showAllEdit={showAllEdit}
-                                subpointIdx={subpointIdx}
-                                content={content}
-                                isCompleted={true}
-                            />
-                        )
-                    })}
-                </Stack>
-            </DndContext>
+                    )
+                })}
+            </Stack>
         </Stack>
     )
 }

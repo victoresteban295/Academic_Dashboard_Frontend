@@ -23,6 +23,7 @@ const AllChecklistContent = ({
                 const { listId, title, groupId, checkpoints, completedPoints } = checklist;
                 return(
                     <ChecklistContent 
+                        key={listId}
                         username={username}
                         groups={groups}
                         changeGroups={changeGroups}

@@ -1,11 +1,34 @@
 "use client"
 
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChecklistWidget from "./ChecklistWidget";
 import ChecklistsWidget from "./ChecklistsWidget";
 
 const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) => {
+
+    /* Determine User's Last Visited Checklist */
+    useEffect(() => {
+        //Has User Visited a Checklist
+        let hasVisitedList = localStorage.getItem("currentList") != null;
+        let lastVisitedList; //ListId of Last Visited Checklist
+
+        //User Hasn't Visited a Checklist But Has Checklists
+        if(!hasVisitedList && allChecklists.length > 0) {
+            //Set Last Visited Checklist to User's 1st Checklist
+            const { listId } = allChecklists[0];
+            lastVisitedList = listId;
+            localStorage.setItem("currentList", listId);
+
+        //User Has Visited a Checklist
+        } else {
+            //Set Current Checklist to Last Visited Checklist
+            lastVisitedList = localStorage.getItem("currentList");
+        }
+
+        //Current Checklist User is Viewing
+        setCurrentList(lastVisitedList);
+    }, []);
 
     //User's Checklists
     const [checklists, setChecklists] = useState(lists);
@@ -19,24 +42,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
         setGroups(groups)
     }
 
-    //Has User Visited a Checklist
-    let hasActiveList = localStorage.getItem("currentList") != null;
-    let list; //ListId of Last Visited Checklist
-
-    //User Hasn't Visited a Checklist But Has Checklists
-    if(!hasActiveList && allChecklists.length > 0) {
-        //Set Last Visited Checklist to User's 1st Checklist
-        const { listId } = allChecklists[0];
-        list = listId;
-        localStorage.setItem("currentList", listId);
-
-    //User Has Visited a Checklist
-    } else {
-        //Set Current Checklist to Last Visited Checklist
-        list = localStorage.getItem("currentList");
-    }
-
-    const [currentList, setCurrentList] = useState(list);
+    const [currentList, setCurrentList] = useState('');
 
     //Change Current Checklist Being Viewed
     const handleActiveList = (listId) => {

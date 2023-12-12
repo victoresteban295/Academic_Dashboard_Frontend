@@ -130,98 +130,79 @@ const SubpointsSection = ({
     }
 
     return (
-        <div
+        <Box
+            id="subpoint-container"
             ref={setNodeRef}
-            style={style}
             {...attributes}
             {...listeners}
+            onMouseOver={() => setShowEdit(true)}
+            onMouseOut={() => setShowEdit(false)}
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                bgcolor: (activeSubpoint === subpointIdx) ? '#cecece' : '',
+                ...style
+            }}
         >
-            <Box
-                onMouseOver={() => setShowEdit(true)}
-                onMouseOut={() => setShowEdit(false)}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: (activeSubpoint === subpointIdx) ? '#cecece' : '',
-                }}
-            >
-                {isCompleted ? (
-                    <IconButton 
-                        size='large'
-                        onClick={unmarkAsComplete}
-                    >
-                        <CheckBoxOutlined fontSize='inherit' />
-                    </IconButton>
-                ) : (
-                    <IconButton 
-                        size='large'
-                        onClick={markAsComplete}
-                    >
-                        <CheckBoxOutlineBlank fontSize='inherit' />
-                    </IconButton>
-                )}
-                {isCompleted ? (
-                    <Typography
-                        variant='body2'
-                        sx={{
-                            flexGrow: 1,
-                            textDecoration: 'line-through',
-                        }}
-                    >
-                        {content}
-                    </Typography>
-                ) : (
-                    <InputBase 
-                        value={isUpdating ? newContent : content}
-                        multiline={true}
-                        placeholder="Add Subpoint"
-                        onChange={(e) => {
-                            setUpdating(true);
-                            setNewContent(e.target.value)
-                        }}
-                        onBlur={handleNewSubcontent}
-                        onKeyDown={(e) => {
-                            if(e.key === 'Enter') {
-                                e.target.blur();
-                            }
-                        }}
-                        inputProps={{maxLength: 200}}
-                        sx={{
-                            flexGrow: 1,
-                        }}
-                    />
-                )}
-                {!showAllEdit && (
-                    <Box
-                        sx={{
-                            width: '30px',
-                        }}
-                    >
-                        {showEdit && (
-                            <Tooltip title="Delete Checkpoint">
-                                <IconButton 
-                                    size='small'
-                                    onClick={removeSubpoint}
-                                >
-                                    <Delete
-                                        fontSize='inherit' 
-                                        sx={{
-                                            color: '#ef476f',
-                                        }}
-                                    />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                    </Box>
-                )}
-                <Box>
-                    {showAllEdit && (
+            {isCompleted ? (
+                <IconButton 
+                    size='large'
+                    onClick={unmarkAsComplete}
+                >
+                    <CheckBoxOutlined fontSize='inherit' />
+                </IconButton>
+            ) : (
+                <IconButton 
+                    size='large'
+                    onClick={markAsComplete}
+                >
+                    <CheckBoxOutlineBlank fontSize='inherit' />
+                </IconButton>
+            )}
+            {isCompleted ? (
+                <Typography
+                    variant='body2'
+                    sx={{
+                        flexGrow: 1,
+                        textDecoration: 'line-through',
+                    }}
+                >
+                    {content}
+                </Typography>
+            ) : (
+                <InputBase 
+                    value={isUpdating ? newContent : content}
+                    multiline={true}
+                    placeholder="Add Subpoint"
+                    onChange={(e) => {
+                        setUpdating(true);
+                        setNewContent(e.target.value)
+                    }}
+                    onBlur={handleNewSubcontent}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter') {
+                            e.target.blur();
+                        }
+                    }}
+                    inputProps={{maxLength: 200}}
+                    sx={{
+                        flexGrow: 1,
+                    }}
+                />
+            )}
+            {!showAllEdit && (
+                <Box
+                    sx={{
+                        width: '30px',
+                    }}
+                >
+                    {showEdit && (
                         <Tooltip title="Delete Checkpoint">
                             <IconButton 
                                 size='small'
                                 onClick={removeSubpoint}
                             >
-                                <Delete 
+                                <Delete
                                     fontSize='inherit' 
                                     sx={{
                                         color: '#ef476f',
@@ -231,8 +212,25 @@ const SubpointsSection = ({
                         </Tooltip>
                     )}
                 </Box>
+            )}
+            <Box>
+                {showAllEdit && (
+                    <Tooltip title="Delete Checkpoint">
+                        <IconButton 
+                            size='small'
+                            onClick={removeSubpoint}
+                        >
+                            <Delete 
+                                fontSize='inherit' 
+                                sx={{
+                                    color: '#ef476f',
+                                }}
+                            />
+                        </IconButton>
+                    </Tooltip>
+                )}
             </Box>
-        </div>
+        </Box>
     )
 }
 

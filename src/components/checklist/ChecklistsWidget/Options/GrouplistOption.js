@@ -2,7 +2,7 @@
 import { Alert, Box, Button, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
 import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteGroupBackdrop from "../Backdrops/DeleteGroupBackdrop";
 import WarnDeleteBackdrop from "../Backdrops/WarnDeleteBackdrop";
 import { deleteGroup, reorderGroupChecklist } from "@/lib/utils/checklist/frontend/modifyGrouplist";
@@ -27,11 +27,28 @@ const GrouplistOption = ({
     groupId, 
     checklists }) => {
 
+    /* Check if Group Contains the Current Checklist*/
+    useEffect(() => {
+        //Extract Current Checklist's listId
+        const currentList = localStorage.getItem("currentList");
+        setExpanded(listIds.includes(currentList));
+    }, []);
+
     /* ListIds of All Checklists Under This Group */
     const listIds = [];
     checklists.map(checklist => {
         listIds.push(checklist.listId);
     });
+
+    /* Expands Groups UI (Exposes Grouped Checklists)*/
+    const [isExpanded, setExpanded] = useState(false);
+    const handleOpen = () => {
+        setExpanded(true);
+    }
+    const handleClose = () => {
+        setExpanded(false);
+    }
+
 
     /* All ListIds of All the User's Checklists (Grouped & Non-Grouped) */
     let allListIds = allChecklists.map(checklist => checklist.listId);
@@ -110,14 +127,6 @@ const GrouplistOption = ({
         transition,
     }
     
-    /* Expands Groups UI (Exposes Grouped Checklists)*/
-    const [isExpanded, setExpanded] = useState(listIds.includes(activeList));
-    const handleOpen = () => {
-        setExpanded(true);
-    }
-    const handleClose = () => {
-        setExpanded(false);
-    }
 
     /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);

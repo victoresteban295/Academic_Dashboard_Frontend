@@ -137,7 +137,12 @@ const MoveToGroupBackdrop = ({
                                     const { groupId, title } = group;
                                     if(fromGroupId != groupId) {
                                         return (
-                                            <FormControlLabel value={groupId} control={<Radio />} label={title} />
+                                            <FormControlLabel 
+                                                key={groupId}
+                                                value={groupId} 
+                                                control={<Radio />} 
+                                                label={title} 
+                                            />
                                         )
                                     }
                                 })}
