@@ -8,7 +8,8 @@ const AllChecklistContent = ({
     groups,
     changeGroups,
     activeList, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
 
     let allChecklists = [...checklists];
     groups.map(group => {
@@ -36,6 +37,7 @@ const AllChecklistContent = ({
                         groupId={groupId}
                         checkpoints={checkpoints}
                         completedPoints={completedPoints}
+                        handleOpenAlert={handleOpenAlert}
                     />
                 );
             })}

@@ -3,7 +3,7 @@ import { Alert, Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Sna
 import { useState } from "react";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
-import { removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { addToExistingGroup, removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { removeChecklistFromGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
 import AddToGroupBackdrop from "../Backdrop/AddToGroupBackdrop";
 import MoveToGroupBackdrop from "../Backdrop/MoveToGroupBackdrop";
@@ -25,26 +25,14 @@ const TitleSection = ({
     showAllEditButtons, 
     unshowAllEditButtons, 
     showNewPoint, 
-    displayNewPoint }) => {
+    displayNewPoint, 
+    handleOpenAlert }) => {
 
     /* Checklist Title */
     const [newTitle, setNewTitle] = useState(title);
 
     //NOTE: Enables To Delete Checklist w/o Bug 
     const [isUpdating, setUpdating] = useState(false);
-
-    /* Error Message Displaying in Alert */
-    const [errorMsg, setErrorMsg] = useState('');
-    /* Display Alert with Error Message */
-    const [openAlert, setOpenAlert] = useState(false);
-    const handleOpenAlert = (msg) => {
-        setErrorMsg(msg);
-        setOpenAlert(true);
-    }
-    const handleCloseAlert = () => {
-        setErrorMsg('');
-        setOpenAlert(false);
-    }
 
     /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);
@@ -87,48 +75,85 @@ const TitleSection = ({
     }
 
     //Rename Checklist
-    const modifyTitle = (event) => {
-        if(newTitle.trim() != '') {
-            setUpdating(false);
-            //Modify Checklist's Title
-            const newTitle = event.target.value; //New Checklist's Title
-            const {updatedLists, updatedGroups} = handleChecklistTitle(
+    const modifyTitle = async (event) => {
+        const oldTitle = title;
+        try {
+            if(newTitle.trim() != '') {
+                setUpdating(false);
+                //Modify Checklist's Title
+                const newTitle = event.target.value; //New Checklist's Title
+                const { updatedLists, updatedGroups} = handleChecklistTitle(
+                    checklists, 
+                    groups, 
+                    groupId, 
+                    listId, 
+                    newTitle);
+
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
+
+                //Backend API: Update Database
+                await renameCheclistTitle(username, listId, newTitle);
+                reloadChecklistpage();
+            } else {
+                setNewTitle(title);
+            } 
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Revert Changes Made
+            const { updatedLists, updatedGroups} = handleChecklistTitle(
                 checklists, 
                 groups, 
                 groupId, 
                 listId, 
-                newTitle);
+                oldTitle);
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+        }
+    }
+    
+    // Remove Checklist From Current Group
+    const removeFromGroup = async () => {
+        handleClose();
+        let updatedLists;
+        let updatedGroups;
+
+        try{
+            //Remove (Grouped) Checklist to Non-Grouped Checklists 
+            const update = removeListFromGroup(
+                checklists, 
+                groups, 
+                listId, 
+                groupId);
+
+            updatedLists = update.updatedLists;
+            updatedGroups = update.updatedGroups;
 
             //Update State Value
             changeChecklists(updatedLists);
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            renameCheclistTitle(username, listId, newTitle);
+            await removeChecklistFromGroup(username, listId, groupId);
             reloadChecklistpage();
-        } else {
-            setNewTitle(title);
-        } 
-    }
-    
-    // Remove Checklist From Current Group
-    const removeFromGroup = () => {
-        handleClose();
-        //Remove (Grouped) Checklist to Non-Grouped Checklists 
-        const { updatedLists, updatedGroups } = removeListFromGroup(
-            checklists, 
-            groups, 
-            listId, 
-            groupId);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+        } catch(error) {
+            handleOpenAlert(error.message); 
 
-        //Backend API: Update Database
-        removeChecklistFromGroup(username, listId, groupId);
-        reloadChecklistpage();
+            if(updatedLists != null) {
+                //Revert Changes Made
+                const revert = addToExistingGroup(
+                    updatedLists, 
+                    updatedGroups, 
+                    listId, 
+                    groupId);
 
+                changeChecklists(revert.updatedLists);
+                changeGroups(revert.updatedGroups);
+            }
+        }
     }
 
     return (
@@ -139,27 +164,6 @@ const TitleSection = ({
                 justifyContent: 'space-between',
             }}
         >
-            <Snackbar
-                open={openAlert}
-                anchorOrigin={{
-                    vertical: 'top', 
-                    horizontal: 'right',
-                }}
-                autoHideDuration={6000}
-                onClose={handleCloseAlert}
-            >
-                <Alert
-                    onClose={handleCloseAlert}
-                    severity="error"
-                    sx={{
-                        width: '100%',
-                        position: 'relative',
-                        top: {xs: '0px', sm: '0px', md: '50px'},
-                    }}
-                >
-                    {errorMsg}
-                </Alert>
-            </Snackbar> 
             <AddToGroupBackdrop 
                 username={username}
                 listId={listId}

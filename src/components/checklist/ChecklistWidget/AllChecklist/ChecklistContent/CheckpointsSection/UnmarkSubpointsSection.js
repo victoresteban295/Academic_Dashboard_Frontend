@@ -5,6 +5,7 @@ import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { Divider, Stack } from "@mui/material";
 import { useState } from "react";
 import SubpointsSection from "../SubpointsSection/SubpointsSection";
+import NewCheckpointSection from "../NewCheckpointSection";
 
 const UnmarkSubpointsSection = ({
     username, 
@@ -17,7 +18,9 @@ const UnmarkSubpointsSection = ({
     checklists, 
     changeChecklists, 
     groups, 
-    changeGroups}) => {
+    changeGroups, 
+    showNewPoint, 
+    hideNewPoint}) => {
     
     /* Dnd-kit: Make Component Draggable */
     /* Converts Component into Dropable Container */
@@ -119,6 +122,20 @@ const UnmarkSubpointsSection = ({
                             />
                         )
                     })}
+                    {showNewPoint && (
+                        <NewCheckpointSection
+                            username={username}
+                            listId={listId}
+                            groupId={groupId}
+                            index={pointIdx}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            checklists={checklists}
+                            changeChecklists={changeChecklists}
+                            hideNewPoint={hideNewPoint}
+                            isSubpoint={true}
+                        />
+                    )}
                 </Stack>
             </SortableContext>
         </DndContext>

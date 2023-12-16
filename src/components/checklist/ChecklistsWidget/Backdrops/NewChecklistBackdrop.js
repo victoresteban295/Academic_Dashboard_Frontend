@@ -22,7 +22,11 @@ const NewChecklistBackdrop = ({
     }
 
     //Create New Checklist
-    const handleNewChecklist = () => {
+    const handleNewChecklist = async () => {
+        //Outdated Data to Revert Changes
+        const outdatedChecklist = [...checklists]
+        const outdatedListId = localStorage.getItem("currentList");
+
         try{
             handleCloseBackdrop();
             //Create New Checklist
@@ -33,10 +37,17 @@ const NewChecklistBackdrop = ({
             handleActiveList(listId);
 
             //Backend API: Update Database
-            createChecklist(username, title, listId);
+            await createChecklist(username, title, listId);
             reloadChecklistpage();
+
         } catch(error) {
             handleOpenAlert(error.message);
+
+            //Revert Changes Made
+            changeChecklists(outdatedChecklist);
+            if(outdatedListId != null) {
+                handleActiveList(outdatedListId);
+            }
         }
     }
 

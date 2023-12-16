@@ -144,12 +144,16 @@ export const markAsCompletePoint = (checklists, groups, listId, groupId, index) 
         //Iterate to Find Checklist Being Modified
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                const updates = markAsComplete(checklist, index);
-                updatedPoints = updates.updatedPoints;
-                updatedCompletedPoints = updates.updatedCompletedPoints;
+                if(checklist.completedPoints.length < 5) {
+                    const updates = markAsComplete(checklist, index);
+                    updatedPoints = updates.updatedPoints;
+                    updatedCompletedPoints = updates.updatedCompletedPoints;
 
-                checklist.checkpoints = updatedPoints;
-                checklist.completedPoints = updatedCompletedPoints;
+                    checklist.checkpoints = updatedPoints;
+                    checklist.completedPoints = updatedCompletedPoints;
+                } else {
+                    throw new Error("Completed Checkpoints Limit Exceeded: 50 | Delete a Completed Checkpoint");
+                }
             }
         })
 

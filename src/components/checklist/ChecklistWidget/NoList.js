@@ -3,7 +3,13 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import NewChecklistBackdrop from "../ChecklistsWidget/Backdrops/NewChecklistBackdrop";
 
-const NoList = ({ username, checklists, changeChecklists, handleActiveList }) => {
+const NoList = ({ 
+    username, 
+    checklists, 
+    changeChecklists, 
+    handleActiveList, 
+    handleOpenAlert }) => {
+
     /* Backdrop Menu State Value & Function */
     /* Create New Checklist */
     const [openNewList, setOpenNewList] = useState(false);
@@ -59,6 +65,7 @@ const NoList = ({ username, checklists, changeChecklists, handleActiveList }) =>
                     checklists={checklists}
                     changeChecklists={changeChecklists}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
                 <Button
                     startIcon={<AddCircleOutline />}

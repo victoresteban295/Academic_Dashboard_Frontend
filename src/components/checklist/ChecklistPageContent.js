@@ -1,6 +1,6 @@
 "use client"
 
-import { Box } from "@mui/material";
+import { Alert, Box, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 import ChecklistWidget from "./ChecklistWidget";
 import ChecklistsWidget from "./ChecklistsWidget";
@@ -50,6 +50,20 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
         localStorage.setItem("currentList", listId);
     }
 
+    /* Error Message Displaying in Alert */
+    const [errorMsg, setErrorMsg] = useState('');
+
+    /* Display Alert with Error Message */
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
+
     return (
         <Box
             className="checklist-page"
@@ -59,6 +73,27 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                 height: '100%',
             }}
         >
+            <Snackbar
+                open={openAlert}
+                anchorOrigin={{
+                    vertical: 'top', 
+                    horizontal: 'right',
+                }}
+                autoHideDuration={15000}
+                onClose={handleCloseAlert}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity="error"
+                    sx={{
+                        width: '100%',
+                        position: 'relative',
+                        top: {xs: '0px', sm: '0px', md: '50px'},
+                    }}
+                >
+                    {errorMsg}
+                </Alert>
+            </Snackbar> 
             <Box
                 className='checklist-widget-container'
                 sx={{
@@ -75,6 +110,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                     changeGroups={changeGroups}
                     activeList={currentList}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
             </Box>
             <Box
@@ -101,6 +137,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                         changeGroups={changeGroups}
                         activeList={currentList}
                         handleActiveList={handleActiveList}
+                        handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
             </Box>

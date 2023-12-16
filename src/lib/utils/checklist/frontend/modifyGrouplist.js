@@ -165,7 +165,7 @@ export const addToExistingGroup = (checklists, groups, listId, groupId) => {
                 group.checklists.push(mvingList);
             //Checklist Under Group Limit Exceeded
             } else {
-                throw new Error("Checklist Under Group Limit Exceeded: 20");
+                throw new Error("Checklists Under Group Limit Exceeded: 20");
             }
         }
     })
@@ -294,30 +294,36 @@ export const moveListGroupToNewGroup = (groups, listId, fromGroupId, newGroupTil
 /* Remove Checklist From Current Group */
 /***************************************/
 export const removeListFromGroup = (checklists, groups, listId, groupId) => {
-    let mvingList; //Checklist Being Moved
+    //User's Non-Grouped Checklist Limit is 20
+    if(checklists.length < 20) {
+        let mvingList; //Checklist Being Moved
 
-    let updatedGroups = [...groups];
-    updatedGroups.map(group => {
-        if(group.groupId === groupId) {
+        let updatedGroups = [...groups];
+        updatedGroups.map(group => {
+            if(group.groupId === groupId) {
 
-            //Filter Out Checklist From Group
-            let groupedList = group.checklists.filter(checklist => {
-                let isTarget = checklist.listId === listId;
-                if(isTarget) {
-                    mvingList = {...checklist, groupId: ''};
-                }
-                return !isTarget;
-            })
-            group.checklists = groupedList;
+                //Filter Out Checklist From Group
+                let groupedList = group.checklists.filter(checklist => {
+                    let isTarget = checklist.listId === listId;
+                    if(isTarget) {
+                        mvingList = {...checklist, groupId: ''};
+                    }
+                    return !isTarget;
+                })
+                group.checklists = groupedList;
+            }
+        })
+
+        //Add Checklist to Non-Grouped List
+        let updatedLists = [...checklists, mvingList];
+
+        return {
+            updatedLists: updatedLists,
+            updatedGroups: updatedGroups,
         }
-    })
-
-    //Add Checklist to Non-Grouped List
-    let updatedLists = [...checklists, mvingList];
-
-    return {
-        updatedLists: updatedLists,
-        updatedGroups: updatedGroups,
+    //User Reached (Non-Grouped) Checklist Limit
+    } else {
+        throw new Error("Checklist Limit Exceeded: 20");
     }
 }
 

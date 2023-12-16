@@ -6,7 +6,6 @@ import { deleteCheckpoint, markAsCompletePoint, modifyCheckpoint, unmarkAsComple
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import SubpointsSection from "../SubpointsSection/SubpointsSection";
-import NewCheckpointSection from "../NewCheckpointSection";
 import UnmarkSubpointsSection from "./UnmarkSubpointsSection";
 
 const CheckpointsSection = ({ 
@@ -23,7 +22,8 @@ const CheckpointsSection = ({
     content, 
     subpoints, 
     completedSubpoints, 
-    isCompleted }) => {
+    isCompleted, 
+    handleOpenAlert }) => {
 
     //NOTE: Enables To Delete Checkpoint w/o Error
     const [isUpdating, setUpdating] = useState(false);
@@ -88,20 +88,24 @@ const CheckpointsSection = ({
 
     // Mark Checkpoint as Complete
     const markAsComplete = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompletePoint(
-            checklists,
-            groups,
-            listId,
-            groupId,
-            index);
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompletePoint(
+                checklists,
+                groups,
+                listId,
+                groupId,
+                index);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            
+        }
     }
 
     // Unmark Checkpoint as Complete 
@@ -149,8 +153,8 @@ const CheckpointsSection = ({
                 ...style,
             }}
             ref={setNodeRef}
-                            {...attributes}
-                            {...listeners}
+            {...attributes}
+            {...listeners}
         >
             <Box
                 onMouseOver={() => setShowEdit(true)}
@@ -282,8 +286,7 @@ const CheckpointsSection = ({
             {((subpoints.length > 0) || (completedSubpoints.length > 0)) && !showNewPoint ? <Divider variant='middle' flexItem/> : <Box></Box>}
             { showNewPoint ? <Divider variant='middle' flexItem/> : <Box></Box>}
             <Stack
-                className='supoints-section'
-                divider={<Divider variant='middle' flexItem />}
+                className='subpoints-section'
                 spacing={0}
                 sx={{
                     flexGrow: 1,
@@ -302,43 +305,51 @@ const CheckpointsSection = ({
                     changeChecklists={changeChecklists}
                     groups={groups}
                     changeGroups={changeGroups}
+                    showNewPoint={showNewPoint}
+                    hideNewPoint={hideNewPoint}
                 />
-                {showNewPoint && (
-                    <NewCheckpointSection
-                        username={username}
-                        listId={listId}
-                        groupId={groupId}
-                        index={index}
-                        groups={groups}
-                        changeGroups={changeGroups}
-                        checklists={checklists}
-                        changeChecklists={changeChecklists}
-                        hideNewPoint={hideNewPoint}
-                        isSubpoint={true}
+                {(subpoints.length != 0) && (completedSubpoints.length != 0) &&
+                    <Divider 
+                        variant='middle' 
+                        flexItem 
                     />
-                )}
-                {completedSubpoints.map((completedSubpoint) => {
-                    const { index: subpointIdx, content } = completedSubpoint;
-                    return(
-                        <SubpointsSection
-                            key={subpointIdx}
-                            activeSubpoint={''}
-                            username={username}
-                            isParentComplete={isCompleted}
-                            listId={listId}
-                            groupId={groupId}
-                            pointIdx={index}
-                            groups={groups}
-                            changeGroups={changeGroups}
-                            checklists={checklists}
-                            changeChecklists={changeChecklists}
-                            showAllEdit={showAllEdit}
-                            subpointIdx={subpointIdx}
-                            content={content}
-                            isCompleted={true}
+                }
+                <Stack
+                    className='marked-points-section'
+                    divider={
+                        <Divider 
+                            variant='middle' 
+                            flexItem 
                         />
-                    )
-                })}
+                    }
+                    spacing={0}
+                    sx={{
+                        width: '100%',
+                    }}
+                >
+                    {completedSubpoints.map((completedSubpoint) => {
+                        const { index: subpointIdx, content } = completedSubpoint;
+                        return(
+                            <SubpointsSection
+                                key={subpointIdx}
+                                activeSubpoint={''}
+                                username={username}
+                                isParentComplete={isCompleted}
+                                listId={listId}
+                                groupId={groupId}
+                                pointIdx={index}
+                                groups={groups}
+                                changeGroups={changeGroups}
+                                checklists={checklists}
+                                changeChecklists={changeChecklists}
+                                showAllEdit={showAllEdit}
+                                subpointIdx={subpointIdx}
+                                content={content}
+                                isCompleted={true}
+                            />
+                        )
+                    })}
+                </Stack>
             </Stack>
         </Stack>
     )

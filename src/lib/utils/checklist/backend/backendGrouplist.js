@@ -19,7 +19,7 @@ export const getGrouplists = async (username) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Load Groups");
+        throw new Error("Failed to Load Groups - please try again later");
     }
 }
 
@@ -46,7 +46,7 @@ export const createGrouplist = async (username, title, groupId) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Create New Group");
+        throw new Error("Failed to Create New Group - please try again later");
     }
 }
 
@@ -72,7 +72,7 @@ export const modifyGroupTitle = async (username, groupId, title) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Rename Group's Title");
+        throw new Error("Failed to Rename Group's Title - please try again later");
     }
 }
 
@@ -98,7 +98,7 @@ export const reorderUserGroups = async (username, groups) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Reorder User's Groups");
+        throw new Error("Failed to Reorder User's Groups - please try again later");
     }
 }
 
@@ -124,7 +124,7 @@ export const reorderChecklists = async (username, group) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Reorder Group's Checklists");
+        throw new Error("Failed to Reorder Group's Checklists - please try again later");
     }
 }
 
@@ -151,7 +151,7 @@ export const addNewChecklistToGroup = async (username, listId, title, groupId) =
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Create New Checklist Under Group");
+        throw new Error("Failed to Create New Checklist Under Group - please try again later");
     }
 }
 
@@ -174,7 +174,7 @@ export const addChecklistToGroup = async (username, listId, groupId) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Move Checklist to Group");
+        throw new Error("Failed to Move Checklist to Group - please try again later");
     }
 }
 
@@ -197,15 +197,8 @@ export const moveChecklistGroupToGroup = async (username, listId, fromGroupId, t
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Move Checklist to Different Group");
+        throw new Error("Failed to Move Checklist to Different Group - please try again later");
     }
-}
-
-/******************************/
-/* Reorder Group's Checklists */
-/******************************/
-export const reorderGroupsChecklists = async (username, checklists, groupId) => {
-
 }
 
 /*************************************************************/
@@ -227,7 +220,7 @@ export const removeChecklistFromGroup = async (username, listId, groupId) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Remove Checklist From Group");
+        throw new Error("Failed to Remove Checklist From Group - please try again later");
     }
 }
 
@@ -248,6 +241,6 @@ export const deleteGrouplist = async (username, groupId) => {
             }
         });
     } catch(error) {
-        throw new Error("Failed to Delete Group");
+        throw new Error("Failed to Delete Group - please try again later");
     }
 }

@@ -6,6 +6,7 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { reorderCheckpoints } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
 import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { useState } from "react";
+import NewCheckpointSection from "./NewCheckpointSection";
 
 const UnmarkPointsSection = ({
     username, 
@@ -17,7 +18,10 @@ const UnmarkPointsSection = ({
     groupId,
     checkpoints,
     completedPoints,
-    showAllEdit }) => {
+    showNewPoint,
+    hideNewPoint,
+    showAllEdit, 
+    handleOpenAlert }) => {
 
     /* Dnd-Kit: Draggable Functionality */
     const mouseSensor = useSensor(MouseSensor, {
@@ -72,6 +76,9 @@ const UnmarkPointsSection = ({
             onDragEnd={handleDragEnd}
             sensors={sensors}
             modifiers={[restrictToVerticalAxis]}
+            style={{
+                backgroundColor: 'red',
+            }}
         >
             <SortableContext
                 items={checkpoints.map(checkpoint => checkpoint.index)}
@@ -113,6 +120,19 @@ const UnmarkPointsSection = ({
                             />
                         )
                     })}
+                    {showNewPoint && (
+                        <NewCheckpointSection
+                            username={username}
+                            listId={listId}
+                            groupId={groupId}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            checklists={checklists}
+                            changeChecklists={changeChecklists}
+                            hideNewPoint={hideNewPoint}
+                            isSubpoint={false}
+                        />
+                    )}
                 </Stack>
             </SortableContext>
         </DndContext>

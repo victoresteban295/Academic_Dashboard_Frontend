@@ -1,6 +1,6 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { createGrouplist, moveChecklistGroupToGroup } from "@/lib/utils/checklist/backend/backendGrouplist";
-import { moveListGroupToGroup, moveListGroupToNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { deleteGroup, moveListGroupToGroup, moveListGroupToNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -33,23 +33,55 @@ const MoveToGroupBackdrop = ({
     //Move (Grouped) Checklist to Different Group
     const MoveToGroup = async () => {
         handleClose(); //Close Menu
+        let updatedGroups;
+        let groupId;
+
         //Selected New Group
         if(selectedGroupId === 'new') {
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                const { updatedGroups, groupId } = moveListGroupToNewGroup(
-                    groups,
-                    listId, 
-                    fromGroupId, 
-                    newGroup);
+                try {
+                    const update = moveListGroupToNewGroup(
+                        groups,
+                        listId, 
+                        fromGroupId, 
+                        newGroup);
 
-                //Update State Value
-                changeGroups(updatedGroups);
+                    updatedGroups = update.updatedGroups;
+                    groupId = update.groupId;
 
-                //Backend API: Update Database
-                const { groupId: toGroupId } = await createGrouplist(username, newGroup, groupId);
-                moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
-                reloadChecklistpage();
+                    //Update State Value
+                    changeGroups(updatedGroups);
+
+                    //Backend API: Update Database
+                    const { groupId: toGroupId } = await createGrouplist(username, newGroup, groupId);
+                    await moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
+                    reloadChecklistpage();
+
+                } catch(error) {
+                    handleOpenAlert(error.message);
+                    console.log("Before Reverse Changes")
+                    console.log(updatedGroups);
+                    
+                    /* //Move Checklist Back to Old Group */
+                    /* const reverse = moveListGroupToGroup( */
+                    /*     updatedGroups,  */
+                    /*     listId,  */
+                    /*     groupId,  */
+                    /*     fromGroupId); */
+                    /* console.log("Moving Checklist Back to Old Group") */
+                    /* console.log(reverse.updatedGroups); */
+
+                    //Delete Newly Created Group
+                    const { updatedGroups: outdatedGroups } = deleteGroup(
+                        updatedGroups, 
+                        groupId);
+                    console.log("Deleting New Group")
+                    console.log(outdatedGroups);
+
+                    //Revert Changes Made
+                    changeGroups(outdatedGroups);
+                }
             } 
         } else {
             try{

@@ -26,7 +26,7 @@ const getData = async (role, username) => {
         notFound();
     //Backend Rest API Failed
     } else if(res.status >= 500 && res.status <= 599) {
-        throw new Error("Failed To Load User Profile"); 
+        /* throw new Error("Failed To Load User Profile");  */
     //Successfully Loaded Profile
     } else {
         return res.json();

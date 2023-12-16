@@ -75,10 +75,11 @@ export const createChecklist = async (username, title, listId) => {
                 listId: listId
             })
         });
+
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Create New Checklist");
+        throw new Error("Failed to Create Checklist - please try again later")
     }
 }
 
@@ -104,7 +105,7 @@ export const reorderUserChecklists = async (username, checklists) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to User's Checklists");
+        throw new Error("Failed to Reorder Checklists - please try again later");
     }
 }
 
@@ -130,7 +131,7 @@ export const renameCheclistTitle = async (username, listId, title) => {
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Rename Checklist's Title");
+        throw new Error("Failed to Rename Checklist's Title - please try again later");
     }
 }
 
@@ -157,7 +158,7 @@ export const modifyCheckpoints = async (username, listId, checkpoints, completed
         return res.json();
 
     } catch(error) {
-        throw new Error("Failed to Modify Checklist's Checkpoints");
+        throw new Error("Failed to Modify Checklist's Checkpoints - please try again later");
     }
 }
 
@@ -179,6 +180,6 @@ export const deleteChecklist = async (username, listId) => {
         });
 
     } catch(error) {
-        throw new Error("Failed to Delete Checklist");
+        throw new Error("Failed to Delete Checklist - please try again later");
     }
 }

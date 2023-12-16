@@ -8,7 +8,8 @@ const ChecklistWidget = ({
     groups,
     changeGroups,
     activeList, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
 
     let allChecklists = [...checklists];
     groups.map(group => {
@@ -31,6 +32,7 @@ const ChecklistWidget = ({
                     changeGroups={changeGroups}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
             ) : (
                 <NoList 
@@ -38,6 +40,7 @@ const ChecklistWidget = ({
                     checklists={checklists}
                     changeChecklists={changeChecklists}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
             )}
         </>

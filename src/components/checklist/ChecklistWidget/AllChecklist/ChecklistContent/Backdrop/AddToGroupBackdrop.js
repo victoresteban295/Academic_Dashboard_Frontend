@@ -1,6 +1,6 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { addChecklistToGroup, createGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
-import { addToExistingGroup, addToNewGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
+import { addToExistingGroup, addToNewGroup, removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
 import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -34,25 +34,45 @@ const AddToGroupBackdrop = ({
     //Add (Non-Grouped) Checklist to Group
     const addToGroup = async () => {
         handleClose(); //Close Backdrop Menu
+        let updatedLists;
+        let updatedGroups;
+        let groupId;
+
+        const outdatedLists = [...checklists];
+        const outdatedGroups = [...groups];
+
         //Selected New Group
         if(selectedGroupId === 'new') { 
             //Ensure User's Input Isn't Just Empty Spaces
             if(newGroup.trim() != "") {
-                //Add Checklist To New Group
-                const { updatedLists, updatedGroups, groupId } = addToNewGroup(
-                    checklists, 
-                    groups, 
-                    listId, 
-                    newGroup); 
+                try {
+                    //Add Checklist To New Group
+                    const update = addToNewGroup(
+                        checklists, 
+                        groups, 
+                        listId, 
+                        newGroup); 
+                    
+                    updatedLists = update.updatedLists;
+                    updatedGroups = update.updatedGroups;
+                    groupId = update.groupId;
 
-                //Update State Value
-                changeChecklists(updatedLists);
-                changeGroups(updatedGroups);
+                    //Update State Value
+                    changeChecklists(updatedLists);
+                    changeGroups(updatedGroups);
 
-                //Backend API: Update Database
-                const { groupId: newGroupId } = await createGrouplist(username, newGroup, groupId);
-                addChecklistToGroup(username, listId, newGroupId);
-                reloadChecklistpage();
+                    //Backend API: Update Database
+                    const { groupId: newGroupId } = await createGrouplist(username, newGroup, groupId);
+                    await addChecklistToGroup(username, listId, newGroupId);
+                    reloadChecklistpage();
+
+                } catch(error) {
+                    handleOpenAlert(error.message);
+
+                    //Revert Changes Made
+                    changeChecklists(outdatedLists);
+                    changeGroups(outdatedGroups);
+                }
             //If so, Do Nothing & Reset Input
             } else {
                 setNewGroup('');
@@ -62,22 +82,37 @@ const AddToGroupBackdrop = ({
         } else { 
             try {
                 //Add Checklist to Existing Group
-                const { updatedLists, updatedGroups } = addToExistingGroup(
+                const update = addToExistingGroup(
                     checklists, 
                     groups, 
                     listId, 
                     selectedGroupId);
+
+                updatedLists = update.updatedLists;
+                updatedGroups = update.updatedGroups;
 
                 //Update State Value
                 changeChecklists(updatedLists);
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                addChecklistToGroup(username, listId, selectedGroupId);
+                await addChecklistToGroup(username, listId, selectedGroupId);
                 reloadChecklistpage();
 
             } catch(error) {
                 handleOpenAlert(error.message);
+                
+                if(updatedGroups != null) {
+                    const { updatedGroups } = removeListFromGroup(
+                        checklists, 
+                        groups, 
+                        listId, 
+                        selectedGroupId);
+
+                    //Revert Changes Made
+                    changeChecklists(outdatedLists);
+                    changeGroups(updatedGroups);
+                }
             }
         }
     }
