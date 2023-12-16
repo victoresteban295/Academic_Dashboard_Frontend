@@ -60,24 +60,16 @@ const MoveToGroupBackdrop = ({
 
                 } catch(error) {
                     handleOpenAlert(error.message);
-                    console.log("Before Reverse Changes")
-                    console.log(updatedGroups);
                     
-                    /* //Move Checklist Back to Old Group */
-                    /* const reverse = moveListGroupToGroup( */
-                    /*     updatedGroups,  */
-                    /*     listId,  */
-                    /*     groupId,  */
-                    /*     fromGroupId); */
-                    /* console.log("Moving Checklist Back to Old Group") */
-                    /* console.log(reverse.updatedGroups); */
+                    //Move Checklist Back to Old Group
+                    const update = moveListGroupToGroup(
+                        updatedGroups, 
+                        listId, 
+                        groupId, 
+                        fromGroupId);
 
                     //Delete Newly Created Group
-                    const { updatedGroups: outdatedGroups } = deleteGroup(
-                        updatedGroups, 
-                        groupId);
-                    console.log("Deleting New Group")
-                    console.log(outdatedGroups);
+                    const outdatedGroups = deleteGroup(update.updatedGroups, groupId);
 
                     //Revert Changes Made
                     changeGroups(outdatedGroups);
@@ -86,20 +78,32 @@ const MoveToGroupBackdrop = ({
         } else {
             try{
                 //Move to Different Group
-                const { updatedGroups } = moveListGroupToGroup(
+                const update = moveListGroupToGroup(
                     groups, 
                     listId, 
                     fromGroupId, 
                     selectedGroupId); 
+                
+                updatedGroups = update.updatedGroups;
 
                 //Update State Value
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
+                await moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
                 reloadChecklistpage();
             } catch(error) {
                 handleOpenAlert(error.message);
+
+                if(updatedGroups != null) {
+                    const reverse = moveListGroupToGroup(
+                        updatedGroups, 
+                        listId, 
+                        selectedGroupId, 
+                        fromGroupId);
+
+                    changeGroups(reverse.updatedGroups);
+                }
             }
         }
 

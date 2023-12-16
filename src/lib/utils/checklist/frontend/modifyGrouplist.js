@@ -215,39 +215,46 @@ export const moveListGroupToGroup = (groups, listId, fromGroupId, toGroupId) => 
     let mvingList; //Checklist Being Moved
     let updatedGroups = [...groups];
 
-    //Loop to Remove Checklist From Original Group
-    updatedGroups.map(group => {
-        let updatedLists;
-        if(group.groupId === fromGroupId) {
-            updatedLists = group.checklists.filter(checklist => {
-                let isTarget = checklist.listId === listId;
-                if(isTarget) {
-                    mvingList = {...checklist, groupId: toGroupId}
-                }
-                return !isTarget;
-            })
-            group.checklists = updatedLists;
-        }
-    })
-
-    //Loop to Move Checklist To New Group
-    updatedGroups.map(group => {
-        let updatedLists;
+    //Each Group is Limited to 20 Checklists
+    let limitReached;
+    for(const group of updatedGroups) {
         if(group.groupId === toGroupId) {
-            //Ensure Checklist Under Group Limit
-            if(group.checklists.length < 20) {
+            limitReached = group.checklists.length >= 20; 
+        }
+    }
+
+    if(!limitReached) {
+        //Loop to Remove Checklist From Original Group
+        updatedGroups.map(group => {
+            let updatedLists;
+            if(group.groupId === fromGroupId) {
+                updatedLists = group.checklists.filter(checklist => {
+                    let isTarget = checklist.listId === listId;
+                    if(isTarget) {
+                        mvingList = {...checklist, groupId: toGroupId}
+                    }
+                    return !isTarget;
+                })
+                group.checklists = updatedLists;
+            }
+        })
+
+        //Loop to Move Checklist To New Group
+        updatedGroups.map(group => {
+            let updatedLists;
+            if(group.groupId === toGroupId) {
                 updatedLists = [...group.checklists, mvingList];
                 group.checklists = updatedLists;
-            //Checklist Under Group Limit Exceeded
-            } else {
-                throw new Error("Checklist Under Group Limit Exceeded: 20");
             }
-        }
-    })
+        })
 
-    return {
-        updatedGroups: updatedGroups,
+        return {
+            updatedGroups: updatedGroups,
+        }
+    } else {
+        throw new Error("Checklist Under Group Limit Exceeded: 20");
     }
+
 }
 
 /*******************************/
