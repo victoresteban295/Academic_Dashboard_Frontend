@@ -24,12 +24,16 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
         //Iterate to Find Checklist Benig Modified
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                const updates = addNewSubpoint(checklist, pointIdx, subContent);
-                newCheckpoints = updates.newCheckpoints;
-                completedPoints = updates.completedPoints;
+                if(checklist.checkpoints[pointIdx].subpoints.length < 25) {
+                    const updates = addNewSubpoint(checklist, pointIdx, subContent);
+                    newCheckpoints = updates.newCheckpoints;
+                    completedPoints = updates.completedPoints;
 
-                checklist.checkpoints = newCheckpoints;
-                checklist.completedPoints = completedPoints;
+                    checklist.checkpoints = newCheckpoints;
+                    checklist.completedPoints = completedPoints;
+                } else {
+                    throw new Error("Subpoints Limit Exceeded: 25");
+                }
             }
         })
 
@@ -41,12 +45,16 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
                 //Iterate to Find Checklist Being Modified
                 group.checklists.map(checklist => {
                     if(checklist.listId === listId) {
-                        const updates = addNewSubpoint(checklist, pointIdx, subContent);
-                        newCheckpoints = updates.newCheckpoints;
-                        completedPoints = updates.completedPoints;
+                        if(checklist.checkpoints[pointIdx].subpoints.length < 25) {
+                            const updates = addNewSubpoint(checklist, pointIdx, subContent);
+                            newCheckpoints = updates.newCheckpoints;
+                            completedPoints = updates.completedPoints;
 
-                        checklist.checkpoints = newCheckpoints;
-                        checklist.completedPoints = completedPoints;
+                            checklist.checkpoints = newCheckpoints;
+                            checklist.completedPoints = completedPoints;
+                        } else {
+                            throw new Error("Subpoints Limit Exceeded: 25");
+                        }
                     }
                 })
             }
@@ -62,7 +70,7 @@ export const addSubpoint = (checklists, groups, listId, groupId, pointIdx, subCo
 }
 
 const addNewSubpoint = (checklist, pointIdx, subContent) => {
-    if(checklist.checkpoints[pointIdx].subpoints.length < 50) {
+    if(checklist.checkpoints[pointIdx].subpoints.length < 25) {
         //Create New Subpoint Object
         let subpoint = {
             index: '',
@@ -88,7 +96,7 @@ const addNewSubpoint = (checklist, pointIdx, subContent) => {
             completedPoints: completedPoints,
         }
     } else {
-        throw new Error("Subpoints Limit Exceeded: 50");
+        throw new Error("Subpoints Limit Exceeded: 25");
     }
 }
 
@@ -158,12 +166,16 @@ export const markAsCompleteSubpoint = (checklists, groups, listId, groupId, poin
         //Iterate to Find Checklist Being Modified
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                const updates = markAsComplete(checklist, pointIdx, subpointIdx);
-                updatedPoints = updates.updatedPoints;
-                updatedCompletedPoints = updates.updatedCompletedPoints;
+                if(checklist.checkpoints[pointIdx].completedSubpoints.length < 25) {
+                    const updates = markAsComplete(checklist, pointIdx, subpointIdx);
+                    updatedPoints = updates.updatedPoints;
+                    updatedCompletedPoints = updates.updatedCompletedPoints;
 
-                checklist.checkpoints = updatedPoints;
-                checklist.completedPoints = updatedCompletedPoints;
+                    checklist.checkpoints = updatedPoints;
+                    checklist.completedPoints = updatedCompletedPoints;
+                } else {
+                    throw new Error("Completed Subpoints Limit Exceeded: 25 | Delete a Completed Subpoint");
+                }
             }
         })
 
@@ -175,12 +187,16 @@ export const markAsCompleteSubpoint = (checklists, groups, listId, groupId, poin
                 //Iterate to Find Checklist Being Modified
                 group.checklists.map(checklist => {
                     if(checklist.listId === listId) {
-                        const updates = markAsComplete(checklist, pointIdx, subpointIdx);
-                        updatedPoints = updates.updatedPoints;
-                        updatedCompletedPoints = updates.updatedCompletedPoints;
+                        if(checklist.checkpoints[pointIdx].completedSubpoints.length < 25) {
+                            const updates = markAsComplete(checklist, pointIdx, subpointIdx);
+                            updatedPoints = updates.updatedPoints;
+                            updatedCompletedPoints = updates.updatedCompletedPoints;
 
-                        checklist.checkpoints = updatedPoints;
-                        checklist.completedPoints = updatedCompletedPoints;
+                            checklist.checkpoints = updatedPoints;
+                            checklist.completedPoints = updatedCompletedPoints;
+                        } else {
+                            throw new Error("Completed Subpoints Limit Exceeded: 25 | Delete a Completed Subpoint");
+                        }
                     }
                 })
             }
@@ -202,60 +218,64 @@ const markAsComplete = (checklist, pointIdx, subpointIdx) => {
     /* If It Is The Last Subpoint to Complete 
      * Then Mark Parent Checkpoint as Complete */
     if(checklist.checkpoints[pointIdx].subpoints.length === 1) {
-        //Completed Checkpoint
-        let completePoint;
+        if(checklist.completedPoints.length < 25) {
+            //Completed Checkpoint
+            let completePoint;
 
-        //Extract Checklist's Checkpoints
-        let outdatedPoints = checklist.checkpoints;
-        
-        //Filter Out The Checkpoint That Was Completed
-        updatedPoints = outdatedPoints.filter(checkpoint => {
-            if(checkpoint.index === pointIdx) {
-                //Extract Complete Checkpoint
-                completePoint = checkpoint;
-                return false;
-            } else {
-                return true;
+            //Extract Checklist's Checkpoints
+            let outdatedPoints = checklist.checkpoints;
+            
+            //Filter Out The Checkpoint That Was Completed
+            updatedPoints = outdatedPoints.filter(checkpoint => {
+                if(checkpoint.index === pointIdx) {
+                    //Extract Complete Checkpoint
+                    completePoint = checkpoint;
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+
+            //Re-assign Index for Each Checkpoint (Non-Complete)
+            for(let i=0; i < updatedPoints.length; i++) {
+                updatedPoints[i].index = i;
             }
-        })
 
-        //Re-assign Index for Each Checkpoint (Non-Complete)
-        for(let i=0; i < updatedPoints.length; i++) {
-            updatedPoints[i].index = i;
+            //Extract Recently Completed Checkpoint's Subpoints
+            let subpoints = completePoint.subpoints;
+
+            //Extract Recently Completed Checkpoint's Completed Subpoints
+            let completedSubpoints = completePoint.completedSubpoints;
+
+            //Completed Subpoint's Original Length
+            let compLength = completedSubpoints.length;
+
+            //Updated Subpoint Index & Move to Completed Subpoints
+            for(let i=0; i < subpoints.length; i++) {
+                let subpoint = subpoints[i];
+                subpoint.index = compLength + i;
+                completedSubpoints.push(subpoint);
+            }
+
+            //Updated Completed Checkpoint's Subpoints
+            completePoint.subpoints = [];
+            completePoint.completedSubpoints = completedSubpoints;
+
+            //Update Checklist's Completed Checkpoints
+            checklist.checkpoints = updatedPoints;
+            checklist.completedPoints.push(completePoint);
+            updatedCompletedPoints = checklist.completedPoints;
+
+            //Re-assign Index for Each Completed Checkpoint
+            for(let i=0; i < updatedCompletedPoints.length; i++) {
+                updatedCompletedPoints[i].index = i;
+            }
+
+            //Updated Checklist's Completed Checkpoints 
+            checklist.completedPoints = updatedCompletedPoints;
+        } else {
+            throw new Error('Completed Checkpoints Limit Exceeded: 25 | Delete a Completed Checkpoint');
         }
-
-        //Extract Recently Completed Checkpoint's Subpoints
-        let subpoints = completePoint.subpoints;
-
-        //Extract Recently Completed Checkpoint's Completed Subpoints
-        let completedSubpoints = completePoint.completedSubpoints;
-
-        //Completed Subpoint's Original Length
-        let compLength = completedSubpoints.length;
-
-        //Updated Subpoint Index & Move to Completed Subpoints
-        for(let i=0; i < subpoints.length; i++) {
-            let subpoint = subpoints[i];
-            subpoint.index = compLength + i;
-            completedSubpoints.push(subpoint);
-        }
-
-        //Updated Completed Checkpoint's Subpoints
-        completePoint.subpoints = [];
-        completePoint.completedSubpoints = completedSubpoints;
-
-        //Update Checklist's Completed Checkpoints
-        checklist.checkpoints = updatedPoints;
-        checklist.completedPoints.push(completePoint);
-        updatedCompletedPoints = checklist.completedPoints;
-
-        //Re-assign Index for Each Completed Checkpoint
-        for(let i=0; i < updatedCompletedPoints.length; i++) {
-            updatedCompletedPoints[i].index = i;
-        }
-
-        //Updated Checklist's Completed Checkpoints 
-        checklist.completedPoints = updatedCompletedPoints;
 
     /* If Not Last Subpoint to Complete, 
      * Then Just Mark Subpoint as Complete */
@@ -315,12 +335,16 @@ export const unmarkAsCompleteSubpoint = (checklists, groups, listId, groupId, is
         //Iterate to Find Checklist Being Modified
         updatedLists.map(checklist => {
             if(checklist.listId === listId) {
-                const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
-                updatedPoints = updates.updatedPoints;
-                updatedCompletedPoints = updates.updatedCompletedPoints;
+                if(checklist.checkpoints[pointIdx].subpoints.length < 25) {
+                    const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
+                    updatedPoints = updates.updatedPoints;
+                    updatedCompletedPoints = updates.updatedCompletedPoints;
 
-                checklist.checkpoints = updatedPoints;
-                checklist.completedPoints = updatedCompletedPoints;
+                    checklist.checkpoints = updatedPoints;
+                    checklist.completedPoints = updatedCompletedPoints;
+                } else {
+                    throw new Error("Subpoints Limit Exceeded: 25 | Delete a Subpoint");
+                }
             }
         })
 
@@ -332,12 +356,16 @@ export const unmarkAsCompleteSubpoint = (checklists, groups, listId, groupId, is
                 //Iterate to Find Checklist Being Modified
                 group.checklists.map(checklist => {
                     if(checklist.listId === listId) {
-                        const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
-                        updatedPoints = updates.updatedPoints;
-                        updatedCompletedPoints = updates.updatedCompletedPoints;
+                        if(checklist.checkpoints[pointIdx].subpoints.length < 25) {
+                            const updates = unmarkAsComplete(checklist, isPointComplete, pointIdx, subpointIdx);
+                            updatedPoints = updates.updatedPoints;
+                            updatedCompletedPoints = updates.updatedCompletedPoints;
 
-                        checklist.checkpoints = updatedPoints;
-                        checklist.completedPoints = updatedCompletedPoints;
+                            checklist.checkpoints = updatedPoints;
+                            checklist.completedPoints = updatedCompletedPoints;
+                        } else {
+                            throw new Error("Subpoints Limit Exceeded: 25 | Delete a Subpoint");
+                        }
                     }
                 })
             }
@@ -390,18 +418,22 @@ const unmarkAsComplete = (checklist, isPointComplete, pointIdx, subpointIdx) => 
 
     //If Marked As Complete, Unmark Parent Checkpoint
     if(isPointComplete) {
-        /* Remove Parent Checkpoint From Completed Checkpoints List */
-        updatedCompletedPoints = checklist.completedPoints.filter(checkpoint => {
-            return checkpoint.index != pointIdx;
-        })
-        /* Re-assign Index for Each Completed Checkpoint */
-        for(let i=0; i < updatedCompletedPoints.length; i++) {
-            updatedCompletedPoints[i].index = i;
+        if(checklist.checkpoints.length < 25) {
+            /* Remove Parent Checkpoint From Completed Checkpoints List */
+            updatedCompletedPoints = checklist.completedPoints.filter(checkpoint => {
+                return checkpoint.index != pointIdx;
+            })
+            /* Re-assign Index for Each Completed Checkpoint */
+            for(let i=0; i < updatedCompletedPoints.length; i++) {
+                updatedCompletedPoints[i].index = i;
+            }
+            /* Add Parent Checkpoint To (Non-Completed) Checkpoints List */
+            updatedPoints = checklist.checkpoints; //Extract Checkpoints List
+            parentCheckpoint.index = updatedPoints.length; //Update Parent Checkpoint's Index
+            updatedPoints.push(parentCheckpoint); //Add Parent Checkpoint to New List
+        } else {
+            throw new Error("Checkpoints Limit Exceeded: 25 | Delete a Checkpoint");
         }
-        /* Add Parent Checkpoint To (Non-Completed) Checkpoints List */
-        updatedPoints = checklist.checkpoints; //Extract Checkpoints List
-        parentCheckpoint.index = updatedPoints.length; //Update Parent Checkpoint's Index
-        updatedPoints.push(parentCheckpoint); //Add Parent Checkpoint to New List
 
     //Parent Checkpoint Isn't Completed
     } else {

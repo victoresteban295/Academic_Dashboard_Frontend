@@ -12,6 +12,13 @@ const NewGroupBackdrop = ({
     changeGroups, 
     handleOpenAlert }) => {
 
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
+
     //Title of New Group to Create
     const [title, setTitle] = useState('');
 
@@ -22,7 +29,8 @@ const NewGroupBackdrop = ({
     }
 
     //Create New Group 
-    const handleNewGroup = () => {
+    const handleNewGroup = async () => {
+        const outdatedGroups = [...userGroups];
         try {
             handleCloseBackdrop();
             //Create New Group
@@ -32,11 +40,14 @@ const NewGroupBackdrop = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            createGrouplist(username, title, groupId);
+            await createGrouplist(username, title, groupId);
             reloadChecklistpage();
 
         } catch(error) {
             handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(outdatedGroups);
         }
     }
 

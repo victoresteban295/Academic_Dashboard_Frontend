@@ -11,7 +11,15 @@ const RenameGroupBackdrop = ({
     open, 
     handleClose, 
     groups,
-    changeGroups }) => {
+    changeGroups, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     //New Title of Group Being Renamed
     const [rename, setRename] = useState('');
@@ -22,19 +30,27 @@ const RenameGroupBackdrop = ({
         setRename('');
     }
 
-    //Rename Group
-    const handleRenameGroup = () => {
+    /* Rename Group */
+    const handleRenameGroup = async () => {
         handleCloseBackdrop();
+        const outdatedGroups = [...userGroups];
 
-        //Rename Group
-        const updatedGroups = renameGroup(groups, rename, groupId);
+        try {
+            //Rename Group
+            const updatedGroups = renameGroup(groups, rename, groupId);
 
-        //Update State Value
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyGroupTitle(username, groupId, rename);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyGroupTitle(username, groupId, rename);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(outdatedGroups);
+        }
     }
 
     return (

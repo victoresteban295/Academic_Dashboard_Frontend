@@ -23,6 +23,18 @@ const UnmarkPointsSection = ({
     showAllEdit, 
     handleOpenAlert }) => {
 
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
+
     /* Dnd-Kit: Draggable Functionality */
     const mouseSensor = useSensor(MouseSensor, {
         //Require the mouse to move 10px before activating drag
@@ -44,28 +56,38 @@ const UnmarkPointsSection = ({
         const { active } = event;
         setActiveCheckpoint(active.id);
     }
-    const handleDragEnd = (event) => {
+    const handleDragEnd = async (event) => {
         setActiveCheckpoint('');
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
         if(active.id !== over.id) {
-            //Re-order Checkpoints
-            const { updatedLists, updatedGroups, updatedPoints } = reorderCheckpoints(
-                checklists, 
-                groups, 
-                listId, 
-                groupId, 
-                active.id, 
-                over.id);
+            try {
+                //Re-order Checkpoints
+                const { updatedLists, updatedGroups, updatedPoints } = reorderCheckpoints(
+                    checklists, 
+                    groups, 
+                    listId, 
+                    groupId, 
+                    active.id, 
+                    over.id);
 
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeChecklists(outdatedLists);
+                changeGroups(outdatedGroups);
+            }
         }
     }
 
@@ -117,6 +139,7 @@ const UnmarkPointsSection = ({
                                 subpoints={subpoints}
                                 completedSubpoints={completedSubpoints}
                                 isCompleted={false}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         )
                     })}
@@ -131,6 +154,7 @@ const UnmarkPointsSection = ({
                             changeChecklists={changeChecklists}
                             hideNewPoint={hideNewPoint}
                             isSubpoint={false}
+                            handleOpenAlert={handleOpenAlert}
                         />
                     )}
                 </Stack>

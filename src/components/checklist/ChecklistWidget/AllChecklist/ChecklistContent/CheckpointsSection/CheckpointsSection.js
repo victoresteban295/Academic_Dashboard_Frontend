@@ -25,6 +25,18 @@ const CheckpointsSection = ({
     isCompleted, 
     handleOpenAlert }) => {
 
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
+
     //NOTE: Enables To Delete Checkpoint w/o Error
     const [isUpdating, setUpdating] = useState(false);
 
@@ -62,32 +74,44 @@ const CheckpointsSection = ({
         transition,
     }
 
-    // Modify Checkpoint's Content
-    const handleContent = () => {
+    /* Modify Checkpoint's Content */
+    const handleContent = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
         if(newContent.trim() != '') {
-            setUpdating(false);
-            const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
-                checklists,
-                groups,
-                listId,
-                groupId,
-                index, 
-                newContent);
+            try {
+                setUpdating(false);
+                const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
+                    checklists,
+                    groups,
+                    listId,
+                    groupId,
+                    index, 
+                    newContent);
 
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeChecklists(outdatedLists);
+                changeGroups(outdatedGroups);
+            }
         } else {
             setNewContent(content);
         }
     }
 
-    // Mark Checkpoint as Complete
-    const markAsComplete = () => {
+    /* Mark Checkpoint as Complete */
+    const markAsComplete = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
         try {
             const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompletePoint(
                 checklists,
@@ -101,48 +125,72 @@ const CheckpointsSection = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
             reloadChecklistpage();
         } catch(error) {
+            handleOpenAlert(error.message);
             
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
         }
     }
 
-    // Unmark Checkpoint as Complete 
-    const unmarkAsComplete = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = unmarkAsCompletePoint(
-            checklists,
-            groups,
-            listId,
-            groupId,
-            index);
+    /* Unmark Checkpoint as Complete */
+    const unmarkAsComplete = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = unmarkAsCompletePoint(
+                checklists,
+                groups,
+                listId,
+                groupId,
+                index);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+            
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
+        }
     }
 
     // Delete Checkpoint & it's Content 
-    const handleDeletePoint = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = deleteCheckpoint(
-            checklists,
-            groups,
-            listId,
-            groupId,
-            isCompleted, 
-            index);
+    const handleDeletePoint = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = deleteCheckpoint(
+                checklists,
+                groups,
+                listId,
+                groupId,
+                isCompleted, 
+                index);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+            
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
+        }
     }
 
     return (
@@ -307,6 +355,7 @@ const CheckpointsSection = ({
                     changeGroups={changeGroups}
                     showNewPoint={showNewPoint}
                     hideNewPoint={hideNewPoint}
+                    handleOpenAlert={handleOpenAlert}
                 />
                 {(subpoints.length != 0) && (completedSubpoints.length != 0) &&
                     <Divider 
@@ -346,6 +395,7 @@ const CheckpointsSection = ({
                                 subpointIdx={subpointIdx}
                                 content={content}
                                 isCompleted={true}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         )
                     })}

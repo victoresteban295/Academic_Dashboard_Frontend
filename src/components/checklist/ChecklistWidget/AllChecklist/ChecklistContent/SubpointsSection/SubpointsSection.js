@@ -20,7 +20,20 @@ const SubpointsSection = ({
     showAllEdit, 
     subpointIdx,
     content, 
-    isCompleted }) => {
+    isCompleted, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     //NOTE: Enables To Delete Checkpoint w/o Error
     const [isUpdating, setUpdating] = useState(false);
@@ -28,89 +41,129 @@ const SubpointsSection = ({
     const [showEdit, setShowEdit] = useState(false);
     const [newContent, setNewContent] = useState(content);
 
-    // Modify Subpoint's Content 
-    const handleNewSubcontent = () => {
+    /* Modify Subpoint's Content */
+    const handleNewSubcontent = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
         if(newContent.trim() != '') {
-            setUpdating(false);
-            const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifySubpoint(
-                checklists, 
-                groups, 
-                listId,
-                groupId,
-                pointIdx,
-                subpointIdx,
-                newContent)
+            try{
+                setUpdating(false);
+                const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifySubpoint(
+                    checklists, 
+                    groups, 
+                    listId,
+                    groupId,
+                    pointIdx,
+                    subpointIdx,
+                    newContent)
 
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeChecklists(outdatedLists);
+                changeGroups(outdatedGroups);
+            }
         } else {
             setNewContent(content);
         }
     }
 
     // Mark Supoint As Complete 
-    const markAsComplete = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompleteSubpoint(
-            checklists, 
-            groups, 
-            listId, 
-            groupId, 
-            pointIdx, 
-            subpointIdx);
+    const markAsComplete = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = markAsCompleteSubpoint(
+                checklists, 
+                groups, 
+                listId, 
+                groupId, 
+                pointIdx, 
+                subpointIdx);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
+        }
     }
 
     // Unmark Supoint As Complete
-    const unmarkAsComplete = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = unmarkAsCompleteSubpoint(
-            checklists, 
-            groups, 
-            listId, 
-            groupId,
-            isParentComplete,
-            pointIdx,
-            subpointIdx);
+    const unmarkAsComplete = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = unmarkAsCompleteSubpoint(
+                checklists, 
+                groups, 
+                listId, 
+                groupId,
+                isParentComplete,
+                pointIdx,
+                subpointIdx);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
+        }
     }
 
     // Delete Subpoint's Content
-    const removeSubpoint = () => {
-        const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = deleteSubpoint(
-            checklists, 
-            groups,
-            listId,
-            groupId,
-            isParentComplete,
-            isCompleted,
-            pointIdx,
-            subpointIdx);
+    const removeSubpoint = async () => {
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        try {
+            const { updatedLists, updatedGroups, updatedPoints, updatedCompletedPoints } = deleteSubpoint(
+                checklists, 
+                groups,
+                listId,
+                groupId,
+                isParentComplete,
+                isCompleted,
+                pointIdx,
+                subpointIdx);
 
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
 
-        //Backend API: Update Database
-        modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
-        reloadChecklistpage();
+            //Backend API: Update Database
+            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
+        }
     }
 
     /* Dnd-kit: Make Component Draggable */

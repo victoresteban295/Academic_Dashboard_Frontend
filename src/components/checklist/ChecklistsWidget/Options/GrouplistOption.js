@@ -1,5 +1,5 @@
 "use client"
-import { Alert, Box, Button, Divider, IconButton, Menu, MenuItem, Snackbar, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import ChecklistOption from "./ChecklistOption";
 import { ExpandLess, ExpandMore, MoreVert } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -25,7 +25,15 @@ const GrouplistOption = ({
     changeGroups,
     title, 
     groupId, 
-    checklists }) => {
+    checklists, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     /* Check if Group Contains the Current Checklist*/
     useEffect(() => {
@@ -49,7 +57,6 @@ const GrouplistOption = ({
         setExpanded(false);
     }
 
-
     /* All ListIds of All the User's Checklists (Grouped & Non-Grouped) */
     let allListIds = allChecklists.map(checklist => checklist.listId);
     groups.map(group => {
@@ -57,19 +64,6 @@ const GrouplistOption = ({
             allListIds.push(checklist.listId);
         })
     })
-
-    /* Error Message Displaying in Alert */
-    const [errorMsg, setErrorMsg] = useState('');
-    /* Display Alert with Error Message */
-    const [openAlert, setOpenAlert] = useState(false);
-    const handleOpenAlert = (msg) => {
-        setErrorMsg(msg);
-        setOpenAlert(true);
-    }
-    const handleCloseAlert = () => {
-        setErrorMsg('');
-        setOpenAlert(false);
-    }
 
     /* Dnd-kit: Make Component Draggable */
     const { 
@@ -99,24 +93,32 @@ const GrouplistOption = ({
         const { active } = event;
         setActiveChecklist(active.id);
     }
-    const handleDragEnd = (event) => {
+    const handleDragEnd = async (event) => {
         setActiveChecklist('');
+        const outdatedGroups = [...userGroups];
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
         if(active.id !== over.id) {
-            //Re-order Groups
-            const { 
-                updatedGroups, 
-                modifiedGroup 
-            } = reorderGroupChecklist(groups, groupId, active.id, over.id);
-            
-            //Update State Value
-            changeGroups(updatedGroups);
+            try {
+                //Re-order Groups
+                const { 
+                    updatedGroups, 
+                    modifiedGroup 
+                } = reorderGroupChecklist(groups, groupId, active.id, over.id);
+                
+                //Update State Value
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            reorderChecklists(username, modifiedGroup);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await reorderChecklists(username, modifiedGroup);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeGroups(outdatedGroups);
+            }
         }
     }
     /* Is Group Currently Being Dragged */
@@ -179,25 +181,33 @@ const GrouplistOption = ({
     }
 
     /* Delete Group */
-    const handleDeleteGroup = () => {
-        handleClose(); //Close Group Tab
-        const updatedGroups = deleteGroup(groups, groupId);
+    const handleDeleteGroup = async () => {
+        const outdatedGroups = [...userGroups];
+        try {
+            handleClose(); //Close Group Tab
+            const updatedGroups = deleteGroup(groups, groupId);
 
-        //Current Checklist is Under Deleted Group
-        if(listIds.includes(activeList) && allListIds.length > 0) {
-            //Set New Active List to User's 1st Checklist
-            handleActiveList(allListIds[0]);
-        } else if(listIds.includes(activeList) && allListIds.length === 0) {
-            //User Has No More Checklist
-            localStorage.removeItem("currentList");
+            //Current Checklist is Under Deleted Group
+            if(listIds.includes(activeList) && allListIds.length > 0) {
+                //Set New Active List to User's 1st Checklist
+                handleActiveList(allListIds[0]);
+            } else if(listIds.includes(activeList) && allListIds.length === 0) {
+                //User Has No More Checklist
+                localStorage.removeItem("currentList");
+            }
+
+            //Update State Value
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            await deleteGrouplist(username, groupId);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(outdatedGroups);
         }
-
-        //Update State Value
-        changeGroups(updatedGroups);
-
-        //Backend API: Update Database
-        deleteGrouplist(username, groupId);
-        reloadChecklistpage();
     }
 
     return (
@@ -218,27 +228,6 @@ const GrouplistOption = ({
                     bgcolor: isActive ? '#cecece' : ''
                 }}
             >
-                <Snackbar
-                    open={openAlert}
-                    anchorOrigin={{
-                        vertical: 'top', 
-                        horizontal: 'right',
-                    }}
-                    autoHideDuration={6000}
-                    onClose={handleCloseAlert}
-                >
-                    <Alert
-                        onClose={handleCloseAlert}
-                        severity="error"
-                        sx={{
-                            width: '100%',
-                            position: 'relative',
-                            top: {xs: '0px', sm: '0px', md: '50px'},
-                        }}
-                    >
-                        {errorMsg}
-                    </Alert>
-                </Snackbar> 
                 <RenameGroupBackdrop 
                     username={username}
                     title={title}
@@ -247,6 +236,7 @@ const GrouplistOption = ({
                     handleClose={handleCloseRenameGroup}
                     groups={groups}
                     changeGroups={changeGroups}
+                    handleOpenAlert={handleOpenAlert}
                 />
                 <ListInGroupBackdrop
                     username={username}

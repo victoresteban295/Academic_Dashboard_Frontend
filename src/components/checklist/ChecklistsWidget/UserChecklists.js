@@ -14,7 +14,16 @@ const UserChecklists = ({
     checklists,
     changeChecklists,
     activeList, 
-    handleActiveList}) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+
     //Determine If User has Checklist
     const hasChecklists = checklists.length > 0;
 
@@ -49,21 +58,29 @@ const UserChecklists = ({
         const { active } = event;
         setActiveChecklist(active.id);
     }
-    const handleDragEnd = (event) => {
+    const handleDragEnd = async (event) => {
         setActiveChecklist('');
+        const outdatedLists = [...userChecklists];
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
         if(active.id !== over.id) {
-            //Re-order Checklists
-            const updatedLists = reorderChecklists(checklists, active.id, over.id);
+            try {
+                //Re-order Checklists
+                const updatedLists = reorderChecklists(checklists, active.id, over.id);
 
-            //Update State Value
-            changeChecklists(updatedLists);
+                //Update State Value
+                changeChecklists(updatedLists);
 
-            //Backend API: Update Database
-            reorderUserChecklists(username, updatedLists);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await reorderUserChecklists(username, updatedLists);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeChecklists(outdatedLists);
+            }
         }
     }
 
@@ -119,6 +136,7 @@ const UserChecklists = ({
                         checklists={checklists}
                         changeChecklists={changeChecklists}
                         handleActiveList={handleActiveList}
+                        handleOpenAlert={handleOpenAlert}
                     />
                     <Button
                         startIcon={<AddCircleOutline />}

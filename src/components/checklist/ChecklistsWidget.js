@@ -127,6 +127,7 @@ const ChecklistsWidget = ({
                     changeChecklists={changeChecklists}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
                 <UserGrouplists 
                     username={username}
@@ -135,6 +136,7 @@ const ChecklistsWidget = ({
                     changeGroups={changeGroups}
                     activeList={activeList}
                     handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
                 />
             </Stack>
         </Box>

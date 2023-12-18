@@ -14,7 +14,20 @@ const DeleteListBackdrop = ({
     changeChecklists, 
     groups, 
     changeGroups, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     //Close Backdrop
     const handleCloseBackdrop = () => {
@@ -22,26 +35,39 @@ const DeleteListBackdrop = ({
     }
 
     //Delete Current Checklist
-    const handleDeleteChecklist = () => {
+    const handleDeleteChecklist = async () => {
         handleClose(); //Close Backdrop
-        const {updatedLists, updatedGroups, activeList} = removeChecklist(
-            checklists, groups, listId, groupId);
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
+        const outdatedActiveList = localStorage.getItem("currentList");
 
-        //Set New Active List (if-any)
-        if(activeList != '') {
-            handleActiveList(activeList);
-        } else {
-            //Reset Active List
-            localStorage.removeItem("currentList");
+        try {
+            const { updatedLists, updatedGroups, activeList } = removeChecklist(
+                checklists, groups, listId, groupId);
+
+            //Set New Active List (if-any)
+            if(activeList != '') {
+                handleActiveList(activeList);
+            } else {
+                //Reset Active List
+                localStorage.removeItem("currentList");
+            }
+
+            //Update State Value
+            changeChecklists(updatedLists);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+            await deleteChecklist(username, listId);
+            reloadChecklistpage();
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            handleActiveList(outdatedActiveList);
+            changeChecklists(outdatedLists);
+            changeGroups(outdatedGroups);
         }
-
-        //Update State Value
-        changeChecklists(updatedLists);
-        changeGroups(updatedGroups);
-
-        //Backend API: Update Database
-        deleteChecklist(username, listId);
-        reloadChecklistpage();
     }
 
     return (

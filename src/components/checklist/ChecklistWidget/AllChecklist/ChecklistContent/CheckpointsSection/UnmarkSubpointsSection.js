@@ -6,6 +6,7 @@ import { Divider, Stack } from "@mui/material";
 import { useState } from "react";
 import SubpointsSection from "../SubpointsSection/SubpointsSection";
 import NewCheckpointSection from "../NewCheckpointSection";
+import { modifyCheckpoints } from "@/lib/utils/checklist/backend/backendChecklist";
 
 const UnmarkSubpointsSection = ({
     username, 
@@ -20,7 +21,20 @@ const UnmarkSubpointsSection = ({
     groups, 
     changeGroups, 
     showNewPoint, 
-    hideNewPoint}) => {
+    hideNewPoint, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
     
     /* Dnd-kit: Make Component Draggable */
     /* Converts Component into Dropable Container */
@@ -44,36 +58,47 @@ const UnmarkSubpointsSection = ({
         const { active } = event;
         setActiveSubpoint(active.id);
     }
-    const handleDragEnd = (event) => {
+    const handleDragEnd = async (event) => {
         setActiveSubpoint('');
+        const outdatedLists = [...userChecklists];
+        const outdatedGroups = [...userGroups];
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
         if(active.id !== over.id) {
-            //Re-order Checkpoints
-            const { 
-                updatedLists, 
-                updatedGroups, 
-                updatedPoints, 
-                completedPoints
-            } = reorderSubpoints(
-                checklists, 
-                groups,
-                listId,
-                groupId,
-                pointIdx,
-                active.id,
-                over.id);
+            try {
+                //Re-order Checkpoints
+                const { 
+                    updatedLists, 
+                    updatedGroups, 
+                    updatedPoints, 
+                    completedPoints
+                } = reorderSubpoints(
+                    checklists, 
+                    groups,
+                    listId,
+                    groupId,
+                    pointIdx,
+                    active.id,
+                    over.id);
 
-            //Update State Value
-            changeChecklists(updatedLists);
-            changeGroups(updatedGroups);
+                //Update State Value
+                changeChecklists(updatedLists);
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            modifyCheckpoints(username, listId, updatedPoints, completedPoints);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeChecklists(outdatedLists);
+                changeGroups(outdatedGroups);
+            }
         }
     }
+
     return (
         <DndContext
             collisionDetection={closestCenter}
@@ -119,6 +144,7 @@ const UnmarkSubpointsSection = ({
                                 subpointIdx={subpointIdx}
                                 content={content}
                                 isCompleted={false}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         )
                     })}
@@ -134,6 +160,7 @@ const UnmarkSubpointsSection = ({
                             changeChecklists={changeChecklists}
                             hideNewPoint={hideNewPoint}
                             isSubpoint={true}
+                            handleOpenAlert={handleOpenAlert}
                         />
                     )}
                 </Stack>

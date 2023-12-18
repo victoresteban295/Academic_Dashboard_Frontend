@@ -16,7 +16,15 @@ const UserGrouplists = ({
     allChecklists,
     changeGroups,
     activeList, 
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
+
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     /* Backdrop Menu State Value & Function */
     /* Create New Group */
@@ -48,21 +56,29 @@ const UserGrouplists = ({
         const { active } = event;
         setActiveGroup(active.id);
     }
-    const handleDragEnd = (event) => {
+    const handleDragEnd = async (event) => {
         setActiveGroup('');
+        const outdatedGroups = [...userGroups];
         //active = component getting dragged
         //over = component where the draggable component was passed over & placed
         const {active, over} = event;
         if(active.id !== over.id) {
-            //Re-order Groups
-            const updatedGroups = reorderGroups(groups, active.id, over.id);
-            
-            //Update State Value
-            changeGroups(updatedGroups);
+            try {
+                //Re-order Groups
+                const updatedGroups = reorderGroups(groups, active.id, over.id);
+                
+                //Update State Value
+                changeGroups(updatedGroups);
 
-            //Backend API: Update Database
-            reorderUserGroups(username, updatedGroups);
-            reloadChecklistpage();
+                //Backend API: Update Database
+                await reorderUserGroups(username, updatedGroups);
+                reloadChecklistpage();
+            } catch(error) {
+                handleOpenAlert(error.message);
+
+                //Undo Changes Made
+                changeGroups(outdatedGroups);
+            }
         }
     }
 
@@ -101,6 +117,7 @@ const UserGrouplists = ({
                                         title={title}
                                         groupId={groupId}
                                         checklists={checklists}
+                                        handleOpenAlert={handleOpenAlert}
                                     />
                                 )
                             })}
@@ -121,6 +138,7 @@ const UserGrouplists = ({
                         handleClose={handleCloseNewGroup}
                         groups={groups}
                         changeGroups={changeGroups}
+                        handleOpenAlert={handleOpenAlert}
                     />
                     <Button
                         startIcon={<AddCircleOutline />}

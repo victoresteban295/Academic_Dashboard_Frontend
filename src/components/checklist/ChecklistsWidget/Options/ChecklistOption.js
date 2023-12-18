@@ -4,7 +4,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { Box, Button, Typography } from "@mui/material";
 
 const ChecklistOption = ({ 
-    username, 
     activeChecklist,
     activeList, 
     handleActiveList, 

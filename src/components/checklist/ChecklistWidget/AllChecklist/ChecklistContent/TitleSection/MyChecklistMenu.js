@@ -10,7 +10,8 @@ const MyChecklistMenu = ({
     groups,
     changeGroups,
     activeList,
-    handleActiveList }) => {
+    handleActiveList, 
+    handleOpenAlert }) => {
 
     /* Options Menu's State Value & Functions */
     const [anchorEl, setAnchorEl] = useState(null);
@@ -57,6 +58,7 @@ const MyChecklistMenu = ({
                         changeGroups={changeGroups}
                         activeList={activeList}
                         handleActiveList={handleActiveList}
+                        handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
             </Drawer>

@@ -197,6 +197,7 @@ const TitleSection = ({
                 groups={groups}
                 changeGroups={changeGroups}
                 handleActiveList={handleActiveList}
+                handleOpenAlert={handleOpenAlert}
             />
             <InputBase
                 value={isUpdating ? newTitle : title}
@@ -251,6 +252,7 @@ const TitleSection = ({
                         changeGroups={changeGroups}
                         activeList={activeList}
                         handleActiveList={handleActiveList}
+                        handleOpenAlert={handleOpenAlert}
                     />
                     <Menu
                         anchorEl={anchorEl}

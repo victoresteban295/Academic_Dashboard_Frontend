@@ -12,6 +12,13 @@ const NewChecklistBackdrop = ({
     handleActiveList, 
     handleOpenAlert }) => {
 
+    /* Clone Each Checklists & Groups Object */
+    const userChecklists = [];
+    for(const checklist of checklists) {
+        const list = structuredClone(checklist);
+        userChecklists.push(list);
+    }
+
     //Title of New Checklist to Create
     const [title, setTitle] = useState('');
 
@@ -24,7 +31,7 @@ const NewChecklistBackdrop = ({
     //Create New Checklist
     const handleNewChecklist = async () => {
         //Outdated Data to Revert Changes
-        const outdatedChecklist = [...checklists]
+        const outdatedLists = [...userChecklists];
         const outdatedListId = localStorage.getItem("currentList");
 
         try{
@@ -43,8 +50,8 @@ const NewChecklistBackdrop = ({
         } catch(error) {
             handleOpenAlert(error.message);
 
-            //Revert Changes Made
-            changeChecklists(outdatedChecklist);
+            //Undo Changes Made
+            changeChecklists(outdatedLists);
             if(outdatedListId != null) {
                 handleActiveList(outdatedListId);
             }

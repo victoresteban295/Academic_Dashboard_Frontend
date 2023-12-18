@@ -15,7 +15,6 @@ const ChecklistPage = async ({ params }) => {
 
     //Fetch all Data in Parallel
     try{
-
         //Fetching Data in Parallel
         const [getAllChecklists, getChecklists, getGrouplists] = await Promise
             .all([allChecklistsData, checklistsData, grouplistsData]);

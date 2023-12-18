@@ -15,6 +15,13 @@ const ListInGroupBackdrop = ({
     handleActiveList, 
     handleOpenAlert }) => {
 
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
+
     //Title of New Checklist to Create Under Group
     const [title, setTitle] = useState('');
 
@@ -25,7 +32,9 @@ const ListInGroupBackdrop = ({
     }
 
     //Create New Checklist Under Group 
-    const handleNewListToGroup = () => {
+    const handleNewListToGroup = async () => {
+        const outdatedGroups = [...userGroups];
+        const outdatedActiveList = localStorage.getItem("currentList");
         try {
             handleCloseBackdrop();
             //Create New Checklist Under Group
@@ -41,10 +50,14 @@ const ListInGroupBackdrop = ({
             changeGroups(updatedGroups); 
 
             //Backend API: Update Database
-            addNewChecklistToGroup(username, listId, title, groupId);
+            await addNewChecklistToGroup(username, listId, title, groupId);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(outdatedGroups);
+            handleActiveList(outdatedActiveList);
         }
     }
 
