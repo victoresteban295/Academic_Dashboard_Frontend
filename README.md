@@ -61,7 +61,7 @@ src
 ## Web Pages
 
 ### Login Page
-<a><img align="center" src="https://github.com/Academic_Dashboard_Frontend/public/images/readme/loginpage.png" /></a>
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/loginpage.png" />
 
 ### Features
 - Homepage for logged-out users
