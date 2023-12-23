@@ -17,7 +17,7 @@
   - [Calendar Page](#calendar-page) 🚧
   - [Checklist Page](#checklist-page)
   - [Reminders Page](#reminders-page) 🚧 
-  - [Error Handling] (#error-handling)
+  - [Error Handling](#error-handling)
 
 ## About Project
 ### Product Vision
