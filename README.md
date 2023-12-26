@@ -1,6 +1,8 @@
-# Academic Dashboard: Frontend
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/webtitle.png" />
+***
 
 ## Table of Content
+> 🚧 Under Development
 - [About Project](#about-project) 
   - [Product Vision](#product-vision)
   - [Development Stack](#development-stack)
