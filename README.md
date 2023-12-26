@@ -19,7 +19,7 @@
   - [Calendar Page](#calendar-page) 🚧
   - [Checklist Page](#checklist-page)
   - [Reminders Page](#reminders-page) 🚧 
-  - [Error Handling](#error-handling)
+- [Error Handling](#error-handling)
 
 ## About Project
 ### Product Vision
@@ -116,4 +116,13 @@ src
     - 20 Groups
     - 20 Checklists under a group
 
-  
+## Error Handling
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/errorhandling.png" />
+
+### Common Errors Academic Dashboard Handles
+- Users attempting to access unauthorized or nonexistent pages are met with a 404 (Not Found) Page
+- A popup alert will be displayed to users who’ve reached a constraint (eg. exceeded the number of checklists allowed per user)
+- An error page displaying a 500 status code will be shown to users attempting to access a web page during an Internal Server Error (eg. loses communication with REST API's endpoint)
+- If a Internal Server Error occurs after the web page has loaded, a popup alert will be displayed any time new changes are made
+- If an Internal Server Error occurs after the web page has loaded, a popup alert will notify users about the error each time they attempt to make any changes.
+
