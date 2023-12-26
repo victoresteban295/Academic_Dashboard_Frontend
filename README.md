@@ -7,9 +7,9 @@
   - [Project Structure](#project-structure)
 - [Web Pages](#web-pages)
   - [Login Page](#login-page)
-  - [Register Page: Academic Institution](#register-page:-academic-institution)
-  - [Register Page: Profile](#register-page:-profile)
-  - [Register Page: Review](#register-page:-review)
+  - [Register Page: Academic Institution](#register-page-academic-institution)
+  - [Register Page: Profile](#register-page-profile)
+  - [Register Page: Review](#register-page-review)
   - [Dashboard Page](#dashboard-page) 🚧
     - [Professor's Dashboard Page](#professors-dashboard-page) 🚧
     - [Student's Dashboard Page](#students-dashboard-page) 🚧
@@ -23,7 +23,7 @@
 
 ## About Project
 ### Product Vision
-For educational institutions looking to boost academic performance, Academic Dashboard is a web application that improves how students interact with course-related work assigned by professors. Unlike other similar products that are uniquely designed for a single institution, our software product was built to be adopted across different campuses and to provide a sense of familiarity to all students. Its built-in calendar, checklist, and reminders allows user to become more organized without the need to switch applications. 
+For educational institutions looking to boost academic performance, Academic Dashboard is a web application that improves how students interact with course-related work assigned by professors. Unlike similar products that are uniquely designed for a single institution, our software product was built to be adopted across different campuses and provide all students with a sense of familiarity. Its built-in calendar, checklist, and reminders allow users to become more organized without switching applications. 
 
 ### Development Stack
 - [React](https://react.dev/) - Frontend Javascript Library for Building User Interfaces
