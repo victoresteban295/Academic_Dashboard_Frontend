@@ -7,7 +7,9 @@
   - [Project Structure](#project-structure)
 - [Web Pages](#web-pages)
   - [Login Page](#login-page)
-  - [Register Page](#register-page)
+  - [Register Page: Academic Institution](#register-page:-academic-institution)
+  - [Register Page: Profile](#register-page:-profile)
+  - [Register Page: Review](#register-page:-review)
   - [Dashboard Page](#dashboard-page) 🚧
     - [Professor's Dashboard Page](#professors-dashboard-page) 🚧
     - [Student's Dashboard Page](#students-dashboard-page) 🚧
@@ -30,6 +32,7 @@ For educational institutions looking to boost academic performance, Academic Das
 - [React Hook Form](https://react-hook-form.com/) - Form Management Library
 - [Zod](https://zod.dev/) - Input Validation
 - [Dnd-Kit](https://dndkit.com/) - Drag & Drop Toolkit for React
+- [Icons8](https://icons8.com/) - Provided Icons Used In Project
 
 ### Project Structure
 
@@ -69,5 +72,48 @@ src
 - The "Forgot Password" button redirects users to the change-password page
 - Username and Password are required to login
 - Entering the wrong username or password will alert users
+
+### Register Page: Academic Institution
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/acadinstitpage.png" />
+
+### Features
+- Each academic institution will have a unique identification code for students and professors
+- Zod and React Hook Form are used to collect and validate user input for all forms
+- Errors will be thrown if: 
+    - The identification code doesn't match the profile type (professor/student)
+    - Users provided the wrong identification code
+
+### Register Page: Profile
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/profilepage.png" />
+
+### Features
+- Students and professors will be presented with the same 'Personal Information' and 'Account Information' Form
+- Students will be presented with a 'Student Information' Form
+- Professors will be presented with a 'Professor Information' Form
+- Input Validation checks if the email, phone or username provided are already taken
+
+### Register Page: Review 
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/reviewpage.png" />
+
+### Features
+- Allows users to review all the information they've provided before submitting and creating an account
+- Users can revisit and edit any inputed information
+
+### Checklist Page
+<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/checklistpage.png" />
+
+### Features
+- Users can create checklists to keep track of todo items
+- Each checklist can be made up of checkpoints and subpoints
+- Checklists can be organized into groups
+- Checkpoints and subpoints can be marked as Complete or Incomplete
+- "My Checklists" right-side menu is composed of two sections
+    - Non-grouped checklists
+    - Groups with their corresponding checklists
+- Groups, checklists, checkpoints, and subpoints all have draggable functionality to allow users to re-organize them
+- Users have the following constraints
+    - 20 Non-grouped checklists
+    - 20 Groups
+    - 20 Checklists under a group
 
   

@@ -57,13 +57,13 @@ const Navbar = ({username, firstname, lastname, role}) => {
                         {
                             isStudent ? (
                                 <StudentAvatar 
-                                    studentInitials={userInitials}
+                                    studentInitials={userInitials.toUpperCase()}
                                     username={username}
                                     role={role}
                                 />
                             ) : (
                                 <ProfessorAvatar 
-                                    professorInitials={userInitials}
+                                    professorInitials={userInitials.toUpperCase()}
                                     username={username}
                                     role={role}
                                 />)

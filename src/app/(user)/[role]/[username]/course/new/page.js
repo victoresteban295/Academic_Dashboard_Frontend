@@ -1,22 +1,40 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Tooltip, Typography } from "@mui/material"
+import Image from "next/image";
 
 const NewCoursePage = ({ params }) => {
     const { role, username } = params;
     return (
         <Box
             sx={{
-                mx:2
+                mx:2,
+                height: '100%',
+                pt: '50px',
             }}
         >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Tooltip title="Icon By Icon8" arrow placement="right">
+                    <Image 
+                        src="/images/development.png"
+                        height={96}
+                        width={96}
+                        alt="Picture of Gear"
+                    />
+                </Tooltip>
+            </Box>
             <Typography
                 variant='h6'
+                align='center'
+                sx={{
+                    fontWeight: '700'
+                }}
             >
-                For Professors Only
-            </Typography>
-            <Typography
-                variant='h6'
-            >
-                Create a New Course for {username} who is a {role}
+                Create A New Course Page Under Development
             </Typography>
         </Box>
     )

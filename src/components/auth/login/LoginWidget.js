@@ -1,7 +1,7 @@
 "use client"
 import LoadingBackDrop from "@/components/loading/LoadingBackDrop";
 import LoginForm from "./LoginForm";
-import { Box, Stack, Button, Divider, Typography } from "@mui/material"
+import { Box, Stack, Button, Divider, Typography, Tooltip } from "@mui/material"
 import { Teko } from "next/font/google"
 import Image from "next/image";
 import Link from 'next/link';
@@ -43,12 +43,14 @@ const LoginWidget = () => {
                     alignItems: 'center',
                 }}
             >
-                <Image 
-                    src="/images/school.png"
-                    height={100}
-                    width={100}
-                    alt="Picture of academic building"
-                />
+                <Tooltip title="Icon By Icon8" arrow placement="right">
+                    <Image 
+                        src="/images/school.png"
+                        height={100}
+                        width={100}
+                        alt="Picture of academic building"
+                    />
+                </Tooltip>
             </Box>
             <Box
                 sx={{

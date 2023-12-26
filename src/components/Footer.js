@@ -72,6 +72,34 @@ const Footer = () => {
                     </Typography>
                 </Link>
             </Stack>
+            <Stack
+                direction="row"
+                justifyContent='center'
+                alignItems="center"
+                spacing={0.5}
+            >
+                <Typography align="center" variant="subtitle1">
+                    Icons by 
+                </Typography>
+                <Link 
+                    href="https://icons8.com/" 
+                    rel='noopener noreferrer'
+                    target='_blank'
+                    style={{
+                        textDecoration: 'underline',
+                        color: '#000'
+                    }}
+                >
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            color: 'text.primary',
+                        }}
+                    >
+                        Icons8
+                    </Typography>
+                </Link>
+            </Stack>
         </Box>
     )
 }
