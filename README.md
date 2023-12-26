@@ -1,5 +1,4 @@
-<img align="center" src="https://github.com/victoresteban295/Academic_Dashboard_Frontend/blob/main/public/images/readme/webtitle.png" />
-***
+# Academic Dashboard
 
 ## Table of Content
 > 🚧 Under Development
