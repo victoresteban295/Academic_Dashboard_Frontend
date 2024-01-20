@@ -13,7 +13,7 @@ export async function middleware(request) {
 
             try{
                 //Validate Stored Jwt Access Token
-                const validationResponse = await fetch('http://localhost:8080/api/auth/valid/access-token', {
+                const validationResponse = await fetch('http://localhost:8080/v1.0/auth/validate/access-token', {
                     method: "POST", 
                     headers: request.headers 
                 });

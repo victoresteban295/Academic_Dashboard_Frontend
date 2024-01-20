@@ -50,7 +50,7 @@ const ListInGroupBackdrop = ({
             changeGroups(updatedGroups); 
 
             //Backend API: Update Database
-            await addNewChecklistToGroup(username, listId, title, groupId);
+            await addNewChecklistToGroup(listId, title, groupId);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);

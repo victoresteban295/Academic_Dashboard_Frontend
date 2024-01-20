@@ -43,7 +43,7 @@ const RenameGroupBackdrop = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await modifyGroupTitle(username, groupId, rename);
+            await modifyGroupTitle(groupId, rename);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);

@@ -58,7 +58,7 @@ const DeleteListBackdrop = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await deleteChecklist(username, listId);
+            await deleteChecklist(listId);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);

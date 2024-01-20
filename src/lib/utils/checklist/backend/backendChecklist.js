@@ -18,7 +18,7 @@ export const getAllChecklists = async (username) => {
     const { value: jwt } = cookieStore.get('accessToken');
     try{
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/${username}/get/all/checklists`, {
+        const res = await fetch(`http://localhost:8080/v1.0/users/${username}/all/checklists`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const getChecklists = async (username) => {
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/${username}/get/checklists`, {
+        const res = await fetch(`http://localhost:8080/v1.0/users/${username}/checklists`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const createChecklist = async (username, title, listId) => {
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/checklist/${username}/new`, {
+        const res = await fetch(`http://localhost:8080/v1.0/users/${username}/checklists`, {
             cache: "no-cache",
             method: "POST", 
             headers: {
@@ -91,9 +91,9 @@ export const reorderUserChecklists = async (username, checklists) => {
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/checklist/${username}/reorder`, {
+        const res = await fetch(`http://localhost:8080/v1.0/users/${username}/checklists`, {
             cache: "no-cache",
-            method: "PUT", 
+            method: "PATCH", 
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`,
@@ -112,14 +112,14 @@ export const reorderUserChecklists = async (username, checklists) => {
 /****************************************************/
 /* Rename Checklist's Title (Grouped & Non-Grouped) */
 /****************************************************/
-export const renameCheclistTitle = async (username, listId, title) => {
+export const renameCheclistTitle = async (listId, title) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/title/${listId}`, {
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}`, {
             cache: "no-cache",
-            method: "PUT", 
+            method: "PATCH", 
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`,
@@ -135,17 +135,44 @@ export const renameCheclistTitle = async (username, listId, title) => {
     }
 }
 
+/**************************/
+/* Edit Checklist's Group */
+/**************************/
+export const editGrouplist = async (listId, groupId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+
+    try{
+        /* Backend REST API */
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}/grouplists`, {
+            cache: "no-cache",
+            method: "PATCH", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                groupId: groupId,
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to Edit Checklist's Group - please try again later");
+    }
+}
+
 /**********************************************************/
 /* Modify Checklist's Checkpoints (Grouped & Non-Grouped) */
 /**********************************************************/
-export const modifyCheckpoints = async (username, listId, checkpoints, completedPoints) => {
+export const modifyCheckpoints = async (listId, checkpoints, completedPoints) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        const res = await fetch(`http://localhost:8080/api/checklist/${username}/modify/checkpoints/${listId}`, {
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}/checkpoints`, {
             cache: "no-cache",
-            method: "PUT", 
+            method: "PATCH", 
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`,
@@ -165,12 +192,12 @@ export const modifyCheckpoints = async (username, listId, checkpoints, completed
 /********************************************/
 /* Delete Checklist (Grouped & Non-Grouped) */
 /********************************************/
-export const deleteChecklist = async (username, listId) => {
+export const deleteChecklist = async (listId) => {
     const cookieStore = cookies();
     const { value: jwt } = cookieStore.get('accessToken');
     try {
         /* Backend REST API */
-        await fetch(`http://localhost:8080/api/checklist/${username}/delete/${listId}`, {
+        await fetch(`http://localhost:8080/v1.0/checklists/${listId}`, {
             cache: "no-cache",
             method: "DELETE", 
             headers: {

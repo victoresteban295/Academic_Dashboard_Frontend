@@ -1,6 +1,6 @@
 export async function GET(request, { params }) {
     let { email } = params;
-    const res = await fetch(`http://localhost:8080/api/auth/email/taken/${email}`, {
+    const res = await fetch(`http://localhost:8080/v1.0/auth/email/${email}`, {
         method: "GET"
     });
 

@@ -104,14 +104,14 @@ const GrouplistOption = ({
                 //Re-order Groups
                 const { 
                     updatedGroups, 
-                    modifiedGroup 
+                    reorderChecklists
                 } = reorderGroupChecklist(groups, groupId, active.id, over.id);
                 
                 //Update State Value
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await reorderChecklists(username, modifiedGroup);
+                await reorderChecklists(username, reorderChecklists);
                 reloadChecklistpage();
             } catch(error) {
                 handleOpenAlert(error.message);
@@ -200,7 +200,7 @@ const GrouplistOption = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await deleteGrouplist(username, groupId);
+            await deleteGrouplist(groupId);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);

@@ -94,7 +94,7 @@ const CheckpointsSection = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await modifyCheckpoints(username, listId, updatedPoints, completedPoints);
+                await modifyCheckpoints(listId, updatedPoints, completedPoints);
                 reloadChecklistpage();
             } catch(error) {
                 handleOpenAlert(error.message);
@@ -125,7 +125,7 @@ const CheckpointsSection = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            await modifyCheckpoints(listId, updatedPoints, updatedCompletedPoints);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);
@@ -153,7 +153,7 @@ const CheckpointsSection = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            await modifyCheckpoints(listId, updatedPoints, updatedCompletedPoints);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);
@@ -182,7 +182,7 @@ const CheckpointsSection = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await modifyCheckpoints(username, listId, updatedPoints, updatedCompletedPoints);
+            await modifyCheckpoints(listId, updatedPoints, updatedCompletedPoints);
             reloadChecklistpage();
         } catch(error) {
             handleOpenAlert(error.message);

@@ -4,16 +4,12 @@ export const validateInstitution = async (data) => {
 
     try {
         //Backend REST API
-        const res = await fetch('http://localhost:8080/api/auth/institution/verify', {
+        const res = await fetch(`http://localhost:8080/v1.0/auth/institutions/profiles/${data.profileType}/${data.schoolId}`, {
             cache: "no-cache",
             method: "POST", 
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                profile: data.profileType,
-                codeId: data.schoolId
-            })
         });
 
         //Extract Data From Response
@@ -59,7 +55,7 @@ export const registerUser = async (
     minor,
     concentration) => {
 
-    const res = await fetch('http://localhost:8080/api/auth/register', {
+    const res = await fetch('http://localhost:8080/v1.0/auth/register', {
         method: "POST", 
         headers: {
             'Content-Type': 'application/json'

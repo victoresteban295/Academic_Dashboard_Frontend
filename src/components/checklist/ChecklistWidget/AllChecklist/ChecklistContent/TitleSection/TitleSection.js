@@ -1,5 +1,5 @@
 import { Add, MoreVert } from "@mui/icons-material";
-import { Alert, Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Snackbar, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
@@ -94,7 +94,7 @@ const TitleSection = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await renameCheclistTitle(username, listId, newTitle);
+                await renameCheclistTitle(listId, newTitle);
                 reloadChecklistpage();
             } else {
                 setNewTitle(title);

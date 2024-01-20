@@ -75,6 +75,9 @@ export const reorderGroups = (groups, activeId, overId) => {
     return arrayMove(groups, activeIdx, overIdx);
 }
 
+/*********************************/
+/* Reorder Grouplist's Checlists */
+/*********************************/
 export const reorderGroupChecklist = (groups, groupId, activeId, overId) => {
     let activeIdx; //Index of Active Group 
     let overIdx; //Index of Over Group
@@ -104,7 +107,7 @@ export const reorderGroupChecklist = (groups, groupId, activeId, overId) => {
 
     return {
         updatedGroups: updatedGroups, 
-        modifiedGroup: modifiedGroup
+        reorderChecklists: modifiedGroup.checklists
     } 
 }
 
