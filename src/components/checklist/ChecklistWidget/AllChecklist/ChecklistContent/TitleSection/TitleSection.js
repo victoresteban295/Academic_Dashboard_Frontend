@@ -136,7 +136,7 @@ const TitleSection = ({
             changeGroups(updatedGroups);
 
             //Backend API: Update Database
-            await removeChecklistFromGroup(username, listId, groupId);
+            await removeChecklistFromGroup(listId);
             reloadChecklistpage();
 
         } catch(error) {

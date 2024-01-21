@@ -1,5 +1,4 @@
 "use client"
-
 import { Alert, Box, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 import ChecklistWidget from "./ChecklistWidget";

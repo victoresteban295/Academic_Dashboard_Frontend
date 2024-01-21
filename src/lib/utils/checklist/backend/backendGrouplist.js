@@ -158,71 +158,80 @@ export const addNewChecklistToGroup = async (listId, title, groupId) => {
 /*******************************************************/
 /* Move Non-Grouped Checklist to an Existing Grouplist */
 /*******************************************************/
-/* export const addChecklistToGroup = async (username, listId, groupId) => { */
-/*     const cookieStore = cookies(); */
-/*     const { value: jwt } = cookieStore.get('accessToken'); */
-/*     try{ */
+export const addChecklistToGroup = async (listId, groupId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try{
         /* Backend REST API */
-/*         const res = await fetch(`http://localhost:8080/api/grouplist/${username}/add/${listId}/to/${groupId}`, { */
-/*             cache: "no-cache", */
-/*             method: "PUT",  */
-/*             headers: { */
-/*                 'Content-Type': 'application/json', */
-/*                 'Authorization': `Bearer ${jwt}`, */
-/*             } */
-/*         }); */
-/*         return res.json(); */
-/**/
-/*     } catch(error) { */
-/*         throw new Error("Failed to Move Checklist to Group - please try again later"); */
-/*     } */
-/* } */
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}/grouplists`, {
+            cache: "no-cache",
+            method: "PATCH", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                groupId: groupId,
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to Move Checklist to Group - please try again later");
+    }
+}
+
 
 /******************************************************/
 /* Move Grouped Checklist to Different Existing Group */
 /******************************************************/
-/* export const moveChecklistGroupToGroup = async (username, listId, fromGroupId, toGroupId) => { */
-/*     const cookieStore = cookies(); */
-/*     const { value: jwt } = cookieStore.get('accessToken'); */
-/*     try{ */
+export const moveChecklistGroupToGroup = async (listId, toGroupId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try{
         /* Backend REST API */
-/*         const res = await fetch(`http://localhost:8080/api/grouplist/${username}/move/${listId}/from/${fromGroupId}/to/${toGroupId}`, { */
-/*             cache: "no-cache", */
-/*             method: "PUT",  */
-/*             headers: { */
-/*                 'Content-Type': 'application/json', */
-/*                 'Authorization': `Bearer ${jwt}`, */
-/*             } */
-/*         }); */
-/*         return res.json(); */
-/**/
-/*     } catch(error) { */
-/*         throw new Error("Failed to Move Checklist to Different Group - please try again later"); */
-/*     } */
-/* } */
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}/grouplists`, {
+            cache: "no-cache",
+            method: "PATCH", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                groupId: toGroupId,
+            })
+        });
+        return res.json();
+    } catch(error) {
+        throw new Error("Failed to Move Checklist to Different Group - please try again later");
+    }
+}
 
 /*************************************************************/
 /* Remove Checklist From Grouplist to Non-Grouped Checklists */
 /*************************************************************/
-/* export const removeChecklistFromGroup = async (username, listId, groupId) => { */
-/*     const cookieStore = cookies(); */
-/*     const { value: jwt } = cookieStore.get('accessToken'); */
-/*     try{ */
+export const removeChecklistFromGroup = async (listId) => {
+    const cookieStore = cookies();
+    const { value: jwt } = cookieStore.get('accessToken');
+    try{
         /* Backend REST API */
-/*         const res = await fetch(`http://localhost:8080/api/grouplist/${username}/remove/${listId}/from/${groupId}`, { */
-/*             cache: "no-cache", */
-/*             method: "PUT",  */
-/*             headers: { */
-/*                 'Content-Type': 'application/json', */
-/*                 'Authorization': `Bearer ${jwt}`, */
-/*             } */
-/*         }); */
-/*         return res.json(); */
-/**/
-/*     } catch(error) { */
-/*         throw new Error("Failed to Remove Checklist From Group - please try again later"); */
-/*     } */
-/* } */
+        const res = await fetch(`http://localhost:8080/v1.0/checklists/${listId}/grouplists`, {
+            cache: "no-cache",
+            method: "PATCH", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+                groupId: "",
+            })
+        });
+        return res.json();
+
+    } catch(error) {
+        throw new Error("Failed to Remove Checklist From Group - please try again later");
+    }
+}
 
 /****************/
 /* Delete Group */

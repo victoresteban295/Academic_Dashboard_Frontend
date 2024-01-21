@@ -6,7 +6,6 @@ import { Box, IconButton, InputBase } from "@mui/material";
 import { useState } from "react";
 
 const NewCheckpointSection = ({ 
-    username,
     listId,
     groupId,
     index,

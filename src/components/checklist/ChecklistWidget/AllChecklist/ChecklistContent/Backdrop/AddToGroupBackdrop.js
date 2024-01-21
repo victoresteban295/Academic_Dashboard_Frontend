@@ -63,7 +63,7 @@ const AddToGroupBackdrop = ({
 
                     //Backend API: Update Database
                     const { groupId: newGroupId } = await createGrouplist(username, newGroup, groupId);
-                    await addChecklistToGroup(username, listId, newGroupId);
+                    await addChecklistToGroup(listId, newGroupId);
                     reloadChecklistpage();
 
                 } catch(error) {
@@ -96,7 +96,7 @@ const AddToGroupBackdrop = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await addChecklistToGroup(username, listId, selectedGroupId);
+                await addChecklistToGroup(listId, selectedGroupId);
                 reloadChecklistpage();
 
             } catch(error) {

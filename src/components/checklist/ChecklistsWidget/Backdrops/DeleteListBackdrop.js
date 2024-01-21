@@ -4,7 +4,6 @@ import { Cancel, Delete } from "@mui/icons-material";
 import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 
 const DeleteListBackdrop = ({
-    username, 
     groupId,
     listId,
     title,

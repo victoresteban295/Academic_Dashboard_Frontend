@@ -5,7 +5,6 @@ import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/mater
 import { useState } from "react";
 
 const RenameGroupBackdrop = ({ 
-    username,
     title,
     groupId,
     open, 

@@ -55,7 +55,7 @@ const MoveToGroupBackdrop = ({
 
                     //Backend API: Update Database
                     const { groupId: toGroupId } = await createGrouplist(username, newGroup, groupId);
-                    await moveChecklistGroupToGroup(username, listId, fromGroupId, toGroupId); 
+                    await moveChecklistGroupToGroup(listId, toGroupId); 
                     reloadChecklistpage();
 
                 } catch(error) {
@@ -90,7 +90,7 @@ const MoveToGroupBackdrop = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await moveChecklistGroupToGroup(username, listId, fromGroupId, selectedGroupId); //Move to Different Group
+                await moveChecklistGroupToGroup(listId, selectedGroupId); //Move to Different Group
                 reloadChecklistpage();
             } catch(error) {
                 handleOpenAlert(error.message);

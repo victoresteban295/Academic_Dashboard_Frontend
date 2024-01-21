@@ -111,7 +111,7 @@ const GrouplistOption = ({
                 changeGroups(updatedGroups);
 
                 //Backend API: Update Database
-                await reorderChecklists(username, reorderChecklists);
+                await reorderChecklists(reorderChecklists);
                 reloadChecklistpage();
             } catch(error) {
                 handleOpenAlert(error.message);
