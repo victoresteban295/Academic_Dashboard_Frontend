@@ -339,6 +339,7 @@ const CheckpointsSection = ({
                 sx={{
                     flexGrow: 1,
                     pl: 4,
+                    display: isActivePoint ? 'none' : 'block',
                 }}
             >
                 <UnmarkSubpointsSection 

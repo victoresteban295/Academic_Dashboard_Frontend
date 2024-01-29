@@ -74,6 +74,7 @@ const RenameGroupBackdrop = ({
                 sx={{
                     display: 'flex',
                     p: 2,
+                    maxWidth: '250px'
                 }}
             >
                 <Box 
@@ -85,9 +86,9 @@ const RenameGroupBackdrop = ({
                 >
                     <Typography
                         variant='h6'
+                        align='center'
                         sx={{
                             flexGrow: 1,
-                            align: 'center',
                             mx: 1,
                             fontWeight: '700',
                         }}

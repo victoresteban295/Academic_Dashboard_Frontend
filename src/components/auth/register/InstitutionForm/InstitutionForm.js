@@ -52,7 +52,7 @@ const InstitutionForm = ({
     const handleNextForm = async (data) => {
         triggerLoading();
         //Server Action
-        const { success, majors, minors, depts } = await validateInstitution(data);
+        const { success, schoolName, majors, minors, depts } = await validateInstitution(data);
         if(success) {
             closeLoading();
             setAlert(false);
@@ -64,7 +64,7 @@ const InstitutionForm = ({
 
             //Set State Value
             setProfileType(data.profileType);
-            setSchoolName(data.schoolName);
+            setSchoolName(schoolName);
             setSchoolId(data.schoolId);
 
             //Next Step in Stepper

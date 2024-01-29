@@ -23,7 +23,9 @@ const Footer = () => {
                 }}
             >
                 <Link 
-                    href="/" 
+                    href="https://vesteban.dev" 
+                    rel='noopener noreferrer'
+                    target='_blank'
                     style={{
                         textDecoration: 'none',
                         color: '#000'

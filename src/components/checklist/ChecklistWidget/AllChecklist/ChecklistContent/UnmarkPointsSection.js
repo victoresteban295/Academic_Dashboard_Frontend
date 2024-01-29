@@ -2,7 +2,7 @@ import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSens
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { Divider, Stack } from "@mui/material";
 import CheckpointsSection from "./CheckpointsSection/CheckpointsSection";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { reorderCheckpoints } from "@/lib/utils/checklist/frontend/modifyCheckpoint";
 import { modifyCheckpoints, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { useState } from "react";
@@ -97,10 +97,7 @@ const UnmarkPointsSection = ({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             sensors={sensors}
-            modifiers={[restrictToVerticalAxis]}
-            style={{
-                backgroundColor: 'red',
-            }}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         >
             <SortableContext
                 items={checkpoints.map(checkpoint => checkpoint.index)}

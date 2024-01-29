@@ -87,10 +87,11 @@ const DeleteListBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <Stack
-                spacing={1}
+                spacing={2}
                 sx={{
                     display: 'flex',
                     p: 2,
+                    maxWidth: '300px',
                 }}
             >
                 <Typography

@@ -18,11 +18,11 @@ const RegisterWidget = () => {
     };
 
     /* Select Options Passed to Account Form Component */
-    const [majors, setMajors] = useState(['Undecided']);
+    const [majors, setMajors] = useState([]);
     const setStateMajors = (majors) => {
         const sortedMajors = majors.sort();
-        setMajors(prevArray => {
-            return [...prevArray, ...sortedMajors];
+        setMajors(() => {
+            return ['Undecided', ...sortedMajors];
         });
     }
     const [minors, setMinors] = useState([]);

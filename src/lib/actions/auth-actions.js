@@ -6,7 +6,7 @@ export const validateInstitution = async (data) => {
         //Backend REST API
         const res = await fetch(`http://localhost:8080/v1.0/auth/institutions/profiles/${data.profileType}/${data.schoolId}`, {
             cache: "no-cache",
-            method: "POST", 
+            method: "GET", 
             headers: {
                 'Content-Type': 'application/json'
             },
