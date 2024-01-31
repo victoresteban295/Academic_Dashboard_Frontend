@@ -74,13 +74,14 @@ const GrouplistOption = ({
         transition 
     } = useSortable({id: groupId});
     const mouseSensor = useSensor(MouseSensor, {
-        //Require the mouse to move 10px before activating drag
+        //For Mouse: Press and Hold for 1s to Drag
         activationConstraint: {
-            distance: 10,
+            delay: 1000,
+            tolerance: 0,
         }
     });
     const touchSensor = useSensor(TouchSensor, {
-        //For Touch Screen: Require touch to move 10px before activating drag
+        //For Touch Screen: Press and Hold for 1s to Drag
         activationConstraint: {
             delay: 1000,
             tolerance: 0,

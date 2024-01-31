@@ -76,35 +76,38 @@ const CheckpointsSection = ({
 
     /* Modify Checkpoint's Content */
     const handleContent = async () => {
-        const outdatedLists = [...userChecklists];
-        const outdatedGroups = [...userGroups];
-        if(newContent.trim() != '') {
-            try {
-                setUpdating(false);
-                const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
-                    checklists,
-                    groups,
-                    listId,
-                    groupId,
-                    index, 
-                    newContent);
+        //IF Checkpoint's Content actually Changed
+        if(isUpdating === true) {
+            const outdatedLists = [...userChecklists];
+            const outdatedGroups = [...userGroups];
+            if(newContent.trim() != '') {
+                try {
+                    setUpdating(false);
+                    const { updatedLists, updatedGroups, updatedPoints, completedPoints } = modifyCheckpoint(
+                        checklists,
+                        groups,
+                        listId,
+                        groupId,
+                        index, 
+                        newContent);
 
-                //Update State Value
-                changeChecklists(updatedLists);
-                changeGroups(updatedGroups);
+                    //Update State Value
+                    changeChecklists(updatedLists);
+                    changeGroups(updatedGroups);
 
-                //Backend API: Update Database
-                await modifyCheckpoints(listId, updatedPoints, completedPoints);
-                reloadChecklistpage();
-            } catch(error) {
-                handleOpenAlert(error.message);
+                    //Backend API: Update Database
+                    await modifyCheckpoints(listId, updatedPoints, completedPoints);
+                    reloadChecklistpage();
+                } catch(error) {
+                    handleOpenAlert(error.message);
 
-                //Undo Changes Made
-                changeChecklists(outdatedLists);
-                changeGroups(outdatedGroups);
+                    //Undo Changes Made
+                    changeChecklists(outdatedLists);
+                    changeGroups(outdatedGroups);
+                }
+            } else {
+                setNewContent(content);
             }
-        } else {
-            setNewContent(content);
         }
     }
 
