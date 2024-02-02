@@ -1,4 +1,8 @@
-const TodaysReminders = () => {
+const TodaysReminders = ({
+    todayReminders,
+    changeTodayReminders,
+    handleOpenAlert
+}) => {
 
 }
 
