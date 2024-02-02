@@ -1,10 +1,39 @@
 "use client"
 import { Alert, Box, Snackbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RemindersMainContent from "./RemindersMainContent";
 import RemindersMenu from "./RemindersMenu";
 
 const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
+
+    /* Reminder Group Being Viewed */
+    const [currentReminders, setCurrentReminders] = useState('');
+    const handleCurrentReminders = (groupId) => {
+        //Set GroupId of Reminder Group Being Viewed
+        setCurrentReminders(groupId);
+        localStorage.setItem("currentReminders", groupId);
+    }
+
+    /* Determine User's Last Visited Reminder Group */
+    useEffect(() => {
+        //Has User Visited a Reminder Groups
+        let hasVisitedReminders = localStorage.getItem("currentReminders") != null;
+        let lastVisitedReminders; //GroupId of Last Visited Reminder Group
+
+        //User Hasn't Visited any Reminder Group
+        if(!hasVisitedReminders) {
+            //Set Last Visited Reminder Group to Today's Reminders
+            lastVisitedReminders = "today";
+            localStorage.setItem("currentReminders", lastVisitedReminders);
+
+        } else {
+            //Set Current Reminder Group to Last Visited Reminder Group
+            lastVisitedReminders = localStorage.getItem("currentReminders");
+        }
+
+        //Current Reminder Group that User is Viewing
+        setCurrentReminders(lastVisitedReminders);
+    }, [])
 
     /* Today's Reminders */
     const [todayReminders, setTodayReminders] = useState[today];
@@ -83,6 +112,8 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                     changeUpcomingReminders={changeUpcomingReminders}
                     groups={groups}
                     changeGroups={changeGroups}
+                    currentReminders={currentReminders}
+                    handleCurrentReminders={handleCurrentReminders}
                     handleOpenAlert={handleOpenAlert}
                 />
             </Box>
@@ -109,6 +140,8 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                         changeUpcomingReminders={changeUpcomingReminders}
                         groups={groups}
                         changeGroups={changeGroups}
+                        currentReminders={currentReminders}
+                        handleCurrentReminders={handleCurrentReminders}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
