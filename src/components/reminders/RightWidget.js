@@ -1,4 +1,4 @@
-const RemindersMenu = ({
+const RightWidget = ({
     todayReminders,
     changeTodayReminders,
     upcomingReminders,
@@ -12,4 +12,4 @@ const RemindersMenu = ({
 
 }
 
-export default RemindersMenu;
+export default RightWidget;

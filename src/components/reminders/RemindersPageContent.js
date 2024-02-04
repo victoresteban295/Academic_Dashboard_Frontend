@@ -1,8 +1,8 @@
 "use client"
 import { Alert, Box, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
-import RemindersMainContent from "./RemindersMainContent";
-import RemindersMenu from "./RemindersMenu";
+import MainWidget from "./MainWidget";
+import RightWidget from "./RightWidget";
 
 const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
 
@@ -36,7 +36,7 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
     }, [])
 
     /* Today's Reminders */
-    const [todayReminders, setTodayReminders] = useState[today];
+    const [todayReminders, setTodayReminders] = useState(today);
     const changeTodayReminders = (reminders) => {
         setTodayReminders(reminders);
     }
@@ -105,7 +105,7 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                     p: 1,
                 }}
             >
-                <RemindersMainContent
+                <MainWidget
                     todayReminders={todayReminders} 
                     changeTodayReminders={changeTodayReminders}
                     upcomingReminders={upcomingReminders}
@@ -133,7 +133,7 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                         top: '70px',
                     }}
                 >
-                    <RemindersMenu 
+                    <RightWidget
                         todayReminders={todayReminders} 
                         changeTodayReminders={changeTodayReminders}
                         upcomingReminders={upcomingReminders}
