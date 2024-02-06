@@ -4,6 +4,7 @@ import GroupedOptions from "./GroupedOptions";
 
 const GroupedTitleSection = ({
     title,
+    reminders,  
     todayReminders,
     changeTodayReminders,
     upcomingReminders,
@@ -55,6 +56,8 @@ const GroupedTitleSection = ({
                 }}
             />
             <GroupedOptions
+                title={title}
+                reminders={reminders}
                 todayReminders={todayReminders} 
                 changeTodayReminders={changeTodayReminders}
                 upcomingReminders={upcomingReminders}

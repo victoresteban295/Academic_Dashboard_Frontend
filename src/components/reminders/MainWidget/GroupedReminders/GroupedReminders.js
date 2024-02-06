@@ -33,6 +33,7 @@ const GroupedReminders = ({
                 >
                     <GroupedTitleSection
                         title={title}
+                        reminders={reminders}
                         todayReminders={todayReminders} 
                         changeTodayReminders={changeTodayReminders}
                         upcomingReminders={upcomingReminders}

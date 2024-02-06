@@ -3,6 +3,8 @@ import { Alert, Box, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
 
@@ -68,72 +70,45 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
     }
 
     return(
-        <Box
-            className="reminders-page"
-            sx={{
-                display: 'flex',
-                width: '100%',
-                height: '100%',
-            }}
-        >
-            <Snackbar
-                open={openAlert}
-                anchorOrigin={{
-                    vertical: 'top', 
-                    horizontal: 'right',
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <Box
+                className="reminders-page"
+                sx={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '100%',
                 }}
-                autoHideDuration={15000}
-                onClose={handleCloseAlert}
             >
-                <Alert
+                <Snackbar
+                    open={openAlert}
+                    anchorOrigin={{
+                        vertical: 'top', 
+                        horizontal: 'right',
+                    }}
+                    autoHideDuration={15000}
                     onClose={handleCloseAlert}
-                    severity="error"
-                    sx={{
-                        width: '100%',
-                        position: 'relative',
-                        top: {xs: '0px', sm: '0px', md: '50px'},
-                    }}
                 >
-                    {errorMsg}
-                </Alert>
-            </Snackbar> 
-            <Box
-                className='main-content-container'
-                sx={{
-                    flexGrow: 1,
-                    maxWidth: '750px',
-                    p: 1,
-                }}
-            >
-                <MainWidget
-                    todayReminders={todayReminders} 
-                    changeTodayReminders={changeTodayReminders}
-                    upcomingReminders={upcomingReminders}
-                    changeUpcomingReminders={changeUpcomingReminders}
-                    groups={groups}
-                    changeGroups={changeGroups}
-                    currentReminders={currentReminders}
-                    handleCurrentReminders={handleCurrentReminders}
-                    handleOpenAlert={handleOpenAlert}
-                />
-            </Box>
-            <Box
-                className='rightside-menu-container'
-                sx={{
-                    display: {xs: 'none', sm: 'none', md: 'block'},
-                    flexGrow: 1,
-                    maxWidth: '250px',
-                    p: 1,
-                }}
-            >
+                    <Alert
+                        onClose={handleCloseAlert}
+                        severity="error"
+                        sx={{
+                            width: '100%',
+                            position: 'relative',
+                            top: {xs: '0px', sm: '0px', md: '50px'},
+                        }}
+                    >
+                        {errorMsg}
+                    </Alert>
+                </Snackbar> 
                 <Box
+                    className='main-content-container'
                     sx={{
-                        width: '100%',
-                        position: 'sticky',
-                        top: '70px',
+                        flexGrow: 1,
+                        maxWidth: '750px',
+                        p: 1,
                     }}
                 >
-                    <RightWidget
+                    <MainWidget
                         todayReminders={todayReminders} 
                         changeTodayReminders={changeTodayReminders}
                         upcomingReminders={upcomingReminders}
@@ -145,9 +120,37 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
+                <Box
+                    className='rightside-menu-container'
+                    sx={{
+                        display: {xs: 'none', sm: 'none', md: 'block'},
+                        flexGrow: 1,
+                        maxWidth: '250px',
+                        p: 1,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: '100%',
+                            position: 'sticky',
+                            top: '70px',
+                        }}
+                    >
+                        <RightWidget
+                            todayReminders={todayReminders} 
+                            changeTodayReminders={changeTodayReminders}
+                            upcomingReminders={upcomingReminders}
+                            changeUpcomingReminders={changeUpcomingReminders}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            currentReminders={currentReminders}
+                            handleCurrentReminders={handleCurrentReminders}
+                            handleOpenAlert={handleOpenAlert}
+                        />
+                    </Box>
+                </Box>
             </Box>
-        </Box>
-
+        </LocalizationProvider>
     )
 }
 

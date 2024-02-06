@@ -42,6 +42,7 @@ const MainWidget = ({
                 const { groupId, title, reminders } = group;
                 return (
                     <GroupedReminders
+                        key={groupId}
                         groupId={groupId}
                         title={title}
                         reminders={reminders}

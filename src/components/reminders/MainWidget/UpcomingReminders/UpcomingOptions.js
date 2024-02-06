@@ -1,6 +1,8 @@
-import { Add, MoreVert } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import RightWidgetIcon from "../RightWidgetIcon";
+import ReminderBackdrop from "../../ReminderBackdrop";
+import { useState } from "react";
 
 const UpcomingOptions = ({
     todayReminders,
@@ -14,6 +16,16 @@ const UpcomingOptions = ({
     handleOpenAlert
 }) => {
 
+    /* Backdrop Menu State Value & Function */
+    /* Delete Group */
+    const [openNewReminder, setOpenNewReminder] = useState(false);
+    const handleOpenNewReminder = () => {
+        setOpenNewReminder(true);
+    }
+    const handleCloseNewReminder = () => {
+        setOpenNewReminder(false);
+    }
+
     return (
         <Box
             sx={{
@@ -21,25 +33,21 @@ const UpcomingOptions = ({
                 ml: 2,
             }}
         >
+            {/* Backdrops */}
+            <ReminderBackdrop 
+                open={openNewReminder}
+                handleClose={handleCloseNewReminder}
+            />
+
             {/* Create New Reminder Icon */}
             <Tooltip
                 title="Create New Reminder"
             >
                 <IconButton
+                    onClick={handleOpenNewReminder}
                     size='small'
                 >
                     <Add fontSize='inherit'/> 
-                </IconButton>
-            </Tooltip>
-
-            {/* Options Icon */}
-            <Tooltip
-                title="Options"
-            >
-                <IconButton
-                    size='small'
-                >
-                    <MoreVert fontSize='inherit'/> 
                 </IconButton>
             </Tooltip>
 
