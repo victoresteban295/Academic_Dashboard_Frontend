@@ -35,7 +35,15 @@ const UpcomingOptions = ({
         >
             {/* Backdrops */}
             <ReminderBackdrop 
+                group=""
+                groupId=""
+                remindId=""
+                title=""
+                description=""
+                startDate=""
+                time=""
                 open={openNewReminder}
+                groups={groups}
                 handleClose={handleCloseNewReminder}
             />
 

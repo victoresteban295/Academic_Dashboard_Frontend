@@ -49,7 +49,7 @@ const GroupedTitleSection = ({
                         e.target.blur();
                     }
                 }}
-                inputProps={{maxLength: 20}}
+                inputProps={{maxLength: 50}}
                 sx={{
                     fontSize: '20px',
                     fontWeight: '700',
