@@ -2,6 +2,7 @@ import { Box, Divider, Stack, Typography } from "@mui/material";
 import Reminder from "./Reminder";
 
 const RemindersSection = ({ 
+    groups,
     reminders, 
     changeReminders, 
     currentReminders,
@@ -33,6 +34,7 @@ const RemindersSection = ({
                                     description={description}
                                     startDate={startDate}
                                     time={time}
+                                    groups={groups}
                                     changeReminders={changeReminders}
                                     currentReminders={currentReminders}
                                     handleOpenAlert={handleOpenAlert}

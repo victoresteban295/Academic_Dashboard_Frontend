@@ -4,8 +4,10 @@ import RightWidgetIcon from "../RightWidgetIcon";
 import { useState } from "react";
 import DeleteGroupBackdrop from "./Backdrops/DeleteGroupBackdrop";
 import WarnDeleteBackdrop from "./Backdrops/WarnDeleteBackdrop";
+import ReminderBackdrop from "../../ReminderBackdrop";
 
 const GroupedOptions = ({
+    groupId,
     title,
     reminders,
     todayReminders,
@@ -49,6 +51,16 @@ const GroupedOptions = ({
         setOpenWarnDelete(false);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Create New Reminder */
+    const [openNewReminder, setOpenNewReminder] = useState(false);
+    const handleOpenNewReminder = () => {
+        setOpenNewReminder(true);
+    }
+    const handleCloseNewReminder = () => {
+        setOpenNewReminder(false);
+    }
+
     return (
         <Box
             sx={{
@@ -76,10 +88,23 @@ const GroupedOptions = ({
             >
                 <IconButton
                     size='small'
+                    onClick={handleOpenNewReminder}
                 >
                     <Add fontSize='inherit'/> 
                 </IconButton>
             </Tooltip>
+            <ReminderBackdrop
+                group=""
+                groupId={groupId}
+                remindId=""
+                title=""
+                description=""
+                startDate=""
+                time=""
+                open={openNewReminder}
+                groups={groups}
+                handleClose={handleCloseNewReminder}
+            />
 
             {/* Options Icon */}
             <Tooltip

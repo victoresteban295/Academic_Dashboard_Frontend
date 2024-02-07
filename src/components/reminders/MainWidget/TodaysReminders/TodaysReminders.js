@@ -36,6 +36,7 @@ const TodaysReminders = ({
                         handleOpenAlert={handleOpenAlert}
                     />
                     <RemindersSection
+                        groups={groups}
                         reminders={todayReminders}
                         changeReminders={changeTodayReminders}
                         handleOpenAlert={handleOpenAlert}

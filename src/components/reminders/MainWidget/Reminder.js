@@ -1,6 +1,7 @@
 import { Delete, Edit, FileDownloadDone, MoreVert } from "@mui/icons-material";
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import ReminderBackdrop from "../ReminderBackdrop";
 
 const Reminder = ({
     group, 
@@ -10,6 +11,7 @@ const Reminder = ({
     description, 
     startDate, 
     time, 
+    groups,
     changeReminders, 
     currentReminders,
     handleOpenAlert 
@@ -25,11 +27,32 @@ const Reminder = ({
         setAnchorEl(null);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Edit Reminder */
+    const [openNewReminder, setOpenNewReminder] = useState(false);
+    const handleOpenNewReminder = () => {
+        setOpenNewReminder(true);
+    }
+    const handleCloseNewReminder = () => {
+        setOpenNewReminder(false);
+    }
+
     return (
-        <Stack
-            sx={{
-            }}
-        >
+        <Stack>
+            {/* Backdrops */}    
+            <ReminderBackdrop
+                group=""
+                groupId={groupId}
+                remindId=""
+                title={title}
+                description={description}
+                startDate={startDate}
+                time={time}
+                open={openNewReminder}
+                groups={groups}
+                handleClose={handleCloseNewReminder}
+            />
+
             {/* Reminder's Title & Options Section */}
             <Box
                 className="title-section"
@@ -88,6 +111,7 @@ const Reminder = ({
                         }}
                     >
                         <MenuItem
+                            onClick={handleOpenNewReminder}
                         >
                             <ListItemIcon>
                                 <Edit 

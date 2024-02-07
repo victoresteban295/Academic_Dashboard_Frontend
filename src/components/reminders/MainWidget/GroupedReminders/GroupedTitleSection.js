@@ -3,6 +3,7 @@ import { useState } from "react";
 import GroupedOptions from "./GroupedOptions";
 
 const GroupedTitleSection = ({
+    groupId,
     title,
     reminders,  
     todayReminders,
@@ -56,6 +57,7 @@ const GroupedTitleSection = ({
                 }}
             />
             <GroupedOptions
+                groupId={groupId}
                 title={title}
                 reminders={reminders}
                 todayReminders={todayReminders} 

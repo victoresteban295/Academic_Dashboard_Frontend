@@ -32,6 +32,7 @@ const GroupedReminders = ({
                     }}
                 >
                     <GroupedTitleSection
+                        groupId={groupId}
                         title={title}
                         reminders={reminders}
                         todayReminders={todayReminders} 
@@ -45,6 +46,7 @@ const GroupedReminders = ({
                         handleOpenAlert={handleOpenAlert}
                     />
                     <RemindersSection 
+                        groups={groups}
                         reminders={reminders}
                         changeReminders={changeGroupedReminders}
                         currentReminders={currentReminders}

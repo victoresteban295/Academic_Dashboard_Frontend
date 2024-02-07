@@ -35,6 +35,7 @@ const UpcomingReminders = ({
                         handleOpenAlert={handleOpenAlert}
                     />
                     <RemindersSection 
+                        groups={groups}
                         reminders={upcomingReminders}
                         changeReminders={changeUpcomingReminders}
                         handleOpenAlert={handleOpenAlert}

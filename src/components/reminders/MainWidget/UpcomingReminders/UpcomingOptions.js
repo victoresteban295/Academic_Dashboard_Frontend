@@ -17,7 +17,7 @@ const UpcomingOptions = ({
 }) => {
 
     /* Backdrop Menu State Value & Function */
-    /* Delete Group */
+    /* Create New Reminder */
     const [openNewReminder, setOpenNewReminder] = useState(false);
     const handleOpenNewReminder = () => {
         setOpenNewReminder(true);

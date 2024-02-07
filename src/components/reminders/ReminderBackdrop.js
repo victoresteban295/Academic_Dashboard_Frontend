@@ -1,7 +1,8 @@
-import { Box, Button, Divider, FormControl, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
+import { ReminderSchema } from "@/lib/schemas/reminderSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Divider, FormControl, FormHelperText, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const ReminderBackdrop = ({
@@ -20,13 +21,21 @@ const ReminderBackdrop = ({
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose(); //Close Backdrop
+        reset(); //Reset Input Fields
     }
 
-    const defaultDate = (startDate === "") ? null : dayjs(startDate, "MM/DD/YYYY");
-    const defaultTime = (time === "") ? null : dayjs(time, "h:mm A");
+    const grps = [
+        {
+            title: "None",
+            groupId: " ",
+        },
+        ...groups
+    ]
 
     /* React Hook Form */
-    const { register, formState, control, handleSubmit } = useForm({
+    const defaultDate = (startDate === "") ? null : dayjs(startDate, "MM/DD/YY");
+    const defaultTime = (time === "") ? null : dayjs(time, "h:mm A");
+    const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
             title: title,
@@ -34,19 +43,27 @@ const ReminderBackdrop = ({
             date: defaultDate,
             time: defaultTime,
             description: description
-        }
+        },
+        resolver: zodResolver(ReminderSchema), //Zod Validation Schema
     });
     const { errors } = formState;
-
-    /* Title State Value */
-    const [newTitle, setNewTitle] = useState(title);
-
-    const modifyTitle = () => {
+    let dividerColor;
+    if(!!errors.title) {
+        dividerColor = {
+            bgcolor: 'error.main',
+        }
+    } else {
+        dividerColor = {}
     }
 
+    /* Submit Reminder */
     const submitReminder = (data) => {
-        console.log(data.date.format("MM/DD/YYYY"));
+        console.log(data.title);
+        console.log(data.groups.trim());
+        console.log(data.date.format("MM/DD/YY"));
         console.log(data.time.format("h:mm A"));
+        console.log(data.description);
+        handleCloseBackdrop();
     }
 
     return (
@@ -67,7 +84,6 @@ const ReminderBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <form 
-                noValidate
                 onSubmit={handleSubmit(submitReminder)}
             >
                 <Stack
@@ -81,27 +97,44 @@ const ReminderBackdrop = ({
                     <Stack
                         spacing={0}
                     >
-                        <InputBase
-                            value={newTitle}
-                            autoFocus={title === ""}
-                            placeholder="Add Reminder's Title"
-                            onChange={(e) =>{
-                                setNewTitle(e.target.value)
-                            }}
-                            onBlur={modifyTitle}
-                            onKeyDown={(e) => {
-                                if(e.key === 'Enter') {
-                                    e.target.blur();
-                                }
-                            }}
-                            inputProps={{maxLength: 50}}
-                            sx={{
-                                fontSize: '20px',
-                                fontWeight: '700',
-                                flexGrow: 4,
+                        <Controller
+                            name="title"
+                            control={control}
+                            render={({field: { onChange, value}}) => {
+                                return (
+                                    <FormControl>
+                                        <InputBase
+                                            value={value}
+                                            autoFocus={title === ""}
+                                            placeholder="Add Reminder's Title"
+                                            error={!!errors.title}
+                                            onChange={onChange}
+                                            onKeyDown={(e) => {
+                                                if(e.key === 'Enter') {
+                                                    e.target.blur();
+                                                }
+                                            }}
+                                            inputProps={{maxLength: 50}}
+                                            sx={{
+                                                fontSize: '20px',
+                                                fontWeight: '700',
+                                                flexGrow: 4,
+                                            }}
+                                        />
+                                        <Divider 
+                                            sx={{
+                                                ...dividerColor,
+                                            }}
+                                        />
+                                        <FormHelperText
+                                            error={!!errors.title}
+                                        >
+                                            {errors.title?.message}
+                                        </FormHelperText>
+                                    </FormControl>
+                                )
                             }}
                         />
-                        <Divider />
                     </Stack>
                     <FormControl  
                         fullWidth
@@ -119,7 +152,7 @@ const ReminderBackdrop = ({
                                         label='Groups'
                                         helperText={errors.groups?.message}
                                     >
-                                    {groups.map((grp) => {
+                                    {grps.map((grp) => {
                                         const { title, groupId } = grp;
                                         return(
                                             <MenuItem
@@ -147,11 +180,23 @@ const ReminderBackdrop = ({
                             control={control}
                             render={({field: { onChange, value}}) => {
                                 return (
-                                    <DatePicker 
-                                        label="Date"
-                                        value={value}
-                                        onChange={onChange}
-                                    />
+                                    <FormControl>
+                                        <DatePicker 
+                                            label="Date"
+                                            value={value}
+                                            onChange={onChange}
+                                            slotProps = {{
+                                                textField: {
+                                                    error: !!errors.date,
+                                                }
+                                            }}
+                                        />
+                                        <FormHelperText
+                                            error={!!errors.date}
+                                        >
+                                            {errors.date?.message}
+                                        </FormHelperText>
+                                    </FormControl>
                                 )
                             }}
                         />
@@ -160,19 +205,42 @@ const ReminderBackdrop = ({
                             control={control}
                             render={({field: { onChange, value}}) => {
                                 return (
-                                    <TimePicker 
-                                        label="Time"
-                                        value={value}
-                                        onChange={onChange}
-                                    />
+                                    <FormControl>
+                                        <TimePicker 
+                                            label="Time"
+                                            value={value}
+                                            onChange={onChange}
+                                            slotProps = {{
+                                                textField: {
+                                                    error: !!errors.time,
+                                                }
+                                            }}
+                                        />
+                                        <FormHelperText
+                                            error={!!errors.time}
+                                        >
+                                            {errors.time?.message}
+                                        </FormHelperText>
+                                    </FormControl>
                                 )
                             }}
                         />
                     </Stack>
-                    <TextField 
-                        label="Description"
-                        multiline
-                        rows={4}
+                    <Controller 
+                        name="description"
+                        control={control}
+                        render={({field: { onChange, value}}) => {
+                            return (
+                                <TextField 
+                                    label="Description"
+                                    value={value}
+                                    onChange={onChange}
+                                    multiline
+                                    inputProps={{maxLength: 250}}
+                                    rows={4}
+                                />
+                            )
+                        }}
                     />
                     <Box
                         sx={{

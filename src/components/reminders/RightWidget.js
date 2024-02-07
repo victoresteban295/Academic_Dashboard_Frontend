@@ -3,6 +3,8 @@ import { Box, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mu
 import TodayUpcomingSection from "./RightWidget/TodayUpcomingSection/TodayUpcomingSection";
 import GroupsSection from "./RightWidget/GroupsSection/GroupsSection";
 import { useState } from "react";
+import ReminderBackdrop from "./ReminderBackdrop";
+import NewGroupBackdrop from "./RightWidget/Backdrops/NewGroupBackdrop";
 
 const RightWidget = ({
     todayReminders,
@@ -25,6 +27,26 @@ const RightWidget = ({
     const closeOptions = () => {
         setAnchorEl(null);
     }
+
+    /* Backdrop Menu State Value & Function */
+    /* Create New Reminder */
+    const [openNewReminder, setOpenNewReminder] = useState(false);
+    const handleOpenNewReminder = () => {
+        setOpenNewReminder(true);
+    }
+    const handleCloseNewReminder = () => {
+        setOpenNewReminder(false);
+    }
+
+    /* Backdrop Menu State Value & Function */
+    /* Create New Group */
+    const [openNewGroup, setOpenNewGroup] = useState(false);
+    const handleOpenNewGroup = () => {
+        setOpenNewGroup(true);
+    }
+    const handleCloseNewGroup = () => {
+        setOpenNewGroup(false);
+    }
     
     return (
         <Stack
@@ -33,6 +55,25 @@ const RightWidget = ({
                 width: '100%',
             }}
         >
+            {/* Backdrops */}
+            <ReminderBackdrop
+                group=""
+                groupId=""
+                remindId=""
+                title=""
+                description=""
+                startDate=""
+                time=""
+                open={openNewReminder}
+                groups={groups}
+                handleClose={handleCloseNewReminder}
+            />
+            <NewGroupBackdrop 
+                open={openNewGroup}
+                handleClose={handleCloseNewGroup}
+                handleOpenAlert={handleOpenAlert}
+            />
+
             <Box
                 sx={{
                     display: 'flex',
@@ -67,11 +108,13 @@ const RightWidget = ({
                     }}
                 >
                     <MenuItem
+                        onClick={handleOpenNewReminder}
                     >
                         Create New Reminder
                     </MenuItem>
                     <Divider />
                     <MenuItem
+                        onClick={handleOpenNewGroup}
                     >
                         Create New Group
                     </MenuItem>
