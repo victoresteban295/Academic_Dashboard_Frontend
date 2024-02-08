@@ -1,4 +1,4 @@
-import { Delete, Edit, FileDownloadDone, MoreVert } from "@mui/icons-material";
+import { AccessAlarm, AccessTime, Delete, Edit, FileDownloadDone, InsertInvitation, MoreVert, Today } from "@mui/icons-material";
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import ReminderBackdrop from "../ReminderBackdrop";
@@ -38,7 +38,15 @@ const Reminder = ({
     }
 
     return (
-        <Stack>
+        <Stack
+            spacing={1}
+            sx={{
+                boxShadow: '1px 1px 4px 2px #cecece',
+                borderRadius: '10px',
+                py: 1,
+                px: 2,
+            }}
+        >
             {/* Backdrops */}    
             <ReminderBackdrop
                 group=""
@@ -54,137 +62,184 @@ const Reminder = ({
             />
 
             {/* Reminder's Title & Options Section */}
-            <Box
+            <Stack
                 className="title-section"
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                }}
             >
-                <Typography
-                    variant='h6'
-                    sx={{
-                        fontWeight: '700'
-                    }}
-                >
-                    {title}
-                </Typography>
                 <Box
-                    className="reminder-options"
                     sx={{
                         display: 'flex',
-                        ml: 2,
+                        justifyContent: 'space-between',
                     }}
                 >
-                    <Tooltip
-                        title="Mark As Complete"
-                    >
-                        <IconButton
-                            size='small'
-                        >
-                            <FileDownloadDone fontSize='inherit'/> 
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip
-                        title="Options"
-                    >
-                        <IconButton
-                            onClick={openOptions}
-                            size='small'
-                        >
-                            <MoreVert fontSize='inherit'/> 
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        anchorEl={anchorEl}
-                        id="reminder-options-menu"
-                        open={open}
-                        onClose={openOptions}
-                        onClick={closeOptions}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
+                    <Typography
+                        variant='h6'
+                        sx={{
+                            fontWeight: '700'
                         }}
                     >
-                        <MenuItem
-                            onClick={handleOpenNewReminder}
+                        {title}
+                    </Typography>
+                    <Box
+                        className="reminder-options"
+                        sx={{
+                            display: 'flex',
+                            ml: 2,
+                        }}
+                    >
+                        <Tooltip
+                            title="Mark As Complete"
                         >
-                            <ListItemIcon>
-                                <Edit 
-                                    fontSize="small" 
-                                    sx={{
-                                        color: '#000'
-                                    }}
-                                />
-                            </ListItemIcon>
-                            <ListItemText
-                                sx={{
-                                    fontWeight: '700'
-                                }}
+                            <IconButton
+                                size='small'
                             >
-                                Edit
-                            </ListItemText>
-                        </MenuItem>
-                        <Divider />
-                        <MenuItem
-                            sx={{
-                                color: '#ef476f'
+                                <FileDownloadDone fontSize='inherit'/> 
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                            title="Options"
+                        >
+                            <IconButton
+                                onClick={openOptions}
+                                size='small'
+                            >
+                                <MoreVert fontSize='inherit'/> 
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            anchorEl={anchorEl}
+                            id="reminder-options-menu"
+                            open={open}
+                            onClose={openOptions}
+                            onClick={closeOptions}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
                             }}
                         >
-                            <ListItemIcon>
-                                <Delete
-                                    fontSize="small" 
+                            <MenuItem
+                                onClick={handleOpenNewReminder}
+                            >
+                                <ListItemIcon>
+                                    <Edit 
+                                        fontSize="small" 
+                                        sx={{
+                                            color: '#000'
+                                        }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
                                     sx={{
-                                        color: '#ef476f'
+                                        fontWeight: '700'
                                     }}
-                                />
-                            </ListItemIcon>
-                            <ListItemText
+                                >
+                                    Edit
+                                </ListItemText>
+                            </MenuItem>
+                            <Divider />
+                            <MenuItem
                                 sx={{
-                                    fontWeight: '700'
+                                    color: '#ef476f'
                                 }}
                             >
-                                Delete
-                            </ListItemText>
-                        </MenuItem>
-                    </Menu>
+                                <ListItemIcon>
+                                    <Delete
+                                        fontSize="small" 
+                                        sx={{
+                                            color: '#ef476f'
+                                        }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
+                                    sx={{
+                                        fontWeight: '700'
+                                    }}
+                                >
+                                    Delete
+                                </ListItemText>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
                 </Box>
-            </Box>
-
-            {/* Reminder's Group, Date, & Time Section */}
-            <Stack
-                className="group-date-time-section"
-                direction={{xs: 'column', sm: 'row'}}
-                alignItems={{xs: 'flex-start', sm: 'center'}}
-                spacing={{xs: 0, sm: 1}}
-            >
-                {(currentReminders != groupId) && (
-                    <Typography
-                        variant='body1'
-                        sx={{
-                            fontWeight: '700',
-                        }}
-                    >
-                        {`${group}:`}
-                    </Typography>
-                )}
-                <Typography
-                    variant='subtitle1'
-                >
-                    {`${startDate}, ${time}`}
-                </Typography>
+                <Divider />
             </Stack>
 
-            {/* Reminder's Group, Date, & Time Section */}
-            <Typography
-                variant="body1"
+            <Stack
+                spacing={1}
             >
-                {description}
-            </Typography>
+                {/* Reminder's Group, Date, & Time Section */}
+                <Stack
+                    className="group-date-time-section"
+                    direction={{xs: 'column', sm: 'row'}}
+                    alignItems={{xs: 'flex-start', sm: 'center'}}
+                    spacing={1}
+                >
+                    {(currentReminders != groupId) && (
+                        <Typography
+                            variant='body1'
+                            sx={{
+                                bgcolor: '#c1c1c1',
+                                borderRadius: '5px',
+                                px: 0.5,
+                                fontWeight: '700',
+                            }}
+                        >
+                            {`${group}`}
+                        </Typography>
+                    )}
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                        spacing={1}
+                    >
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            spacing={0.5}
+                        >
+                            <InsertInvitation
+                                fontSize="small"
+                            />
+                            <Typography
+                                variant='subtitle1'
+                                sx={{
+                                }}
+                            >
+                                {startDate}
+                            </Typography>
+                        </Stack>
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            spacing={0.5}
+                        >
+                            <AccessTime
+                                fontSize="small"
+                            />
+                            <Typography
+                                variant='subtitle1'
+                                sx={{
+                                }}
+                            >
+                                {time}
+                            </Typography>
+                        </Stack>
+                    </Stack>
+                </Stack>
+
+                {/* Reminder's Group, Date, & Time Section */}
+                <Typography
+                    variant="subtitle2"
+                >
+                    {description}
+                </Typography>
+            </Stack>
         </Stack>
     )
 }

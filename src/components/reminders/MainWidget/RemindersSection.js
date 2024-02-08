@@ -15,7 +15,6 @@ const RemindersSection = ({
                 <Stack
                     className='reminders-section'
                     spacing={2}
-                    divider={<Divider flexItem />}
                     sx={{
                         width: '100%',
                         px: 2,

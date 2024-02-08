@@ -1,16 +1,6 @@
 export const todayReminders = [
     {
         username: 'jimhalpert239',
-        group: 'Personal',
-        groupId: '873uiuiuia',
-        remindId: 'ndjeujdrd9',
-        title: 'Submit FAFSA Applications',
-        description: "Ask parents for tax documents",
-        startDate: "02/01/24",
-        time: "5:00 PM",
-    },
-    {
-        username: 'jimhalpert239',
         group: 'Bills',
         groupId: 'xv45uuiuiui',
         remindId: 'p0o3kjjdrd',
@@ -28,22 +18,22 @@ export const todayReminders = [
         description: "First enroll to Math 430 and CS 423",
         startDate: "02/01/24",
         time: "1:00 PM",
+    },
+    {
+        username: 'jimhalpert239',
+        group: 'Personal',
+        groupId: '873uiuiuia',
+        remindId: 'ndjeujdrd9',
+        title: 'Submit FAFSA Applications',
+        description: "Ask parents for tax documents",
+        startDate: "02/01/24",
+        time: "5:00 PM",
     }
 ]
 
 export const upcomingReminders = [
     {
         username: 'jimhalpert239',
-        group: 'Personal',
-        groupId: '873uiuiuia',
-        remindId: 'ndjeujdrd9',
-        title: 'Submit FAFSA Applications',
-        description: "Ask parents for tax documents",
-        startDate: "02/01/24",
-        time: "5:00 PM",
-    },
-    {
-        username: 'jimhalpert239',
         group: 'Bills',
         groupId: 'xv45uuiuiui',
         remindId: 'p0o3kjjdrd',
@@ -61,6 +51,16 @@ export const upcomingReminders = [
         description: "First enroll to Math 430 and CS 423",
         startDate: "02/01/24",
         time: "1:00 PM",
+    },
+    {
+        username: 'jimhalpert239',
+        group: 'Personal',
+        groupId: '873uiuiuia',
+        remindId: 'ndjeujdrd9',
+        title: 'Submit FAFSA Applications',
+        description: "Ask parents for tax documents",
+        startDate: "02/01/24",
+        time: "5:00 PM",
     },
     {
         username: 'jimhalpert239',
