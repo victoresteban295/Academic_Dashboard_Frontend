@@ -6,7 +6,8 @@ const DeleteGroupBackdrop = ({
     reminders,
     open,
     handleClose,
-    handleOpenWarnDelete
+    handleOpenWarnDelete,
+    handleDeleteGroup
 }) => {
 
     /* Close Backdrop */
@@ -17,9 +18,11 @@ const DeleteGroupBackdrop = ({
     /* Delete Current Group */
     const deleteGroup = () => {
         handleClose(); //Close Backdrop
-        //Display Warning if Group Has Reminders to Complete
-        if(reminders.length === 0 ) {
 
+        //Delete if Group has No Reminders
+        if(reminders.length === 0 ) {
+            handleDeleteGroup(); //Delete Group
+        //Display Warning if Group Has Reminders to Complete
         } else {
             //Display Warning Backdrop
             handleOpenWarnDelete();

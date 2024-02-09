@@ -115,7 +115,7 @@ const NewChecklistBackdrop = ({
                     <Button
                         variant="contained"
                         size='small'
-                        disabled={title === ''}
+                        disabled={title.trim() === ''}
                         onClick={handleNewChecklist}
                     >
                         <Typography

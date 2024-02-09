@@ -71,6 +71,9 @@ const RightWidget = ({
             <NewGroupBackdrop 
                 open={openNewGroup}
                 handleClose={handleCloseNewGroup}
+                groups={groups}
+                changeGroups={changeGroups}
+                handleCurrentReminders={handleCurrentReminders}
                 handleOpenAlert={handleOpenAlert}
             />
 

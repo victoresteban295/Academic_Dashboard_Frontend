@@ -1,6 +1,7 @@
 import { Box, InputBase } from "@mui/material";
 import { useState } from "react";
 import GroupedOptions from "./GroupedOptions";
+import { renameGroup } from "@/lib/utils/reminders/frontend/modifyGroups";
 
 const GroupedTitleSection = ({
     groupId,
@@ -22,8 +23,40 @@ const GroupedTitleSection = ({
     const [isUpdating, setUpdating] = useState(false);
 
     /* Rename Group's Title */
-    const renameTitle = () => {
+    const renameTitle = (event) => {
+        try{
+            if(newTitle.trim() != '') {
+                setUpdating(false);
+                //Frontend: Rename Group
+                const { 
+                    updatedGroups, 
+                    updatedToday, 
+                    updatedUpcoming } = renameGroup(
+                        groups, 
+                        todayReminders, 
+                        upcomingReminders, 
+                        event.target.value,
+                        groupId
+                    );
 
+                //Update State Value
+                changeGroups(updatedGroups);
+                changeTodayReminders(updatedToday);
+                changeUpcomingReminders(updatedUpcoming);
+
+                //Backend API: Update Database
+
+            } else {
+                setNewTitle(title);
+            }
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(); //Add parameter 
+            changeTodayReminders()
+            changeUpcomingReminders();
+        }
     }
 
     return (

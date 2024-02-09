@@ -4,7 +4,8 @@ import { Box, Button, Popover, Stack, Typography } from "@mui/material";
 const WarnDeleteBackdrop = ({
     title,
     open,
-    handleClose
+    handleClose,
+    handleDeleteGroup
 }) => {
 
     /* Close Backdrop */
@@ -15,6 +16,7 @@ const WarnDeleteBackdrop = ({
     /* Delete Current Group */
     const deleteGroup = () => {
         handleClose(); //Close Backdrop
+        handleDeleteGroup(); //Delete Group
     }
 
     return (

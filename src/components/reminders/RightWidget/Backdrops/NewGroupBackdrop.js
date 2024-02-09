@@ -1,14 +1,22 @@
+import { createNewGroup } from "@/lib/utils/reminders/frontend/modifyGroups";
 import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const NewGroupBackdrop = ({
     open,
     handleClose,
+    groups,
+    changeGroups,
+    handleCurrentReminders,
     handleOpenAlert
-}) => {
+}) => { 
 
-    /* Title of New Group to Create */
-    const [title, setTitle] = useState('');
+    /* Clone Each Checklists & Groups Object */
+    const userGroups = [];
+    for(const group of groups) {
+        const grp = structuredClone(group);
+        userGroups.push(grp);
+    }
 
     /* Close Menu & Reset Options */
     const handleCloseBackdrop = () => {
@@ -16,10 +24,31 @@ const NewGroupBackdrop = ({
         setTitle('');
     }
 
+    /* Title of New Group to Create */
+    const [title, setTitle] = useState('');
+
     /* Create New Group */
     const handleNewGroup = () => {
-        handleClose(); //Close Backdrop
-        setTitle('');
+        const outdatedGroups = [...userGroups];
+        try {
+            handleCloseBackdrop(); //Close & Reset Backdrop
+            //Frontend: Create New Group
+            const { updatedGroups, groupId } = createNewGroup(groups, title);
+            
+            //Update State Value
+            changeGroups(updatedGroups);
+
+            //Display New Group
+            handleCurrentReminders(groupId);
+
+            //Backend API: Update Database
+            
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(outdatedGroups); 
+        }
     }
 
     return (
@@ -78,7 +107,7 @@ const NewGroupBackdrop = ({
                     <Button
                         variant="contained"
                         size='small'
-                        disabled={title === ''}
+                        disabled={title.trim() === ''}
                         onClick={handleNewGroup}
                     >
                         <Typography

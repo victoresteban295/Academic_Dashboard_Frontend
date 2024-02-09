@@ -1,7 +1,8 @@
-import { AccessAlarm, AccessTime, Delete, Edit, FileDownloadDone, InsertInvitation, MoreVert, Today } from "@mui/icons-material";
+import { AccessTime, Delete, Edit, FileDownloadDone, InsertInvitation, MoreVert } from "@mui/icons-material";
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import ReminderBackdrop from "../ReminderBackdrop";
+import { deleteReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
 
 const Reminder = ({
     group, 
@@ -11,13 +12,20 @@ const Reminder = ({
     description, 
     startDate, 
     time, 
+    todayReminders,
+    changeTodayReminders,
+    upcomingReminders,
+    changeUpcomingReminders,
     groups,
-    changeReminders, 
+    changeGroups,
     currentReminders,
-    handleOpenAlert 
+    handleOpenAlert
 }) => {
 
-    /* Options Menu's State Value & Functions */
+    /* ************************************ */
+    /* Backdrop Menu State Value & Function */
+    /* ************************************ */
+    /* Options Menu */
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const openOptions = (event) => {
@@ -26,8 +34,6 @@ const Reminder = ({
     const closeOptions = () => {
         setAnchorEl(null);
     }
-
-    /* Backdrop Menu State Value & Function */
     /* Edit Reminder */
     const [openNewReminder, setOpenNewReminder] = useState(false);
     const handleOpenNewReminder = () => {
@@ -35,6 +41,31 @@ const Reminder = ({
     }
     const handleCloseNewReminder = () => {
         setOpenNewReminder(false);
+    }
+
+    const handleDeleteReminder = () => {
+        try {
+            //Frontend: Delete Reminder
+            const { 
+                updatedGroups, 
+                updatedToday, 
+                updatedUpcoming } = deleteReminder(groupId, remindId, groups, todayReminders, upcomingReminders);
+
+            //Update State Value
+            changeTodayReminders(updatedToday);
+            changeUpcomingReminders(updatedUpcoming);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(); //Add parameter
+            changeUpcomingReminders();
+            changeGroups();
+        }
     }
 
     return (
@@ -141,6 +172,7 @@ const Reminder = ({
                             </MenuItem>
                             <Divider />
                             <MenuItem
+                                onClick={handleDeleteReminder}
                                 sx={{
                                     color: '#ef476f'
                                 }}

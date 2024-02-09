@@ -46,9 +46,13 @@ const GroupedReminders = ({
                         handleOpenAlert={handleOpenAlert}
                     />
                     <RemindersSection 
+                        todayReminders={todayReminders}
+                        changeTodayReminders={changeTodayReminders}
+                        upcomingReminders={upcomingReminders}
+                        changeUpcomingReminders={changeUpcomingReminders}
                         groups={groups}
+                        changeGroups={changeGroups}
                         reminders={reminders}
-                        changeReminders={changeGroupedReminders}
                         currentReminders={currentReminders}
                         handleOpenAlert={handleOpenAlert}
                     />

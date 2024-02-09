@@ -15,13 +15,13 @@ const GroupsSection = ({
             }}
         >
             {groups.map((group) => {
-                const { groupId, title, size } = group;
+                const { groupId, title, reminders } = group;
                 return (
                     <Group 
                         key={groupId}
                         groupId={groupId}
                         title={title}
-                        size={size}
+                        size={reminders.length}
                         currentReminders={currentReminders}
                         handleCurrentReminders={handleCurrentReminders}
                     />

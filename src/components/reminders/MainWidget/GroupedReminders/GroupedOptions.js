@@ -5,6 +5,7 @@ import { useState } from "react";
 import DeleteGroupBackdrop from "./Backdrops/DeleteGroupBackdrop";
 import WarnDeleteBackdrop from "./Backdrops/WarnDeleteBackdrop";
 import ReminderBackdrop from "../../ReminderBackdrop";
+import { deleteGroup } from "@/lib/utils/reminders/frontend/modifyGroups";
 
 const GroupedOptions = ({
     groupId,
@@ -21,7 +22,10 @@ const GroupedOptions = ({
     handleOpenAlert
 }) => {
 
-    /* Options Menu's State Value & Functions */
+    /* ************************************ */
+    /* Backdrop Menu State Value & Function */
+    /* ************************************ */
+    /* Options Menu */
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const openOptions = (event) => {
@@ -30,8 +34,6 @@ const GroupedOptions = ({
     const closeOptions = () => {
         setAnchorEl(null);
     }
-
-    /* Backdrop Menu State Value & Function */
     /* Delete Group */
     const [openDeleteGroup, setOpenDeleteGroup] = useState(false);
     const handleOpenDeleteGroup = () => {
@@ -40,8 +42,6 @@ const GroupedOptions = ({
     const handleCloseDeleteGroup = () => {
         setOpenDeleteGroup(false);
     }
-
-    /* Backdrop Menu State Value & Function */
     /* Warn Not All Reminders in Group are Completed */
     const [openWarnDelete, setOpenWarnDelete] = useState(false);
     const handleOpenWarnDelete = () => {
@@ -50,8 +50,6 @@ const GroupedOptions = ({
     const handleCloseWarnDelete = () => {
         setOpenWarnDelete(false);
     }
-
-    /* Backdrop Menu State Value & Function */
     /* Create New Reminder */
     const [openNewReminder, setOpenNewReminder] = useState(false);
     const handleOpenNewReminder = () => {
@@ -59,6 +57,35 @@ const GroupedOptions = ({
     }
     const handleCloseNewReminder = () => {
         setOpenNewReminder(false);
+    }
+
+    /* Delete Grouped Reminder */
+    const handleDeleteGroup = () => {
+        try {
+            //Display Today's Reminders After Deletion
+            handleCurrentReminders("today");
+
+            //Frontend: Delete Group
+            const { 
+                updatedGroups, 
+                updatedToday, 
+                updatedUpcoming } = deleteGroup(groupId, groups, todayReminders, upcomingReminders);
+
+            //Update State Value
+            changeTodayReminders(updatedToday);
+            changeUpcomingReminders(updatedUpcoming);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+            //Undo Changes Made
+            changeGroups(); //Add parameter
+            changeUpcomingReminders();
+            changeGroups();
+        }
     }
 
     return (
@@ -75,11 +102,13 @@ const GroupedOptions = ({
                 open={openDeleteGroup}
                 handleClose={handleCloseDeleteGroup}
                 handleOpenWarnDelete={handleOpenWarnDelete}
+                handleDeleteGroup={handleDeleteGroup}
             />
             <WarnDeleteBackdrop 
                 title={title}
                 open={openWarnDelete}
                 handleClose={handleCloseWarnDelete}
+                handleDeleteGroup={handleDeleteGroup}
             />
 
             {/* Create New Reminder Icon */}
