@@ -19,6 +19,7 @@ const Reminder = ({
     groups,
     changeGroups,
     currentReminders,
+    markAsComplete,
     handleOpenAlert
 }) => {
 
@@ -43,6 +44,20 @@ const Reminder = ({
         setOpenNewReminder(false);
     }
 
+    /* Mark As Complete */
+    const handleMarkAsComplete = () => {
+        handleDeleteReminder();
+        const undo = {
+            groupId: groupId,
+            title: title,
+            description: description,
+            date: startDate,
+            time: time
+        }
+        markAsComplete(undo);
+    }
+
+    /* Delete Reminder */
     const handleDeleteReminder = () => {
         try {
             //Frontend: Delete Reminder
@@ -80,16 +95,22 @@ const Reminder = ({
         >
             {/* Backdrops */}    
             <ReminderBackdrop
-                group=""
+                group={group}
                 groupId={groupId}
-                remindId=""
+                remindId={remindId}
                 title={title}
                 description={description}
-                startDate={startDate}
+                date={startDate}
                 time={time}
                 open={openNewReminder}
-                groups={groups}
                 handleClose={handleCloseNewReminder}
+                todayReminders={todayReminders}
+                changeTodayReminders={changeTodayReminders}
+                upcomingReminders={upcomingReminders}
+                changeUpcomingReminders={changeUpcomingReminders}
+                groups={groups}
+                changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
             />
 
             {/* Reminder's Title & Options Section */}
@@ -119,9 +140,11 @@ const Reminder = ({
                     >
                         <Tooltip
                             title="Mark As Complete"
+                            onClick={handleMarkAsComplete}
                         >
                             <IconButton
                                 size='small'
+                                onClick={handleMarkAsComplete}
                             >
                                 <FileDownloadDone fontSize='inherit'/> 
                             </IconButton>
@@ -239,8 +262,6 @@ const Reminder = ({
                             />
                             <Typography
                                 variant='subtitle1'
-                                sx={{
-                                }}
                             >
                                 {startDate}
                             </Typography>

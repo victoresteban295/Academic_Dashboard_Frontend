@@ -1,5 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import Reminder from "./Reminder";
+import { Close } from "@mui/icons-material";
+import { createReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
+import { useState } from "react";
 
 const RemindersSection = ({ 
     todayReminders,
@@ -13,8 +16,80 @@ const RemindersSection = ({
     handleOpenAlert
 }) => {
 
+    /* Completed Reminder Alert */
+    const [completeReminder, setCompleteReminder] = useState(null);
+    const [displayUndoAlert, setDisplayUndoAlert] = useState(false);
+    const markAsComplete = (reminder) => {
+        setCompleteReminder(reminder);
+        setDisplayUndoAlert(true);
+        setTimeout(() => {
+            setDisplayUndoAlert(false);
+        }, 5000);
+    }
+
+    /* Undo Reminder */
+    const undoReminder = () => {
+        try {
+            //Frontend: Create a New Reminder
+            const { updatedToday, updatedUpcoming, updatedGroups } = createReminder(
+                completeReminder.groupId,
+                completeReminder.title,
+                completeReminder.description,
+                completeReminder.date,
+                completeReminder.time,
+                groups,
+                todayReminders,
+                upcomingReminders);
+            
+            //Update State Value
+            changeTodayReminders(updatedToday);
+            changeUpcomingReminders(updatedUpcoming);
+            changeGroups(updatedGroups);
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+        }
+        setDisplayUndoAlert(false);
+    }
+
     return (
         <>
+            {displayUndoAlert && (
+                <Alert
+                    severity="success"
+                    action={
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}
+                        >
+                            <Button 
+                                onClick={undoReminder}
+                                variant="outlined"
+                                color="inherit" 
+                                size="small"
+                            >
+                                UNDO
+                            </Button>
+                            <IconButton
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setDisplayUndoAlert(false);
+                                }}
+                            >
+                                <Close fontSize="inherit" />
+                            </IconButton>
+                        </Stack>
+                    }
+                >
+                    {`${completeReminder.title} Completed!`}
+                </Alert>
+            )}
             {(reminders.length != 0) ? (
                 <Stack
                     className='reminders-section'
@@ -44,6 +119,7 @@ const RemindersSection = ({
                                     groups={groups}
                                     changeGroups={changeGroups}
                                     currentReminders={currentReminders}
+                                    markAsComplete={markAsComplete}
                                     handleOpenAlert={handleOpenAlert}
                                 />
                             )

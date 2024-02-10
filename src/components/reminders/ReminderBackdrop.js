@@ -1,4 +1,5 @@
 import { ReminderSchema } from "@/lib/schemas/reminderSchema";
+import { createReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Divider, FormControl, FormHelperText, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
@@ -6,16 +7,22 @@ import dayjs from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 
 const ReminderBackdrop = ({
-    group,
+    group, //NOTE: We Need for Edit Reminder
     groupId,
-    remindId,
+    remindId, //NOTE: We Need for Edit Reminder
     title,
     description,
-    startDate,
+    date,
     time,
     open,
+    handleClose,
+    todayReminders,
+    changeTodayReminders,
+    upcomingReminders,
+    changeUpcomingReminders,
     groups,
-    handleClose
+    changeGroups,
+    handleOpenAlert
 }) => {
 
     /* Close Backdrop */
@@ -24,6 +31,7 @@ const ReminderBackdrop = ({
         reset(); //Reset Input Fields
     }
 
+    /* Reminder's Group Options */
     const grps = [
         {
             title: "None",
@@ -33,7 +41,7 @@ const ReminderBackdrop = ({
     ]
 
     /* React Hook Form */
-    const defaultDate = (startDate === "") ? null : dayjs(startDate, "MM/DD/YY");
+    const defaultDate = (date === "") ? null : dayjs(date, "MM/DD/YY");
     const defaultTime = (time === "") ? null : dayjs(time, "h:mm A");
     const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
@@ -56,14 +64,47 @@ const ReminderBackdrop = ({
         dividerColor = {}
     }
 
-    /* Submit Reminder */
+    /* Create/Edit Reminder */
     const submitReminder = (data) => {
-        console.log(data.title);
-        console.log(data.groups.trim());
-        console.log(data.date.format("MM/DD/YY"));
-        console.log(data.time.format("h:mm A"));
-        console.log(data.description);
         handleCloseBackdrop();
+        try {
+            //Creating a New Reminder
+            if(remindId === "") {
+                //Frontend: Create a New Reminder
+                const { updatedToday, updatedUpcoming, updatedGroups } = createReminder(
+                    data.groups,
+                    data.title,
+                    data.description,
+                    data.date.format("MM/DD/YY"),
+                    data.time.format("h:mm A"),
+                    groups,
+                    todayReminders,
+                    upcomingReminders);
+                
+                //Update State Value
+                changeTodayReminders(updatedToday);
+                changeUpcomingReminders(updatedUpcoming);
+                changeGroups(updatedGroups);
+
+                //Backend API: Update Database
+
+            //Edit Reminder
+            } else {
+                //Frontend: Edit Reminder
+                const { updatedToday, updatedUpcoming, updatedGroups } = editReminder();
+
+                //Update State Value
+                changeTodayReminders(updatedToday);
+                changeUpcomingReminders(updatedUpcoming);
+                changeGroups(updatedGroups);
+
+                //Backend API: Update Database
+
+            }
+        } catch(error) {
+            handleOpenAlert(error.message);
+
+        }
     }
 
     return (
@@ -149,7 +190,7 @@ const ReminderBackdrop = ({
                                         error={!!errors.groups}
                                         value={value}
                                         onChange={onChange}
-                                        label='Groups'
+                                        label='Group'
                                         helperText={errors.groups?.message}
                                     >
                                     {grps.map((grp) => {

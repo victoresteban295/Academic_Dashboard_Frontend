@@ -40,11 +40,17 @@ const UpcomingOptions = ({
                 remindId=""
                 title=""
                 description=""
-                startDate=""
+                date=""
                 time=""
                 open={openNewReminder}
-                groups={groups}
                 handleClose={handleCloseNewReminder}
+                todayReminders={todayReminders}
+                changeTodayReminders={changeTodayReminders}
+                upcomingReminders={upcomingReminders}
+                changeUpcomingReminders={changeUpcomingReminders}
+                groups={groups}
+                changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
             />
 
             {/* Create New Reminder Icon */}

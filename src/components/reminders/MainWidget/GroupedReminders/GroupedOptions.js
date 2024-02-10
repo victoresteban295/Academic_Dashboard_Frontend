@@ -110,6 +110,24 @@ const GroupedOptions = ({
                 handleClose={handleCloseWarnDelete}
                 handleDeleteGroup={handleDeleteGroup}
             />
+            <ReminderBackdrop
+                group=""
+                groupId={groupId}
+                remindId=""
+                title=""
+                description=""
+                date=""
+                time=""
+                open={openNewReminder}
+                handleClose={handleCloseNewReminder}
+                todayReminders={todayReminders}
+                changeTodayReminders={changeTodayReminders}
+                upcomingReminders={upcomingReminders}
+                changeUpcomingReminders={changeUpcomingReminders}
+                groups={groups}
+                changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
+            />
 
             {/* Create New Reminder Icon */}
             <Tooltip
@@ -122,18 +140,6 @@ const GroupedOptions = ({
                     <Add fontSize='inherit'/> 
                 </IconButton>
             </Tooltip>
-            <ReminderBackdrop
-                group=""
-                groupId={groupId}
-                remindId=""
-                title=""
-                description=""
-                startDate=""
-                time=""
-                open={openNewReminder}
-                groups={groups}
-                handleClose={handleCloseNewReminder}
-            />
 
             {/* Options Icon */}
             <Tooltip

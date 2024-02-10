@@ -8,6 +8,7 @@ export const todayReminders = [
         description: "Ask Roomates for their corresponding amount",
         startDate: "02/01/24",
         time: "8:00 AM",
+        iso8601: "2024-02-01T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -18,6 +19,7 @@ export const todayReminders = [
         description: "First enroll to Math 430 and CS 423",
         startDate: "02/01/24",
         time: "1:00 PM",
+        iso8601: "2024-02-01T21:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -28,6 +30,7 @@ export const todayReminders = [
         description: "Ask parents for tax documents",
         startDate: "02/01/24",
         time: "5:00 PM",
+        iso8601: "2024-02-02T01:00:00.000Z"
     }
 ]
 
@@ -41,6 +44,7 @@ export const upcomingReminders = [
         description: "Ask Roomates for their corresponding amount",
         startDate: "02/01/24",
         time: "8:00 AM",
+        iso8601: "2024-02-01T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -51,6 +55,7 @@ export const upcomingReminders = [
         description: "First enroll to Math 430 and CS 423",
         startDate: "02/01/24",
         time: "1:00 PM",
+        iso8601: "2024-02-01T21:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -61,6 +66,7 @@ export const upcomingReminders = [
         description: "Ask parents for tax documents",
         startDate: "02/01/24",
         time: "5:00 PM",
+        iso8601: "2024-02-02T01:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -71,6 +77,7 @@ export const upcomingReminders = [
         description: "",
         startDate: "02/15/24",
         time: "8:00 AM",
+        iso8601: "2024-02-15T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -81,6 +88,7 @@ export const upcomingReminders = [
         description: "",
         startDate: "02/15/24",
         time: "8:00 AM",
+        iso8601: "2024-02-15T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -91,6 +99,7 @@ export const upcomingReminders = [
         description: "",
         startDate: "02/15/24",
         time: "8:00 AM",
+        iso8601: "2024-02-15T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -101,6 +110,7 @@ export const upcomingReminders = [
         description: "Only pay the minimum payment of $40",
         startDate: "02/25/24",
         time: "8:00 AM",
+        iso8601: "2024-02-25T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -111,6 +121,7 @@ export const upcomingReminders = [
         description: "Upload personal statement to dashboard",
         startDate: "04/25/24",
         time: "5:00 PM",
+        iso8601: "2024-04-26T00:00:00.000Z"
     }
 ]
 
@@ -130,6 +141,7 @@ export const groups = [
                 description: "Ask parents for tax documents",
                 startDate: "02/01/24",
                 time: "5:00 PM",
+                iso8601: "2024-02-02T01:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -140,6 +152,7 @@ export const groups = [
                 description: "Upload personal statement to dashboard",
                 startDate: "04/25/24",
                 time: "5:00 PM",
+                iso8601: "2024-04-26T00:00:00.000Z"
             },
         ]
     },
@@ -158,6 +171,7 @@ export const groups = [
                 description: "Ask Roomates for their corresponding amount",
                 startDate: "02/01/24",
                 time: "8:00 AM",
+                iso8601: "2024-02-01T16:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -168,6 +182,7 @@ export const groups = [
                 description: "",
                 startDate: "02/15/24",
                 time: "8:00 AM",
+                iso8601: "2024-02-15T16:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -178,6 +193,7 @@ export const groups = [
                 description: "",
                 startDate: "02/15/24",
                 time: "8:00 AM",
+                iso8601: "2024-02-15T16:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -188,6 +204,7 @@ export const groups = [
                 description: "Only pay the minimum payment of $40",
                 startDate: "02/25/24",
                 time: "8:00 AM",
+                iso8601: "2024-02-25T16:00:00.000Z"
             }
         ],
     },
@@ -206,6 +223,7 @@ export const groups = [
                 description: "First enroll to Math 430 and CS 423",
                 startDate: "02/01/24",
                 time: "1:00 PM",
+                iso8601: "2024-02-01T21:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -216,6 +234,7 @@ export const groups = [
                 description: "",
                 startDate: "02/15/24",
                 time: "8:00 AM",
+                iso8601: "2024-02-15T16:00:00.000Z"
             }
         ]
     }

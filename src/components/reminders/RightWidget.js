@@ -62,11 +62,17 @@ const RightWidget = ({
                 remindId=""
                 title=""
                 description=""
-                startDate=""
+                date=""
                 time=""
                 open={openNewReminder}
-                groups={groups}
                 handleClose={handleCloseNewReminder}
+                todayReminders={todayReminders}
+                changeTodayReminders={changeTodayReminders}
+                upcomingReminders={upcomingReminders}
+                changeUpcomingReminders={changeUpcomingReminders}
+                groups={groups}
+                changeGroups={changeGroups}
+                handleOpenAlert={handleOpenAlert}
             />
             <NewGroupBackdrop 
                 open={openNewGroup}
