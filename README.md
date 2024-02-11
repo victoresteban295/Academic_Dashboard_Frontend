@@ -34,6 +34,7 @@ For educational institutions looking to boost academic performance, Academic Das
 - [Zod](https://zod.dev/) - Input Validation
 - [Dnd-Kit](https://dndkit.com/) - Drag & Drop Toolkit for React
 - [Icons8](https://icons8.com/) - Provided Icons Used In Project
+- [Dayjs](https://day.js.org/) - Javascript library for working with dates and times
 
 ### Project Structure
 

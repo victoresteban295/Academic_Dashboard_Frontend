@@ -1,5 +1,5 @@
 import { ReminderSchema } from "@/lib/schemas/reminderSchema";
-import { createReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
+import { createReminder, editReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Divider, FormControl, FormHelperText, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 const ReminderBackdrop = ({
     group, //NOTE: We Need for Edit Reminder
     groupId,
-    remindId, //NOTE: We Need for Edit Reminder
+    remindId, 
     title,
     description,
     date,
@@ -91,7 +91,16 @@ const ReminderBackdrop = ({
             //Edit Reminder
             } else {
                 //Frontend: Edit Reminder
-                const { updatedToday, updatedUpcoming, updatedGroups } = editReminder();
+                const { updatedToday, updatedUpcoming, updatedGroups } = editReminder(
+                    data.groups, 
+                    remindId,
+                    data.title,
+                    data.description,
+                    data.date.format("MM/DD/YY"),
+                    data.time.format("h:mm A"),
+                    groups,
+                    todayReminders,
+                    upcomingReminders);
 
                 //Update State Value
                 changeTodayReminders(updatedToday);
