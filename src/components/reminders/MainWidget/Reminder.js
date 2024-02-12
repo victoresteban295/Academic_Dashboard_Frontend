@@ -3,6 +3,7 @@ import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, S
 import { useState } from "react";
 import ReminderBackdrop from "../ReminderBackdrop";
 import { deleteReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
+import dayjs from "dayjs";
 
 const Reminder = ({
     group, 
@@ -22,6 +23,30 @@ const Reminder = ({
     markAsComplete,
     handleOpenAlert
 }) => {
+
+    /* Today's Date */
+    let dateTimeColor;
+    let groupColor;
+    const todayISO = dayjs().toISOString();
+    const reminderISO = dayjs(`${startDate}-${time}`, "MM/DD/YY-h:mm A").toISOString();
+    const isPastDue = (new Date(todayISO) - new Date(reminderISO))
+    //Reminder is Past Due
+    if(isPastDue >= 0) {
+        groupColor = {
+            bgcolor: '#f3a8ba',
+            color: '#b6002b'
+        }
+        dateTimeColor = {
+            color: 'error.main'
+        }
+
+    //Reminder is Not Past Due
+    } else {
+        groupColor = {
+            bgcolor: '#c1c1c1',
+        }
+        dateTimeColor = {}
+    }
 
     /* ************************************ */
     /* Backdrop Menu State Value & Function */
@@ -197,14 +222,14 @@ const Reminder = ({
                             <MenuItem
                                 onClick={handleDeleteReminder}
                                 sx={{
-                                    color: '#ef476f'
+                                    color: 'error.main'
                                 }}
                             >
                                 <ListItemIcon>
                                     <Delete
                                         fontSize="small" 
                                         sx={{
-                                            color: '#ef476f'
+                                            color: 'error.main'
                                         }}
                                     />
                                 </ListItemIcon>
@@ -236,10 +261,10 @@ const Reminder = ({
                         <Typography
                             variant='body1'
                             sx={{
-                                bgcolor: '#c1c1c1',
                                 borderRadius: '5px',
                                 px: 0.5,
                                 fontWeight: '700',
+                                ...groupColor,
                             }}
                         >
                             {`${group}`}
@@ -259,9 +284,15 @@ const Reminder = ({
                         >
                             <InsertInvitation
                                 fontSize="small"
+                                sx={{
+                                    ...dateTimeColor,
+                                }}
                             />
                             <Typography
                                 variant='subtitle1'
+                                sx={{
+                                    ...dateTimeColor,
+                                }}
                             >
                                 {startDate}
                             </Typography>
@@ -274,10 +305,14 @@ const Reminder = ({
                         >
                             <AccessTime
                                 fontSize="small"
+                                sx={{
+                                    ...dateTimeColor,
+                                }}
                             />
                             <Typography
                                 variant='subtitle1'
                                 sx={{
+                                    ...dateTimeColor,
                                 }}
                             >
                                 {time}

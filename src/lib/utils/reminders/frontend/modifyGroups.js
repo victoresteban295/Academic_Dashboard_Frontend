@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import { nanoid } from "nanoid";
 
 export const deleteGroup = (groupId, groups, todayReminders, upcomingReminders) => {
@@ -87,4 +88,20 @@ export const renameGroup = (groups, todayReminders, upcomingReminders, title, gr
         updatedToday: updatedToday,
         updatedUpcoming: updatedUpcoming
     }
+}
+
+export const reorderGroups = (groups, activeId, overId) => {
+    let activeIdx; //Index of Active Checklist
+    let overIdx; //Index of Over Checklist
+    let outdatedGroups = [...groups];
+
+    outdatedGroups.map(group => {
+        if(activeId === group.groupId) {
+            activeIdx = groups.indexOf(group);
+        } else if(overId === group.groupId) {
+            overIdx = groups.indexOf(group);
+        }
+    });
+
+    return arrayMove(groups, activeIdx, overIdx);
 }

@@ -141,6 +141,7 @@ const RightWidget = ({
                 changeGroups={changeGroups}
                 currentReminders={currentReminders}
                 handleCurrentReminders={handleCurrentReminders}
+                handleOpenAlert={handleOpenAlert}
             />
         </Stack>
     )

@@ -14,7 +14,6 @@ export const createReminder = (
     let updatedGroups = [...groups]
     let updatedToday = [...todayReminders];
     let updatedUpcoming;
-    const todayDate = dayjs().format("MM/DD/YY");
     const dateTime = `${date}-${time}`
 
     //Define Group Name
@@ -64,8 +63,13 @@ export const createReminder = (
         })
     }
 
-    //If Scheduled Today, Add Reminder to Today's Reminders
-    if(todayDate === date) {
+    //If Scheduled Today or Overdue Date, Add Reminder to Today's Reminders
+    const todayDate = dayjs().format("MM/DD/YY");
+    const todayTime = "11:59 PM"
+    const todayISO = dayjs(`${todayDate}-${todayTime}`, "MM/DD/YY-h:mm A").toISOString();
+    const newDateISO = dayjs(`${date}-${time}`, "MM/DD/YY-h:mm A").toISOString();
+    const isToday = (new Date(todayISO) - new Date(newDateISO));
+    if(isToday >= 0) {
         updatedToday = sortReminders([...todayReminders, reminder]);
     }
 

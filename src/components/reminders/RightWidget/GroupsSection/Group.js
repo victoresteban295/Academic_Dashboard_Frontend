@@ -1,12 +1,29 @@
 import { Box, Typography } from "@mui/material";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const Group = ({ 
+    activeGroup,
     groupId, 
     title, 
     size, 
     currentReminders,
     handleCurrentReminders
 }) => {
+    /* Dnd-kit: Make Component Draggable */
+    const { 
+        attributes, 
+        listeners, 
+        setNodeRef, 
+        transform, 
+        transition 
+    } = useSortable({id: groupId});
+
+    /* Allows us to pick up draggable componenet */
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
 
     /* Currently Being Viewed By User */
     let isActive;
@@ -28,32 +45,43 @@ const Group = ({
         handleCurrentReminders(groupId);
     }
 
+    //Group is Getting Dragged
+    const isActiveGroup = activeGroup === groupId;
+
     return (
-        <Box
-            onClick={handleClick}
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                borderRadius: '10px',
-                alignItems: 'center',
-                cursor: 'pointer',
-                p: 1,
-                ...isActive,
-            }}
+        <div
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
         >
-            <Typography
-                variant="button"
-            >
-                {title}
-            </Typography>
-            <Typography
-                variant="button"
+            <Box
+                onClick={handleClick}
                 sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    borderRadius: '10px',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    p: 1,
+                    ...isActive,
+                    bgcolor: isActiveGroup ? '#cecece' : '',
                 }}
             >
-                {size}
-            </Typography>
-        </Box>
+                <Typography
+                    variant="button"
+                >
+                    {title}
+                </Typography>
+                <Typography
+                    variant="button"
+                    sx={{
+                    }}
+                >
+                    {size}
+                </Typography>
+            </Box>
+        </div>
     )
 }
 

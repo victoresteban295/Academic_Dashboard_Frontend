@@ -6,9 +6,9 @@ export const todayReminders = [
         remindId: 'p0o3kjjdrd',
         title: 'Pay Rent',
         description: "Ask Roomates for their corresponding amount",
-        startDate: "02/10/24",
+        startDate: "02/01/24",
         time: "8:00 AM",
-        iso8601: "2024-02-10T16:00:00.000Z"
+        iso8601: "2024-02-01T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -17,9 +17,9 @@ export const todayReminders = [
         remindId: '34as3-en23',
         title: 'Enroll to Next Semester Classes',
         description: "First enroll to Math 430 and CS 423",
-        startDate: "02/10/24",
+        startDate: "02/11/24",
         time: "1:00 PM",
-        iso8601: "2024-02-10T21:00:00.000Z"
+        iso8601: "2024-02-11T21:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -28,9 +28,9 @@ export const todayReminders = [
         remindId: 'ndjeujdrd9',
         title: 'Submit FAFSA Applications',
         description: "Ask parents for tax documents",
-        startDate: "02/10/24",
+        startDate: "02/11/24",
         time: "5:00 PM",
-        iso8601: "2024-02-11T01:00:00.000Z"
+        iso8601: "2024-02-12T01:00:00.000Z"
     }
 ]
 
@@ -42,9 +42,9 @@ export const upcomingReminders = [
         remindId: 'p0o3kjjdrd',
         title: 'Pay Rent',
         description: "Ask Roomates for their corresponding amount",
-        startDate: "02/10/24",
+        startDate: "02/01/24",
         time: "8:00 AM",
-        iso8601: "2024-02-10T16:00:00.000Z"
+        iso8601: "2024-02-01T16:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -53,9 +53,9 @@ export const upcomingReminders = [
         remindId: '34as3-en23',
         title: 'Enroll to Next Semester Classes',
         description: "First enroll to Math 430 and CS 423",
-        startDate: "02/10/24",
+        startDate: "02/11/24",
         time: "1:00 PM",
-        iso8601: "2024-02-10T21:00:00.000Z"
+        iso8601: "2024-02-11T21:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -64,9 +64,9 @@ export const upcomingReminders = [
         remindId: 'ndjeujdrd9',
         title: 'Submit FAFSA Applications',
         description: "Ask parents for tax documents",
-        startDate: "02/10/24",
+        startDate: "02/11/24",
         time: "5:00 PM",
-        iso8601: "2024-02-11T01:00:00.000Z"
+        iso8601: "2024-02-12T01:00:00.000Z"
     },
     {
         username: 'jimhalpert239',
@@ -139,9 +139,9 @@ export const groups = [
                 remindId: 'ndjeujdrd9',
                 title: 'Submit FAFSA Applications',
                 description: "Ask parents for tax documents",
-                startDate: "02/10/24",
+                startDate: "02/11/24",
                 time: "5:00 PM",
-                iso8601: "2024-02-11T01:00:00.000Z"
+                iso8601: "2024-02-12T01:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -169,9 +169,9 @@ export const groups = [
                 remindId: 'p0o3kjjdrd',
                 title: 'Pay Rent',
                 description: "Ask Roomates for their corresponding amount",
-                startDate: "02/10/24",
+                startDate: "02/01/24",
                 time: "8:00 AM",
-                iso8601: "2024-02-10T16:00:00.000Z"
+                iso8601: "2024-02-01T16:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
@@ -221,9 +221,9 @@ export const groups = [
                 remindId: '34as3-en23',
                 title: 'Enroll to Next Semester Classes',
                 description: "First enroll to Math 430 and CS 423",
-                startDate: "02/10/24",
+                startDate: "02/11/24",
                 time: "1:00 PM",
-                iso8601: "2024-02-10T21:00:00.000Z"
+                iso8601: "2024-02-11T21:00:00.000Z"
             },
             {
                 username: 'jimhalpert239',
