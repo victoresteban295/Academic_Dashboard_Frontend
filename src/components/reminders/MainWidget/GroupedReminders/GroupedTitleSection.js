@@ -1,4 +1,4 @@
-import { Box, InputBase } from "@mui/material";
+import { Box, Grow, InputBase } from "@mui/material";
 import { useState } from "react";
 import GroupedOptions from "./GroupedOptions";
 import { renameGroup } from "@/lib/utils/reminders/frontend/modifyGroups";
@@ -60,50 +60,52 @@ const GroupedTitleSection = ({
     }
 
     return (
-        <Box
-            className="grouped-title-section"
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
-                p: 1,
-            }}
-        >
-            <InputBase 
-                value={isUpdating ? newTitle : title}
-                placeholder="Add Group Title"
-                onChange={(e) => {
-                    setUpdating(true);
-                    setNewTitle(e.target.value);
-                }}
-                onBlur={renameTitle}
-                onKeyDown={(e) => {
-                    if(e.key === 'Enter') {
-                        e.target.blur();
-                    }
-                }}
-                inputProps={{maxLength: 50}}
+        <Grow in={true}>
+            <Box
+                className="grouped-title-section"
                 sx={{
-                    fontSize: '20px',
-                    fontWeight: '700',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    p: 1,
                 }}
-            />
-            <GroupedOptions
-                groupId={groupId}
-                title={title}
-                reminders={reminders}
-                todayReminders={todayReminders} 
-                changeTodayReminders={changeTodayReminders}
-                upcomingReminders={upcomingReminders}
-                changeUpcomingReminders={changeUpcomingReminders}
-                groups={groups}
-                changeGroups={changeGroups}
-                currentReminders={currentReminders}
-                handleCurrentReminders={handleCurrentReminders}
-                handleOpenAlert={handleOpenAlert}
-            />
-        </Box> 
+            >
+                <InputBase 
+                    value={isUpdating ? newTitle : title}
+                    placeholder="Add Group Title"
+                    onChange={(e) => {
+                        setUpdating(true);
+                        setNewTitle(e.target.value);
+                    }}
+                    onBlur={renameTitle}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter') {
+                            e.target.blur();
+                        }
+                    }}
+                    inputProps={{maxLength: 50}}
+                    sx={{
+                        fontSize: '20px',
+                        fontWeight: '700',
+                    }}
+                />
+                <GroupedOptions
+                    groupId={groupId}
+                    title={title}
+                    reminders={reminders}
+                    todayReminders={todayReminders} 
+                    changeTodayReminders={changeTodayReminders}
+                    upcomingReminders={upcomingReminders}
+                    changeUpcomingReminders={changeUpcomingReminders}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                    currentReminders={currentReminders}
+                    handleCurrentReminders={handleCurrentReminders}
+                    handleOpenAlert={handleOpenAlert}
+                />
+            </Box> 
+        </Grow>
     )
 
 }

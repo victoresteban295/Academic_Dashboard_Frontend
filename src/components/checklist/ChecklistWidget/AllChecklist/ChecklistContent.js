@@ -1,5 +1,5 @@
 "use client"
-import { Box, Divider, Stack } from "@mui/material";
+import { Box, Divider, Grow, Stack } from "@mui/material";
 import { useState } from "react";
 import CheckpointsSection from "./ChecklistContent/CheckpointsSection/CheckpointsSection";
 import TitleSection from "./ChecklistContent/TitleSection/TitleSection";
@@ -81,6 +81,7 @@ const ChecklistContent = ({
                             px: 2,
                         }}
                     >
+                        <Grow in={true}>
                             <Stack
                                 className='markPoint-unmarkPoints-stack'
                                 spacing={0}
@@ -152,6 +153,7 @@ const ChecklistContent = ({
                                     })}
                                 </Stack>
                             </Stack>
+                        </Grow>
                     </Box>
                 </Box> 
             )}

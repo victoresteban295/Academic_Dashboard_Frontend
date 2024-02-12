@@ -1,5 +1,5 @@
 import { Add, MoreVert } from "@mui/icons-material";
-import { Box, Button, Divider, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Divider, Grow, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { reloadChecklistpage, renameCheclistTitle } from "@/lib/utils/checklist/backend/backendChecklist";
 import { handleChecklistTitle } from "@/lib/utils/checklist/frontend/modifyChecklist";
@@ -157,175 +157,177 @@ const TitleSection = ({
     }
 
     return (
-        <Box
-            className="checklist-title-section"
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-            }}
-        >
-            <AddToGroupBackdrop 
-                username={username}
-                listId={listId}
-                open={openAddToGroup}
-                handleClose={handleCloseAddToGroup}
-                groups={groups}
-                changeGroups={changeGroups}
-                checklists={checklists}
-                changeChecklists={changeChecklists}
-                handleOpenAlert={handleOpenAlert}
-            />
-            <MoveToGroupBackdrop 
-                username={username}
-                listId={listId}
-                fromGroupId={groupId}
-                open={openMoveToGroup}
-                handleClose={handleCloseMoveToGroup}
-                groups={groups}
-                changeGroups={changeGroups}
-                handleOpenAlert={handleOpenAlert}
-            />
-            <DeleteListBackdrop 
-                username={username}
-                groupId={groupId}
-                listId={listId}
-                title={title}
-                open={openDeleteList}
-                handleClose={handleCloseDeleteList}
-                checklists={checklists}
-                changeChecklists={changeChecklists}
-                groups={groups}
-                changeGroups={changeGroups}
-                handleActiveList={handleActiveList}
-                handleOpenAlert={handleOpenAlert}
-            />
-            <InputBase
-                value={isUpdating ? newTitle : title}
-                placeholder="Add Checklist Title"
-                onChange={(e) =>{
-                    setUpdating(true);
-                    setNewTitle(e.target.value)
-                }}
-                onBlur={modifyTitle}
-                onKeyDown={(e) => {
-                    if(e.key === 'Enter') {
-                        e.target.blur();
-                    }
-                }}
-                inputProps={{maxLength: 50}}
+        <Grow in={true}>
+            <Box
+                className="checklist-title-section"
                 sx={{
-                    fontSize: '20px',
-                    fontWeight: '700',
-                    flexGrow: 4,
+                    display: 'flex',
+                    justifyContent: 'space-between',
                 }}
-            />
-            {(!showAllEdit) && (
-                <Box
-                    className="title-icons"
-                    sx={{
-                        display: 'flex',
-                        ml: 2,
+            >
+                <AddToGroupBackdrop 
+                    username={username}
+                    listId={listId}
+                    open={openAddToGroup}
+                    handleClose={handleCloseAddToGroup}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    handleOpenAlert={handleOpenAlert}
+                />
+                <MoveToGroupBackdrop 
+                    username={username}
+                    listId={listId}
+                    fromGroupId={groupId}
+                    open={openMoveToGroup}
+                    handleClose={handleCloseMoveToGroup}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                    handleOpenAlert={handleOpenAlert}
+                />
+                <DeleteListBackdrop 
+                    username={username}
+                    groupId={groupId}
+                    listId={listId}
+                    title={title}
+                    open={openDeleteList}
+                    handleClose={handleCloseDeleteList}
+                    checklists={checklists}
+                    changeChecklists={changeChecklists}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                    handleActiveList={handleActiveList}
+                    handleOpenAlert={handleOpenAlert}
+                />
+                <InputBase
+                    value={isUpdating ? newTitle : title}
+                    placeholder="Add Checklist Title"
+                    onChange={(e) =>{
+                        setUpdating(true);
+                        setNewTitle(e.target.value)
                     }}
-                >
-                    <Tooltip title="Add Checkpoint">
-                        <IconButton 
-                            size='small'
-                            disabled={showNewPoint}
-                            onClick={displayNewPoint}
-                        >
-                            <Add fontSize='inherit' />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Options">
-                        <IconButton 
-                            onClick={handleClick}
-                            size='small'
-                        >
-                            <MoreVert fontSize='inherit' />
-                        </IconButton>
-                    </Tooltip>
-                    <MyChecklistMenu 
-                        username={username}
-                        checklists={checklists}
-                        changeChecklists={changeChecklists}
-                        groups={groups}
-                        changeGroups={changeGroups}
-                        activeList={activeList}
-                        handleActiveList={handleActiveList}
-                        handleOpenAlert={handleOpenAlert}
-                    />
-                    <Menu
-                        anchorEl={anchorEl}
-                        id="checklist-options-menu"
-                        open={open}
-                        onClose={handleClose}
-                        onClick={handleClose}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                        }}
-                    >
-                        <MenuItem onClick={showAllEditButtons} >
-                            Edit Checkpoints
-                        </MenuItem>
-                        <MenuItem 
-                            onClick={handleOpenAddToGroup}
-                            sx={{
-                                display: (groupId === '') ? 'block' : 'none'
-                            }}
-                        >
-                            Add to Group
-                        </MenuItem>
-                        <MenuItem 
-                            onClick={handleOpenMoveToGroup}
-                            sx={{
-                                display: (groupId === '') ? 'none' : 'block'
-                            }}
-                        >
-                            Move to Different Group
-                        </MenuItem>
-                        <MenuItem
-                            onClick={removeFromGroup}
-                            sx={{
-                                display: (groupId === '') ? 'none' : 'block'
-                            }}
-                        >
-                            Remove From Group
-                        </MenuItem>
-                        <Divider />
-                        <MenuItem
-                            onClick={handleOpenDeleteList}
-                            sx={{
-                                color: '#ef476f',
-                            }}
-                        >
-                            Delete Checklist
-                        </MenuItem>
-                    </Menu>
-                </Box>
-            )}
-            {showAllEdit && (
-                <Button
-                    size='small'
-                    variant="contained"
-                    onClick={unshowAllEditButtons}
-                >
-                    <Typography
-                        variant='button'
+                    onBlur={modifyTitle}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter') {
+                            e.target.blur();
+                        }
+                    }}
+                    inputProps={{maxLength: 50}}
+                    sx={{
+                        fontSize: '20px',
+                        fontWeight: '700',
+                        flexGrow: 4,
+                    }}
+                />
+                {(!showAllEdit) && (
+                    <Box
+                        className="title-icons"
                         sx={{
-                            color: '#000',
-                            fontWeight: '700',
+                            display: 'flex',
+                            ml: 2,
                         }}
                     >
-                        Finish 
-                    </Typography>
-                </Button>
-            )}
-        </Box>
+                        <Tooltip title="Add Checkpoint">
+                            <IconButton 
+                                size='small'
+                                disabled={showNewPoint}
+                                onClick={displayNewPoint}
+                            >
+                                <Add fontSize='inherit' />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Options">
+                            <IconButton 
+                                onClick={handleClick}
+                                size='small'
+                            >
+                                <MoreVert fontSize='inherit' />
+                            </IconButton>
+                        </Tooltip>
+                        <MyChecklistMenu 
+                            username={username}
+                            checklists={checklists}
+                            changeChecklists={changeChecklists}
+                            groups={groups}
+                            changeGroups={changeGroups}
+                            activeList={activeList}
+                            handleActiveList={handleActiveList}
+                            handleOpenAlert={handleOpenAlert}
+                        />
+                        <Menu
+                            anchorEl={anchorEl}
+                            id="checklist-options-menu"
+                            open={open}
+                            onClose={handleClose}
+                            onClick={handleClose}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                        >
+                            <MenuItem onClick={showAllEditButtons} >
+                                Edit Checkpoints
+                            </MenuItem>
+                            <MenuItem 
+                                onClick={handleOpenAddToGroup}
+                                sx={{
+                                    display: (groupId === '') ? 'block' : 'none'
+                                }}
+                            >
+                                Add to Group
+                            </MenuItem>
+                            <MenuItem 
+                                onClick={handleOpenMoveToGroup}
+                                sx={{
+                                    display: (groupId === '') ? 'none' : 'block'
+                                }}
+                            >
+                                Move to Different Group
+                            </MenuItem>
+                            <MenuItem
+                                onClick={removeFromGroup}
+                                sx={{
+                                    display: (groupId === '') ? 'none' : 'block'
+                                }}
+                            >
+                                Remove From Group
+                            </MenuItem>
+                            <Divider />
+                            <MenuItem
+                                onClick={handleOpenDeleteList}
+                                sx={{
+                                    color: '#ef476f',
+                                }}
+                            >
+                                Delete Checklist
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                )}
+                {showAllEdit && (
+                    <Button
+                        size='small'
+                        variant="contained"
+                        onClick={unshowAllEditButtons}
+                    >
+                        <Typography
+                            variant='button'
+                            sx={{
+                                color: '#000',
+                                fontWeight: '700',
+                            }}
+                        >
+                            Finish 
+                        </Typography>
+                    </Button>
+                )}
+            </Box>
+        </Grow>
     )
 }
 

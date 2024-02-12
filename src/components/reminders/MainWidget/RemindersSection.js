@@ -1,4 +1,4 @@
-import { Alert, Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Grow, IconButton, Stack, Typography } from "@mui/material";
 import Reminder from "./Reminder";
 import { Close } from "@mui/icons-material";
 import { createReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
@@ -17,7 +17,7 @@ const RemindersSection = ({
 }) => {
 
     let date;
-    let grpDate;
+    let grpDate = '';
     let days = [];
     for(const reminder of reminders) {
         if(date != reminder.startDate) {
@@ -32,9 +32,6 @@ const RemindersSection = ({
     const markAsComplete = (reminder) => {
         setCompleteReminder(reminder);
         setDisplayUndoAlert(true);
-        setTimeout(() => {
-            setDisplayUndoAlert(false);
-        }, 5000);
     }
 
     /* Undo Reminder */
@@ -100,47 +97,55 @@ const RemindersSection = ({
                     {`${completeReminder.title} Completed!`}
                 </Alert>
             )}
+
             {(reminders.length != 0) ? (
-                <Stack
-                    className='reminders-section'
-                    spacing={2}
-                    sx={{
-                        width: '100%',
-                        px: 2,
-                    }}
-                >
-                        {reminders.map((reminder) => {
-                            let displayDate = "";
-                            const { group, groupId, remindId, title, 
-                                description, startDate, time } = reminder;
-                            if(grpDate != startDate) {
-                                grpDate = startDate;
-                                displayDate = startDate;
-                            }
-                            return (
-                                <Reminder 
-                                    key={remindId}
-                                    displayDate={displayDate}
-                                    group={group}
-                                    groupId={groupId}
-                                    remindId={remindId}
-                                    title={title}
-                                    description={description}
-                                    startDate={startDate}
-                                    time={time}
-                                    todayReminders={todayReminders}
-                                    changeTodayReminders={changeTodayReminders}
-                                    upcomingReminders={upcomingReminders}
-                                    changeUpcomingReminders={changeUpcomingReminders}
-                                    groups={groups}
-                                    changeGroups={changeGroups}
-                                    currentReminders={currentReminders}
-                                    markAsComplete={markAsComplete}
-                                    handleOpenAlert={handleOpenAlert}
-                                />
-                            )
-                        })}
-                </Stack>
+                <Grow in={true}>
+                    <Stack
+                        className='reminders-section'
+                        spacing={2}
+                        sx={{
+                            width: '100%',
+                            px: 2,
+                        }}
+                    >
+                            {reminders.map((reminder) => {
+                                let displayDate = "";
+                                let firstDateGrp = false;
+                                const { group, groupId, remindId, title, 
+                                    description, startDate, time } = reminder;
+                                if(grpDate != startDate) {
+                                    if(grpDate === '') {
+                                        firstDateGrp = true;
+                                    }
+                                    grpDate = startDate;
+                                    displayDate = startDate;
+                                }
+                                return (
+                                    <Reminder 
+                                        key={remindId}
+                                        displayDate={displayDate}
+                                        firstDateGrp={firstDateGrp}
+                                        group={group}
+                                        groupId={groupId}
+                                        remindId={remindId}
+                                        title={title}
+                                        description={description}
+                                        startDate={startDate}
+                                        time={time}
+                                        todayReminders={todayReminders}
+                                        changeTodayReminders={changeTodayReminders}
+                                        upcomingReminders={upcomingReminders}
+                                        changeUpcomingReminders={changeUpcomingReminders}
+                                        groups={groups}
+                                        changeGroups={changeGroups}
+                                        currentReminders={currentReminders}
+                                        markAsComplete={markAsComplete}
+                                        handleOpenAlert={handleOpenAlert}
+                                    />
+                                )
+                            })}
+                    </Stack>
+                </Grow>
             ) : (
                 <Box
                     className="No-Reminders-Section"

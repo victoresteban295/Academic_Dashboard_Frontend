@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grow, Typography } from "@mui/material";
 import UpcomingOptions from "./UpcomingOptions";
 
 const UpcomingTitleSection = ({
@@ -15,37 +15,39 @@ const UpcomingTitleSection = ({
 
 
     return (
-        <Box
-            className="todays-title-section"
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
-                p: 1,
-            }}
-        >
-            <Typography
-                variant="h6"
-                noWrap={true}
+        <Grow in={true}>
+            <Box
+                className="todays-title-section"
                 sx={{
-                    fontWeight: '700'
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    p: 1,
                 }}
             >
-                {"Upcoming"}
-            </Typography> 
-            <UpcomingOptions 
-                todayReminders={todayReminders} 
-                changeTodayReminders={changeTodayReminders}
-                upcomingReminders={upcomingReminders}
-                changeUpcomingReminders={changeUpcomingReminders}
-                groups={groups}
-                changeGroups={changeGroups}
-                currentReminders={currentReminders}
-                handleCurrentReminders={handleCurrentReminders}
-                handleOpenAlert={handleOpenAlert}
-            />
-        </Box> 
+                <Typography
+                    variant="h6"
+                    noWrap={true}
+                    sx={{
+                        fontWeight: '700'
+                    }}
+                >
+                    {"Upcoming"}
+                </Typography> 
+                <UpcomingOptions 
+                    todayReminders={todayReminders} 
+                    changeTodayReminders={changeTodayReminders}
+                    upcomingReminders={upcomingReminders}
+                    changeUpcomingReminders={changeUpcomingReminders}
+                    groups={groups}
+                    changeGroups={changeGroups}
+                    currentReminders={currentReminders}
+                    handleCurrentReminders={handleCurrentReminders}
+                    handleOpenAlert={handleOpenAlert}
+                />
+            </Box> 
+        </Grow>
     )
 }
 

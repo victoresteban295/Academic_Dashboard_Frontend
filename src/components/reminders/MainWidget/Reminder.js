@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 
 const Reminder = ({
     displayDate,
+    firstDateGrp,
     group, 
     groupId, 
     remindId, 
@@ -115,6 +116,9 @@ const Reminder = ({
     return (
         <Stack
             spacing={2}
+            sx={{
+                pt: ((displayDate != '') && !firstDateGrp ? 5 : 0),
+            }}
         >
             {displayDate != '' && (
                 <Stack
