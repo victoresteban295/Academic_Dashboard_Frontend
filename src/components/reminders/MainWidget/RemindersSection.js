@@ -16,6 +16,16 @@ const RemindersSection = ({
     handleOpenAlert
 }) => {
 
+    let date;
+    let grpDate;
+    let days = [];
+    for(const reminder of reminders) {
+        if(date != reminder.startDate) {
+            date = reminder.startDate;
+            days.push(date);
+        } 
+    }
+
     /* Completed Reminder Alert */
     const [completeReminder, setCompleteReminder] = useState(null);
     const [displayUndoAlert, setDisplayUndoAlert] = useState(false);
@@ -100,11 +110,17 @@ const RemindersSection = ({
                     }}
                 >
                         {reminders.map((reminder) => {
+                            let displayDate = "";
                             const { group, groupId, remindId, title, 
                                 description, startDate, time } = reminder;
+                            if(grpDate != startDate) {
+                                grpDate = startDate;
+                                displayDate = startDate;
+                            }
                             return (
                                 <Reminder 
                                     key={remindId}
+                                    displayDate={displayDate}
                                     group={group}
                                     groupId={groupId}
                                     remindId={remindId}
