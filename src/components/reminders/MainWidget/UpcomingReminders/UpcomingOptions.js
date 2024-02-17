@@ -50,6 +50,8 @@ const UpcomingOptions = ({
                 changeUpcomingReminders={changeUpcomingReminders}
                 groups={groups}
                 changeGroups={changeGroups}
+                currentReminders={currentReminders}
+                handleCurrentReminders={handleCurrentReminders}
                 handleOpenAlert={handleOpenAlert}
             />
 

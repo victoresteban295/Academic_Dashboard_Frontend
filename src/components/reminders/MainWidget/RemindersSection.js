@@ -13,6 +13,7 @@ const RemindersSection = ({
     changeGroups,
     reminders,
     currentReminders,
+    handleCurrentReminders,
     handleOpenAlert
 }) => {
 
@@ -139,6 +140,7 @@ const RemindersSection = ({
                                         groups={groups}
                                         changeGroups={changeGroups}
                                         currentReminders={currentReminders}
+                                        handleCurrentReminders={handleCurrentReminders}
                                         markAsComplete={markAsComplete}
                                         handleOpenAlert={handleOpenAlert}
                                     />

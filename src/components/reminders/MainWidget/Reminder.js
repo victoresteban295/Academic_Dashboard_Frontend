@@ -22,6 +22,7 @@ const Reminder = ({
     groups,
     changeGroups,
     currentReminders,
+    handleCurrentReminders,
     markAsComplete,
     handleOpenAlert
 }) => {
@@ -172,6 +173,8 @@ const Reminder = ({
                     changeUpcomingReminders={changeUpcomingReminders}
                     groups={groups}
                     changeGroups={changeGroups}
+                    currentReminders={currentReminders}
+                    handleCurrentReminders={handleCurrentReminders}
                     handleOpenAlert={handleOpenAlert}
                 />
 

@@ -17,10 +17,6 @@ const GroupedReminders = ({
     handleOpenAlert
 }) => {
     
-    const changeGroupedReminders = (reminders) => {
-        //Call changeGroups() Method
-    }
-
     return (
         <>
             {(currentReminders === groupId) && (
@@ -54,6 +50,7 @@ const GroupedReminders = ({
                         changeGroups={changeGroups}
                         reminders={reminders}
                         currentReminders={currentReminders}
+                        handleCurrentReminders={handleCurrentReminders}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Stack>

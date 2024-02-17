@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 
 const ReminderBackdrop = ({
-    group, //NOTE: We Need for Edit Reminder
     groupId,
     remindId, 
     title,
@@ -22,6 +21,8 @@ const ReminderBackdrop = ({
     changeUpcomingReminders,
     groups,
     changeGroups,
+    currentReminders,
+    handleCurrentReminders,
     handleOpenAlert
 }) => {
 
@@ -106,6 +107,12 @@ const ReminderBackdrop = ({
                 changeTodayReminders(updatedToday);
                 changeUpcomingReminders(updatedUpcoming);
                 changeGroups(updatedGroups);
+
+                //Refresh Default Values
+                handleCurrentReminders("");
+                setTimeout(() => {
+                    handleCurrentReminders(currentReminders);
+                }, 10)
 
                 //Backend API: Update Database
 

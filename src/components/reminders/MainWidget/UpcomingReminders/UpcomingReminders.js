@@ -43,6 +43,7 @@ const UpcomingReminders = ({
                         changeGroups={changeGroups}
                         reminders={upcomingReminders}
                         currentReminders={currentReminders}
+                        handleCurrentReminders={handleCurrentReminders}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Stack>

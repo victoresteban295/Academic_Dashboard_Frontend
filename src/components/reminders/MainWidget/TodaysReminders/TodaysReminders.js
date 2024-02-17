@@ -44,6 +44,7 @@ const TodaysReminders = ({
                         changeGroups={changeGroups}
                         reminders={todayReminders}
                         currentReminders={currentReminders}
+                        handleCurrentReminders={handleCurrentReminders}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Stack>
