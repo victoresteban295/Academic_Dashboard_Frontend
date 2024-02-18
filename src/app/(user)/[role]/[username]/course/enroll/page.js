@@ -1,6 +1,11 @@
 import { Box, Tooltip, Typography } from "@mui/material"
 import Image from "next/image";
 
+export const metadata = {
+    title: "Enroll to a New Course",
+    themeColor: '#78a1bb'
+}
+
 const EnrollCoursePage = ({ params }) => {
     const { role, username } = params;
     return (

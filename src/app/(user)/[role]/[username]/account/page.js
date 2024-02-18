@@ -1,6 +1,11 @@
 import { Box, Tooltip, Typography } from "@mui/material"
 import Image from "next/image";
 
+export const metadata = {
+    title: "Account",
+    themeColor: '#78a1bb'
+}
+
 const UserAccountPage = ({ params }) => {
     const { role } = params;
     const userRole = role.charAt(0).toUpperCase() + role.slice(1);

@@ -1,6 +1,11 @@
 import LoginWidget from "@/components/auth/login/LoginWidget"
 import { Box } from "@mui/material"
 
+export const metadata = {
+    title: "Academic Dashboard: Login",
+    themeColor: '#78a1bb'
+}
+
 const login = () => {
     return (
         <Box

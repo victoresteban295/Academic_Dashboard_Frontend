@@ -3,6 +3,11 @@ import { cookies } from "next/dist/client/components/headers";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export const metadata = {
+    title: "Dashboard",
+    themeColor: '#78a1bb'
+}
+
 //Fetch User's Profile Based on URL
 const getData = async (role, username) => {
     //Extract JWT Access Token

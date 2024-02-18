@@ -2,6 +2,11 @@ import ChecklistPageContent from "@/components/checklist/ChecklistPageContent";
 import { getAllChecklists, getChecklists } from "@/lib/utils/checklist/backend/backendChecklist";
 import { getGrouplists } from "@/lib/utils/checklist/backend/backendGrouplist";
 
+export const metadata = {
+    title: "Checklist",
+    themeColor: '#78a1bb'
+}
+
 const ChecklistPage = async ({ params }) => {
     const { username } = params;
     let allChecklists;
