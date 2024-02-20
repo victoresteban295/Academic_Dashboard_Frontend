@@ -1,12 +1,13 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
+import { Apartment, AssignmentInd, Email, LocalPhone } from "@mui/icons-material";
 
 const RightWidget = ({ handleOpenAlert }) => {
     return (
         <Stack
             spacing={2}
             sx={{
-                width: '250px',
+                width: '100%',
             }}
         >
             <Box
@@ -18,37 +19,96 @@ const RightWidget = ({ handleOpenAlert }) => {
             >
                 <Typography
                     variant="body2"
+                    sx={{
+                        fontWeight: '700',
+                    }}
+                >
+                    {"Instructor Information"}
+                </Typography>
+            </Box>
+            <Stack
+                spacing={0.5}
+                sx={{
+                    px: 2,
+                    py: 1,
+                    boxShadow: '1px 1px 4px 2px #cecece',
+                    borderRadius: '5px',
+                }}
+            >
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1} 
+                >
+                    <AssignmentInd 
+                        fontSize="small"
+                    />
+                    <Typography
+                        variant="body1"
+                    >
+                        {"Dr.Seely"}
+                    </Typography>
+                </Stack>
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1} 
+                >
+                    <Apartment
+                        fontSize="small"
+                    />
+                    <Typography
+                        variant="body1"
+                    >
+                        {"Palenske Hall R# 330"}
+                    </Typography>
+                </Stack>
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1} 
+                >
+                    <LocalPhone
+                        fontSize="small"
+                    />
+                    <Typography
+                        variant="body1"
+                    >
+                        {"323-233-2321"}
+                    </Typography>
+                </Stack>
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1} 
+                >
+                    <Email
+                        fontSize="small"
+                    />
+                    <Typography
+                        variant="body1"
+                    >
+                        {"dseely@college.edu"}
+                    </Typography>
+                </Stack>
+            </Stack>
+            <Divider />
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontWeight: '700',
+                    }}
                 >
                     {"Course Schedule"}
                 </Typography>
             </Box>
-            <Stack
-                sx={{
-                    px: 2,
-                }}
-            >
-                <Typography
-                    variant="body1"
-                >
-                    {"Dr.Seely"}
-                </Typography>
-                <Typography
-                    variant="body1"
-                >
-                    {"Palenske Hall R# 330"}
-                </Typography>
-                <Typography
-                    variant="body1"
-                >
-                    {"323-233-2321"}
-                </Typography>
-                <Typography
-                    variant="body1"
-                >
-                    {"dseely@college.edu"}
-                </Typography>
-            </Stack>
-            <Divider />
             <Schedule 
                 location="Palenske Hall 329"
                 days={["Mon", "Tue", "Wed", "Thu", "Fri"]}

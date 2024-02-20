@@ -20,7 +20,7 @@ const MainWidget = ({ handleOpenAlert }) => {
             }}
         >
             <CourseTitleSection 
-                title="Math 245 Differental Equations"
+                title="Math 245"
             />
 
             {/* Tab Selection: Syllabus, Upcoming, Past */}
@@ -32,7 +32,8 @@ const MainWidget = ({ handleOpenAlert }) => {
                 sx={{
                     py: 0,
                     borderBottom: '1px solid',
-                    borderColor: '#cecece'
+                    borderColor: '#cecece',
+                    display: 'none'
                 }}
             >
                 <Button

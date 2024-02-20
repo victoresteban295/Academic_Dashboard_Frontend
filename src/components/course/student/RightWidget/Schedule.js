@@ -5,6 +5,9 @@ const Schedule = ({ location, days, startTime, endTime }) => {
         <Stack
             sx={{
                 px: 2,
+                py: 1,
+                boxShadow: '1px 1px 4px 2px #cecece',
+                borderRadius: '5px',
             }}
         >
                 <Typography
