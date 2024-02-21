@@ -30,7 +30,12 @@ const RightWidgetIcon = ({
             <Tooltip
                 title="My Reminders"
                 sx={{
-                    display: {sm: 'flex', md: 'none'}
+                    display: {
+                        fold: 'flex',
+                        mobile: 'flex',
+                        tablet: 'flex',
+                        desktop: 'none',
+                    },
                 }}
             >
                 <IconButton

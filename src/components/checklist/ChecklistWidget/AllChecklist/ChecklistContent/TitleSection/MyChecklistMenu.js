@@ -28,7 +28,12 @@ const MyChecklistMenu = ({
             <Tooltip 
                 title="My Checklists"
                 sx={{
-                    display: {sm: 'flex', md: 'none'}
+                    display: {
+                        fold: 'flex',
+                        mobile: 'flex',
+                        tablet: 'none',
+                        desktop: 'none',
+                    },
                 }}
             >
                 <IconButton

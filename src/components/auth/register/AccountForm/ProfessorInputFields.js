@@ -54,7 +54,12 @@ const ProfessorInputFields = ({ register, errors, control, depts }) => {
                     <Stack
                         id='academic-role-input-field-group'
                         className='input-field-group'
-                        direction={{xs: "column", sm: "row"}}
+                        direction={{
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        }}
                         spacing={2}
                         useFlexGap
                     >
@@ -164,7 +169,12 @@ const ProfessorInputFields = ({ register, errors, control, depts }) => {
                     <Stack
                         id="office-input-field-group"
                         className="input-field-group"
-                        direction={{xs: "column", sm: "row"}}
+                        direction={{
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        }}
                         spacing={2}
                         useFlexGap
                     >

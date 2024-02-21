@@ -31,7 +31,7 @@ const CourseTitleSection = ({ title }) => {
                     variant="h6"
                     noWrap={true}
                     sx={{
-                        fontWeight: '700'
+                        fontWeight: '700',
                     }}
                 >
                     {title}
@@ -41,7 +41,12 @@ const CourseTitleSection = ({ title }) => {
                 <Tooltip
                     title="Course Schedule"
                     sx={{
-                        display: {sm: 'flex', md: 'none'}
+                        display: {
+                            fold: 'flex',
+                            mobile: 'flex',
+                            tablet: 'none',
+                            desktop: 'none',
+                        },
                     }}
                 >
                     <IconButton

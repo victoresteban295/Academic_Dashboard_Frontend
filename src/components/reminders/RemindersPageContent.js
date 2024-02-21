@@ -94,7 +94,12 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                         sx={{
                             width: '100%',
                             position: 'relative',
-                            top: {xs: '0px', sm: '0px', md: '50px'},
+                            top: {
+                                fold: '0px',
+                                mobile: '0px',
+                                tablet: '50px',
+                                desktop: '50px',
+                            },
                         }}
                     >
                         {errorMsg}
@@ -123,7 +128,12 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                 <Box
                     className='rightside-menu-container'
                     sx={{
-                        display: {xs: 'none', sm: 'none', md: 'block'},
+                        display: {
+                            fold: 'none',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'block',
+                        },
                         flexGrow: 1,
                         maxWidth: '250px',
                         p: 1,

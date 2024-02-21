@@ -128,7 +128,6 @@ const NewChecklistBackdrop = ({
                         </Typography>
                     </Button>
                 </Box>
-
             </Stack>
         </Popover>
     ) 

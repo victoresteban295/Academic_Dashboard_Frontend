@@ -1,10 +1,11 @@
-import { Button, Stack } from "@mui/material";
+import { Button, IconButton, Stack } from "@mui/material";
 import CourseTitleSection from "./MainWidget/CourseTitleSection";
 import { useState } from "react";
 import Upcoming from "./MainWidget/Upcoming/Upcoming";
 import Syllabus from "./MainWidget/Syllabus/Syllabus";
 import Past from "./MainWidget/Past/Past";
 import { infoSections } from "@/lib/data/course";
+import { Assignment, AssignmentLate, Description } from "@mui/icons-material";
 
 const MainWidget = ({ handleOpenAlert }) => {
 
@@ -33,9 +34,27 @@ const MainWidget = ({ handleOpenAlert }) => {
                     py: 0,
                     borderBottom: '1px solid',
                     borderColor: '#cecece',
-                    display: 'none'
                 }}
             >
+                <IconButton
+                    onClick={() => {
+                        setTab("syllabus")
+                    }} 
+                    sx={{
+                        color: tab === "syllabus" ? 'primary.main' : 'text.primary',
+                        borderBottom: tab === "syllabus" ? '4px solid' : '0px solid',
+                        borderColor: tab === "syllabus" ? 'primary.main' : '#cecece',
+                        borderRadius: '0px',
+                        display: {
+                            fold: 'block',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'none',
+                        }
+                    }}
+                >
+                    <Description fontSize="small" /> 
+                </IconButton>
                 <Button
                     variant="text"
                     onClick={() => {
@@ -47,10 +66,35 @@ const MainWidget = ({ handleOpenAlert }) => {
                         borderBottom: tab === "syllabus" ? '4px solid' : '0px solid',
                         borderColor: tab === "syllabus" ? 'primary.main' : '#cecece',
                         borderRadius: '0px',
+                        display: {
+                            fold: 'none',
+                            mobile: 'block',
+                            tablet: 'block',
+                            desktop: 'block',
+                        }
                     }}
                 >
                     Syllabus
                 </Button>
+                <IconButton
+                    onClick={() => {
+                        setTab("upcoming")
+                    }} 
+                    sx={{
+                        color: tab === "upcoming" ? 'primary.main' : 'text.primary',
+                        borderBottom: tab === "upcoming" ? '4px solid' : '0px solid',
+                        borderColor: tab === "upcoming" ? 'primary.main' : '#cecece',
+                        borderRadius: '0px',
+                        display: {
+                            fold: 'block',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'none',
+                        }
+                    }}
+                >
+                    <Assignment fontSize="small" /> 
+                </IconButton>
                 <Button
                     variant="text"
                     onClick={() => {
@@ -62,10 +106,35 @@ const MainWidget = ({ handleOpenAlert }) => {
                         borderBottom: tab === "upcoming" ? '4px solid' : '0px solid',
                         borderColor: tab === "upcoming" ? 'primary.main' : '#cecece',
                         borderRadius: '0px',
+                        display: {
+                            fold: 'none',
+                            mobile: 'block',
+                            tablet: 'block',
+                            desktop: 'block',
+                        }
                     }}
                 >
                     Upcoming
                 </Button>
+                <IconButton
+                    onClick={() => {
+                        setTab("past")
+                    }} 
+                    sx={{
+                        color: tab === "past" ? 'primary.main' : 'text.primary',
+                        borderBottom: tab === "past" ? '4px solid' : '0px solid',
+                        borderColor: tab === "past" ? 'primary.main' : '#cecece',
+                        borderRadius: '0px',
+                        display: {
+                            fold: 'block',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'none',
+                        }
+                    }}
+                >
+                    <AssignmentLate fontSize="small" /> 
+                </IconButton>
                 <Button
                     variant="text"
                     onClick={() => {
@@ -77,6 +146,12 @@ const MainWidget = ({ handleOpenAlert }) => {
                         borderBottom: tab === "past" ? '4px solid' : '0px solid',
                         borderColor: tab === "past" ? 'primary.main' : '#cecece',
                         borderRadius: '0px',
+                        display: {
+                            fold: 'none',
+                            mobile: 'block',
+                            tablet: 'block',
+                            desktop: 'block',
+                        }
                     }}
                 >
                     Past

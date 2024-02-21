@@ -124,7 +124,12 @@ const RegisterWidget = () => {
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
                 width: '100%',
-                my: {xs: 1, sm: 8},
+                my: {
+                    fold: 1,
+                    mobile: 1,
+                    tablet: 8,
+                    desktop: 8,
+                },
             }}
         >
             <Stepper 
@@ -138,7 +143,12 @@ const RegisterWidget = () => {
                             <StepLabel>
                                 <Typography
                                     sx={{
-                                        display: {xs: 'none', sm:'flex'}
+                                        display: {
+                                            fold: 'none',
+                                            mobile: 'flex',
+                                            tablet: 'flex',
+                                            desktop: 'flex',
+                                        },
                                     }}
                                 >
                                     {label}
@@ -153,7 +163,12 @@ const RegisterWidget = () => {
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    my: { xs: 6, sm: 4},
+                    my: {
+                        fold: 6,
+                        mobile: 6,
+                        tablet: 4,
+                        desktop: 4,
+                    },
                 }}
             >
                 {(activeStep === 0) ? (

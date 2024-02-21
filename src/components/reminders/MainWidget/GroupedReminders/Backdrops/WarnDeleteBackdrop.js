@@ -48,7 +48,12 @@ const WarnDeleteBackdrop = ({
                     className="warning-message-container"
                     sx={{
                         display: 'flex',
-                        flexDirection: {xs: 'column', sm: 'row'},
+                        flexDirection: {
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        },
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}
@@ -58,14 +63,24 @@ const WarnDeleteBackdrop = ({
                         sx={{
                             width: '50px',
                             height: '50px',
-                            mb: {xs: 1, sm: 0}
+                            mb: {
+                                fold: 1,
+                                mobile: 1,
+                                tablet: 0,
+                                desktop: 0,
+                            },
                         }}
                     />
                     <Typography
                         variant='body1'
                         sx={{
                             mx: 1,
-                            px: {xs: 0, sm: 1}
+                            px: {
+                                fold: 0,
+                                mobile: 0,
+                                tablet: 1,
+                                desktop: 1,
+                            },
                         }}
                     >
                         {`The ${title} group still has reminders that have not been completed. 

@@ -226,7 +226,12 @@ const ReminderBackdrop = ({
                         />
                     </FormControl>
                     <Stack
-                        direction={{ xs: 'column', sm: 'row'}}
+                        direction={{
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        }}
                         spacing={2}
                         sx={{
                             display: 'flex',

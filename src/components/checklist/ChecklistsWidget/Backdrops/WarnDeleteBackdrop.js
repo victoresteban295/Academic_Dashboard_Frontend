@@ -47,7 +47,12 @@ const WarnDeleteBackdrop = ({
                     className="warning-message-container"
                     sx={{
                         display: 'flex',
-                        flexDirection: {xs: 'column', sm: 'row'},
+                        flexDirection: {
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        },
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}
@@ -57,7 +62,12 @@ const WarnDeleteBackdrop = ({
                         sx={{
                             width: '50px',
                             height: '50px',
-                            mb: {xs: 1, sm: 0}
+                            mb: {
+                                fold: 1,
+                                mobile: 1,
+                                tablet: 0,
+                                desktop: 0,
+                            }
                         }}
                     />
                     <Typography

@@ -69,7 +69,12 @@ const ReminderLoading = () => {
             <Box
                 className='right-widget-container'
                 sx={{
-                    display: {xs: 'none', sm: 'none', md: 'block'},
+                    display: {
+                        fold: 'none',
+                        mobile: 'none',
+                        tablet: 'none',
+                        desktop: 'block',
+                    },
                     flexGrow: 1,
                     maxWidth: '250px',
                     p: 1,

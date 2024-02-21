@@ -20,12 +20,23 @@ const Navbar = ({username, firstname, lastname, role}) => {
     }
 
     return (
-        <Box sx={{position:'fixed', top:'0px', zIndex:'999',}}>
+        <Box sx={{
+                position:'fixed', 
+                top:'0px', 
+                zIndex:'999',
+                py: 0,
+            }}
+        >
             <AppBar position='fixed'>
                 <Toolbar disableGutters>
                         <Box
                             sx={{
-                                display: {xs: 'flex', sm: 'none'},
+                                display: {
+                                    fold: 'flex',
+                                    mobile: 'flex',
+                                    tablet: 'none',
+                                    desktop: 'none',
+                                },
                                 postion: 'static',
                                 flexGrow: 1,
                             }}
@@ -41,13 +52,29 @@ const Navbar = ({username, firstname, lastname, role}) => {
                                 alignItems: 'center',
                                 postion: 'static',
                                 flexGrow: 1,
-                                mx: {xs: 0, sm: 3},
+                                mx: {
+                                    fold: 0,
+                                    mobile: 0,
+                                    tablet: 3,
+                                    desktop: 3,
+                                },
                             }}
                         >
                             <Typography 
                                 variant='h5'
                                 sx={{
-                                    mx: {xs: 0, sm: 1},
+                                    mx: {
+                                        fold: 0,
+                                        mobile: 0,
+                                        tablet: 1,
+                                        desktop: 1,
+                                    },
+                                    display: {
+                                        fold: 'none',
+                                        mobile: 'block',
+                                        tablet: 'block',
+                                        desktop: 'block',
+                                    },
                                     fontFamily: teko700.style.fontFamily
                                 }}
                             >

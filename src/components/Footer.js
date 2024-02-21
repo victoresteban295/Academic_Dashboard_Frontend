@@ -19,7 +19,12 @@ const Footer = () => {
                 spacing={2}
                 justifyContent='center'
                 sx={{
-                    my: {xs: 0, sm: 1}
+                    my: {
+                        fold: 0,
+                        mobile: 0,
+                        tablet: 1,
+                        desktop: 1,
+                    },
                 }}
             >
                 <Link 

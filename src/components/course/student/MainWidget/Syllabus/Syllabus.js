@@ -13,7 +13,18 @@ const Syllabus = ({ tab, title, school, semester, infoSections }) => {
                             width: '100%',
                             boxShadow: '1px 1px 4px 2px #cecece',
                             borderRadius: '10px',
-                            p: 4,
+                            py: {
+                                fold: 2,
+                                mobile: 2,
+                                tablet: 4,
+                                desktop: 4,
+                            },
+                            px: {
+                                fold: 0.5,
+                                mobile: 2,
+                                tablet: 4,
+                                desktop: 4,
+                            }
                         }}
                     >
                         <Stack

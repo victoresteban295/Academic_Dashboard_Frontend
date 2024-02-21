@@ -293,8 +293,18 @@ const Reminder = ({
                     {/* Reminder's Group, Date, & Time Section */}
                     <Stack
                         className="group-date-time-section"
-                        direction={{xs: 'column', sm: 'row'}}
-                        alignItems={{xs: 'flex-start', sm: 'center'}}
+                        direction={{
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        }}
+                        alignItems={{
+                            fold: 'flex-start',
+                            mobile: 'flex-start',
+                            tablet: 'center',
+                            desktop: 'center',
+                        }}
                         spacing={1}
                     >
                         {(currentReminders != groupId) && (

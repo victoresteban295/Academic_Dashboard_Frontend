@@ -75,8 +75,6 @@ const Group = ({
                 </Typography>
                 <Typography
                     variant="button"
-                    sx={{
-                    }}
                 >
                     {size}
                 </Typography>

@@ -15,8 +15,18 @@ const unauthorized = () => {
             }}
         >
             <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{xs: 1, sm: 2}}
+                direction={{
+                    fold: 'column',
+                    mobile: 'column', 
+                    tablet: 'row',
+                    desktop: 'row',
+                }}
+                spacing={{
+                    fold: 1,
+                    mobile: 1, 
+                    tablet: 2,
+                    desktop: 2,
+                }}
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',

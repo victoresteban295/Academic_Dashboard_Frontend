@@ -25,7 +25,6 @@ const SideNavbar = ({ username, role }) => {
                 username={username}
                 role={role}
             />
-
         </Stack>
     )
 }

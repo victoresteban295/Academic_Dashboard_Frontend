@@ -88,7 +88,12 @@ const ChecklistLoading = () => {
             <Box
                 className='lists-widget-container'
                 sx={{
-                    display: {xs: 'none', sm: 'none', md: 'block'},
+                    display: {
+                        fold: 'none',
+                        mobile: 'none',
+                        tablet: 'none',
+                        desktop: 'block',
+                    },
                     flexGrow: 1,
                     maxWidth: '250px',
                     p: 1,
@@ -141,10 +146,7 @@ const ChecklistLoading = () => {
                                                     flexGrow: 1,
                                                 }}
                                             >
-                                                <Skeleton 
-                                                    sx={{
-                                                    }}
-                                                />
+                                                <Skeleton />
                                             </Typography>
                                         </Box>
                                     )

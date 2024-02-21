@@ -81,7 +81,12 @@ const AccountInputFields = ({
                     <Stack
                         id='fullname-input-field-group'
                         className='input-field-group'
-                        direction={{xs: "column", sm: "row"}}
+                        direction={{
+                            fold: 'column',
+                            mobile: 'column',
+                            tablet: 'row',
+                            desktop: 'row',
+                        }}
                         spacing={2}
                         useFlexGap
                     >
@@ -122,7 +127,12 @@ const AccountInputFields = ({
                         <Stack
                             id='birthday-input-field-group'
                             className='input-field-group'
-                            direction={{xs: "column", sm: "row"}}
+                            direction={{
+                                fold: 'column',
+                                mobile: 'column',
+                                tablet: 'row',
+                                desktop: 'row',
+                            }}
                             spacing={2}
                             useFlexGap
                         >

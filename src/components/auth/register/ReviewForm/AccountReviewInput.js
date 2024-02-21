@@ -53,15 +53,30 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-academic-institution-input-fields'
                     className='form-section-input-fields'
-                    spacing={{xs: 2, sm: 0}}
+                    spacing={{
+                        fold: 2,
+                        mobile: 2,
+                        tablet: 0,
+                        desktop: 0,
+                    }}
                     sx={{
                         flexGrow: 1,
                     }}
                 >
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -85,8 +100,18 @@ const AccountReviewInput = ({
                     </Stack>
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -139,15 +164,30 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-personal-information-input-fields'
                     className='form-section-input-fields'
-                    spacing={{xs: 2, sm: 0}}
+                    spacing={{
+                        fold: 2,
+                        mobile: 2,
+                        tablet: 0,
+                        desktop: 0,
+                    }}
                     sx={{
                         flexGrow: 1,
                     }}
                 >
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -171,8 +211,18 @@ const AccountReviewInput = ({
                     </Stack>
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -225,15 +275,30 @@ const AccountReviewInput = ({
                 <Stack
                     id='review-account-information-input-fields'
                     className='form-section-input-fields'
-                    spacing={{xs: 2, sm: 0}}
+                    spacing={{
+                        fold: 2,
+                        mobile: 2,
+                        tablet: 0,
+                        desktop: 0,
+                    }}
                     sx={{
                         flexGrow: 1,
                     }}
                 >
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -257,8 +322,18 @@ const AccountReviewInput = ({
                     </Stack>
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -282,8 +357,18 @@ const AccountReviewInput = ({
                     </Stack>
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}
@@ -307,8 +392,18 @@ const AccountReviewInput = ({
                     </Stack>
                     <Stack
                         className='review-input-field'
-                        spacing={{xs: 0, sm: 2}}
-                        direction={{xs: "column", sm: "row"}}
+                        spacing={{
+                            fold: 0,
+                            mobile: 0,
+                            tablet: 2,
+                            desktop: 2,
+                        }}
+                        direction={{
+                            fold: "column",
+                            mobile: "column",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         sx={{
                             flexGrow: 1,
                         }}

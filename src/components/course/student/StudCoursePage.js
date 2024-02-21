@@ -44,7 +44,12 @@ const StudCoursePage = () => {
                     sx={{
                         width: '100%',
                         position: 'relative',
-                        top: {xs: '0px', sm: '0px', md: '50px'},
+                        top: {
+                            fold: '0px',
+                            mobile: '0px',
+                            tablet: '50px',
+                            desktop: '50px',
+                        },
                     }}
                 >
                     {errorMsg}
@@ -65,7 +70,12 @@ const StudCoursePage = () => {
             <Box
                 className='rightside-menu-container'
                 sx={{
-                    display: {xs: 'none', sm: 'none', md: 'block'},
+                    display: {
+                        fold: 'none',
+                        mobile: 'none',
+                        tablet: 'block',
+                        desktop: 'block',
+                    },
                     flexGrow: 1,
                     maxWidth: '250px',
                     p: 1,

@@ -26,7 +26,12 @@ const NoList = ({
             alignItems='center'
             sx={{
                 width: '100%',
-                mt: {xs: 2, sm: 4}
+                mt: {
+                    fold: 2,
+                    mobile: 2,
+                    tablet: 4,
+                    desktop: 4,
+                },
             }}
         >
             <Stack
@@ -51,7 +56,12 @@ const NoList = ({
             <Box
                 className='checklist-option' 
                 sx={{
-                    display: {sm: 'flex', md: 'none'},
+                    display: {
+                        fold: 'flex',
+                        mobile: 'flex',
+                        tablet: 'none',
+                        desktop: 'none',
+                    },
                     borderWidth: '2px',
                     borderStyle: 'dashed',
                     borderRadius: '10px',

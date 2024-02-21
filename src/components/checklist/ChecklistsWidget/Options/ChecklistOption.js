@@ -78,14 +78,11 @@ const ChecklistOption = ({
                     <Typography
                         noWrap={true}
                         variant="button"
-                        sx={{
-                        }}
                     >
                         {title}
                     </Typography>
                 </Button>
             </Box>
-
         </div>
     )
 }

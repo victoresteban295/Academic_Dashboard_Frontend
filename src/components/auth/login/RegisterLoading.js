@@ -13,7 +13,12 @@ const LoginWidgetLoading = () => {
                 bgcolor: 'widget.background',
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
-                my: {xs: 1, sm: 8},
+                my: {
+                    fold: 1,
+                    mobile: 1,
+                    tablet: 8,
+                    desktop: 8,
+                },
                 mx: 1,
             }}
         >

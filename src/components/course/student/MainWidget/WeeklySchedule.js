@@ -69,8 +69,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         <Grid 
                             item 
                             xs={2}
-                            sx={{
-                            }}
                         >
                             <Typography
                                 className="due-date"
@@ -85,8 +83,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         <Grid 
                             item 
                             xs={6}
-                            sx={{
-                            }}
                         >
                             <Typography
                                 className="title"
@@ -123,8 +119,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         <Grid 
                             item 
                             xs={2}
-                            sx={{
-                            }}
                         >
                             <Typography
                                 className="due-date"
@@ -139,8 +133,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         <Grid 
                             item 
                             xs={6}
-                            sx={{
-                            }}
                         >
                             <Typography
                                 className="title"
@@ -153,7 +145,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                     </Grid>
                 </Stack>
             </Box>
-
         </Stack>
     )
 }
