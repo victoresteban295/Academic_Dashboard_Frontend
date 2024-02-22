@@ -20,9 +20,9 @@ const Syllabus = ({ tab, title, school, semester, infoSections }) => {
                                 desktop: 4,
                             },
                             px: {
-                                fold: 0.5,
+                                fold: 2,
                                 mobile: 2,
-                                tablet: 4,
+                                tablet: 2,
                                 desktop: 4,
                             }
                         }}

@@ -25,6 +25,7 @@ const StudCoursePage = () => {
             className="course-page"
             sx={{
                 display: 'flex',
+                flexGrow: 1,
                 width: '100%',
                 height: '100%',
             }}
@@ -73,7 +74,7 @@ const StudCoursePage = () => {
                     display: {
                         fold: 'none',
                         mobile: 'none',
-                        tablet: 'block',
+                        tablet: 'none',
                         desktop: 'block',
                     },
                     flexGrow: 1,

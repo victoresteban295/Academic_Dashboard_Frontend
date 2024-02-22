@@ -1,19 +1,19 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
-import { Apartment, AssignmentInd, Email, LocalPhone } from "@mui/icons-material";
+import { Apartment, AssignmentInd, Close, Email, LocalPhone } from "@mui/icons-material";
 
-const RightWidget = ({ handleOpenAlert }) => {
+const RightWidget = ({ handleOpenAlert, handleClose }) => {
     return (
         <Stack
             spacing={2}
             sx={{
-                width: '100%',
+                width: '250px',
             }}
         >
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'flex-start',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                 }}
             >
@@ -25,6 +25,20 @@ const RightWidget = ({ handleOpenAlert }) => {
                 >
                     {"Instructor Information"}
                 </Typography>
+                <IconButton
+                    size="small"
+                    onClick={handleClose}
+                    sx={{
+                        display: {
+                            fold: 'block', 
+                            mobile: 'block',
+                            tablet: 'block',
+                            desktop: 'none',
+                        }
+                    }}
+                >
+                    <Close fontSize="inherit"/>
+                </IconButton> 
             </Box>
             <Stack
                 spacing={0.5}

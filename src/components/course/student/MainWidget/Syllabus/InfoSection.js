@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 const InfoSection = ({ sectionTitle, info }) => {
     return (
@@ -6,7 +6,6 @@ const InfoSection = ({ sectionTitle, info }) => {
             spacing={1}
             sx={{
                 width: '100%',
-                px: 2,
             }}
         >
             <Typography
@@ -16,6 +15,7 @@ const InfoSection = ({ sectionTitle, info }) => {
             </Typography>
             <Typography
                 variant="body1"
+                paragraph={true}
             >
                 {info}
             </Typography>

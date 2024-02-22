@@ -31,7 +31,7 @@ const MyChecklistMenu = ({
                     display: {
                         fold: 'flex',
                         mobile: 'flex',
-                        tablet: 'none',
+                        tablet: 'flex',
                         desktop: 'none',
                     },
                 }}

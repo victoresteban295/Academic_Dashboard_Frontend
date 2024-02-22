@@ -1,4 +1,4 @@
-import { Box, Divider, Drawer, Grow, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Drawer, Grow, IconButton, Tooltip, Typography } from "@mui/material";
 import RightWidget from "../RightWidget";
 import { MenuOpen } from "@mui/icons-material";
 import { useState } from "react";
@@ -28,8 +28,9 @@ const CourseTitleSection = ({ title }) => {
                 }}
             >
                 <Typography
+                    noWrap={false}
+                    align="center"
                     variant="h6"
-                    noWrap={true}
                     sx={{
                         fontWeight: '700',
                     }}
@@ -44,7 +45,7 @@ const CourseTitleSection = ({ title }) => {
                         display: {
                             fold: 'flex',
                             mobile: 'flex',
-                            tablet: 'none',
+                            tablet: 'flex',
                             desktop: 'none',
                         },
                     }}
@@ -64,11 +65,11 @@ const CourseTitleSection = ({ title }) => {
                     <Box
                         className='reminders-menu-container'
                         sx={{
-                            width: '250px',
                             p: 1,
                         }}
                     >
                         <RightWidget
+                            handleClose={handleCloseReminders}
                         />
                     </Box>
                 </Drawer>

@@ -9,6 +9,12 @@ const WeeklySchedule = ({ strDate, endDate }) => {
             }}
         >
             <Stack
+                alignItems={{
+                    fold: "center",
+                    mobile: "center",
+                    tablet: "flex-start",
+                    desktop: "flex-start",
+                }}
                 sx={{
                     bgcolor: 'primary.main',
                     borderRadius: '5px 5px 0 0',
@@ -43,10 +49,23 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         maxWidth: '650px',
                     }}
                 >
-                    <Grid container columns={12}>
+                    <Grid 
+                        container 
+                        spacing={{
+                            fold: 0.5,
+                            mobile: 0,
+                            tablet: 0,
+                            desktop: 0,
+                        }}
+                        columns={{
+                            fold: 6,
+                            mobile: 12,
+                        }}
+                    >
                         <Grid 
                             item 
-                            xs={4}
+                            fold={6}
+                            mobile={4}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -68,7 +87,18 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         </Grid>
                         <Grid 
                             item 
-                            xs={2}
+                            fold={6}
+                            mobile={2}
+                            sx={{
+                                display: {
+                                    fold: 'flex',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
                         >
                             <Typography
                                 className="due-date"
@@ -82,7 +112,17 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         </Grid>
                         <Grid 
                             item 
-                            xs={6}
+                            fold={6}
+                            sx={{
+                                display: {
+                                    fold: 'flex',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
                         >
                             <Typography
                                 className="title"
@@ -93,10 +133,23 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid container columns={12}>
+                    <Grid 
+                        container 
+                        spacing={{
+                            fold: 0.5,
+                            mobile: 0,
+                            tablet: 0,
+                            desktop: 0,
+                        }}
+                        columns={{
+                            fold: 6,
+                            mobile: 12,
+                        }}
+                    >
                         <Grid 
                             item 
-                            xs={4}
+                            fold={6}
+                            mobile={4}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -118,7 +171,18 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         </Grid>
                         <Grid 
                             item 
-                            xs={2}
+                            fold={6}
+                            mobile={2}
+                            sx={{
+                                display: {
+                                    fold: 'flex',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
                         >
                             <Typography
                                 className="due-date"
@@ -132,7 +196,17 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         </Grid>
                         <Grid 
                             item 
-                            xs={6}
+                            fold={6}
+                            sx={{
+                                display: {
+                                    fold: 'flex',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
                         >
                             <Typography
                                 className="title"

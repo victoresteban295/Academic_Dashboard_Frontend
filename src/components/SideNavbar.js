@@ -12,7 +12,7 @@ const SideNavbar = ({ username, role }) => {
             sx={{
                 alignItems: 'flex-start',
                 flexGrow: 1,
-                width: '100%',
+                width: '175px',
                 position: 'sticky',
                 top: '70px',
             }}

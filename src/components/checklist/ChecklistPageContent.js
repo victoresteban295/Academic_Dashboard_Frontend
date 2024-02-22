@@ -123,7 +123,7 @@ const ChecklistPageContent = ({ username, allChecklists, lists, grouplists }) =>
                     display: {
                         fold: 'none',
                         mobile: 'none',
-                        tablet: 'block',
+                        tablet: 'none',
                         desktop: 'block',
                     },
                     flexGrow: 1,
