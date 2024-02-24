@@ -3,6 +3,7 @@ import StudCoursePage from "@/components/course/student/StudCoursePage";
 
 const CoursePage = ({ params }) => {
 
+
     //Determine the authorization
     const profile = params.role;
     //Verify if Username Belongs to this course

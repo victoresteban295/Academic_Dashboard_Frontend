@@ -23,6 +23,7 @@ const MobileMenu = ({username, role}) => {
                     onClick={handleClick}
                     size="small"
                     sx={{
+                        color: '#000',
                         mx: {
                             fold: 0,
                             mobile: 0,

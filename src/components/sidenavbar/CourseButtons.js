@@ -12,25 +12,29 @@ const CourseButtons = ({ username, role }) => {
                 username={username}
                 role={role}
                 course={"CS 247"}
-                active={false}
+                dept="cs"
+                num="247"
             />
             <CourseButton 
                 username={username}
                 role={role}
-                course={"Math 345"}
-                active={false}
+                course={"Math 245"}
+                dept="math"
+                num="245"
             />
             <CourseButton 
                 username={username}
                 role={role}
                 course={"Math 230"}
-                active={false}
+                dept="math"
+                num="230"
             />
             <CourseButton 
                 username={username}
                 role={role}
                 course={"CHEM 121"}
-                active={false}
+                dept="chem"
+                num="121"
             />
         </Stack>
     )

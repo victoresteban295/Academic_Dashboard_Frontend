@@ -1,25 +1,26 @@
 "use client"
-import { ArrowRight } from "@mui/icons-material";
+import { ArrowLeft } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
-/* import { usePathname, useRouter } from "next/navigation"; */
+import { useParams, useRouter } from "next/navigation";
 
-const CourseButton = ({ username, role, course, active }) => {
+const CourseButton = ({ username, role, course, dept, num }) => {
+    const params = useParams();
+    const router = useRouter();
 
-    /* const pathname = usePathname(); */
-    /* const isActive = pathname.includes('/checklist'); */
-    /* const router = useRouter(); */
-    const isActive = active;
+    const crs = dept + num;
+    const currentCrs = params.course;
+    const isActive = currentCrs === crs;
     const handleClick = () => {
-        router.push(`/${role}/${username}/checklist`) 
+        router.push(`/${role}/${username}/course/${crs}`);
     }
 
     return (
         <Button
             variant='text'
-            startIcon={isActive ? <ArrowRight /> : ''}
+            endIcon={isActive ? <ArrowLeft /> : ''}
             onClick={handleClick}
             sx={{
-                color: 'text.primary',
+                color: isActive ? 'primary.main' : 'text.primary',
                 flexGrow: '1',
                 "&hover": {
                     background: '#ccc5b9'
