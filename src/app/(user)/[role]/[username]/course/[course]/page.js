@@ -22,6 +22,7 @@ const CoursePage = ({ params }) => {
                 /> 
             ) : (
                 <StudCoursePage 
+                    crs={course}
                 />
             )}
         </>

@@ -3,8 +3,13 @@ import { Alert, Box, Snackbar } from "@mui/material";
 import { useState } from "react";
 import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
+import { getCourse } from "@/lib/data/course/student";
+import dayjs from "dayjs";
 
-const StudCoursePage = () => {
+const StudCoursePage = ({ crs }) => {
+
+    const todayDateTime = dayjs();
+    const course = getCourse(crs, todayDateTime); 
 
     /* Error Message Displaying in Alert */
     const [errorMsg, setErrorMsg] = useState('');
@@ -65,6 +70,11 @@ const StudCoursePage = () => {
                 }}
             >
                 <MainWidget
+                    instructor={course.instructor} 
+                    office={course.office}
+                    phone={course.phone}
+                    email={course.email}
+                    schedules={course.schedules}
                     handleOpenAlert={handleOpenAlert}
                 />
             </Box>
@@ -90,7 +100,11 @@ const StudCoursePage = () => {
                     }}
                 >
                     <RightWidget
-                        handleOpenAlert={handleOpenAlert}
+                        instructor={course.instructor} 
+                        office={course.office}
+                        phone={course.phone}
+                        email={course.email}
+                        schedules={course.schedules}
                     />
                 </Box>
             </Box>

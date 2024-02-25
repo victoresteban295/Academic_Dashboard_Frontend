@@ -3,7 +3,14 @@ import RightWidget from "../RightWidget";
 import { MenuOpen } from "@mui/icons-material";
 import { useState } from "react";
 
-const CourseTitleSection = ({ title }) => {
+const CourseTitleSection = ({ 
+    title,
+    instructor, 
+    office,
+    phone,
+    email,
+    schedules
+}) => {
 
     /* Course Schedule Menu's State Value & Function */ 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -69,6 +76,11 @@ const CourseTitleSection = ({ title }) => {
                         }}
                     >
                         <RightWidget
+                            instructor={instructor} 
+                            office={office}
+                            phone={phone}
+                            email={email}
+                            schedules={schedules}
                             handleClose={handleCloseReminders}
                         />
                     </Box>

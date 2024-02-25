@@ -6,7 +6,13 @@ import Syllabus from "./MainWidget/Syllabus/Syllabus";
 import Past from "./MainWidget/Past/Past";
 import { infoSections } from "@/lib/data/course";
 
-const MainWidget = ({ handleOpenAlert }) => {
+const MainWidget = ({ 
+    instructor, 
+    office,
+    phone,
+    email,
+    schedules,
+}) => {
 
     /* Tab Being Viewed */
     const [tab, setTab] = useState("upcoming");
@@ -21,6 +27,11 @@ const MainWidget = ({ handleOpenAlert }) => {
         >
             <CourseTitleSection 
                 title="Math 245 Introduction to Calculus II"
+                instructor={instructor} 
+                office={office}
+                phone={phone}
+                email={email}
+                schedules={schedules}
             />
 
             {/* Tab Selection: Syllabus, Upcoming, Past */}

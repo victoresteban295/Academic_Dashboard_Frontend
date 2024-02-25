@@ -2,7 +2,14 @@ import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
 import { Apartment, AssignmentInd, Close, Email, LocalPhone } from "@mui/icons-material";
 
-const RightWidget = ({ handleOpenAlert, handleClose }) => {
+const RightWidget = ({ 
+    instructor, 
+    office,
+    phone,
+    email,
+    schedules,
+    handleClose }) => {
+
     return (
         <Stack
             spacing={2}
@@ -60,7 +67,7 @@ const RightWidget = ({ handleOpenAlert, handleClose }) => {
                     <Typography
                         variant="body1"
                     >
-                        {"Dr.Seely"}
+                        {instructor}
                     </Typography>
                 </Stack>
                 <Stack
@@ -74,7 +81,7 @@ const RightWidget = ({ handleOpenAlert, handleClose }) => {
                     <Typography
                         variant="body1"
                     >
-                        {"Palenske Hall R# 330"}
+                        {office}
                     </Typography>
                 </Stack>
                 <Stack
@@ -88,7 +95,7 @@ const RightWidget = ({ handleOpenAlert, handleClose }) => {
                     <Typography
                         variant="body1"
                     >
-                        {"323-233-2321"}
+                        {phone}
                     </Typography>
                 </Stack>
                 <Stack
@@ -102,7 +109,7 @@ const RightWidget = ({ handleOpenAlert, handleClose }) => {
                     <Typography
                         variant="body1"
                     >
-                        {"dseely@college.edu"}
+                        {email}
                     </Typography>
                 </Stack>
             </Stack>
@@ -123,12 +130,17 @@ const RightWidget = ({ handleOpenAlert, handleClose }) => {
                     {"Course Schedule"}
                 </Typography>
             </Box>
-            <Schedule 
-                location="Palenske Hall 329"
-                days={["Mon", "Tue", "Wed", "Thu", "Fri"]}
-                startTime="9:15 AM"
-                endTime="10:20 AM"
-            />
+            {schedules.map(schedule => {
+                const { location, days, strTime, endTime } = schedule;
+                return (
+                    <Schedule 
+                        location={location}
+                        days={days}
+                        startTime={strTime}
+                        endTime={endTime}
+                    />
+                )
+            })}
         </Stack>
     )
 }

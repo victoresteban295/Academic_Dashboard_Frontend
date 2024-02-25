@@ -2,8 +2,6 @@ import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 
 const WeeklySchedule = ({ strDate, endDate }) => {
 
-    console.log("testing")
-
     return (
         <Stack
             sx={{
