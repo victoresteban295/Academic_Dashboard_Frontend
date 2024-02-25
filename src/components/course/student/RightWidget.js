@@ -14,7 +14,7 @@ const RightWidget = ({
         <Stack
             spacing={2}
             sx={{
-                width: '250px',
+                width: '100%',
             }}
         >
             <Box
@@ -134,6 +134,7 @@ const RightWidget = ({
                 const { location, days, strTime, endTime } = schedule;
                 return (
                     <Schedule 
+                        key={location}
                         location={location}
                         days={days}
                         startTime={strTime}

@@ -1,7 +1,14 @@
 import { Divider, Grow, Stack, Typography } from "@mui/material";
 import InfoSection from "./InfoSection";
 
-const Syllabus = ({ tab, title, school, semester, infoSections }) => {
+const Syllabus = ({ 
+    tab, 
+    title, 
+    school, 
+    semester, 
+    description,
+    infoSections 
+}) => {
     return (
         <>
             {tab === "syllabus" && (
@@ -50,11 +57,30 @@ const Syllabus = ({ tab, title, school, semester, infoSections }) => {
                                 {semester}
                             </Typography>
                         </Stack>
+                        <Stack
+                            spacing={1}
+                            sx={{
+                                width: '100%',
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                            >
+                                {"Course Description"}
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                                paragraph={true}
+                            >
+                                {description}
+                            </Typography>
+                        </Stack>
                         {infoSections.map(infoSection => {
-                            const { sectionTitle, info } = infoSection;
+                            const { title, info } = infoSection;
                             return (
                                 <InfoSection 
-                                    sectionTitle={sectionTitle}
+                                    key={title}
+                                    title={title}
                                     info={info}
                                 />
                             )

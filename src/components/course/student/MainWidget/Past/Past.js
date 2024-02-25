@@ -1,20 +1,28 @@
-import { Grow, Stack, Typography } from "@mui/material";
+import { Grow, Stack } from "@mui/material";
+import WeeklySchedule from "../WeeklySchedule";
 
-const Past = ({ tab }) => {
+const Past = ({ tab, past }) => {
     return (
         <>
             {tab === "past" && (
                 <Grow in={true}>
                     <Stack
+                        spacing={5} 
                         sx={{
-                            width: '100%',
+                            width:'100%',
                         }}
                     >
-                        <Typography
-                            variant="h5"
-                        >
-                            Past Tab
-                        </Typography>
+                        {past.map(weeklyTasks => {
+                            const { strWeek, endWeek, tasks } = weeklyTasks;
+                            return (
+                                <WeeklySchedule 
+                                    key={strWeek}
+                                    strDate={strWeek}
+                                    endDate={endWeek}
+                                    tasks={tasks}
+                                />
+                            )
+                        })}
                     </Stack>
                 </Grow>
             )}

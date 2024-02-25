@@ -1,6 +1,7 @@
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import Task from "./Task";
 
-const WeeklySchedule = ({ strDate, endDate }) => {
+const WeeklySchedule = ({ strDate, endDate, tasks }) => {
 
     return (
         <Stack
@@ -16,10 +17,6 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                     tablet: "flex-start",
                     desktop: "flex-start",
                 }}
-                sx={{
-                    bgcolor: 'primary.main',
-                    borderRadius: '5px 5px 0 0',
-                }}
             >
                 <Typography
                     variant="h6"
@@ -31,6 +28,7 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                 >
                     {`${strDate} - ${endDate}`}
                 </Typography>
+                <Divider flexItem variant="middle"  />
             </Stack>
             <Box
                 sx={{
@@ -50,174 +48,19 @@ const WeeklySchedule = ({ strDate, endDate }) => {
                         maxWidth: '650px',
                     }}
                 >
-                    <Grid 
-                        container 
-                        spacing={{
-                            fold: 0.5,
-                            mobile: 0,
-                            tablet: 0,
-                            desktop: 0,
-                        }}
-                        columns={{
-                            fold: 6,
-                            mobile: 12,
-                        }}
-                    >
-                        <Grid 
-                            item 
-                            fold={6}
-                            mobile={4}
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="task"
-                                variant="body1"
-                                sx={{
-                                    borderRadius: '5px',
-                                    px: 0.5,
-                                    fontWeight: '700',
-                                    bgcolor: '#c1c1c1',
-                                }}
-                            >
-                                {"Assignment"}
-                            </Typography>
-                        </Grid>
-                        <Grid 
-                            item 
-                            fold={6}
-                            mobile={2}
-                            sx={{
-                                display: {
-                                    fold: 'flex',
-                                    mobile: 'block',
-                                    tablet: 'block',
-                                    desktop: 'block',
-                                },
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="due-date"
-                                variant="body1"
-                                sx={{
-                                    fontWeight: '700',
-                                }}
-                            >
-                                {"Feb 20"}
-                            </Typography>
-                        </Grid>
-                        <Grid 
-                            item 
-                            fold={6}
-                            sx={{
-                                display: {
-                                    fold: 'flex',
-                                    mobile: 'block',
-                                    tablet: 'block',
-                                    desktop: 'block',
-                                },
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="title"
-                                variant="body1"
-                                noWrap={true} 
-                            >
-                                {"Homework 11: Ch. 27 - Ch. 28"}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid 
-                        container 
-                        spacing={{
-                            fold: 0.5,
-                            mobile: 0,
-                            tablet: 0,
-                            desktop: 0,
-                        }}
-                        columns={{
-                            fold: 6,
-                            mobile: 12,
-                        }}
-                    >
-                        <Grid 
-                            item 
-                            fold={6}
-                            mobile={4}
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="task"
-                                variant="body1"
-                                sx={{
-                                    borderRadius: '5px',
-                                    px: 0.5,
-                                    fontWeight: '700',
-                                    bgcolor: '#c1c1c1',
-                                }}
-                            >
-                                {"Exam"}
-                            </Typography>
-                        </Grid>
-                        <Grid 
-                            item 
-                            fold={6}
-                            mobile={2}
-                            sx={{
-                                display: {
-                                    fold: 'flex',
-                                    mobile: 'block',
-                                    tablet: 'block',
-                                    desktop: 'block',
-                                },
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="due-date"
-                                variant="body1"
-                                sx={{
-                                    fontWeight: '700',
-                                }}
-                            >
-                                {"Feb 23"}
-                            </Typography>
-                        </Grid>
-                        <Grid 
-                            item 
-                            fold={6}
-                            sx={{
-                                display: {
-                                    fold: 'flex',
-                                    mobile: 'block',
-                                    tablet: 'block',
-                                    desktop: 'block',
-                                },
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                className="title"
-                                variant="body1"
-                                noWrap={true} 
-                            >
-                                {"Midterm Exam"}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                    {tasks.map(tsk => {
+                        const { task, title, date, note, due } = tsk;
+                        return (
+                            <Task 
+                                key={title}
+                                task={task}
+                                title={title}
+                                date={date}
+                                note={note}
+                                due={due}
+                            />
+                        )
+                    })}
                 </Stack>
             </Box>
         </Stack>

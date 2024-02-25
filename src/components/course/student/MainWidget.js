@@ -4,7 +4,8 @@ import { useState } from "react";
 import Upcoming from "./MainWidget/Upcoming/Upcoming";
 import Syllabus from "./MainWidget/Syllabus/Syllabus";
 import Past from "./MainWidget/Past/Past";
-import { infoSections } from "@/lib/data/course";
+import dayjs from "dayjs";
+import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 
 const MainWidget = ({ 
     instructor, 
@@ -12,10 +13,19 @@ const MainWidget = ({
     phone,
     email,
     schedules,
+    title,
+    school,
+    description,
+    infoSections,
+    weeklyTasks
 }) => {
 
     /* Tab Being Viewed */
-    const [tab, setTab] = useState("upcoming");
+    const [tab, setTab] = useState("syllabus");
+    const semester = "Semester " + dayjs().year().toString();
+
+    const today = dayjs().format("MM/DD/YY");
+    const { upcoming, past } = seperateWeeklyTasks(today, weeklyTasks);
 
     return (
         <Stack
@@ -26,7 +36,7 @@ const MainWidget = ({
             }}
         >
             <CourseTitleSection 
-                title="Math 245 Introduction to Calculus II"
+                title={title}
                 instructor={instructor} 
                 office={office}
                 phone={phone}
@@ -174,16 +184,19 @@ const MainWidget = ({
             </Stack>
             <Syllabus 
                 tab={tab}
-                title="Math 245: Differental Equations"
-                school="Academic College"
-                semester="Spring 2024"
+                title={title}
+                school={school}
+                semester={semester}
+                description={description}
                 infoSections={infoSections}
             />
             <Upcoming
                 tab={tab}
+                upcoming={upcoming}
             />
             <Past
                 tab={tab}
+                past={past}
             />
         </Stack>
     )

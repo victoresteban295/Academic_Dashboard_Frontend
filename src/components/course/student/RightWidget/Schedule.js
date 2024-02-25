@@ -35,6 +35,7 @@ const Schedule = ({ location, days, startTime, endTime }) => {
                     {days.map(day => {
                         return (
                             <Typography
+                                key={day}
                                 variant="body1"
                             >
                                 {day}

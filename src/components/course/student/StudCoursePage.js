@@ -75,7 +75,11 @@ const StudCoursePage = ({ crs }) => {
                     phone={course.phone}
                     email={course.email}
                     schedules={course.schedules}
-                    handleOpenAlert={handleOpenAlert}
+                    title={course.title}
+                    school={course.school}
+                    description={course.description}
+                    infoSections={course.infoSections}
+                    weeklyTasks={course.weeklyTasks}
                 />
             </Box>
             <Box
@@ -87,8 +91,7 @@ const StudCoursePage = ({ crs }) => {
                         tablet: 'none',
                         desktop: 'block',
                     },
-                    flexGrow: 1,
-                    maxWidth: '250px',
+                    width: '250px',
                     p: 1,
                 }}
             >

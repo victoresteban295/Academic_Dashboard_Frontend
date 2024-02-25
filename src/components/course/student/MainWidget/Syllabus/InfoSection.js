@@ -1,6 +1,6 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
-const InfoSection = ({ sectionTitle, info }) => {
+const InfoSection = ({ title, info }) => {
     return (
         <Stack
             spacing={1}
@@ -11,7 +11,7 @@ const InfoSection = ({ sectionTitle, info }) => {
             <Typography
                 variant="h6"
             >
-                {sectionTitle}
+                {title}
             </Typography>
             <Typography
                 variant="body1"

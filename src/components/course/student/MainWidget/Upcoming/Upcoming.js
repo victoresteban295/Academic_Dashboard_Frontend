@@ -1,21 +1,28 @@
 import { Grow, Stack } from "@mui/material"
 import WeeklySchedule from "../WeeklySchedule";
 
-const Upcoming = ({ tab }) => {
+const Upcoming = ({ tab, upcoming }) => {
     return (
         <>
             {tab === "upcoming" && (
                 <Grow in={true}>
                     <Stack
-                        spacing={2} 
+                        spacing={5} 
                         sx={{
                             width:'100%',
                         }}
                     >
-                        <WeeklySchedule 
-                            strDate="February 19"
-                            endDate="February 25"
-                        />
+                        {upcoming.map(weeklyTasks => {
+                            const { strWeek, endWeek, tasks } = weeklyTasks;
+                            return (
+                                <WeeklySchedule 
+                                    key={strWeek}
+                                    strDate={strWeek}
+                                    endDate={endWeek}
+                                    tasks={tasks}
+                                />
+                            )
+                        })}
                     </Stack>
                 </Grow>
             )}
