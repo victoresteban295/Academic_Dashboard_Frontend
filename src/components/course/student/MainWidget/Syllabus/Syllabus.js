@@ -1,4 +1,4 @@
-import { Divider, Grow, Stack, Typography } from "@mui/material";
+import { Box, Divider, Grow, Stack, Typography } from "@mui/material";
 import InfoSection from "./InfoSection";
 
 const Syllabus = ({ 
@@ -14,12 +14,10 @@ const Syllabus = ({
             {tab === "syllabus" && (
                 <Grow in={true}>
                     <Stack
-                        spacing={4}
-                        divider={<Divider flexItem />}
+                        spacing={2}
                         sx={{
-                            width: '100%',
                             boxShadow: '1px 1px 4px 2px #cecece',
-                            borderRadius: '10px',
+                            borderRadius: '5px',
                             py: {
                                 fold: 2,
                                 mobile: 2,
@@ -41,6 +39,9 @@ const Syllabus = ({
                             <Typography
                                 variant="h6"
                                 align="center"
+                                sx={{
+                                    fontWeight: '700',
+                                }}
                             >
                                 {title} 
                             </Typography>
@@ -59,21 +60,36 @@ const Syllabus = ({
                         </Stack>
                         <Stack
                             spacing={1}
-                            sx={{
-                                width: '100%',
-                            }}
                         >
-                            <Typography
-                                variant="h6"
+                            <Box
+                                sx={{
+                                    px: 1,
+                                    color: 'primary.main',
+                                    borderRadius: '5px',
+                                    bgcolor: '#e3f3ff',
+                                }}
                             >
-                                {"Course Description"}
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                paragraph={true}
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    {"Course Description"}
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    px: 1,
+                                }}
                             >
-                                {description}
-                            </Typography>
+                                <Typography
+                                    variant="body1"
+                                    paragraph={true}
+                                >
+                                    {description}
+                                </Typography>
+                            </Box>
                         </Stack>
                         {infoSections.map(infoSection => {
                             const { title, info } = infoSection;
