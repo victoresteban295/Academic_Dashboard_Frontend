@@ -7,7 +7,7 @@ const Past = ({ tab, past }) => {
             {tab === "past" && (
                 <Grow in={true}>
                     <Stack
-                        spacing={5} 
+                        spacing={3} 
                         sx={{
                             width:'100%',
                         }}

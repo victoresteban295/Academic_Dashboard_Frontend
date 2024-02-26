@@ -5,15 +5,11 @@ const WeeklySchedule = ({ strDate, endDate, tasks }) => {
 
     return (
         <Stack
-            sx={{
-                boxShadow: '1px 1px 4px 2px #cecece',
-                borderRadius: '5px',
-            }}
         >
             <Stack
                 alignItems={{
                     fold: "center",
-                    mobile: "center",
+                    mobile: "flex-start",
                     tablet: "flex-start",
                     desktop: "flex-start",
                 }}
@@ -40,7 +36,6 @@ const WeeklySchedule = ({ strDate, endDate, tasks }) => {
             >
                 <Stack
                     spacing={1}
-                    divider={<Divider />}
                     justifyContent="center"
                     sx={{
                         p: 2,

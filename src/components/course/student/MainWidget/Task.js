@@ -1,144 +1,105 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import TaskDetailsBackdrop from "./TaskDetailsBackdrop";
-import { useState } from "react";
 
 const Task = ({ task, title, date, note, due }) => {
-    const dueDate = dayjs(date, "MM/DD/YY").format("MMM DD");
-
-    /* Open Task */
-    const [openTaskDetails, setOpenTaskDetails] = useState(false);
-    const handleOpenTaskDetails = () => {
-        setOpenTaskDetails(true);
-    }
-    const handleCloseTaskDetails = () => {
-        setOpenTaskDetails(false);
-    }
+    const month = dayjs(date, "MM/DD/YY").format("MMM");
+    const day = dayjs(date, "MM/DD/YY").format("DD");
 
     return (
-        <>
-
-            <TaskDetailsBackdrop 
-                task={task}
-                title={title}
-                date={date}
-                note={note}
-                due={due}
-                open={openTaskDetails}
-                handleClose={handleCloseTaskDetails}
-            />
-            <Grid 
-                onClick={handleOpenTaskDetails}
-                container 
-                spacing={{
-                    fold: 0.5,
-                    mobile: 0,
-                    tablet: 0,
-                    desktop: 0,
-                }}
-                columns={{
-                    fold: 6,
-                    mobile: 12,
-                }}
+        <Stack
+            className="task-widget"
+            direction="row"
+            spacing={2}
+            sx={{
+                boxShadow: '1px 1px 4px 2px #cecece',
+                borderRadius: '5px',
+                p: 1,
+            }}
+        >
+            <Stack
+                className="date"
+                alignItems="center"
+                justifyContent="center"
                 sx={{
-                    cursor: 'pointer',
+                    color: "primary.main",
+                    borderRadius: '5px',
+                    px: 2,
+                    py: 0.5,
+                    bgcolor: '#e3f3ff',
                 }}
             >
-                <Grid 
-                    item 
-                    fold={6}
-                    mobile={4}
+                <Typography
+                    variant="h5"
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        fontWeight: '700',
                     }}
                 >
-                    <Typography
-                        className="task"
-                        variant="body1"
-                        sx={{
-                            borderRadius: '5px',
-                            px: 0.5,
-                            fontWeight: '700',
-                            bgcolor: '#c1c1c1',
-                        }}
-                    >
-                        {task}
-                    </Typography>
-                </Grid>
-                <Grid 
-                    item 
-                    fold={6}
-                    mobile={2}
+                    {day}
+                </Typography>
+                <Typography
+                    variant="h5"
                     sx={{
-                        display: {
-                            fold: 'flex',
-                            mobile: 'block',
-                            tablet: 'block',
-                            desktop: 'block',
-                        },
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        fontWeight: '700',
                     }}
                 >
-                    <Typography
-                        className="due-date"
-                        variant="body1"
-                        sx={{
-                            fontWeight: '700',
-                        }}
-                    >
-                        {dueDate}
-                    </Typography>
-                </Grid>
-                <Grid 
-                    item 
-                    fold={6}
+                    {month} 
+                </Typography>
+            </Stack> 
+            <Stack
+                className="task-details"
+                spacing={0.5}
+            >
+                <Typography
+                    variant="body1"
                     sx={{
-                        display: {
-                            fold: 'flex',
-                            mobile: 'block',
-                            tablet: 'block',
-                            desktop: 'block',
-                        },
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        fontWeight: '700',
                     }}
                 >
-                    <Typography
-                        className="title"
-                        variant="body1"
-                        noWrap={true}
+                    {title} 
+                </Typography>
+                <Stack
+                    className="task-due-date"
+                    direction={{
+                        fold: 'column',
+                        mobile: 'row',
+                        tablet: 'row',
+                        desktop: 'row',
+                    }}
+                    spacing={1}
+                >
+                    <Box
                         sx={{
-                            display: {
-                                fold: "none",
-                                mobile: "block",
-                                tablet: "block",
-                                desktop: "block",
-                            }
+                            display: 'flex',
                         }}
                     >
-                        {title}
-                    </Typography>
+                        <Typography
+                            className="task"
+                            variant="body2"
+                            sx={{
+                                borderRadius: '5px',
+                                px: 0.5,
+                                fontWeight: '700',
+                                bgcolor: '#c1c1c1',
+                            }}
+                        >
+                            {task}
+                        </Typography>
+                    </Box>
                     <Typography
-                        className="title"
-                        variant="body1"
-                        align="center"
-                        sx={{
-                            display: {
-                                fold: "block",
-                                mobile: "none",
-                                tablet: "none",
-                                desktop: "none",
-                            }
-                        }}
+                        className="due"
+                        variant="body2"
                     >
-                        {title}
+                        {`Due: ${due}`}
                     </Typography>
-                </Grid>
-            </Grid>
-        </>
+                </Stack>
+                <Typography
+                    className="note"
+                    variant="body2"
+                >
+                    {note}
+                </Typography>
+            </Stack>
+        </Stack>
     )
 }
 

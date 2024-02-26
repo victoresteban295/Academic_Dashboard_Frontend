@@ -7,7 +7,7 @@ const Upcoming = ({ tab, upcoming }) => {
             {tab === "upcoming" && (
                 <Grow in={true}>
                     <Stack
-                        spacing={5} 
+                        spacing={3} 
                         sx={{
                             width:'100%',
                         }}
