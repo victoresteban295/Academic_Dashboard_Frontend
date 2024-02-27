@@ -1,5 +1,7 @@
-import { Box, Grow, Stack, Typography } from "@mui/material";
+import { Box, Grow, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import InfoSection from "./InfoSection";
+import { Edit } from "@mui/icons-material";
+import { useState } from "react";
 
 const Syllabus = ({ 
     tab, 
@@ -9,6 +11,9 @@ const Syllabus = ({
     description,
     infoSections 
 }) => {
+
+    const [infos, setInfos] = useState(infoSections);
+
     return (
         <>
             {tab === "syllabus" && (
@@ -63,6 +68,8 @@ const Syllabus = ({
                         >
                             <Box
                                 sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
                                     px: 1,
                                     color: 'primary.main',
                                     borderRadius: '5px',
@@ -77,6 +84,13 @@ const Syllabus = ({
                                 >
                                     {"Course Description"}
                                 </Typography>
+                                <Tooltip title="Edit">
+                                    <IconButton
+                                        size='small'
+                                    >
+                                        <Edit fontSize='inherit' />
+                                    </IconButton>
+                                </Tooltip>
                             </Box>
                             <Box
                                 sx={{
@@ -91,7 +105,7 @@ const Syllabus = ({
                                 </Typography>
                             </Box>
                         </Stack>
-                        {infoSections.map(infoSection => {
+                        {infos.map(infoSection => {
                             const { title, info } = infoSection;
                             return (
                                 <InfoSection 

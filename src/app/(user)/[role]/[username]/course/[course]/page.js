@@ -3,7 +3,6 @@ import StudCoursePage from "@/components/course/student/StudCoursePage";
 
 const CoursePage = ({ params }) => {
 
-
     //Determine the authorization
     const profile = params.role;
     //Verify if Username Belongs to this course
@@ -11,14 +10,12 @@ const CoursePage = ({ params }) => {
     //Which Course to query
     const course = params.course;
 
-    /* Get Course Information */
-    const getCourse = () => {
-    }
 
     return (
         <>
             {profile === 'professor' ? (
-               <ProfCoursePage 
+                <ProfCoursePage 
+                    crs={course}
                 /> 
             ) : (
                 <StudCoursePage 

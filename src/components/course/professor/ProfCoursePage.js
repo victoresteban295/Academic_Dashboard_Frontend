@@ -5,8 +5,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
+import dayjs from "dayjs";
+import { getCourse } from "@/lib/data/course/student";
 
-const ProfCoursePage = () => {
+const ProfCoursePage = ({ crs }) => {
+
+    const todayDateTime = dayjs();
+    const course = getCourse(crs, todayDateTime); 
 
     /* Error Message Displaying in Alert */
     const [errorMsg, setErrorMsg] = useState('');
@@ -67,6 +72,16 @@ const ProfCoursePage = () => {
                     }}
                 >
                     <MainWidget
+                        instructor={course.instructor} 
+                        office={course.office}
+                        phone={course.phone}
+                        email={course.email}
+                        schedules={course.schedules}
+                        title={course.title}
+                        school={course.school}
+                        description={course.description}
+                        infoSections={course.infoSections}
+                        weeklyTasks={course.weeklyTasks}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
@@ -76,10 +91,9 @@ const ProfCoursePage = () => {
                         display: {
                             fold: 'none',
                             mobile: 'none',
-                            tablet: 'block',
+                            tablet: 'none',
                             desktop: 'block',
                         },
-                        flexGrow: 1,
                         maxWidth: '250px',
                         p: 1,
                     }}
@@ -92,6 +106,11 @@ const ProfCoursePage = () => {
                         }}
                     >
                         <RightWidget
+                            instructor={course.instructor} 
+                            office={course.office}
+                            phone={course.phone}
+                            email={course.email}
+                            schedules={course.schedules}
                             handleOpenAlert={handleOpenAlert}
                         />
                     </Box>

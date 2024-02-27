@@ -1,6 +1,5 @@
 "use client"
-import { Alert, Box, Snackbar } from "@mui/material";
-import { useState } from "react";
+import { Box } from "@mui/material";
 import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
 import { getCourse } from "@/lib/data/course/student";
@@ -10,20 +9,6 @@ const StudCoursePage = ({ crs }) => {
 
     const todayDateTime = dayjs();
     const course = getCourse(crs, todayDateTime); 
-
-    /* Error Message Displaying in Alert */
-    const [errorMsg, setErrorMsg] = useState('');
-
-    /* Display Alert with Error Message */
-    const [openAlert, setOpenAlert] = useState(false);
-    const handleOpenAlert = (msg) => {
-        setErrorMsg(msg);
-        setOpenAlert(true);
-    }
-    const handleCloseAlert = () => {
-        setErrorMsg('');
-        setOpenAlert(false);
-    }
 
     return (
         <Box
@@ -35,32 +20,6 @@ const StudCoursePage = ({ crs }) => {
                 height: '100%',
             }}
         >
-            <Snackbar
-                open={openAlert}
-                anchorOrigin={{
-                    vertical: 'top', 
-                    horizontal: 'right',
-                }}
-                autoHideDuration={15000}
-                onClose={handleCloseAlert}
-            >
-                <Alert
-                    onClose={handleCloseAlert}
-                    severity="error"
-                    sx={{
-                        width: '100%',
-                        position: 'relative',
-                        top: {
-                            fold: '0px',
-                            mobile: '0px',
-                            tablet: '50px',
-                            desktop: '50px',
-                        },
-                    }}
-                >
-                    {errorMsg}
-                </Alert>
-            </Snackbar> 
             <Box
                 className='main-content-container'
                 sx={{
@@ -91,7 +50,7 @@ const StudCoursePage = ({ crs }) => {
                         tablet: 'none',
                         desktop: 'block',
                     },
-                    width: '250px',
+                    maxWidth: '250px',
                     p: 1,
                 }}
             >

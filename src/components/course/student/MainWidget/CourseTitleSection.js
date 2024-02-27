@@ -13,13 +13,13 @@ const CourseTitleSection = ({
 }) => {
 
     /* Course Schedule Menu's State Value & Function */ 
-    const [anchorEl, setAnchorEl] = useState(null);
-    const openReminders = Boolean(anchorEl);
-    const handleOpenReminders = (event) => {
-        setAnchorEl(event.currentTarget);
+    const [scheduleAnchor, setScheduleAnchorEl] = useState(null);
+    const openSchedule = Boolean(scheduleAnchor);
+    const handleOpenSchedule = (event) => {
+        setScheduleAnchorEl(event.currentTarget);
     }
-    const handleCloseReminders = () => {
-        setAnchorEl(null);
+    const handleCloseSchedule = () => {
+        setScheduleAnchorEl(null);
     }
 
     return (
@@ -58,7 +58,7 @@ const CourseTitleSection = ({
                     }}
                 >
                     <IconButton
-                        onClick={handleOpenReminders}
+                        onClick={handleOpenSchedule}
                         size='small'
                     >
                         <MenuOpen fontSize='inherit'/> 
@@ -66,8 +66,8 @@ const CourseTitleSection = ({
                 </Tooltip>
                 <Drawer
                     anchor='right'
-                    open={openReminders}
-                    onClose={handleCloseReminders}
+                    open={openSchedule}
+                    onClose={handleCloseSchedule}
                 >
                     <Box
                         className='reminders-menu-container'
@@ -81,7 +81,7 @@ const CourseTitleSection = ({
                             phone={phone}
                             email={email}
                             schedules={schedules}
-                            handleClose={handleCloseReminders}
+                            handleClose={handleCloseSchedule}
                         />
                     </Box>
                 </Drawer>
