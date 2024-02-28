@@ -35,11 +35,11 @@ const CourseTitleSection = ({
                 }}
             >
                 <Typography
-                    noWrap={false}
                     align="center"
                     variant="h6"
                     sx={{
                         fontWeight: '700',
+                        overflowX: 'hidden',
                     }}
                 >
                     {title}

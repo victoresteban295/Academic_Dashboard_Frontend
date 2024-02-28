@@ -51,6 +51,7 @@ const MainWidget = ({
                 email={email}
                 schedules={schedules}
                 changeTitle={changeTitle}
+                handleOpenAlert={handleOpenAlert}
             />
 
             {/* Tab Selection: Syllabus, Upcoming, Past */}
@@ -198,14 +199,17 @@ const MainWidget = ({
                 semester={semester}
                 description={description}
                 infoSections={infoSections}
+                handleOpenAlert={handleOpenAlert}
             />
             <Upcoming
                 tab={tab}
                 upcoming={upcoming}
+                handleOpenAlert={handleOpenAlert}
             />
             <Past
                 tab={tab}
                 past={past}
+                handleOpenAlert={handleOpenAlert}
             />
         </Stack>
     )

@@ -35,6 +35,9 @@ const Syllabus = ({
                         <Stack
                             alignItems="center"
                             justifyContent="center"
+                            sx={{
+                                overflowX: 'hidden',
+                            }}
                         >
                             <Typography
                                 variant="h6"

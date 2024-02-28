@@ -2,6 +2,7 @@ import { Box, Divider, Drawer, Grow, IconButton, Menu, MenuItem, Tooltip, Typogr
 import { MenuOpen, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import RightWidget from "../RightWidget";
+import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
 
 const CourseTitleSection = ({ 
     title,
@@ -33,6 +34,16 @@ const CourseTitleSection = ({
         setScheduleAnchorEl(null);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Rename Course */
+    const [openEditTitle, setOpenEditTitle] = useState(false);
+    const handleOpenEditTitle = () => {
+        setOpenEditTitle(true);
+    }
+    const handleCloseEditTitle = () => {
+        setOpenEditTitle(false);
+    }
+
     return (
         <Grow in={true}>
             <Box
@@ -45,12 +56,18 @@ const CourseTitleSection = ({
                     p: 1,
                 }}
             >
+                <EditTitleBackdrop 
+                    open={openEditTitle}
+                    handleClose={handleCloseEditTitle}
+                    title={title}
+                    changeTitle={changeTitle}
+                />
                 <Typography
-                    noWrap={false}
                     align="center"
                     variant="h6"
                     sx={{
                         fontWeight: '700',
+                        overflowX: 'hidden',
                     }}
                 >
                     {title}
@@ -86,7 +103,9 @@ const CourseTitleSection = ({
                                 horizontal: 'right',
                             }}
                         >
-                            <MenuItem  >
+                            <MenuItem  
+                                onClick={handleOpenEditTitle}
+                            >
                                 Edit Course Title
                             </MenuItem>
                             <MenuItem  >

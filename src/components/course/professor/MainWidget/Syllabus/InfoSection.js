@@ -1,11 +1,41 @@
 import { Edit } from "@mui/icons-material";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import EditInfoSectionBackdrop from "../../Backdrop/EditInfoSectionBackdrop";
+import { useState } from "react";
 
-const InfoSection = ({ title, info }) => {
+const InfoSection = ({ 
+    index, 
+    title, 
+    info, 
+    infos,
+    changeInfoSections, 
+    handleOpenAlert 
+}) => {
+
+    /* Backdrop Menu State Value & Function */
+    /* Edit Info Section */
+    const [openEditSection, setOpenEditSection] = useState(false);
+    const handleOpenEditSection = () => {
+        setOpenEditSection(true);
+    }
+    const handleCloseEditSection = () => {
+        setOpenEditSection(false);
+    }
+
     return (
         <Stack
             spacing={1}
         >
+            <EditInfoSectionBackdrop 
+                open={openEditSection}
+                handleClose={handleCloseEditSection}
+                index={index}
+                title={title}
+                info={info}
+                infos={infos}
+                changeInfoSections={changeInfoSections}
+                handleOpenAlert={handleOpenAlert}
+            />
             <Box
                 sx={{
                     display: "flex",
@@ -13,7 +43,7 @@ const InfoSection = ({ title, info }) => {
                     px: 1,
                     color: 'primary.main',
                     borderRadius: '5px',
-                    bgcolor: '#e3f3ff',
+                    bgcolor: 'primary.light',
                 }}
             >
                 <Typography
@@ -26,6 +56,7 @@ const InfoSection = ({ title, info }) => {
                 </Typography>
                 <Tooltip title="Edit">
                     <IconButton
+                        onClick={handleOpenEditSection}
                         size='small'
                     >
                         <Edit fontSize='inherit' />

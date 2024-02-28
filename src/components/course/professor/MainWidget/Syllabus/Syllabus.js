@@ -9,10 +9,14 @@ const Syllabus = ({
     school, 
     semester, 
     description,
-    infoSections 
+    infoSections,
+    handleOpenAlert
 }) => {
 
     const [infos, setInfos] = useState(infoSections);
+    const changeInfoSections = (infoSection) => {
+        setInfos(infoSection);
+    }
 
     return (
         <>
@@ -40,6 +44,9 @@ const Syllabus = ({
                         <Stack
                             alignItems="center"
                             justifyContent="center"
+                            sx={{
+                                overflowX: 'hidden',
+                            }}
                         >
                             <Typography
                                 variant="h6"
@@ -73,7 +80,7 @@ const Syllabus = ({
                                     px: 1,
                                     color: 'primary.main',
                                     borderRadius: '5px',
-                                    bgcolor: '#e3f3ff',
+                                    bgcolor: 'primary.light',
                                 }}
                             >
                                 <Typography
@@ -106,12 +113,16 @@ const Syllabus = ({
                             </Box>
                         </Stack>
                         {infos.map(infoSection => {
-                            const { title, info } = infoSection;
+                            const { index, title, info } = infoSection;
                             return (
                                 <InfoSection 
                                     key={title}
+                                    index={index}
                                     title={title}
                                     info={info}
+                                    infos={infos}
+                                    changeInfoSections={changeInfoSections}
+                                    handleOpenAlert={handleOpenAlert}
                                 />
                             )
                         })} 
