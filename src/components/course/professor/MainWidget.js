@@ -23,7 +23,17 @@ const MainWidget = ({
 
     /* Tab Being Viewed */
     const [tab, setTab] = useState("syllabus");
-    const semester = "Semester " + dayjs().year().toString();
+    const month = Number(dayjs().format('M'));
+    let academicSemester = "";
+    if(month <= 5) {
+        academicSemester = "Spring ";
+    } else if(month <= 7) {
+        academicSemester = "Summer ";
+    } else {
+        academicSemester = "Fall ";
+    }
+
+    const semester = academicSemester + dayjs().year().toString();
 
     /* Today's Date */
     const today = dayjs().format("MM/DD/YY");
@@ -33,6 +43,11 @@ const MainWidget = ({
     const [stTitle, setTitle] = useState(title);
     const changeTitle = (newTitle) => {
         setTitle(newTitle);
+    }
+
+    const [infos, setInfos] = useState(infoSections);
+    const changeInfoSections = (infoSection) => {
+        setInfos(infoSection);
     }
 
     return (
@@ -50,6 +65,8 @@ const MainWidget = ({
                 phone={phone}
                 email={email}
                 schedules={schedules}
+                infos={infos}
+                changeInfoSections={changeInfoSections}
                 changeTitle={changeTitle}
                 handleOpenAlert={handleOpenAlert}
             />
@@ -198,7 +215,8 @@ const MainWidget = ({
                 school={school}
                 semester={semester}
                 description={description}
-                infoSections={infoSections}
+                infos={infos}
+                changeInfoSections={changeInfoSections}
                 handleOpenAlert={handleOpenAlert}
             />
             <Upcoming

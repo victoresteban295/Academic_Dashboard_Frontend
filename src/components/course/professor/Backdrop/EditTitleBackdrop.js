@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, FilledInput, Popover, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, FilledInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const EditTitleBackdrop = ({
@@ -64,21 +64,23 @@ const EditTitleBackdrop = ({
                     onChange={(event) => setRename(event.target.value)}
                     inputProps={{maxLength: 100}}
                 />
-                <Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                    }}
+                >
                     <Button
-                        variant="contained"
-                        size='small'
+                        variant="text"
                         disabled={rename.trim() === ''}
                         onClick={handleRenameCourse}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light',
+                        }}
                     >
-                        <Typography
-                            sx={{
-                                color: '#000',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Rename
-                        </Typography>
+                        {"Rename"}
                     </Button>
                 </Box>
             </Stack>

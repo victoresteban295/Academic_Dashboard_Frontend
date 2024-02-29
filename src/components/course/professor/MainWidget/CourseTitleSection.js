@@ -3,6 +3,7 @@ import { MenuOpen, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import RightWidget from "../RightWidget";
 import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
+import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
 
 const CourseTitleSection = ({ 
     title,
@@ -11,7 +12,10 @@ const CourseTitleSection = ({
     phone,
     email,
     schedules,
-    changeTitle
+    infos,
+    changeInfoSections,
+    changeTitle,
+    handleOpenAlert
 }) => {
 
     /* Options Menu's State Value & Functions */
@@ -44,6 +48,16 @@ const CourseTitleSection = ({
         setOpenEditTitle(false);
     }
 
+    /* Backdrop Menu State Value & Function */
+    /* Edit Info Section */
+    const [openEditSection, setOpenEditSection] = useState(false);
+    const handleOpenEditSection = () => {
+        setOpenEditSection(true);
+    }
+    const handleCloseEditSection = () => {
+        setOpenEditSection(false);
+    }
+
     return (
         <Grow in={true}>
             <Box
@@ -56,6 +70,17 @@ const CourseTitleSection = ({
                     p: 1,
                 }}
             >
+                {/* Backdrops */}
+                <EditInfoSectionBackdrop 
+                    open={openEditSection}
+                    handleClose={handleCloseEditSection}
+                    index={""}
+                    title={""}
+                    info={""}
+                    infos={infos}
+                    changeInfoSections={changeInfoSections}
+                    handleOpenAlert={handleOpenAlert}
+                />
                 <EditTitleBackdrop 
                     open={openEditTitle}
                     handleClose={handleCloseEditTitle}
@@ -108,10 +133,13 @@ const CourseTitleSection = ({
                             >
                                 Edit Course Title
                             </MenuItem>
-                            <MenuItem  >
+                            <MenuItem  
+                            >
                                 Create New Task 
                             </MenuItem>
-                            <MenuItem  >
+                            <MenuItem  
+                                onClick={handleOpenEditSection}
+                            >
                                 Add Syllabus Section
                             </MenuItem>
                             <Divider />

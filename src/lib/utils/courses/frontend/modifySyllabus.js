@@ -1,10 +1,22 @@
 export const editSection = (index, title, info, infos) => {
     let updatedInfoSections = [...infos];
 
-    for(const section of updatedInfoSections) {
-        if(section.index === index) {
-            section.title = title;        
-            section.info = info;
+    //Create New Syllabus Section
+    if(index === "") {
+        const newSection = {
+            index: infos.length,
+            title: title,
+            info: info,
+        }
+        updatedInfoSections.push(newSection);
+
+    //Edit Existing Syllabus Section
+    } else {
+        for(const section of updatedInfoSections) {
+            if(section.index === index) {
+                section.title = title;        
+                section.info = info;
+            }
         }
     }
 
@@ -14,11 +26,18 @@ export const editSection = (index, title, info, infos) => {
 }
 
 export const deleteSection = (index, infos) => {
-    let updatedInfoSections = [...infos];
 
-    for(const section of updatedInfoSections) {
-        if(section.index === index) {
+    //Filter out Section Getting Deleted
+    let updatedInfoSections = infos.filter(section => {
+        return section.index != index;
+    })
 
-        }
+    //Update the index on each Section
+    for(let i = 0; i < updatedInfoSections.length; i++) {
+        updatedInfoSections[i].index = i.toString();
+    }
+
+    return {
+        updatedInfoSections: updatedInfoSections,
     }
 }

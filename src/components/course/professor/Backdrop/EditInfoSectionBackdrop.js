@@ -1,7 +1,7 @@
 import { SyllabusSection } from "@/lib/schemas/courseSchema";
-import { editSection } from "@/lib/utils/courses/frontend/modifySyllabus";
+import { deleteSection, editSection } from "@/lib/utils/courses/frontend/modifySyllabus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Delete, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
@@ -39,6 +39,23 @@ const EditInfoSectionBackdrop = ({
         try {
             //Frontend: Edit Syllabus Section
             const { updatedInfoSections } = editSection(index, data.title, data.info, infos);
+
+            //Update State Value
+            changeInfoSections(updatedInfoSections);
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error);
+        }
+        handleCloseBackdrop();
+    }
+
+    /* Delete Syllabus Section */
+    const handleDeleteSection = () => {
+        try {
+            //Frontend: Delete Syllabus Section
+            const { updatedInfoSections } = deleteSection(index, infos);
 
             //Update State Value
             changeInfoSections(updatedInfoSections);
@@ -114,31 +131,34 @@ const EditInfoSectionBackdrop = ({
                                 tablet: 'flex',
                                 desktop: 'flex',
                             },
-                            justifyContent: 'space-between',
+                            justifyContent: index === "" ? 'flex-end' : 'space-between',
                             alignItems: 'center',
                         }}
                     >
+                        {index != "" && (
+                            <Button
+                                color="error"
+                                variant="text"
+                                startIcon={<Delete />}
+                                onClick={handleDeleteSection}
+                                sx={{
+                                    fontWeight: '700',
+                                    bgcolor: 'error.light'
+                                }}
+                            >
+                                Delete
+                            </Button> 
+                        )}
                         <Button
-                            color="error"
                             variant="text"
-                            startIcon={<Delete />}
-                            sx={{
-                                fontWeight: '700',
-                                bgcolor: 'error.light'
-                            }}
-                        >
-                            Delete
-                        </Button> 
-                        <Button
-                            variant="text"
-                            startIcon={<Edit />}
+                            startIcon={index === "" ? <Add /> : <Edit />}
                             type="submit"
                             sx={{
                                 fontWeight: '700',
                                 bgcolor: 'primary.light'
                             }}
                         >
-                            Edit 
+                            {index === "" ? "Create" : "Edit"}
                         </Button> 
                     </Box>
                     <Box
@@ -149,31 +169,36 @@ const EditInfoSectionBackdrop = ({
                                 tablet: 'none',
                                 desktop: 'none',
                             },
-                            justifyContent: 'space-between',
+                            justifyContent: index === "" ? 'flex-end' : 'space-between',
                             alignItems: 'center',
                         }}
                     >
-                        <Button
-                            size="small"
-                            color="error"
-                            variant="outlined"
-                            startIcon={<Delete />}
-                            sx={{
-                                fontWeight: '700',
-                            }}
-                        >
-                            Delete
-                        </Button> 
+                        {index != "" && (
+                            <Button
+                                size="small"
+                                color="error"
+                                variant="text"
+                                startIcon={<Delete />}
+                                onClick={handleDeleteSection}
+                                sx={{
+                                    fontWeight: '700',
+                                    bgcolor: 'error.light'
+                                }}
+                            >
+                                Delete
+                            </Button> 
+                        )}
                         <Button
                             type="submit"
                             size="small"
-                            variant="outlined"
-                            startIcon={<Edit />}
+                            variant="text"
+                            startIcon={index === "" ? <Add /> : <Edit />}
                             sx={{
                                 fontWeight: '700',
+                                bgcolor: 'primary.light'
                             }}
                         >
-                            Edit 
+                            {index === "" ? "Create" : "Edit"}
                         </Button> 
                     </Box>
                 </Stack>

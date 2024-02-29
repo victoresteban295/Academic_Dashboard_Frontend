@@ -1,6 +1,8 @@
 import { Box, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
 import { Add, Apartment, AssignmentInd, Close, Email, LocalPhone } from "@mui/icons-material";
+import EditScheduleBackdrop from "./Backdrop/EditScheduleBackdrop";
+import { useState } from "react";
 
 const RightWidget = ({ 
     instructor, 
@@ -11,6 +13,16 @@ const RightWidget = ({
     handleClose, 
     handleOpenAlert }) => {
 
+    /* Backdrop Menu State Value & Function */
+    /* Create/Edit Course Schedule */
+    const [openSchedule, setOpenSchedule] = useState(false);
+    const handleOpenSchedule = () => {
+        setOpenSchedule(true);
+    }
+    const handleCloseSchedule = () => {
+        setOpenSchedule(false);
+    }
+
     return (
         <Stack
             spacing={2}
@@ -18,6 +30,16 @@ const RightWidget = ({
                 width: '100%',
             }}
         >
+            <EditScheduleBackdrop 
+                open={openSchedule}
+                handleClose={handleCloseSchedule}
+                index=""
+                location=""
+                days={[]}
+                strTime=""
+                endTime=""
+                handleOpenAlert={handleOpenAlert}
+            />
             <Box
                 sx={{
                     display: 'flex',
@@ -132,6 +154,7 @@ const RightWidget = ({
                 </Typography>
                 <Tooltip title="Add New Schedule">
                     <IconButton
+                        onClick={handleOpenSchedule}
                         size='small'
                     >
                         <Add fontSize='inherit' />

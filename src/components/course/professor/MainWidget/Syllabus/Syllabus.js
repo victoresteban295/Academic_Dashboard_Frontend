@@ -2,6 +2,7 @@ import { Box, Grow, IconButton, Stack, Tooltip, Typography } from "@mui/material
 import InfoSection from "./InfoSection";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
+import EditCourseDesBackdrop from "../../Backdrop/EditCourseDesBackdrop";
 
 const Syllabus = ({ 
     tab, 
@@ -9,13 +10,24 @@ const Syllabus = ({
     school, 
     semester, 
     description,
-    infoSections,
+    infos,
+    changeInfoSections,
     handleOpenAlert
 }) => {
+    /* State Value */
+    const [descr, setDescr] = useState(description);
+    const changeDescription = (updatedDescr) => {
+        setDescr(updatedDescr);
+    }
 
-    const [infos, setInfos] = useState(infoSections);
-    const changeInfoSections = (infoSection) => {
-        setInfos(infoSection);
+    /* Backdrop Menu State Value & Function */
+    /* Edit Course Description */
+    const [openEditDescr, setOpenEditDescr] = useState(false);
+    const handleOpenEditDescr = () => {
+        setOpenEditDescr(true);
+    }
+    const handleCloseEditDescr = () => {
+        setOpenEditDescr(false);
     }
 
     return (
@@ -41,6 +53,13 @@ const Syllabus = ({
                             }
                         }}
                     >
+                        <EditCourseDesBackdrop 
+                            open={openEditDescr}
+                            handleClose={handleCloseEditDescr}
+                            description={descr}
+                            changeDescription={changeDescription}
+                            handleOpenAlert={handleOpenAlert}
+                        />
                         <Stack
                             alignItems="center"
                             justifyContent="center"
@@ -93,6 +112,7 @@ const Syllabus = ({
                                 </Typography>
                                 <Tooltip title="Edit">
                                     <IconButton
+                                        onClick={handleOpenEditDescr}
                                         size='small'
                                     >
                                         <Edit fontSize='inherit' />
@@ -108,7 +128,7 @@ const Syllabus = ({
                                     variant="body1"
                                     paragraph={true}
                                 >
-                                    {description}
+                                    {descr}
                                 </Typography>
                             </Box>
                         </Stack>
