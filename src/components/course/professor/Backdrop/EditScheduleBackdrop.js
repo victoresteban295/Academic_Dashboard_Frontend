@@ -19,10 +19,17 @@ const EditScheduleBackdrop = ({
     changeSchedules,
     handleOpenAlert 
 }) => {
-
-    /* React Hook Form */
     const start = (strTime === "") ? null : dayjs(strTime, "h:mm A");
     const end = (endTime === "") ? null : dayjs(endTime, "h:mm A");
+
+    const values = {
+        location: location,
+        strTime: start,
+        endTime: end,
+        days: days,
+    }
+
+    /* React Hook Form */
     const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
@@ -32,6 +39,7 @@ const EditScheduleBackdrop = ({
             days: days,
 
         },
+        values,
         resolver: zodResolver(CourseSchedule), //Zod Validation Schema
     });
     const { errors } = formState;
@@ -66,6 +74,7 @@ const EditScheduleBackdrop = ({
         handleCloseBackdrop();
     }
 
+    /* Delete Course's Schedule */
     const handleDeleteSchedule = () => {
         try {
             //Frontend: Delete Course Schedule

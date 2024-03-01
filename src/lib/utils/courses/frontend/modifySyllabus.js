@@ -4,7 +4,7 @@ export const editSection = (index, title, info, infos) => {
     //Create New Syllabus Section
     if(index === "") {
         const newSection = {
-            index: infos.length,
+            index: infos.length.toString(),
             title: title,
             info: info,
         }

@@ -25,6 +25,18 @@ const Schedule = ({
 
     return (
         <Box>
+            <EditScheduleBackdrop 
+                open={openSchedule}
+                handleClose={handleCloseSchedule}
+                index={index}
+                location={location}
+                days={days}
+                strTime={startTime}
+                endTime={endTime}
+                schedules={schedules}
+                changeSchedules={changeSchedules}
+                handleOpenAlert={handleOpenAlert}
+            />
             <Stack
                 onClick={handleOpenSchedule}
                 sx={{
@@ -35,18 +47,6 @@ const Schedule = ({
                     cursor: 'pointer',
                 }}
             >
-                <EditScheduleBackdrop 
-                    open={openSchedule}
-                    handleClose={handleCloseSchedule}
-                    index={index}
-                    location={location}
-                    days={days}
-                    strTime={startTime}
-                    endTime={endTime}
-                    schedules={schedules}
-                    changeSchedules={changeSchedules}
-                    handleOpenAlert={handleOpenAlert}
-                />
                 <Typography
                     variant="body1"
                 >

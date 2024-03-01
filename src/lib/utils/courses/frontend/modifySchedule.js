@@ -6,7 +6,7 @@ export const modifySchedule = (index, location, strTime, endTime, days, schedule
     //Create a New Schedule
     if(index === "") {
         const schedule = {
-            index: schedules.length,
+            index: schedules.length.toString(),
             location: location,
             strTime: strTime,
             endTime: endTime,
