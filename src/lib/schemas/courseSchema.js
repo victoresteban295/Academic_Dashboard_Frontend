@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { any, string, z } from "zod";
 
 export const SyllabusSection = z.object({
     title: string().trim().min(1, {message: "Title is Required"}).max(25, {message: "Maximum 50 Characters"}),
@@ -11,4 +11,11 @@ export const CourseDescription = z.object({
 
 export const CourseSchedule = z.object({
     location: string().trim().min(1, {message: "Location is Required"}).max(30, {message: "Maximum 30 Characters"}),
+    strTime: any().refine((input) => {
+        return input != null && input.format("h:mm A") != 'Invalid Date';
+    }, "Time is Required"),
+    endTime: any().refine((input) => {
+        return input != null && input.format("h:mm A") != 'Invalid Date';
+    }, "Time is Required"),
+    days: string().array().nonempty({message: "A Day is Required"})
 })

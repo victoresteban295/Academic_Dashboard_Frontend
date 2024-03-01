@@ -13,6 +13,12 @@ const ProfCoursePage = ({ crs }) => {
     const todayDateTime = dayjs();
     const course = getCourse(crs, todayDateTime); 
 
+    /* State Value */
+    const [schedules, setSchedules] = useState(course.schedules);
+    const changeSchedules = (updatedSchedules) => {
+        setSchedules(updatedSchedules);
+    }
+
     /* Error Message Displaying in Alert */
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -76,12 +82,13 @@ const ProfCoursePage = ({ crs }) => {
                         office={course.office}
                         phone={course.phone}
                         email={course.email}
-                        schedules={course.schedules}
+                        schedules={schedules}
                         title={course.title}
                         school={course.school}
                         description={course.description}
                         infoSections={course.infoSections}
                         weeklyTasks={course.weeklyTasks}
+                        changeSchedules={changeSchedules}
                         handleOpenAlert={handleOpenAlert}
                     />
                 </Box>
@@ -110,7 +117,8 @@ const ProfCoursePage = ({ crs }) => {
                             office={course.office}
                             phone={course.phone}
                             email={course.email}
-                            schedules={course.schedules}
+                            schedules={schedules}
+                            changeSchedules={changeSchedules}
                             handleOpenAlert={handleOpenAlert}
                         />
                     </Box>

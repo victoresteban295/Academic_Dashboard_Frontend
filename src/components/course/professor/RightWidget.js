@@ -10,6 +10,7 @@ const RightWidget = ({
     phone,
     email,
     schedules,
+    changeSchedules,
     handleClose, 
     handleOpenAlert }) => {
 
@@ -38,6 +39,8 @@ const RightWidget = ({
                 days={[]}
                 strTime=""
                 endTime=""
+                schedules={schedules}
+                changeSchedules={changeSchedules}
                 handleOpenAlert={handleOpenAlert}
             />
             <Box
@@ -162,14 +165,18 @@ const RightWidget = ({
                 </Tooltip>
             </Box>
             {schedules.map(schedule => {
-                const { location, days, strTime, endTime } = schedule;
+                const { index, location, days, strTime, endTime } = schedule;
                 return (
                     <Schedule 
-                        key={location}
+                        key={index}
+                        index={index}
                         location={location}
                         days={days}
                         startTime={strTime}
                         endTime={endTime}
+                        schedules={schedules}
+                        changeSchedules={changeSchedules}
+                        handleOpenAlert={handleOpenAlert}
                     />
                 )
             })}

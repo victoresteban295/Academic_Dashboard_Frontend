@@ -1,4 +1,5 @@
 import { CourseSchedule } from "@/lib/schemas/courseSchema";
+import { deleteSchedule, modifySchedule } from "@/lib/utils/courses/frontend/modifySchedule";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, FormControl, FormHelperText, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
@@ -14,6 +15,8 @@ const EditScheduleBackdrop = ({
     days,
     strTime,
     endTime,
+    schedules,
+    changeSchedules,
     handleOpenAlert 
 }) => {
 
@@ -26,7 +29,7 @@ const EditScheduleBackdrop = ({
             location: location,
             strTime: start,
             endTime: end,
-            days: ["Mon", "Tue"],
+            days: days,
 
         },
         resolver: zodResolver(CourseSchedule), //Zod Validation Schema
@@ -41,11 +44,35 @@ const EditScheduleBackdrop = ({
     }
 
     /* Create/Edit Course's Schedule */
-    const modifySchedule = (data) => {
+    const handleModifySchedule = (data) => {
         try {
             //Frontend: Modify Course Schedule 
+            const { updatedSchedules } = modifySchedule(
+                index, 
+                data.location, 
+                data.strTime.format("h:mm A"), 
+                data.endTime.format("h:mm A"), 
+                data.days, 
+                schedules)
 
             //Update State Value
+            changeSchedules(updatedSchedules);
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error);
+        }
+        handleCloseBackdrop();
+    }
+
+    const handleDeleteSchedule = () => {
+        try {
+            //Frontend: Delete Course Schedule
+            const { updatedSchedules } = deleteSchedule(index, schedules)
+
+            //Update State Value
+            changeSchedules(updatedSchedules);
 
             //Backend API: Update Database
 
@@ -63,7 +90,7 @@ const EditScheduleBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <form
-                onSubmit={handleSubmit(modifySchedule)}
+                onSubmit={handleSubmit(handleModifySchedule)}
             >
                 <Stack
                     spacing={2}
@@ -175,90 +202,197 @@ const EditScheduleBackdrop = ({
                         control={control}
                         render={({field: { onChange, value}}) => {
                             return (
-                                <ToggleButtonGroup
-                                    color="primary"
-                                    value={value}
-                                    onChange={(event, dates) => {
-                                        onChange(dates);
-                                    }}
-                                    size="large"
-                                    fullWidth={true}
-                                    sx={{
-                                        display: {
-                                            fold: "none",
-                                            mobile: "flex",
-                                            tablet: "flex",
-                                            desktop: "flex",
-                                        },
-                                    }}
-                                >
-                                    <ToggleButton 
-                                        value="Mon"
+                                <FormControl>
+                                    <ToggleButtonGroup
+                                        color="primary"
+                                        value={value}
+                                        onChange={(event, dates) => {
+                                            onChange(dates);
+                                        }}
+                                        size="large"
+                                        fullWidth={true}
+                                        sx={{
+                                            display: {
+                                                fold: "none",
+                                                mobile: "flex",
+                                                tablet: "flex",
+                                                desktop: "flex",
+                                            },
+                                            border: !!errors.days ? '1px solid' : 'none',
+                                            borderColor: !!errors.days ? 'error.main' : 'none',
+                                        }}
                                     >
-                                        Mon
-                                    </ToggleButton>
-                                    <ToggleButton 
-                                        value="Tue"
+                                        <ToggleButton 
+                                            value="Mon"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Mon
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Tue"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Tue
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Wed"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Wed
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Thu"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Thu
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Fri"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Fri
+                                            </Typography>
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>
+                                    <FormHelperText
+                                        error={!!errors.days}
+                                        sx={{
+                                            display: {
+                                                fold: "none",
+                                                mobile: "flex",
+                                                tablet: "flex",
+                                                desktop: "flex",
+                                            },
+                                        }}
                                     >
-                                        Tue
-                                    </ToggleButton>
-                                    <ToggleButton 
-                                        value="Wed"
-                                    >
-                                        Wed
-                                    </ToggleButton>
-                                    <ToggleButton 
-                                        value="Thu"
-                                    >
-                                        Thu
-                                    </ToggleButton>
-                                    <ToggleButton 
-                                        value="Fri"
-                                    >
-                                        Fri
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
+                                        {errors.days?.message}
+                                    </FormHelperText>
+                                </FormControl>
                             )
                         }}
                     />
-                    <ToggleButtonGroup
-                        size="small"
-                        fullWidth={true}
-                        sx={{
-                            display: {
-                                fold: "flex",
-                                mobile: "none",
-                                tablet: "none",
-                                desktop: "none",
-                            }
+                    <Controller 
+                        name="days"
+                        control={control}
+                        render={({field: { onChange, value}}) => {
+                            return (
+                                <FormControl>
+                                    <ToggleButtonGroup
+                                        color="primary"
+                                        value={value}
+                                        onChange={(event, dates) => {
+                                            onChange(dates);
+                                        }}
+                                        size="small"
+                                        fullWidth={true}
+                                        sx={{
+                                            display: {
+                                                fold: "flex",
+                                                mobile: "none",
+                                                tablet: "none",
+                                                desktop: "none",
+                                            },
+                                            border: !!errors.days ? '1px solid' : 'none',
+                                            borderColor: !!errors.days ? 'error.main' : 'none',
+                                        }}
+                                    >
+                                        <ToggleButton 
+                                            value="Mon"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                M
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Tue"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                T
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Wed"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                W
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Thu"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                R
+                                            </Typography>
+                                        </ToggleButton>
+                                        <ToggleButton 
+                                            value="Fri"
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                F
+                                            </Typography>
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>
+                                    <FormHelperText
+                                        error={!!errors.days}
+                                        sx={{
+                                            display: {
+                                                fold: "flex",
+                                                mobile: "none",
+                                                tablet: "none",
+                                                desktop: "none",
+                                            },
+                                        }}
+                                    >
+                                        {errors.days?.message}
+                                    </FormHelperText>
+                                </FormControl>
+                            )
                         }}
-                    >
-                        <ToggleButton 
-                            value="Mon"
-                        >
-                            M
-                        </ToggleButton>
-                        <ToggleButton 
-                            value="Tue"
-                        >
-                            T
-                        </ToggleButton>
-                        <ToggleButton 
-                            value="Wed"
-                        >
-                            W
-                        </ToggleButton>
-                        <ToggleButton 
-                            value="Thu"
-                        >
-                            R
-                        </ToggleButton>
-                        <ToggleButton 
-                            value="Fri"
-                        >
-                            F
-                        </ToggleButton>
-                    </ToggleButtonGroup>
+                    />
                     <Box
                         sx={{
                             display: {
@@ -274,6 +408,7 @@ const EditScheduleBackdrop = ({
                         {index != "" && (
                             <Button
                                 color="error"
+                                onClick={handleDeleteSchedule}
                                 variant="text"
                                 startIcon={<Delete />}
                                 sx={{
@@ -311,6 +446,7 @@ const EditScheduleBackdrop = ({
                         {index != "" && (
                             <Button
                                 size="small"
+                                onClick={handleDeleteSchedule}
                                 color="error"
                                 variant="text"
                                 startIcon={<Delete />}

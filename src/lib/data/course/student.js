@@ -44,12 +44,14 @@ export const getCourse = (course, today) => {
         /* Course Schedule */
         schedules: [
             {
+                index: "0",
                 location: "Palenske Hall 230",
                 days: [ "Mon", "Thu", "Fri" ],
                 strTime: "9:15 AM",
                 endTime: "10:20 PM",
             },
             {
+                index: "1",
                 location: "Norris Center 100",
                 days: [ "Tue", "Wed" ],
                 strTime: "1:00 PM",

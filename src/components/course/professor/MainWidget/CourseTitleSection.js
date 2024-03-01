@@ -15,6 +15,7 @@ const CourseTitleSection = ({
     infos,
     changeInfoSections,
     changeTitle,
+    changeSchedules,
     handleOpenAlert
 }) => {
 
@@ -188,7 +189,9 @@ const CourseTitleSection = ({
                                 phone={phone}
                                 email={email}
                                 schedules={schedules}
+                                changeSchedules={changeSchedules}
                                 handleClose={handleCloseSchedule}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         </Box>
                     </Drawer>

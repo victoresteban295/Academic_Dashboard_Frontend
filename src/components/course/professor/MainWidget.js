@@ -18,6 +18,7 @@ const MainWidget = ({
     description,
     infoSections,
     weeklyTasks,
+    changeSchedules,
     handleOpenAlert
 }) => {
 
@@ -68,6 +69,7 @@ const MainWidget = ({
                 infos={infos}
                 changeInfoSections={changeInfoSections}
                 changeTitle={changeTitle}
+                changeSchedules={changeSchedules}
                 handleOpenAlert={handleOpenAlert}
             />
 

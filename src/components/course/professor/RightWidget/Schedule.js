@@ -1,15 +1,52 @@
-import { Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import EditScheduleBackdrop from "../Backdrop/EditScheduleBackdrop";
 
-const Schedule = ({ location, days, startTime, endTime }) => {
+const Schedule = ({ 
+    index, 
+    location, 
+    days, 
+    startTime, 
+    endTime, 
+    schedules, 
+    changeSchedules,
+    handleOpenAlert
+}) => {
+
+    /* Backdrop Menu State Value & Function */
+    /* Create/Edit Course Schedule */
+    const [openSchedule, setOpenSchedule] = useState(false);
+    const handleOpenSchedule = () => {
+        setOpenSchedule(true);
+    }
+    const handleCloseSchedule = () => {
+        setOpenSchedule(false);
+    }
+
     return (
-        <Stack
-            sx={{
-                px: 2,
-                py: 1,
-                boxShadow: '1px 1px 4px 2px #cecece',
-                borderRadius: '5px',
-            }}
-        >
+        <Box>
+            <Stack
+                onClick={handleOpenSchedule}
+                sx={{
+                    px: 2,
+                    py: 1,
+                    boxShadow: '1px 1px 4px 2px #cecece',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                }}
+            >
+                <EditScheduleBackdrop 
+                    open={openSchedule}
+                    handleClose={handleCloseSchedule}
+                    index={index}
+                    location={location}
+                    days={days}
+                    strTime={startTime}
+                    endTime={endTime}
+                    schedules={schedules}
+                    changeSchedules={changeSchedules}
+                    handleOpenAlert={handleOpenAlert}
+                />
                 <Typography
                     variant="body1"
                 >
@@ -43,7 +80,8 @@ const Schedule = ({ location, days, startTime, endTime }) => {
                         )
                     })}
                 </Stack>
-        </Stack>
+            </Stack>
+        </Box>
     )
 }
 
