@@ -33,23 +33,25 @@ const MainWidget = ({
     } else {
         academicSemester = "Fall ";
     }
-
     const semester = academicSemester + dayjs().year().toString();
-
-    /* Today's Date */
-    const today = dayjs().format("MM/DD/YY");
-    const { upcoming, past } = seperateWeeklyTasks(today, weeklyTasks);
 
     /* State Value */
     const [stTitle, setTitle] = useState(title);
     const changeTitle = (newTitle) => {
         setTitle(newTitle);
     }
-
     const [infos, setInfos] = useState(infoSections);
     const changeInfoSections = (infoSection) => {
         setInfos(infoSection);
     }
+    const [stWeeklyTasks, setWeeklyTask] = useState(weeklyTasks);
+    const changeWeeklyTasks = (updatedWeeklyTasks) => {
+        setWeeklyTask(updatedWeeklyTasks);
+    }
+
+    /* Today's Date */
+    const today = dayjs().format("MM/DD/YY");
+    const { upcoming, past } = seperateWeeklyTasks(today, stWeeklyTasks);
 
     return (
         <Stack
@@ -67,9 +69,11 @@ const MainWidget = ({
                 email={email}
                 schedules={schedules}
                 infos={infos}
+                weeklyTasks={stWeeklyTasks}
                 changeInfoSections={changeInfoSections}
                 changeTitle={changeTitle}
                 changeSchedules={changeSchedules}
+                changeWeeklyTasks={changeWeeklyTasks}
                 handleOpenAlert={handleOpenAlert}
             />
 
@@ -224,11 +228,15 @@ const MainWidget = ({
             <Upcoming
                 tab={tab}
                 upcoming={upcoming}
+                weeklyTasks={stWeeklyTasks}
+                changeWeeklyTasks={changeWeeklyTasks}
                 handleOpenAlert={handleOpenAlert}
             />
             <Past
                 tab={tab}
                 past={past}
+                weeklyTasks={stWeeklyTasks}
+                changeWeeklyTasks={changeWeeklyTasks}
                 handleOpenAlert={handleOpenAlert}
             />
         </Stack>

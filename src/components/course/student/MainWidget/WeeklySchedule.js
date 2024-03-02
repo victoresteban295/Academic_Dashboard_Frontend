@@ -44,10 +44,10 @@ const WeeklySchedule = ({ strDate, endDate, tasks }) => {
                     }}
                 >
                     {tasks.map(tsk => {
-                        const { task, title, date, note, due } = tsk;
+                        const { taskId, task, title, date, note, due } = tsk;
                         return (
                             <Task 
-                                key={title}
+                                key={taskId}
                                 task={task}
                                 title={title}
                                 date={date}

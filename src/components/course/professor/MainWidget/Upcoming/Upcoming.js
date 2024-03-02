@@ -1,7 +1,13 @@
 import { Grow, Stack } from "@mui/material"
 import WeeklySchedule from "../WeeklySchedule";
 
-const Upcoming = ({ tab, upcoming }) => {
+const Upcoming = ({ 
+    tab, 
+    upcoming,
+    weeklyTasks,
+    changeWeeklyTasks,
+    handleOpenAlert
+}) => {
     return (
         <>
             {tab === "upcoming" && (

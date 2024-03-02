@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
-const Task = ({ task, title, date, note, due }) => {
+const Task = ({ taskId, task, title, date, note, due }) => {
     const month = dayjs(date, "MM/DD/YY").format("MMM");
     const day = dayjs(date, "MM/DD/YY").format("DD");
 

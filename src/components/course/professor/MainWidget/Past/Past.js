@@ -1,7 +1,14 @@
 import { Grow, Stack } from "@mui/material";
 import WeeklySchedule from "../WeeklySchedule";
 
-const Past = ({ tab, past }) => {
+const Past = ({ 
+    tab, 
+    past,
+    weeklyTasks,
+    changeWeeklyTasks,
+    handleOpenAlert
+}) => {
+
     return (
         <>
             {tab === "past" && (

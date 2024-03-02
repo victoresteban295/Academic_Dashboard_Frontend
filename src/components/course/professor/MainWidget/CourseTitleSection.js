@@ -4,6 +4,7 @@ import { useState } from "react";
 import RightWidget from "../RightWidget";
 import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
 import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
+import TaskBackdrop from "../Backdrop/TaskBackdrop";
 
 const CourseTitleSection = ({ 
     title,
@@ -13,9 +14,11 @@ const CourseTitleSection = ({
     email,
     schedules,
     infos,
+    weeklyTasks,
     changeInfoSections,
     changeTitle,
     changeSchedules,
+    changeWeeklyTasks,
     handleOpenAlert
 }) => {
 
@@ -48,8 +51,6 @@ const CourseTitleSection = ({
     const handleCloseEditTitle = () => {
         setOpenEditTitle(false);
     }
-
-    /* Backdrop Menu State Value & Function */
     /* Edit Info Section */
     const [openEditSection, setOpenEditSection] = useState(false);
     const handleOpenEditSection = () => {
@@ -57,6 +58,14 @@ const CourseTitleSection = ({
     }
     const handleCloseEditSection = () => {
         setOpenEditSection(false);
+    }
+    /* Modify Task Backdrop */
+    const [openTask, setOpenTask] = useState(false);
+    const handleOpenTask = () => {
+        setOpenTask(true);
+    }
+    const handleCloseTask = () => {
+        setOpenTask(false);
     }
 
     return (
@@ -88,6 +97,13 @@ const CourseTitleSection = ({
                     title={title}
                     changeTitle={changeTitle}
                 />
+                <TaskBackdrop 
+                    open={openTask}
+                    handleClose={handleCloseTask}
+                    taskId=""
+                    title=""
+                    handleOpenAlert={handleOpenAlert}
+                />
                 <Typography
                     align="center"
                     variant="h6"
@@ -104,7 +120,6 @@ const CourseTitleSection = ({
                         ml: 2,
                     }}
                 >
-                    
                     {/* Course Options Menu Icon */}
                     <Tooltip title="Options">
                         <IconButton
@@ -135,6 +150,7 @@ const CourseTitleSection = ({
                                 Edit Course Title
                             </MenuItem>
                             <MenuItem  
+                                onClick={handleOpenTask}
                             >
                                 Create New Task 
                             </MenuItem>
