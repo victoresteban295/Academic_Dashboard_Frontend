@@ -1,7 +1,14 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import Task from "./Task";
 
-const WeeklySchedule = ({ strDate, endDate, tasks }) => {
+const WeeklySchedule = ({ 
+    strDate, 
+    endDate, 
+    tasks, 
+    weeklyTasks,
+    changeWeeklyTasks,
+    handleOpenAlert
+}) => {
 
     return (
         <Stack
@@ -54,6 +61,9 @@ const WeeklySchedule = ({ strDate, endDate, tasks }) => {
                                 date={date}
                                 note={note}
                                 due={due}
+                                weeklyTasks={weeklyTasks}
+                                changeWeeklyTasks={changeWeeklyTasks}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         )
                     })}

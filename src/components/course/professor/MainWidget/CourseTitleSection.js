@@ -102,6 +102,12 @@ const CourseTitleSection = ({
                     handleClose={handleCloseTask}
                     taskId=""
                     title=""
+                    task=""
+                    due=""
+                    date=""
+                    note=""
+                    weeklyTasks={weeklyTasks}
+                    changeWeeklyTasks={changeWeeklyTasks}
                     handleOpenAlert={handleOpenAlert}
                 />
                 <Typography

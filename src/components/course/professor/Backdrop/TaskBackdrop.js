@@ -1,9 +1,11 @@
-import { CourseSchedule } from "@/lib/schemas/courseSchema";
+import { CourseTask } from "@/lib/schemas/courseSchema";
+import { deleteTask, modifyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, FormControl, FormHelperText, MenuItem, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const TaskBackdrop = ({ 
@@ -11,42 +13,89 @@ const TaskBackdrop = ({
     handleClose, 
     taskId,
     title,
+    task,
+    due,
+    date,
+    note,
+    weeklyTasks,
+    changeWeeklyTasks,
     handleOpenAlert 
 }) => {
 
     /* React Hook Form */
-    const { formState, control, handleSubmit, reset, getValues } = useForm({
+    const defaultDate = (date === "") ? null : dayjs(date, "MM/DD/YY");
+    let defaultDue, defaultTime;
+    if(due.includes("AM") || due.includes("PM")) {
+        defaultDue = "Select Time"
+        defaultTime = dayjs(due, "h:mm A");
+    } else if(due === "") {
+        defaultDue = "";
+        defaultTime = null;
+    } else {
+        defaultDue = due;
+        defaultTime = null;
+    }
+    const values = {
+        title: title,
+        task: task,
+        date: defaultDate,
+        due: defaultDue,
+        time: defaultTime,
+        note: note
+    }
+    const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
             title : title,
+            task: task,
+            date: defaultDate,
+            due: defaultDue,
+            time: defaultTime,
+            note: note
         },
         values,
-        resolver: zodResolver(CourseSchedule), //Zod Validation Schema
+        resolver: zodResolver(CourseTask), //Zod Validation Schema
     });
     const { errors } = formState;
 
     //Task Values
     const tasks = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
     //Due Values
-    const dues = ["Before Class", "During Class", "After Class", "Start of Day", "End of Day", "Time"];
-    const selectedTime = getValues('')
+    const dues = ["Before Class", "During Class", "After Class", "Start of Day", "End of Day", "Select Time"];
+    const [selectedTime, setSelectedTime] = useState(defaultDue === "Select Time")
 
-    const values = {
-        title: title,
-    }
 
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
+        setSelectedTime(false);
         reset();
     }
 
     /* Create/Edit Task */
     const handleModifyTask = (data) => {
         try {
+            //Did User Select a Specific Time
+            let due;
+            if(data.due === 'Select Time') {
+                due = data.time.format("h:mm A");
+            } else {
+                due = data.due;
+            }
+
             //Frontend: Modify Task 
+            const { updatedWeeklyTasks } = modifyTasks(
+                taskId, 
+                data.title, 
+                data.task,
+                data.date.format("MM/DD/YY"),
+                due,
+                data.note,
+                weeklyTasks
+            );
 
             //Update State Value
+            changeWeeklyTasks(updatedWeeklyTasks);
 
             //Backend API: Update Database
 
@@ -60,8 +109,10 @@ const TaskBackdrop = ({
     const handleDeleteTask = () => {
         try {
             //Frontend: Delete Task 
+            const { updatedWeeklyTasks } = deleteTask(taskId, date, weeklyTasks);
 
             //Update State Value
+            changeWeeklyTasks(updatedWeeklyTasks);
 
             //Backend API: Update Database
 
@@ -147,7 +198,15 @@ const TaskBackdrop = ({
                                         select
                                         error={!!errors.due}
                                         value={value}
-                                        onChange={onChange}
+                                        onChange={(event) => {
+                                            const value = event.target.value;
+                                            if(value === 'Select Time') {
+                                                setSelectedTime(true);
+                                            } else {
+                                                setSelectedTime(false);
+                                            }
+                                            onChange(value);
+                                        }}
                                         label='Due'
                                         helperText={errors.due?.message}
                                     >
@@ -167,7 +226,12 @@ const TaskBackdrop = ({
                         }}
                     />
                     <Stack
-                        direction="row"
+                        direction={{
+                            fold: "column",
+                            mobile: "row",
+                            tablet: "row",
+                            desktop: "row",
+                        }}
                         spacing={2}
                     >
                         <Controller 
@@ -195,31 +259,34 @@ const TaskBackdrop = ({
                                 )
                             }}
                         />
-                        <Controller 
-                            name="time"
-                            control={control}
-                            render={({field: { onChange, value}}) => {
-                                return (
-                                    <FormControl fullWidth>
-                                        <TimePicker
-                                            label="Time"
-                                            value={value}
-                                            onChange={onChange}
-                                            slotProps = {{
-                                                textField: {
-                                                    error: !!errors.time,
-                                                }
-                                            }}
-                                        />
-                                        <FormHelperText
-                                            error={!!errors.time}
-                                        >
-                                            {errors.time?.message}
-                                        </FormHelperText>
-                                    </FormControl>
-                                )
-                            }}
-                        />
+                        {selectedTime && (
+                            <Controller 
+                                name="time"
+                                control={control}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <FormControl fullWidth>
+                                            <TimePicker
+                                                disabled={!selectedTime}
+                                                label="Time"
+                                                value={value}
+                                                onChange={onChange}
+                                                slotProps = {{
+                                                    textField: {
+                                                        error: !!errors.time,
+                                                    }
+                                                }}
+                                            />
+                                            <FormHelperText
+                                                error={!!errors.time}
+                                            >
+                                                {errors.time?.message}
+                                            </FormHelperText>
+                                        </FormControl>
+                                    )
+                                }}
+                            />
+                        )}
                     </Stack>
                     <Controller 
                         name="note"
@@ -232,7 +299,7 @@ const TaskBackdrop = ({
                                     onChange={onChange}
                                     error={!!errors.note}
                                     helperText={errors.note?.message}
-                                    inputProps={{maxLength: 250}}
+                                    inputProps={{maxLength: 200}}
                                     fullWidth={true}
                                     multiline
                                     minRows={4}

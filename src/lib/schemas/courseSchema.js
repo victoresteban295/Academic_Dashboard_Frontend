@@ -19,3 +19,22 @@ export const CourseSchedule = z.object({
     }, "Time is Required"),
     days: string().array().nonempty({message: "A Day is Required"})
 })
+
+export const CourseTask = z.object({
+    title: string().trim().min(1, {message: "Title is Required"}).max(50, {message: "Maximum 50 Characters"}),
+    task: string().min(1, {message: "Task is Required"}),
+    due: string().min(1, {message: "Due is Required"}),
+    date: any().refine((input) => {
+        return input != null && input.format("MM/DD/YYYY") != 'Invalid Date';
+    }, "Date is Required"),
+    time: any().refine(() => {
+            return true;
+    }, "Time is Required"),
+    note: string().trim().max(200, {message: "Maximum 200 Characters"}).optional(),
+}).refine((data) => {
+        if(data.due != "Select Time" || data.due === null) {
+            return true;
+        } else {
+            return data.time != null && data.time.format("h:mm A") != 'Invalid Date';
+        }
+}, { message: "Time is Required", path: ['time']})

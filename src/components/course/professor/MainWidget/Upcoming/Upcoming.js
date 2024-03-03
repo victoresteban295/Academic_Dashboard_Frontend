@@ -18,14 +18,17 @@ const Upcoming = ({
                             width:'100%',
                         }}
                     >
-                        {upcoming.map(weeklyTasks => {
-                            const { strWeek, endWeek, tasks } = weeklyTasks;
+                        {upcoming.map(weeklyTsks => {
+                            const { strWeek, endWeek, tasks } = weeklyTsks;
                             return (
                                 <WeeklySchedule 
                                     key={strWeek}
                                     strDate={strWeek}
                                     endDate={endWeek}
                                     tasks={tasks}
+                                    weeklyTasks={weeklyTasks}
+                                    changeWeeklyTasks={changeWeeklyTasks}
+                                    handleOpenAlert={handleOpenAlert} 
                                 />
                             )
                         })}

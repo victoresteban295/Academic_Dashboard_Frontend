@@ -19,14 +19,17 @@ const Past = ({
                             width:'100%',
                         }}
                     >
-                        {past.map(weeklyTasks => {
-                            const { strWeek, endWeek, tasks } = weeklyTasks;
+                        {past.map(weeklyTsks => {
+                            const { strWeek, endWeek, tasks } = weeklyTsks;
                             return (
                                 <WeeklySchedule
                                     key={strWeek}
                                     strDate={strWeek}
                                     endDate={endWeek}
                                     tasks={tasks}
+                                    weeklyTasks={weeklyTasks}
+                                    changeWeeklyTasks={changeWeeklyTasks}
+                                    handleOpenAlert={handleOpenAlert} 
                                 />
                             )
                         })}

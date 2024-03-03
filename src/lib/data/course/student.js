@@ -70,7 +70,6 @@ export const getCourse = (course, today) => {
                         taskId: "hby45392-9",
                         task: "Assignment",
                         title: "Homework #1",
-                        date: "01/17/24",
                         date: dayjs(`${todayStrWeek.subtract(8, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(3, 'day').format("MM/DD/YY"),
                         note: "Chapter 1: P.23 - P.24",
                         due: "Before Class",
