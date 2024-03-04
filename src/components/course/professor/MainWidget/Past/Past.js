@@ -1,5 +1,6 @@
-import { Grow, Stack } from "@mui/material";
+import { Grow, Stack, Typography } from "@mui/material";
 import WeeklySchedule from "../WeeklySchedule";
+import { AssignmentTurnedInTwoTone } from "@mui/icons-material";
 
 const Past = ({ 
     tab, 
@@ -33,6 +34,28 @@ const Past = ({
                                 />
                             )
                         })}
+                        {past.length === 0 && (
+                            <Stack
+                                alignItems="center"
+                                spacing={1}
+                                sx={{
+                                    p: 2,
+                                }}
+                            >
+                                <AssignmentTurnedInTwoTone
+                                    fontSize="large"
+                                />
+                                <Typography
+                                    align="center"
+                                    variant="h5"
+                                    sx={{
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    No Past Tasks
+                                </Typography>
+                            </Stack>
+                        )}
                     </Stack>
                 </Grow>
             )}

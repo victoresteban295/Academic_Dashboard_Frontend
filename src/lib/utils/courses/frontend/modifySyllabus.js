@@ -3,12 +3,18 @@ export const editSection = (index, title, info, infos) => {
 
     //Create New Syllabus Section
     if(index === "") {
-        const newSection = {
-            index: infos.length.toString(),
-            title: title,
-            info: info,
+        //Each Course is Limited to 15 Syllabus Section
+        if(infos.length < 15) {
+            const newSection = {
+                index: infos.length.toString(),
+                title: title,
+                info: info,
+            }
+            updatedInfoSections.push(newSection);
+
+        } else {
+            throw new Error("Syllabus Section Limit Exceeded: 15");
         }
-        updatedInfoSections.push(newSection);
 
     //Edit Existing Syllabus Section
     } else {

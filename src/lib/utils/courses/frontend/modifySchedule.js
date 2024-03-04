@@ -5,15 +5,18 @@ export const modifySchedule = (index, location, strTime, endTime, days, schedule
     
     //Create a New Schedule
     if(index === "") {
-        const schedule = {
-            index: schedules.length.toString(),
-            location: location,
-            strTime: strTime,
-            endTime: endTime,
-            days: sortedDays
+        if(schedules.length < 5) {
+            const schedule = {
+                index: schedules.length.toString(),
+                location: location,
+                strTime: strTime,
+                endTime: endTime,
+                days: sortedDays
+            }
+            updatedSchedules.push(schedule);
+        } else {
+            throw new Error("Course's Schedule Limt Exceeded: 5");
         }
-        updatedSchedules.push(schedule);
-
     //Edit Existing Schedule
     } else {
         for(const schedule of schedules) {

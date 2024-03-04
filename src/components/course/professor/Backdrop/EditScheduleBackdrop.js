@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 
 const EditScheduleBackdrop = ({ 
+    size,
     open, 
     handleClose, 
     index,
@@ -69,7 +70,7 @@ const EditScheduleBackdrop = ({
             //Backend API: Update Database
 
         } catch(error) {
-            handleOpenAlert(error);
+            handleOpenAlert(error.message);
         }
         handleCloseBackdrop();
     }
@@ -410,11 +411,11 @@ const EditScheduleBackdrop = ({
                                 tablet: 'flex',
                                 desktop: 'flex',
                             },
-                            justifyContent: index === "" ? 'flex-end' : 'space-between',
+                            justifyContent: (index === "") || (size === 1 ) ? 'flex-end' : 'space-between',
                             alignItems: 'center',
                         }}
                     >
-                        {index != "" && (
+                        {((index != "") && (size != 1)) && (
                             <Button
                                 color="error"
                                 onClick={handleDeleteSchedule}
@@ -448,11 +449,11 @@ const EditScheduleBackdrop = ({
                                 tablet: 'none',
                                 desktop: 'none',
                             },
-                            justifyContent: index === "" ? 'flex-end' : 'space-between',
+                            justifyContent: (index === "") || (size === 1 ) ? 'flex-end' : 'space-between',
                             alignItems: 'center',
                         }}
                     >
-                        {index != "" && (
+                        {((index != "") && (size != 1)) && (
                             <Button
                                 size="small"
                                 onClick={handleDeleteSchedule}

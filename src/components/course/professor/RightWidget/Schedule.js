@@ -10,6 +10,7 @@ const Schedule = ({
     endTime, 
     schedules, 
     changeSchedules,
+    size,
     handleOpenAlert
 }) => {
 
@@ -26,6 +27,7 @@ const Schedule = ({
     return (
         <Box>
             <EditScheduleBackdrop 
+                size={size}
                 open={openSchedule}
                 handleClose={handleCloseSchedule}
                 index={index}

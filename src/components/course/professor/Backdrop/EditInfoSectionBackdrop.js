@@ -46,7 +46,7 @@ const EditInfoSectionBackdrop = ({
             //Backend API: Update Database
 
         } catch(error) {
-            handleOpenAlert(error);
+            handleOpenAlert(error.message);
         }
         handleCloseBackdrop();
     }
@@ -63,7 +63,7 @@ const EditInfoSectionBackdrop = ({
             //Backend API: Update Database
 
         } catch(error) {
-            handleOpenAlert(error);
+            handleOpenAlert(error.message);
         }
         handleCloseBackdrop();
     }

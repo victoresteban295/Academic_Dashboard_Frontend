@@ -5,6 +5,8 @@ import RightWidget from "../RightWidget";
 import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
 import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
 import TaskBackdrop from "../Backdrop/TaskBackdrop";
+import DeleteCourseBackdrop from "../Backdrop/DeleteCourseBackdrop";
+import FinalDeleteCourseBackdrop from "../Backdrop/FinalDeleteCourseBackdrop";
 
 const CourseTitleSection = ({ 
     title,
@@ -67,6 +69,23 @@ const CourseTitleSection = ({
     const handleCloseTask = () => {
         setOpenTask(false);
     }
+    /* Delete Course Backdrop */
+    const [openDeleteCourse, setOpenDeleteCourse] = useState(false);
+    const handleOpenDeleteCourse = () => {
+        setOpenDeleteCourse(true);
+    }
+    const handleCloseDeleteCourse = () => {
+        setOpenDeleteCourse(false);
+    }
+    /* Final Delete Course Backdrop */
+    const [openFinalDelete, setOpenFinalDelete] = useState(false);
+    const handleOpenFinalDelete = () => {
+        handleCloseDeleteCourse();
+        setOpenFinalDelete(true);
+    }
+    const handleCloseFinalDelete = () => {
+        setOpenFinalDelete(false);
+    }
 
     return (
         <Grow in={true}>
@@ -110,6 +129,20 @@ const CourseTitleSection = ({
                     changeWeeklyTasks={changeWeeklyTasks}
                     handleOpenAlert={handleOpenAlert}
                 />
+                <DeleteCourseBackdrop 
+                    open={openDeleteCourse}
+                    handleClose={handleCloseDeleteCourse}
+                    title={title}
+                    handleOpenFinalDelete={handleOpenFinalDelete}
+                    handleOpenAlert={handleOpenAlert}
+                />
+                <FinalDeleteCourseBackdrop 
+                    open={openFinalDelete}
+                    handleClose={handleCloseFinalDelete}
+                    title={title}
+                />
+
+
                 <Typography
                     align="center"
                     variant="h6"
@@ -167,6 +200,7 @@ const CourseTitleSection = ({
                             </MenuItem>
                             <Divider />
                             <MenuItem
+                                onClick={handleOpenDeleteCourse}
                                 sx={{
                                     color: '#ef476f',
                                 }}

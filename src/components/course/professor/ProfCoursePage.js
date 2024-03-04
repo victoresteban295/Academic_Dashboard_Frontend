@@ -56,8 +56,9 @@ const ProfCoursePage = ({ crs }) => {
                         onClose={handleCloseAlert}
                         severity="error"
                         sx={{
-                            width: '100%',
                             position: 'relative',
+                            color: 'text.primary',
+                            bgcolor: 'error.light',
                             top: {
                                 fold: '0px',
                                 mobile: '0px',

@@ -36,7 +36,7 @@ let theme = createTheme({
         },
         error: {
             main: '#ff5858',
-            light: '#ffc8c8'
+            light: '#ffe9e9'
         }
     },
     typography: {

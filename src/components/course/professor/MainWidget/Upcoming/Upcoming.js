@@ -1,5 +1,6 @@
-import { Grow, Stack } from "@mui/material"
+import { Grow, Stack, Typography } from "@mui/material"
 import WeeklySchedule from "../WeeklySchedule";
+import { AssignmentTurnedInTwoTone } from "@mui/icons-material";
 
 const Upcoming = ({ 
     tab, 
@@ -32,6 +33,28 @@ const Upcoming = ({
                                 />
                             )
                         })}
+                        {upcoming.length === 0 && (
+                            <Stack
+                                alignItems="center"
+                                spacing={1}
+                                sx={{
+                                    p: 2,
+                                }}
+                            >
+                                <AssignmentTurnedInTwoTone
+                                    fontSize="large"
+                                />
+                                <Typography
+                                    align="center"
+                                    variant="h5"
+                                    sx={{
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    No Upcoming Tasks
+                                </Typography>
+                            </Stack>
+                        )}
                     </Stack>
                 </Grow>
             )}

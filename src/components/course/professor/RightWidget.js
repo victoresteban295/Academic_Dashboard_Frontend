@@ -176,6 +176,7 @@ const RightWidget = ({
                         endTime={endTime}
                         schedules={schedules}
                         changeSchedules={changeSchedules}
+                        size={schedules.length}
                         handleOpenAlert={handleOpenAlert}
                     />
                 )

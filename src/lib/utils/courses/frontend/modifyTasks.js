@@ -54,39 +54,48 @@ export const modifyTasks = (taskId, title, task, date, due, note, weeklyTasks) =
         for(const week of updatedWeeklyTasks) {
             //If Found, Add Task to Week
             if(week.strWeek === taskWeek) {
+                //Each Week is Limited to 10 Tasks
+                if(week.tasks.length < 10) {
+                    //Add New Task to Week
+                    const modifyTasks = [...week.tasks, newTask];
+                    week.tasks = sortTasks(modifyTasks);
 
-                //Add New Task to Week
-                const modifyTasks = [...week.tasks, newTask];
-                week.tasks = sortTasks(modifyTasks);
-
-                return {
-                    updatedWeeklyTasks: updatedWeeklyTasks,
+                    return {
+                        updatedWeeklyTasks: updatedWeeklyTasks,
+                    }
+                } else {
+                    throw new Error("Tasks in Week Limit Exceeded: 10");
                 }
             }
         }
 
         //Create New Week for Task
-        const endOfWeek = dayjs(date, "MM/DD/YY").endOf('week').format("MM/DD/YY");
-        const newWeek = {
-            strWeek: taskWeek,
-            endWeek: dayjs(endOfWeek, "MM/DD/YY").format("MMMM D"),
-            iso8601: dayjs(`${endOfWeek}-11:59 PM`, "MM/DD/YY-h:mm A").toISOString(),
-            tasks: [newTask]
-        }
-        const modifyWeeks = [...updatedWeeklyTasks, newWeek];
-        
-        return {
-            updatedWeeklyTasks: sortWeeks(modifyWeeks),
+        if(weeklyTasks.length < 40) { //Weeks Limit is 40
+            const endOfWeek = dayjs(date, "MM/DD/YY").endOf('week').format("MM/DD/YY");
+            const newWeek = {
+                strWeek: taskWeek,
+                endWeek: dayjs(endOfWeek, "MM/DD/YY").format("MMMM D"),
+                iso8601: dayjs(`${endOfWeek}-11:59 PM`, "MM/DD/YY-h:mm A").toISOString(),
+                tasks: [newTask]
+            }
+            const modifyWeeks = [...updatedWeeklyTasks, newWeek];
+            
+            return {
+                updatedWeeklyTasks: sortWeeks(modifyWeeks),
+            }
+        } else {
+            throw new Error("Weeks Limited Exceeded: 40");
         }
 
 
     //Edit Existing Task
     } else {
+        let weekFound = false; //Task's New Week Exists
 
-        //Task Remains in Same Week 
+        //Loop thru Weeks to Edit Task
         for(const week of updatedWeeklyTasks) {
             if(week.strWeek === taskWeek) {
-                //Check if Task is Under Week Range
+                //If Task Found, Remains Under Same Week Range
                 for(const editTask of week.tasks) {
                     //If Found, Edit Task 
                     if(editTask.taskId === taskId) {
@@ -106,13 +115,40 @@ export const modifyTasks = (taskId, title, task, date, due, note, weeklyTasks) =
                         }
                     }
                 }
+
+                //If Task Not Found, Add Task to New Week Range 
+                if(week.tasks.length < 10) {
+                    weekFound = true;
+                    const updatedTask = {
+                        taskId: taskId,
+                        title: title,
+                        task: task,
+                        date: date,
+                        note: note,
+                        due: due,
+                        iso8601: dayjs(`${date}-${time}`, "MM/DD/YY-h:mm A").toISOString(),
+                    }
+
+                    //Add Modifeid Taks and Sort Tasks
+                    const outdatedTasks = [...week.tasks, updatedTask];
+                    week.tasks = sortWeeks(outdatedTasks);
+                } else {
+                    throw new Error("Tasks in Week Limit Exceeded: 10");
+                }
+
+            //Remove Task From it's Previous Week
+            } else {
+                const tasks = [...week.tasks];
+                week.tasks = tasks.filter(outdatedTask => {
+                    return !(outdatedTask.taskId === taskId && outdatedTask.date != date);
+                })
             }
         }
-        
-        //Task Does NOT Remain in the Same Week
-        for(const week of updatedWeeklyTasks) {
-            //Add Task To New Week Range
-            if(week.strWeek === taskWeek) {
+
+        //Task's New Week Doesn't Exist
+        if(!weekFound) {
+            if(weeklyTasks.length < 40) { //Weeks Limit is 40
+                //Create New Week with Added Task
                 const updatedTask = {
                     taskId: taskId,
                     title: title,
@@ -123,18 +159,21 @@ export const modifyTasks = (taskId, title, task, date, due, note, weeklyTasks) =
                     iso8601: dayjs(`${date}-${time}`, "MM/DD/YY-h:mm A").toISOString(),
                 }
 
-                //Add Modifeid Taks and Sort Tasks
-                const outdatedTasks = [...week.tasks, updatedTask];
-                week.tasks = sortWeeks(outdatedTasks);
+                const endOfWeek = dayjs(date, "MM/DD/YY").endOf('week').format("MM/DD/YY");
+                const newWeek = {
+                    strWeek: taskWeek,
+                    endWeek: dayjs(endOfWeek, "MM/DD/YY").format("MMMM D"),
+                    iso8601: dayjs(`${endOfWeek}-11:59 PM`, "MM/DD/YY-h:mm A").toISOString(),
+                    tasks: [updatedTask]
+                }
 
-            //Remove Task From Old Week
+                //Add & Sort Weeks
+                const outdatedWeeklyTasks = [...updatedWeeklyTasks, newWeek];
+                updatedWeeklyTasks = sortWeeks(outdatedWeeklyTasks)
             } else {
-                const tasks = [...week.tasks];
-                week.tasks = tasks.filter(outdatedTask => {
-                    return !(outdatedTask.taskId === taskId && outdatedTask.date != date);
-                })
+                throw new Error("Weeks Limited Exceeded: 40");
             }
-        }
+        } 
         
         //Filter Out Any Weeks That Doesn't Have Any Tasks
         const outdatedWeeks = [...updatedWeeklyTasks];

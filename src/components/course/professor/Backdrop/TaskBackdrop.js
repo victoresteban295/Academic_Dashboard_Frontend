@@ -2,7 +2,7 @@ import { CourseTask } from "@/lib/schemas/courseSchema";
 import { deleteTask, modifyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, Edit } from "@mui/icons-material";
-import { Box, Button, Dialog, FormControl, FormHelperText, MenuItem, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, Dialog, FormControl, FormHelperText, MenuItem, Stack, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -21,6 +21,13 @@ const TaskBackdrop = ({
     changeWeeklyTasks,
     handleOpenAlert 
 }) => {
+
+    /* Clone Each WeeklyTasks Object */
+    const prevWeeklyTasks = [];
+    for(const week of weeklyTasks) {
+        const clone = structuredClone(week);
+        prevWeeklyTasks.push(clone);
+    }
 
     /* React Hook Form */
     const defaultDate = (date === "") ? null : dayjs(date, "MM/DD/YY");
@@ -100,7 +107,8 @@ const TaskBackdrop = ({
             //Backend API: Update Database
 
         } catch(error) {
-            handleOpenAlert(error);
+            handleOpenAlert(error.message);
+            changeWeeklyTasks(prevWeeklyTasks);
         }
         handleCloseBackdrop();
     }
