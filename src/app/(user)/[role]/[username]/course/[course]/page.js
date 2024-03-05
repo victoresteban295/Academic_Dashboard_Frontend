@@ -1,7 +1,7 @@
 import ProfCoursePage from "@/components/course/professor/ProfCoursePage";
 import StudCoursePage from "@/components/course/student/StudCoursePage";
 
-const CoursePage = ({ params }) => {
+const CoursePage = async ({ params }) => {
 
     //Determine the authorization
     const profile = params.role;
@@ -9,7 +9,6 @@ const CoursePage = ({ params }) => {
     const username = params.username; 
     //Which Course to query
     const course = params.course;
-
 
     return (
         <>

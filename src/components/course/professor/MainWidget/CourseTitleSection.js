@@ -1,4 +1,4 @@
-import { Box, Divider, Drawer, Grow, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, Drawer, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { MenuOpen, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import RightWidget from "../RightWidget";
@@ -88,172 +88,170 @@ const CourseTitleSection = ({
     }
 
     return (
-        <Grow in={true}>
-            <Box
-                className="todays-title-section"
+        <Box
+            className="todays-title-section"
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                p: 1,
+            }}
+        >
+            {/* Backdrops */}
+            <EditInfoSectionBackdrop 
+                open={openEditSection}
+                handleClose={handleCloseEditSection}
+                index={""}
+                title={""}
+                info={""}
+                infos={infos}
+                changeInfoSections={changeInfoSections}
+                handleOpenAlert={handleOpenAlert}
+            />
+            <EditTitleBackdrop 
+                open={openEditTitle}
+                handleClose={handleCloseEditTitle}
+                title={title}
+                changeTitle={changeTitle}
+            />
+            <TaskBackdrop 
+                open={openTask}
+                handleClose={handleCloseTask}
+                taskId=""
+                title=""
+                task=""
+                due=""
+                date=""
+                note=""
+                weeklyTasks={weeklyTasks}
+                changeWeeklyTasks={changeWeeklyTasks}
+                handleOpenAlert={handleOpenAlert}
+            />
+            <DeleteCourseBackdrop 
+                open={openDeleteCourse}
+                handleClose={handleCloseDeleteCourse}
+                title={title}
+                handleOpenFinalDelete={handleOpenFinalDelete}
+                handleOpenAlert={handleOpenAlert}
+            />
+            <FinalDeleteCourseBackdrop 
+                open={openFinalDelete}
+                handleClose={handleCloseFinalDelete}
+                title={title}
+            />
+
+
+            <Typography
+                align="center"
+                variant="h6"
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                    p: 1,
+                    fontWeight: '700',
+                    overflowX: 'hidden',
                 }}
             >
-                {/* Backdrops */}
-                <EditInfoSectionBackdrop 
-                    open={openEditSection}
-                    handleClose={handleCloseEditSection}
-                    index={""}
-                    title={""}
-                    info={""}
-                    infos={infos}
-                    changeInfoSections={changeInfoSections}
-                    handleOpenAlert={handleOpenAlert}
-                />
-                <EditTitleBackdrop 
-                    open={openEditTitle}
-                    handleClose={handleCloseEditTitle}
-                    title={title}
-                    changeTitle={changeTitle}
-                />
-                <TaskBackdrop 
-                    open={openTask}
-                    handleClose={handleCloseTask}
-                    taskId=""
-                    title=""
-                    task=""
-                    due=""
-                    date=""
-                    note=""
-                    weeklyTasks={weeklyTasks}
-                    changeWeeklyTasks={changeWeeklyTasks}
-                    handleOpenAlert={handleOpenAlert}
-                />
-                <DeleteCourseBackdrop 
-                    open={openDeleteCourse}
-                    handleClose={handleCloseDeleteCourse}
-                    title={title}
-                    handleOpenFinalDelete={handleOpenFinalDelete}
-                    handleOpenAlert={handleOpenAlert}
-                />
-                <FinalDeleteCourseBackdrop 
-                    open={openFinalDelete}
-                    handleClose={handleCloseFinalDelete}
-                    title={title}
-                />
-
-
-                <Typography
-                    align="center"
-                    variant="h6"
-                    sx={{
-                        fontWeight: '700',
-                        overflowX: 'hidden',
-                    }}
-                >
-                    {title}
-                </Typography> 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        ml: 2,
-                    }}
-                >
-                    {/* Course Options Menu Icon */}
-                    <Tooltip title="Options">
-                        <IconButton
-                            onClick={handleOpenOptions}
-                            size='small'
-                        >
-                            <MoreVert fontSize='inherit' />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                            anchorEl={optionsAnchor}
-                            id="checklist-options-menu"
-                            open={openOptions}
-                            onClose={handleCloseOptions}
-                            onClick={handleCloseOptions}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                        >
-                            <MenuItem  
-                                onClick={handleOpenEditTitle}
-                            >
-                                Edit Course Title
-                            </MenuItem>
-                            <MenuItem  
-                                onClick={handleOpenTask}
-                            >
-                                Create New Task 
-                            </MenuItem>
-                            <MenuItem  
-                                onClick={handleOpenEditSection}
-                            >
-                                Add Syllabus Section
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem
-                                onClick={handleOpenDeleteCourse}
-                                sx={{
-                                    color: '#ef476f',
-                                }}
-                            >
-                                Delete Course
-                            </MenuItem>
-                        </Menu>
-
-                    {/* Course Schedule Menu Icon */}
-                    <Tooltip
-                        title="Course Schedule"
-                        sx={{
-                            display: {
-                                fold: 'flex',
-                                mobile: 'flex',
-                                tablet: 'flex',
-                                desktop: 'none',
-                            },
+                {title}
+            </Typography> 
+            <Box
+                sx={{
+                    display: 'flex',
+                    ml: 2,
+                }}
+            >
+                {/* Course Options Menu Icon */}
+                <Tooltip title="Options">
+                    <IconButton
+                        onClick={handleOpenOptions}
+                        size='small'
+                    >
+                        <MoreVert fontSize='inherit' />
+                    </IconButton>
+                </Tooltip>
+                <Menu
+                        anchorEl={optionsAnchor}
+                        id="checklist-options-menu"
+                        open={openOptions}
+                        onClose={handleCloseOptions}
+                        onClick={handleCloseOptions}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
                         }}
                     >
-                        <IconButton
-                            onClick={handleOpenSchedule}
-                            size='small'
+                        <MenuItem  
+                            onClick={handleOpenEditTitle}
                         >
-                            <MenuOpen fontSize='inherit'/> 
-                        </IconButton>
-                    </Tooltip>
-                    <Drawer
-                        anchor='right'
-                        open={openSchedule}
-                        onClose={handleCloseSchedule}
-                    >
-                        <Box
-                            className='menu-container'
+                            Edit Course Title
+                        </MenuItem>
+                        <MenuItem  
+                            onClick={handleOpenTask}
+                        >
+                            Create New Task 
+                        </MenuItem>
+                        <MenuItem  
+                            onClick={handleOpenEditSection}
+                        >
+                            Add Syllabus Section
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem
+                            onClick={handleOpenDeleteCourse}
                             sx={{
-                                p: 1,
+                                color: '#ef476f',
                             }}
                         >
-                            <RightWidget
-                                instructor={instructor} 
-                                office={office}
-                                phone={phone}
-                                email={email}
-                                schedules={schedules}
-                                changeSchedules={changeSchedules}
-                                handleClose={handleCloseSchedule}
-                                handleOpenAlert={handleOpenAlert}
-                            />
-                        </Box>
-                    </Drawer>
-                </Box>
-            </Box> 
-        </Grow>
+                            Delete Course
+                        </MenuItem>
+                    </Menu>
+
+                {/* Course Schedule Menu Icon */}
+                <Tooltip
+                    title="Course Schedule"
+                    sx={{
+                        display: {
+                            fold: 'flex',
+                            mobile: 'flex',
+                            tablet: 'flex',
+                            desktop: 'none',
+                        },
+                    }}
+                >
+                    <IconButton
+                        onClick={handleOpenSchedule}
+                        size='small'
+                    >
+                        <MenuOpen fontSize='inherit'/> 
+                    </IconButton>
+                </Tooltip>
+                <Drawer
+                    anchor='right'
+                    open={openSchedule}
+                    onClose={handleCloseSchedule}
+                >
+                    <Box
+                        className='menu-container'
+                        sx={{
+                            p: 1,
+                        }}
+                    >
+                        <RightWidget
+                            instructor={instructor} 
+                            office={office}
+                            phone={phone}
+                            email={email}
+                            schedules={schedules}
+                            changeSchedules={changeSchedules}
+                            handleClose={handleCloseSchedule}
+                            handleOpenAlert={handleOpenAlert}
+                        />
+                    </Box>
+                </Drawer>
+            </Box>
+        </Box> 
     )
 }
 

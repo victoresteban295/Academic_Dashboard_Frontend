@@ -457,7 +457,6 @@ export const getCourse = (course, today) => {
         ]
     }
 
-
     if(course === "math245") {
         return math245;
     }
