@@ -146,14 +146,18 @@ const AccountForm = ({
                 </Stack>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                     <Button 
-                        variant="contained"
                         onClick={handleBack}
-                        sx={{ mr: 1 }}
+                        variant="text" 
+                        sx={{
+                            bgcolor: 'primary.light',
+                            mr: 1,
+                            px: 3,
+                        }}
                     > 
                         <Typography
                             variant="button"
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                         >
@@ -163,12 +167,16 @@ const AccountForm = ({
                     <Box sx={{ flex: '1 1 auto' }} /> 
                     <Button 
                         type="submit"
-                        variant="contained" 
+                        variant="text" 
+                        sx={{
+                            bgcolor: 'primary.light',
+                            px: 3,
+                        }}
                     > 
                         <Typography
                             variant="button"
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                         >

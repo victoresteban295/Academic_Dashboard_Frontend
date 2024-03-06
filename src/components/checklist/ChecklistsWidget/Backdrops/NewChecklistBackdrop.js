@@ -1,6 +1,6 @@
 import { createChecklist, reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { createNewChecklist } from "@/lib/utils/checklist/frontend/modifyChecklist";
-import { Box, Button, FilledInput, Popover, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, FilledInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const NewChecklistBackdrop = ({ 
@@ -59,19 +59,9 @@ const NewChecklistBackdrop = ({
     }
 
     return (
-        <Popover
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            sx={{ 
-                mt: 10,
-                zIndex: (theme) => theme.zIndex.drawer + 1 
-            }}
+        <Dialog
+            fullWidth={true}
+            maxWidth="mobile"
             open={open}
             onClose={handleCloseBackdrop}
         >
@@ -107,29 +97,32 @@ const NewChecklistBackdrop = ({
                     autoFocus
                     hiddenLabel
                     disableUnderline
-                    placeholder='New Checklist Title'
+                    placeholder='New Checklist Title...'
                     onChange={(event) => setTitle(event.target.value)}
                     inputProps={{maxLength: 50}}
                 />
-                <Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                    }}
+                >
                     <Button
-                        variant="contained"
+                        variant="text"
                         size='small'
                         disabled={title.trim() === ''}
                         onClick={handleNewChecklist}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light',
+                        }}
                     >
-                        <Typography
-                            sx={{
-                                color: '#000',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Create
-                        </Typography>
+                        {"Create"}
                     </Button>
                 </Box>
             </Stack>
-        </Popover>
+        </Dialog>
     ) 
 }
 

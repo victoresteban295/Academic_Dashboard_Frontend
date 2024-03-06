@@ -312,13 +312,17 @@ const TitleSection = ({
                 {showAllEdit && (
                     <Button
                         size='small'
-                        variant="contained"
+                        variant="text"
                         onClick={unshowAllEditButtons}
+                        sx={{
+                            bgcolor: 'primary.light',
+                            px: 2,
+                        }}
                     >
                         <Typography
                             variant='button'
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                         >

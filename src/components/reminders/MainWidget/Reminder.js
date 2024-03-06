@@ -57,15 +57,6 @@ const Reminder = ({
     /* ************************************ */
     /* Backdrop Menu State Value & Function */
     /* ************************************ */
-    /* Options Menu */
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const openOptions = (event) => {
-        setAnchorEl(event.currentTarget);
-    }
-    const closeOptions = () => {
-        setAnchorEl(null);
-    }
     /* Edit Reminder */
     const [openNewReminder, setOpenNewReminder] = useState(false);
     const handleOpenNewReminder = () => {
@@ -115,271 +106,207 @@ const Reminder = ({
     }
 
     return (
-        <Stack
-            spacing={2}
-            sx={{
-                pt: ((displayDate != '') && !firstDateGrp ? 5 : 0),
-            }}
-        >
-            {displayDate != '' && (
-                <Stack
-                    spacing={0}
-                >
-                    <Stack
-                        direction="row"
-                        spacing={0.5}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {grpDay}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                        >
-                            {grpDate}
-                        </Typography>
-                    </Stack>
-                    <Divider flexItem />
-                </Stack>
-            )}
-
+        <Box>
+            {/* Backdrops */}    
+            <ReminderBackdrop
+                group={group}
+                groupId={groupId}
+                remindId={remindId}
+                title={title}
+                description={description}
+                date={startDate}
+                time={time}
+                open={openNewReminder}
+                handleClose={handleCloseNewReminder}
+                todayReminders={todayReminders}
+                changeTodayReminders={changeTodayReminders}
+                upcomingReminders={upcomingReminders}
+                changeUpcomingReminders={changeUpcomingReminders}
+                groups={groups}
+                changeGroups={changeGroups}
+                currentReminders={currentReminders}
+                handleCurrentReminders={handleCurrentReminders}
+                handleOpenAlert={handleOpenAlert}
+            />
             <Stack
-                spacing={1}
+                onClick={handleOpenNewReminder}
+                spacing={2}
                 sx={{
-                    boxShadow: '1px 1px 4px 2px #cecece',
-                    borderRadius: '10px',
-                    py: 1,
-                    px: 2,
+                    pt: ((displayDate != '') && !firstDateGrp ? 5 : 0),
+                    cursor: 'pointer',
                 }}
             >
-                {/* Backdrops */}    
-                <ReminderBackdrop
-                    group={group}
-                    groupId={groupId}
-                    remindId={remindId}
-                    title={title}
-                    description={description}
-                    date={startDate}
-                    time={time}
-                    open={openNewReminder}
-                    handleClose={handleCloseNewReminder}
-                    todayReminders={todayReminders}
-                    changeTodayReminders={changeTodayReminders}
-                    upcomingReminders={upcomingReminders}
-                    changeUpcomingReminders={changeUpcomingReminders}
-                    groups={groups}
-                    changeGroups={changeGroups}
-                    currentReminders={currentReminders}
-                    handleCurrentReminders={handleCurrentReminders}
-                    handleOpenAlert={handleOpenAlert}
-                />
-
-                {/* Reminder's Title & Options Section */}
-                <Stack
-                    className="title-section"
-                >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
+                {displayDate != '' && (
+                    <Stack
+                        spacing={0}
                     >
-                        <Typography
-                            variant='h6'
-                            sx={{
-                                fontWeight: '700'
-                            }}
+                        <Stack
+                            direction="row"
+                            spacing={0.5}
                         >
-                            {title}
-                        </Typography>
-                        <Box
-                            className="reminder-options"
-                            sx={{
-                                display: 'flex',
-                                ml: 2,
-                            }}
-                        >
-                            <Tooltip
-                                title="Mark As Complete"
-                                onClick={handleMarkAsComplete}
-                            >
-                                <IconButton
-                                    size='small'
-                                    onClick={handleMarkAsComplete}
-                                >
-                                    <FileDownloadDone fontSize='inherit'/> 
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip
-                                title="Options"
-                            >
-                                <IconButton
-                                    onClick={openOptions}
-                                    size='small'
-                                >
-                                    <MoreVert fontSize='inherit'/> 
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                anchorEl={anchorEl}
-                                id="reminder-options-menu"
-                                open={open}
-                                onClose={openOptions}
-                                onClick={closeOptions}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: '700'
                                 }}
                             >
-                                <MenuItem
-                                    onClick={handleOpenNewReminder}
-                                >
-                                    <ListItemIcon>
-                                        <Edit 
-                                            fontSize="small" 
-                                            sx={{
-                                                color: '#000'
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        sx={{
-                                            fontWeight: '700'
-                                        }}
-                                    >
-                                        Edit
-                                    </ListItemText>
-                                </MenuItem>
-                                <Divider />
-                                <MenuItem
-                                    onClick={handleDeleteReminder}
-                                    sx={{
-                                        color: 'error.main'
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <Delete
-                                            fontSize="small" 
-                                            sx={{
-                                                color: 'error.main'
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        sx={{
-                                            fontWeight: '700'
-                                        }}
-                                    >
-                                        Delete
-                                    </ListItemText>
-                                </MenuItem>
-                            </Menu>
-                        </Box>
-                    </Box>
-                    <Divider />
-                </Stack>
+                                {grpDay}
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                            >
+                                {grpDate}
+                            </Typography>
+                        </Stack>
+                        <Divider flexItem />
+                    </Stack>
+                )}
 
                 <Stack
                     spacing={1}
+                    sx={{
+                        boxShadow: '1px 1px 4px 2px #cecece',
+                        borderRadius: '10px',
+                        py: 1,
+                        px: 2,
+                    }}
                 >
-                    {/* Reminder's Group, Date, & Time Section */}
+
+                    {/* Reminder's Title & Options Section */}
                     <Stack
-                        className="group-date-time-section"
-                        direction={{
-                            fold: 'column',
-                            mobile: 'column',
-                            tablet: 'row',
-                            desktop: 'row',
-                        }}
-                        alignItems={{
-                            fold: 'flex-start',
-                            mobile: 'flex-start',
-                            tablet: 'center',
-                            desktop: 'center',
-                        }}
-                        spacing={1}
+                        className="title-section"
                     >
-                        {(currentReminders != groupId) && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                            }}
+                        >
                             <Typography
-                                variant='body1'
+                                variant='h6'
                                 sx={{
-                                    borderRadius: '5px',
-                                    px: 0.5,
-                                    fontWeight: '700',
-                                    ...groupColor,
+                                    fontWeight: '700'
                                 }}
                             >
-                                {`${group}`}
+                                {title}
                             </Typography>
-                        )}
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="center"
-                            spacing={1}
-                        >
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="center"
-                                spacing={0.5}
+                            <Box
+                                className="reminder-options"
+                                sx={{
+                                    display: 'flex',
+                                    ml: 2,
+                                }}
                             >
-                                <InsertInvitation
-                                    fontSize="small"
-                                    sx={{
-                                        ...dateTimeColor,
-                                    }}
-                                />
-                                <Typography
-                                    variant='subtitle1'
-                                    sx={{
-                                        ...dateTimeColor,
-                                    }}
+                                <Tooltip
+                                    title="Mark As Complete"
+                                    onClick={handleMarkAsComplete}
                                 >
-                                    {startDate}
-                                </Typography>
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="center"
-                                spacing={0.5}
-                            >
-                                <AccessTime
-                                    fontSize="small"
-                                    sx={{
-                                        ...dateTimeColor,
-                                    }}
-                                />
-                                <Typography
-                                    variant='subtitle1'
-                                    sx={{
-                                        ...dateTimeColor,
-                                    }}
-                                >
-                                    {time}
-                                </Typography>
-                            </Stack>
-                        </Stack>
+                                    <IconButton
+                                        size='small'
+                                        onClick={handleMarkAsComplete}
+                                    >
+                                        <FileDownloadDone fontSize='inherit'/> 
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </Box>
+                        <Divider />
                     </Stack>
 
-                    {/* Reminder's Group, Date, & Time Section */}
-                    <Typography
-                        variant="subtitle2"
+                    <Stack
+                        spacing={1}
                     >
-                        {description}
-                    </Typography>
+                        {/* Reminder's Group, Date, & Time Section */}
+                        <Stack
+                            className="group-date-time-section"
+                            direction={{
+                                fold: 'column',
+                                mobile: 'column',
+                                tablet: 'row',
+                                desktop: 'row',
+                            }}
+                            alignItems={{
+                                fold: 'flex-start',
+                                mobile: 'flex-start',
+                                tablet: 'center',
+                                desktop: 'center',
+                            }}
+                            spacing={1}
+                        >
+                            {(currentReminders != groupId) && (
+                                <Typography
+                                    variant='body1'
+                                    sx={{
+                                        borderRadius: '5px',
+                                        px: 0.5,
+                                        fontWeight: '700',
+                                        ...groupColor,
+                                    }}
+                                >
+                                    {`${group}`}
+                                </Typography>
+                            )}
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="center"
+                                spacing={1}
+                            >
+                                <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    spacing={0.5}
+                                >
+                                    <InsertInvitation
+                                        fontSize="small"
+                                        sx={{
+                                            ...dateTimeColor,
+                                        }}
+                                    />
+                                    <Typography
+                                        variant='subtitle1'
+                                        sx={{
+                                            ...dateTimeColor,
+                                        }}
+                                    >
+                                        {startDate}
+                                    </Typography>
+                                </Stack>
+                                <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    spacing={0.5}
+                                >
+                                    <AccessTime
+                                        fontSize="small"
+                                        sx={{
+                                            ...dateTimeColor,
+                                        }}
+                                    />
+                                    <Typography
+                                        variant='subtitle1'
+                                        sx={{
+                                            ...dateTimeColor,
+                                        }}
+                                    >
+                                        {time}
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                        </Stack>
+
+                        {/* Reminder's Group, Date, & Time Section */}
+                        <Typography
+                            variant="subtitle2"
+                        >
+                            {description}
+                        </Typography>
+                    </Stack>
                 </Stack>
             </Stack>
-        </Stack>
+        </Box>
     )
 }
 

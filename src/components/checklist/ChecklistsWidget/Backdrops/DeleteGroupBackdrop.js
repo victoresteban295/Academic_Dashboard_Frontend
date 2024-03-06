@@ -1,5 +1,5 @@
-import { Cancel, Delete } from "@mui/icons-material";
-import { Box, Button, Popover, Stack, Typography } from "@mui/material";
+import { Clear, Delete } from "@mui/icons-material";
+import { Box, Button, Dialog, Stack, Typography } from "@mui/material";
 
 const DeleteGroupBackdrop = ({
     title,
@@ -34,90 +34,122 @@ const DeleteGroupBackdrop = ({
     }
 
     return (
-        <Popover
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            sx={{ 
-                mt: 10,
-                zIndex: (theme) => theme.zIndex.drawer + 1 
-            }}
+        <Dialog
+            fullWidth={true}
+            maxWidth="mobile"
             open={open}
             onClose={handleCloseBackdrop}
         >
             <Stack
-                spacing={1}
+                spacing={2}
                 sx={{
-                    display: 'flex',
                     p: 2,
                 }}
             >
-                <Typography
-                    variant='h6'
-                    align='center'
+                <Stack
+                    spacing={0.5}
                     sx={{
-                        fontWeight: '700',
+                        p: 0,
                     }}
                 >
-                    {`Delete ${title} Group?`}
-                </Typography>
-                <Typography
-                    variant='subtitle1'
-                    align='center'
-                >
-                    All checklists under this group will be deleted!
-                </Typography>
+                    <Typography
+                        align="center"
+                        variant="h6"
+                        sx={{
+                            fontWeight: '700',
+                        }}
+                    >
+                        {`Delete ${title} Group?`}
+                    </Typography>
+                    <Box
+                        sx={{
+                            px: 2,
+                        }}
+                    >
+                        <Typography
+                            align="center"
+                            variant="body1"
+                        >
+                            All checklists under this group will be deleted!
+                        </Typography>
+                    </Box>
+                </Stack>
                 <Box
                     sx={{
-                        display: 'flex',
+                        display: {
+                            fold: 'none',
+                            mobile: 'flex',
+                            tablet: 'flex',
+                            desktop: 'flex',
+                        },
                         justifyContent: 'space-between',
+                        alignItems: 'center',
                     }}
                 >
                     <Button
-                        variant='contained'
-                        startIcon={<Delete sx={{color: '#000'}} />}
+                        color="error"
                         onClick={deleteGroup}
-                        color='error'
+                        variant="text"
+                        startIcon={<Delete />}
                         sx={{
-                            mx: 1,
+                            fontWeight: '700',
+                            bgcolor: 'error.light'
                         }}
                     >
-                        <Typography
-                            variant='button'
-                            sx={{
-                                color: '#000',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Delete
-                        </Typography>
-                    </Button>
+                        Delete
+                    </Button> 
                     <Button
-                        variant='contained'
-                        startIcon={<Cancel sx={{color: '#000'}} />}
+                        variant="text"
                         onClick={handleCloseBackdrop}
+                        startIcon={<Clear />}
                         sx={{
-                            mx: 1,
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
                         }}
                     >
-                        <Typography
-                            variant='button'
-                            sx={{
-                                color: '#000',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Cancel
-                        </Typography>
-                    </Button>
+                        Cancel
+                    </Button> 
+                </Box>
+                <Box
+                    sx={{
+                        display: {
+                            fold: 'flex',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'none',
+                        },
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Button
+                        size="small"
+                        onClick={deleteGroup}
+                        color="error"
+                        variant="text"
+                        startIcon={<Delete />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'error.light'
+                        }}
+                    >
+                        Delete
+                    </Button> 
+                    <Button
+                        onClick={handleCloseBackdrop}
+                        size="small"
+                        variant="text"
+                        startIcon={<Clear />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
+                        }}
+                    >
+                        Cancel
+                    </Button> 
                 </Box>
             </Stack>
-        </Popover>
+        </Dialog>
 
     )
 

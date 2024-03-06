@@ -91,8 +91,12 @@ const LoginWidget = () => {
                         sx={{
                             color: '#000',
                             fontWeight: '700',
+                            "&:hover": {
+                                textDecoration: 'underline',
+                            }
                         }}
-                        variant="caption">
+                        variant="caption"
+                    >
                         Forgot Password?
                     </Typography>
                 </Button>

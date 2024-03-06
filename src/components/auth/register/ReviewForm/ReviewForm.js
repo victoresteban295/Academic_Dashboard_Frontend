@@ -6,6 +6,7 @@ import ProfessorReviewInput from "./ProfessorReviewInput";
 import { useState } from "react";
 import { registerUser } from "@/lib/actions/auth-actions";
 import LoadingBackDrop from "@/components/loading/LoadingBackDrop";
+import { PersonAddAlt } from "@mui/icons-material";
 
 const ReviewForm = ({ 
     profileType, 
@@ -148,14 +149,18 @@ const ReviewForm = ({
                 </Stack>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                     <Button 
-                        variant="contained"
                         onClick={handleBack}
-                        sx={{ mr: 1 }}
+                        variant="text" 
+                        sx={{
+                            bgcolor: 'primary.light',
+                            mr: 1,
+                            px: 3,
+                        }}
                     > 
                         <Typography
                             variant="button"
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                         >
@@ -165,12 +170,16 @@ const ReviewForm = ({
                     <Box sx={{ flex: '1 1 auto' }} /> 
                     <Button 
                         type="submit"
-                        variant="contained" 
+                        variant="text" 
+                        startIcon={<PersonAddAlt />}
+                        sx={{
+                            bgcolor: '#ebfff2',
+                            px: 3,
+                        }}
                     > 
                         <Typography
                             variant="button"
                             sx={{
-                                color: '#000',
                                 fontWeight: '700',
                             }}
                         >

@@ -1,7 +1,7 @@
 import { reloadChecklistpage } from "@/lib/utils/checklist/backend/backendChecklist";
 import { addChecklistToGroup, createGrouplist } from "@/lib/utils/checklist/backend/backendGrouplist";
 import { addToExistingGroup, addToNewGroup, removeListFromGroup } from "@/lib/utils/checklist/frontend/modifyGrouplist";
-import { Box, Button, Divider, FormControl, FormControlLabel, InputBase, Popover, Radio, RadioGroup, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, Divider, FormControl, FormControlLabel, InputBase, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const AddToGroupBackdrop = ({ 
@@ -118,109 +118,86 @@ const AddToGroupBackdrop = ({
     }
 
     return (
-        <Popover
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            sx={{ 
-                mt: 10,
-                zIndex: (theme) => theme.zIndex.drawer + 1 
-            }}
+        <Dialog
+            fullWidth={true}
+            maxWidth="mobile"
             open={open}
             onClose={handleCloseBackdrop}
         >
-            <Box
+            <Stack
+                spacing={2}
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
                     p: 2,
                 }}
             >
-                <Box 
+                <Typography
+                    variant='h6'
+                    align="center"
+                    sx={{
+                        flexGrow: 1,
+                        mx: 1,
+                        fontWeight: '700',
+                    }}
+                >
+                    Add Checklist to Group
+                </Typography>
+                <FormControl>
+                    <RadioGroup
+                        value={selectedGroupId}
+                        onChange={handleSelect}
+                    >
+                        <Stack
+                            spacing={0.25}
+                            divider={<Divider variant='middle' />}
+                        >
+                            {groups.map((group) => {
+                                const { groupId, title } = group;
+                                return (
+                                    <FormControlLabel 
+                                        key={groupId}
+                                        value={groupId} 
+                                        control={<Radio />} 
+                                        label={title} 
+                                    />
+                                )
+                            })}
+                            <FormControlLabel 
+                                value={'new'} 
+                                control={<Radio />} 
+                                label={
+                                    <InputBase  
+                                        value={newGroup}
+                                        inputProps={{maxLength: 20}}
+                                        disabled={!("new" === selectedGroupId)}
+                                        placeholder='Create New Group'
+                                        onChange={(event) => setNewGroup(event.target.value)}
+                                    />
+                                } 
+                            />
+                        </Stack>
+                    </RadioGroup>
+                </FormControl>
+                <Box
                     sx={{
                         display: 'flex',
-                        alignItems: 'center',
+                        justifyContent: 'flex-end',
                     }}
                 >
-                    <Typography
-                        variant='h6'
+                    <Button
+                        variant="text"
+                        size='small'
+                        disabled={(selectedGroupId === '') || ((selectedGroupId === 'new') && (newGroup.trim() === ''))}
+                        onClick={addToGroup}
                         sx={{
-                            flexGrow: 1,
-                            mx: 1,
                             fontWeight: '700',
+                            bgcolor: 'primary.light',
                         }}
                     >
-                        Add Checklist to Group
-                    </Typography>
+                        {"Add"}
+                    </Button>
                 </Box>
-                <Stack
-                    spacing={1}
-                    sx={{
-                        width: '250px',
-                    }}
-                >
-                    <FormControl>
-                        <RadioGroup
-                            value={selectedGroupId}
-                            onChange={handleSelect}
-                        >
-                            <Stack
-                                spacing={0.25}
-                                divider={<Divider variant='middle' />}
-                            >
-                                {groups.map((group) => {
-                                    const { groupId, title } = group;
-                                    return (
-                                        <FormControlLabel 
-                                            key={groupId}
-                                            value={groupId} 
-                                            control={<Radio />} 
-                                            label={title} 
-                                        />
-                                    )
-                                })}
-                                <FormControlLabel 
-                                    value={'new'} 
-                                    control={<Radio />} 
-                                    label={
-                                        <InputBase  
-                                            value={newGroup}
-                                            inputProps={{maxLength: 20}}
-                                            disabled={!("new" === selectedGroupId)}
-                                            placeholder='Create New Group'
-                                            onChange={(event) => setNewGroup(event.target.value)}
-                                        />
-                                    } 
-                                />
-                            </Stack>
-                        </RadioGroup>
-                    </FormControl>
-                    <Box>
-                        <Button
-                            variant="contained"
-                            size='small'
-                            disabled={(selectedGroupId === '') || ((selectedGroupId === 'new') && (newGroup.trim() === ''))}
-                            onClick={addToGroup}
-                        >
-                            <Typography
-                                sx={{
-                                    color: '#000',
-                                    fontWeight: '700',
-                                }}
-                            >
-                                Add
-                            </Typography>
-                        </Button>
-                    </Box>
-                </Stack>
-            </Box>
-        </Popover>
+            </Stack>
+        </Dialog>
     ) 
 }
 
