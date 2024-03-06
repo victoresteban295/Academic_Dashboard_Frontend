@@ -106,10 +106,17 @@ const LoginWidget = () => {
                 }}
             >
                 <Link href="/register" style={{textDecoration: 'none'}} >
-                    <Button variant="contained" onClick={triggerLoading}>
+                    <Button 
+                        onClick={triggerLoading}
+                        variant="text"
+                        sx={{
+                            bgcolor: 'primary.light',
+                            px: 3,
+                        }}
+                    >
                         <Typography 
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                             variant="button">

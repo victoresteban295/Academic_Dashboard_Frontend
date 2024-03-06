@@ -199,12 +199,16 @@ const InstitutionForm = ({
                     <Box sx={{ flex: '1 1 auto' }} /> 
                     <Button 
                         type="submit"
-                        variant="contained" 
+                        variant="text" 
+                        sx={{
+                            bgcolor: 'primary.light',
+                            px: 3,
+                        }}
                     > 
                         <Typography
                             variant="button"
                             sx={{
-                                color: '#000',
+                                color: 'primary.main',
                                 fontWeight: '700',
                             }}
                         >

@@ -1,7 +1,7 @@
 import { ReminderSchema } from "@/lib/schemas/reminderSchema";
 import { createReminder, editReminder } from "@/lib/utils/reminders/frontend/modifyReminders";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Divider, FormControl, FormHelperText, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, Divider, FormControl, FormHelperText, InputBase, MenuItem, Popover, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { Controller, useForm } from "react-hook-form";
@@ -124,19 +124,9 @@ const ReminderBackdrop = ({
     }
 
     return (
-        <Popover
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            sx={{ 
-                mt: 10,
-                zIndex: (theme) => theme.zIndex.drawer + 1 
-            }}
+        <Dialog
+            fullWidth={true}
+            maxWidth="mobile"
             open={open}
             onClose={handleCloseBackdrop}
         >
@@ -147,7 +137,6 @@ const ReminderBackdrop = ({
                     spacing={2}
                     sx={{
                         display: 'flex',
-                        maxWidth: '500px',
                         p: 2,
                     }}
                 >
@@ -327,7 +316,7 @@ const ReminderBackdrop = ({
                     </Box>
                 </Stack>
             </form>
-        </Popover>
+        </Dialog>
     )
 }
 
