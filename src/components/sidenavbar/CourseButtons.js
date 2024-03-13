@@ -1,41 +1,30 @@
 import { Stack } from "@mui/material";
 import CourseButton from "./CourseButton";
 
-const CourseButtons = ({ username, role }) => {
+const CourseButtons = ({ username, role, courses }) => {
     return (
         <Stack
             direction="column"
             spacing = {0.25}
             alignItems='flex-start'
+            sx={{
+                width: '100%',
+            }}
         >
-            <CourseButton 
-                username={username}
-                role={role}
-                course={"CS 247"}
-                dept="cs"
-                num="247"
-            />
-            <CourseButton 
-                username={username}
-                role={role}
-                course={"Math 245"}
-                dept="math"
-                num="245"
-            />
-            <CourseButton 
-                username={username}
-                role={role}
-                course={"Math 230"}
-                dept="math"
-                num="230"
-            />
-            <CourseButton 
-                username={username}
-                role={role}
-                course={"CHEM 121"}
-                dept="chem"
-                num="121"
-            />
+            {courses.map(crs => {
+                const { course, dept, num } = crs;
+
+                return (
+                    <CourseButton 
+                        key={course}
+                        username={username}
+                        role={role}
+                        course={course}
+                        dept={dept}
+                        num={num}
+                    />
+                )
+            })}
         </Stack>
     )
 }

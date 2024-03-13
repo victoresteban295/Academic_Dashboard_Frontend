@@ -36,6 +36,44 @@ const getData = async (role, username) => {
 const UserLayout = async ({ children, params }) => {
     let { role, username } = params;
     const user = await getData(role, username);
+    let courses;
+    if(role === 'student') {
+        courses = [
+            {
+                course: "Math 230",
+                dept: "math",
+                num: "230",
+            }, 
+            {
+                course: "Math 245",
+                dept: "math",
+                num: "245",
+            },
+            {
+                course: "CS 215",
+                dept: "cs",
+                num: "215",
+            }, 
+            {
+                course: "CS 310",
+                dept: "cs",
+                num: "310",
+            }, 
+        ]
+    } else {
+        courses = [
+            {
+                course: "Math 230",
+                dept: "math",
+                num: "230",
+            }, 
+            {
+                course: "Math 245",
+                dept: "math",
+                num: "245",
+            } 
+        ]
+    }
     return (
         <html lang="en">
             <body>
@@ -110,6 +148,7 @@ const UserLayout = async ({ children, params }) => {
                                             <SideNavbar
                                                 username={user.username}
                                                 role={role}
+                                                courses={courses}
                                             />
 
                                         </Box>

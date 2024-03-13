@@ -2,7 +2,7 @@ import { Divider, Stack } from "@mui/material";
 import NavButtons from "./sidenavbar/NavButtons";
 import CourseButtons from "./sidenavbar/CourseButtons";
 
-const SideNavbar = ({ username, role }) => {
+const SideNavbar = ({ username, role, courses }) => {
     return (
         <Stack
             direction="column"
@@ -12,7 +12,7 @@ const SideNavbar = ({ username, role }) => {
             sx={{
                 alignItems: 'flex-start',
                 flexGrow: 1,
-                width: '175px',
+                width: '100%',
                 position: 'sticky',
                 top: '70px',
             }}
@@ -24,7 +24,9 @@ const SideNavbar = ({ username, role }) => {
             <CourseButtons 
                 username={username}
                 role={role}
+                courses={courses}
             />
+
         </Stack>
     )
 }

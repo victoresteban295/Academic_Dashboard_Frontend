@@ -22,8 +22,11 @@ const CourseButton = ({ username, role, course, dept, num }) => {
             sx={{
                 color: isActive ? 'primary.main' : 'text.primary',
                 flexGrow: '1',
-                "&hover": {
-                    background: '#ccc5b9'
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                "&:hover": {
+                    bgcolor: 'primary.light',
                 }
             }}
         >

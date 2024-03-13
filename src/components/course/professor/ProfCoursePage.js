@@ -6,12 +6,21 @@ import { useState } from "react";
 import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
 import dayjs from "dayjs";
-import { getCourse } from "@/lib/data/course/student";
+import { getCourse } from "@/lib/data/course/professor";
+import { notFound } from "next/navigation";
+
+const handleGetCourse = (crs, todayDateTime) => {
+    try {
+        return getCourse(crs, todayDateTime); 
+    } catch(error) {
+        notFound();
+    }
+}
 
 const ProfCoursePage = ({ crs }) => {
 
     const todayDateTime = dayjs();
-    const course = getCourse(crs, todayDateTime); 
+    const course = handleGetCourse(crs, todayDateTime); 
 
     /* State Value */
     const [schedules, setSchedules] = useState(course.schedules);
