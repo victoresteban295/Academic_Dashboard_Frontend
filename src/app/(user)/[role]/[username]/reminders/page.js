@@ -1,18 +1,17 @@
 import RemindersPageContent from "@/components/reminders/RemindersPageContent";
-import { groups, todayReminders, upcomingReminders } from "@/lib/data/reminders";
 
 export const metadata = {
     title: "Reminders",
     themeColor: '#78a1bb'
 }
 
-const RemindersPage = () => {
+const RemindersPage = ({ params }) => {
+    const profile = params.role;
+
     return (
         <>
             <RemindersPageContent 
-                today={todayReminders} 
-                upcoming={upcomingReminders}
-                groupedReminders={groups}
+                profile={profile}
             />
         </>
     )

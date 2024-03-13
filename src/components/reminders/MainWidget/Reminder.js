@@ -49,7 +49,8 @@ const Reminder = ({
     //Reminder is Not Past Due
     } else {
         groupColor = {
-            bgcolor: '#c1c1c1',
+            color: 'primary.main',
+            bgcolor: 'primary.light',
         }
         dateTimeColor = {}
     }

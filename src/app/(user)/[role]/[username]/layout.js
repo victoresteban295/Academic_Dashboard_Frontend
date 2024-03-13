@@ -142,7 +142,7 @@ const UserLayout = async ({ children, params }) => {
                                     >
                                         <Box
                                             sx={{
-                                                width: '100%',
+                                                width: '175px',
                                             }}
                                         >
                                             <SideNavbar

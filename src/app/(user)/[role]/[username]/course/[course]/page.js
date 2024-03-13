@@ -1,5 +1,15 @@
 import ProfCoursePage from "@/components/course/professor/ProfCoursePage";
 import StudCoursePage from "@/components/course/student/StudCoursePage";
+import { getTitle } from "@/lib/data/course/professor";
+ 
+export async function generateMetadata({ params }) {
+    const title = getTitle(params.course);
+
+    return {
+        title: title,
+        themeColor: '#78a1bb'
+    }
+}
 
 const CoursePage = async ({ params }) => {
 

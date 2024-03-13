@@ -5,8 +5,26 @@ import MainWidget from "./MainWidget";
 import RightWidget from "./RightWidget";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { getStudentReminders } from "@/lib/data/reminders/student";
+import dayjs from "dayjs";
+import { getProfessorReminders } from "@/lib/data/reminders/professor";
 
-const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
+const RemindersPageContent = ({ profile }) => {
+    let today, upcoming, groupedReminders, groupIds;
+    const todayDateTime = dayjs();
+    if(profile === "student") {
+        const { allGroupIds, todayReminders, upcomingReminders, groups } = getStudentReminders(todayDateTime);
+        today = todayReminders;
+        upcoming = upcomingReminders;
+        groupedReminders = groups;
+        groupIds = allGroupIds;
+    } else {
+        const { allGroupIds, todayReminders, upcomingReminders, groups } = getProfessorReminders(todayDateTime);
+        today = todayReminders;
+        upcoming = upcomingReminders;
+        groupedReminders = groups;
+        groupIds = allGroupIds;
+    }
 
     /* Reminder Group Being Viewed */
     const [currentReminders, setCurrentReminders] = useState('');
@@ -18,6 +36,7 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
 
     /* Determine User's Last Visited Reminder Group */
     useEffect(() => {
+
         //Has User Visited a Reminder Groups
         let hasVisitedReminders = localStorage.getItem("currentReminders") != null;
         let lastVisitedReminders; //GroupId of Last Visited Reminder Group
@@ -29,8 +48,16 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
             localStorage.setItem("currentReminders", lastVisitedReminders);
 
         } else {
-            //Set Current Reminder Group to Last Visited Reminder Group
-            lastVisitedReminders = localStorage.getItem("currentReminders");
+            //Current GroupId Exist
+            if(groupIds.includes(localStorage.getItem("currentReminders"))) {
+                //Set Current Reminder Group to Last Visited Reminder Group
+                lastVisitedReminders = localStorage.getItem("currentReminders");
+            //Current GroupId Doesn't Exist
+            } else {
+                //Set Last Visited Reminder Group to Today's Reminders
+                lastVisitedReminders = "today";
+                localStorage.setItem("currentReminders", lastVisitedReminders);
+            }
         }
 
         //Current Reminder Group that User is Viewing
@@ -92,14 +119,15 @@ const RemindersPageContent = ({ today, upcoming, groupedReminders }) => {
                         onClose={handleCloseAlert}
                         severity="error"
                         sx={{
-                            width: '100%',
                             position: 'relative',
+                            color: 'text.primary',
+                            bgcolor: 'error.light',
                             top: {
                                 fold: '0px',
                                 mobile: '0px',
                                 tablet: '50px',
                                 desktop: '50px',
-                            },
+                            }
                         }}
                     >
                         {errorMsg}
