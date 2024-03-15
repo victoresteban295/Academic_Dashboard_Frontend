@@ -1,41 +1,41 @@
 "use client"
 import { Notifications, NotificationsNoneOutlined } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const RemindersButton = ({ username, role }) => {
     const pathname = usePathname();
+    const router = useRouter();
     const isActive = pathname.includes('/reminders');
 
+    const handleClick = () => {
+        router.push(`/${role}/${username}/reminders`);
+    }
+
     return (
-        <Link
-            href={`/${role}/${username}/reminders`} 
-            style={{
-                textDecoration: 'none',
-                color: '#000',
-            }} 
+        <Button
+            variant='text'
+            startIcon={isActive ? <Notifications /> : <NotificationsNoneOutlined />}
+            onClick={handleClick}
+            sx={{
+                color: 'text.primary',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                "&:hover": {
+                    bgcolor: 'primary.light',
+                }
+            }}
         >
-            <Button
-                variant='text'
-                startIcon={isActive ? <Notifications /> : <NotificationsNoneOutlined />}
+            <Typography
+                variant="button"
                 sx={{
-                    color: 'text.primary',
-                    "&hover": {
-                        background: '#ccc5b9'
-                    }
+                    fontWeight: '700'
                 }}
             >
-                <Typography
-                    variant="button"
-                    sx={{
-                        fontWeight: '700'
-                    }}
-                >
-                    Reminders
-                </Typography>
-            </Button>
-        </Link>
+                Reminders
+            </Typography>
+        </Button>
     )
 }
 

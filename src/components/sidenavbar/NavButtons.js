@@ -10,6 +10,9 @@ const NavButtons = ({ username, role }) => {
             direction="column"
             spacing = {0.25}
             alignItems='flex-start'
+            sx={{
+                width: '100%',
+            }}
         >
             <DashboardButton 
                 username={username}
