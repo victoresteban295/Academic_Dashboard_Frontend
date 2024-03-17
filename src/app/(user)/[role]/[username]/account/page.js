@@ -7,42 +7,27 @@ export const metadata = {
 }
 
 const UserAccountPage = ({ params }) => {
-    const { role } = params;
+    const { username, role } = params;
     const userRole = role.charAt(0).toUpperCase() + role.slice(1);
 
     return (
         <Box
             sx={{
-                mx:2,
-                height: '100%',
-                pt: '50px',
+                width: '100%',
+                px: 2,
             }}
         >
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    boxShadow: '1px 1px 4px 2px #cecece',
+                    borderRadius: '10px',
+                    width: '100%',
+                    height: '500px',
                 }}
             >
-                <Tooltip title="Icon By Icon8" arrow placement="right">
-                    <Image 
-                        src="/images/development.png"
-                        height={96}
-                        width={96}
-                        alt="Picture of Gear"
-                    />
-                </Tooltip>
+
             </Box>
-            <Typography
-                variant='h6'
-                align='center'
-                sx={{
-                    fontWeight: '700'
-                }}
-            >
-                {userRole} Account Page Under Development
-            </Typography>
+
         </Box>
     )
 }

@@ -13,10 +13,45 @@ const Navbar = ({username, firstname, lastname, role}) => {
 
     const userInitials = firstname.substring(0,1) + lastname.substring(0,1);
     let isStudent;
+    let courses;
     if(role === "professor") {
         isStudent = false;
+        courses = [
+            {
+                course: "Math 230",
+                dept: "math",
+                num: "230",
+            }, 
+            {
+                course: "Math 245",
+                dept: "math",
+                num: "245",
+            } 
+        ]
     } else {
         isStudent = true;
+        courses = [
+            {
+                course: "Math 230",
+                dept: "math",
+                num: "230",
+            }, 
+            {
+                course: "Math 245",
+                dept: "math",
+                num: "245",
+            },
+            {
+                course: "CS 215",
+                dept: "cs",
+                num: "215",
+            }, 
+            {
+                course: "CS 310",
+                dept: "cs",
+                num: "310",
+            }, 
+        ]
     }
 
     return (
@@ -44,6 +79,7 @@ const Navbar = ({username, firstname, lastname, role}) => {
                             <MobileMenu 
                                 username={username}
                                 role={role}
+                                courses={courses}
                             />
                         </Box>
                         <Box
