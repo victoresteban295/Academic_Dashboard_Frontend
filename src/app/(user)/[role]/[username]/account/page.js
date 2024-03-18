@@ -1,5 +1,6 @@
-import { Box, Tooltip, Typography } from "@mui/material"
-import Image from "next/image";
+import OfficeHours from "@/components/account/professor/OfficeHours/OfficeHours";
+import PersonalInformation from "@/components/account/professor/PersonalInformation/PersonalInformation";
+import { Stack, Typography } from "@mui/material"
 
 export const metadata = {
     title: "Account",
@@ -11,24 +12,45 @@ const UserAccountPage = ({ params }) => {
     const userRole = role.charAt(0).toUpperCase() + role.slice(1);
 
     return (
-        <Box
+        <Stack
+            spacing={2}
             sx={{
                 width: '100%',
+                py: 1,
                 px: 2,
             }}
         >
-            <Box
+            <Stack
+                spacing={0}
+            >
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: '700',
+                    }}
+                >
+                    {"Professor Account"}
+                </Typography>
+            </Stack>
+            <Stack
+                spacing={4}
                 sx={{
-                    boxShadow: '1px 1px 4px 2px #cecece',
-                    borderRadius: '10px',
+                    px: {
+                        fold: 0,
+                        mobile: 0,
+                        tablet: 2,
+                        desktop: 2,
+                    },
                     width: '100%',
-                    height: '500px',
                 }}
             >
+                <PersonalInformation 
+                />
+                <OfficeHours 
+                />
+            </Stack>
 
-            </Box>
-
-        </Box>
+        </Stack>
     )
 }
 
