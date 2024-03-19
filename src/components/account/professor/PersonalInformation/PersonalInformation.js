@@ -1,13 +1,18 @@
 import { EditOutlined } from "@mui/icons-material";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material"
+import { Box, Button, Grid, IconButton, Stack, Typography } from "@mui/material"
 
-const PersonalInformation = () => {
+const PersonalInformation = ({ department, academicRole, apptYear, officeBuilding, officeRoom }) => {
     return (
         <Stack
             className="professors-information-widget"
-            spacing={2}
+            spacing={1}
             sx={{
-                px: 4,
+                px: {
+                    fold: 2,
+                    mobile: 2,
+                    tablet: 4,
+                    desktop: 4,
+                },
                 py: 2,
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
@@ -40,6 +45,12 @@ const PersonalInformation = () => {
                         variant="text"
                         size="small"
                         sx={{
+                            display: {
+                                fold: 'none',
+                                mobile: 'none',
+                                tablet: 'none',
+                                desktop: 'flex',
+                            },
                             fontWeight: '700',
                             bgcolor: 'primary.light',
                         }}
@@ -56,52 +67,44 @@ const PersonalInformation = () => {
                     {"Academic information about you as a professor"}
                 </Typography>
             </Stack>
-
-            <Stack
-                direction={{
-                    fold: 'column',
-                    mobile: 'column',
-                    tablet: 'row',
-                    desktop: 'row',
-                }}
-                spacing={{
-                    fold: 2,
-                    mobile: 2,
-                    tablet: 5,
-                    desktop: 5,
+            <Grid
+                container
+                rowSpacing={2}
+                sx={{
+                    width: '100%',
                 }}
             >
-                <Stack
-                    spacing={0} 
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
                 >
-                    <Typography
-                        variant="body2"
+                    <Stack
+                        spacing={0} 
                     >
-                        {"Department"}
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: '700'
-                        }}
-                    >
-                        {"Mathematics"}
-                    </Typography>
-                </Stack>
-                <Stack
-                    className="role-year-section"
-                    spacing={{
-                        fold: 2,
-                        mobile: 5,
-                        tablet: 5,
-                        desktop: 5,
-                    }}
-                    direction={{
-                        fold: 'column',
-                        mobile: 'row',
-                        tablet: 'row',
-                        desktop: 'row',
-                    }}
+                        <Typography
+                            variant="body2"
+                        >
+                            {"Department"}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: '700'
+                            }}
+                        >
+                            {department}
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
                 >
                     <Stack
                         spacing={0} 
@@ -117,9 +120,17 @@ const PersonalInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {"Professor"}
+                            {academicRole}
                         </Typography>
                     </Stack>
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
+                >
                     <Stack
                         spacing={0} 
                     >
@@ -134,60 +145,84 @@ const PersonalInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {"2004"}
+                            {apptYear}
                         </Typography>
                     </Stack>
-                </Stack>
-            </Stack>
-            <Stack
-                direction={{
-                    fold: 'column',
-                    mobile: 'row',
-                    tablet: 'row',
-                    desktop: 'row',
-                }}
-                spacing={{
-                    fold: 2,
-                    mobile: 5,
-                    tablet: 5,
-                    desktop: 5,
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
+                >
+                    <Stack
+                        spacing={0} 
+                    >
+                        <Typography
+                            variant="body2"
+                        >
+                            {"Office Building"}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: '700'
+                            }}
+                        >
+                            {officeBuilding}
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
+                >
+                    <Stack
+                        spacing={0} 
+                    >
+                        <Typography
+                            variant="body2"
+                        >
+                            {"Room"}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: '700'
+                            }}
+                        >
+                            {officeRoom}
+                        </Typography>
+                    </Stack>
+                </Grid>
+            </Grid>
+            <Box
+                sx={{
+                    display: {
+                        fold: 'flex',
+                        mobile: 'flex',
+                        tablet: 'flex',
+                        desktop: 'none',
+                    },
+                    justifyContent: 'flex-end',
                 }}
             >
-                <Stack
-                    spacing={0} 
+                <Button
+                    startIcon={<EditOutlined />}
+                    variant="text"
+                    size="small"
+                    sx={{
+                        fontWeight: '700',
+                        bgcolor: 'primary.light',
+                    }}
                 >
-                    <Typography
-                        variant="body2"
-                    >
-                        {"Office Building"}
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: '700'
-                        }}
-                    >
-                        {"Norris Center"}
-                    </Typography>
-                </Stack>
-                <Stack
-                    spacing={0} 
-                >
-                    <Typography
-                        variant="body2"
-                    >
-                        {"Room"}
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: '700'
-                        }}
-                    >
-                        {"223A"}
-                    </Typography>
-                </Stack>
-            </Stack>
+                    Edit
+                </Button>
+            </Box>
         </Stack>
     )
 } 

@@ -45,6 +45,11 @@ const UserAccountPage = ({ params }) => {
                 }}
             >
                 <PersonalInformation 
+                    department={"Mathematics"} 
+                    academicRole={"Professor"}
+                    apptYear={"2004"}
+                    officeBuilding={"Norris Center"}
+                    officeRoom={"223A"}
                 />
                 <OfficeHours 
                 />

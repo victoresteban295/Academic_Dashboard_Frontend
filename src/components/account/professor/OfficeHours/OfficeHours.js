@@ -1,17 +1,21 @@
 import { EditOutlined } from "@mui/icons-material";
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material"
 
 const OfficeHours = () => {
     return (
         <Stack
             className="professors-office-hours"
             sx={{
-                px: 4,
+                px: {
+                    fold: 2,
+                    mobile: 2,
+                    tablet: 4,
+                    desktop: 4,
+                },
                 py: 2,
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '10px',
                 width: '100%',
-                height: '200px',
             }}
         >
             <Stack
@@ -35,6 +39,15 @@ const OfficeHours = () => {
                     >
                         {"Office Hours"}
                     </Typography>
+                    <IconButton
+                        size="small"
+                        color="primary"
+                        sx={{
+                            bgcolor: 'primary.light',
+                        }}
+                    >
+                        <EditOutlined fontSize="inherit" />
+                    </IconButton>
                     <Button
                         startIcon={<EditOutlined />}
                         variant="text"
