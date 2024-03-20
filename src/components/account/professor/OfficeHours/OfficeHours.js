@@ -1,5 +1,5 @@
-import { EditOutlined } from "@mui/icons-material";
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material"
+import { Add, EditOutlined } from "@mui/icons-material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material"
 
 const OfficeHours = () => {
     return (
@@ -39,25 +39,22 @@ const OfficeHours = () => {
                     >
                         {"Office Hours"}
                     </Typography>
-                    <IconButton
-                        size="small"
-                        color="primary"
-                        sx={{
-                            bgcolor: 'primary.light',
-                        }}
-                    >
-                        <EditOutlined fontSize="inherit" />
-                    </IconButton>
                     <Button
-                        startIcon={<EditOutlined />}
+                        startIcon={<Add />}
                         variant="text"
                         size="small"
                         sx={{
+                            display: {
+                                fold: 'none',
+                                mobile: 'none',
+                                tablet: 'none',
+                                desktop: 'flex',
+                            },
                             fontWeight: '700',
                             bgcolor: 'primary.light',
                         }}
                     >
-                        Edit
+                        Add
                     </Button>
                 </Box>
                 <Typography
@@ -66,9 +63,18 @@ const OfficeHours = () => {
                         color: 'grey',
                     }}
                 >
-                    {"Time frame in which student can visit your office for academic assitance"}
+                    {"Time frame in which students can visit your office for academic assistance"}
                 </Typography>
             </Stack>
+            <Grid
+                container
+                rowSpacing={2}
+                sx={{
+                    width: '100%',
+                }}
+            >
+                
+            </Grid>
         </Stack>
     )
 }
