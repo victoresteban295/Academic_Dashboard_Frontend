@@ -1,10 +1,16 @@
 import { Add, EditOutlined } from "@mui/icons-material";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { Box, Button, Divider, Grid, IconButton, Stack, Typography } from "@mui/material"
 
-const OfficeHours = () => {
+const OfficeHours = ({
+    officeHrs,
+    changeOfficeHrs
+}) => {
+
+    
     return (
         <Stack
             className="professors-office-hours"
+            spacing={4}
             sx={{
                 px: {
                     fold: 2,
@@ -66,15 +72,96 @@ const OfficeHours = () => {
                     {"Time frame in which students can visit your office for academic assistance"}
                 </Typography>
             </Stack>
-            <Grid
-                container
-                rowSpacing={2}
+            <Stack
+                spacing={5}
+                direction="row"
+                justifyContent="center"
+                useFlexGap
+                flexWrap="wrap"
+            >
+                {officeHrs.map(hrs => {
+                    const { location, room, startTime, endTime, days } = hrs; 
+                    return (
+                        <Stack
+                            key={startTime}
+                            spacing={0}
+                            sx={{
+                                py: 1,
+                                px: 3,
+                                cursor: 'pointer',
+                                bgcolor: 'primary.light',
+                                borderRadius: '5px',
+                                flexGrow: 1,
+                                maxWidth: '300px',
+                                "&:hover": {
+                                    color: 'primary.main'
+                                }
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {`${location} ${room}`}
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                            >
+                                {`${startTime} - ${endTime}`}
+                            </Typography>
+                            <Stack
+                                direction="row"
+                                useFlexGap
+                                flexWrap="wrap"
+                                spacing={1}
+                                divider={
+                                    <Divider
+                                        orientation="vertical"
+                                        flexItem
+                                    />
+                                }
+                            >
+                                {days.map(day => {
+                                    return (
+                                        <Typography
+                                            key={day}
+                                            variant="body1"
+                                        >
+                                            {day}
+                                        </Typography>
+                                    )
+                                })}
+                            </Stack>
+                        </Stack>
+                    )
+                })}
+
+            </Stack>
+            <Box
                 sx={{
-                    width: '100%',
+                    display: {
+                        fold: 'flex',
+                        mobile: 'flex',
+                        tablet: 'flex',
+                        desktop: 'none',
+                    },
+                    justifyContent: 'flex-end',
                 }}
             >
-                
-            </Grid>
+                <Button
+                    startIcon={<Add />}
+                    variant="text"
+                    size="small"
+                    sx={{
+                        fontWeight: '700',
+                        bgcolor: 'primary.light',
+                    }}
+                >
+                    Add
+                </Button>
+            </Box>
         </Stack>
     )
 }

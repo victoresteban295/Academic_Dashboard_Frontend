@@ -1,6 +1,6 @@
-import OfficeHours from "@/components/account/professor/OfficeHours/OfficeHours";
-import PersonalInformation from "@/components/account/professor/PersonalInformation/PersonalInformation";
-import { Stack, Typography } from "@mui/material"
+import ProfAccount from "@/components/account/professor/ProfAccount";
+import StudAccount from "@/components/account/student/StudAccount";
+import { getProfData } from "@/lib/data/account/professor";
 
 export const metadata = {
     title: "Account",
@@ -8,54 +8,28 @@ export const metadata = {
 }
 
 const UserAccountPage = ({ params }) => {
-    const { username, role } = params;
-    const userRole = role.charAt(0).toUpperCase() + role.slice(1);
+    const { role } = params;
+    const isProf = role === 'professor';
+
+    let accountInfo;
+    if(isProf) {
+        accountInfo = getProfData(); 
+    } else {
+
+    }
 
     return (
-        <Stack
-            spacing={2}
-            sx={{
-                width: '100%',
-                py: 1,
-                px: 2,
-            }}
-        >
-            <Stack
-                spacing={0}
-            >
-                <Typography
-                    variant="h5"
-                    sx={{
-                        fontWeight: '700',
-                    }}
-                >
-                    {"Professor Account"}
-                </Typography>
-            </Stack>
-            <Stack
-                spacing={4}
-                sx={{
-                    px: {
-                        fold: 0,
-                        mobile: 0,
-                        tablet: 2,
-                        desktop: 2,
-                    },
-                    width: '100%',
-                }}
-            >
-                <PersonalInformation 
-                    department={"Mathematics"} 
-                    academicRole={"Professor"}
-                    apptYear={"2004"}
-                    officeBuilding={"Norris Center"}
-                    officeRoom={"223A"}
+        <>
+            {isProf ? (
+                <ProfAccount 
+                    accountInfo={accountInfo}
+                    officeHrs={accountInfo.officeHrs}
                 />
-                <OfficeHours 
+            ): (
+                <StudAccount 
                 />
-            </Stack>
-
-        </Stack>
+            )}
+        </>
     )
 }
 

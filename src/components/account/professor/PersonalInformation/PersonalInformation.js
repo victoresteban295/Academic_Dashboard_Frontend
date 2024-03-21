@@ -1,7 +1,13 @@
 import { EditOutlined } from "@mui/icons-material";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material"
 
-const PersonalInformation = ({ department, academicRole, apptYear, officeBuilding, officeRoom }) => {
+const PersonalInformation = ({ 
+    department, 
+    academicRole, 
+    apptYear, 
+    officeBuilding, 
+    officeRoom, 
+    changeAccount }) => {
     return (
         <Stack
             className="professors-information-widget"
