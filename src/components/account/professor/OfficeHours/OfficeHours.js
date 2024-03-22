@@ -89,12 +89,12 @@ const OfficeHours = ({
                                 py: 1,
                                 px: 3,
                                 cursor: 'pointer',
-                                bgcolor: 'primary.light',
+                                boxShadow: '1px 1px 4px 2px #cecece',
                                 borderRadius: '5px',
                                 flexGrow: 1,
                                 maxWidth: '300px',
                                 "&:hover": {
-                                    color: 'primary.main'
+                                    bgcolor: 'primary.light'
                                 }
                             }}
                         >

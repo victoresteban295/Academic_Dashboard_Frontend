@@ -1,5 +1,7 @@
 import { EditOutlined } from "@mui/icons-material";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { useState } from "react";
+import PersonalInfoBackdrop from "./PersonalInfoBackdrop";
 
 const PersonalInformation = ({ 
     department, 
@@ -8,6 +10,16 @@ const PersonalInformation = ({
     officeBuilding, 
     officeRoom, 
     changeAccount }) => {
+
+    /* Edit Personal Information Backdrop */
+    const [open, setOpen] = useState(false);
+    const openBackdrop = () => {
+        setOpen(true);
+    }
+    const closeBackdrop = () => {
+        setOpen(false);
+    }
+
     return (
         <Stack
             className="professors-information-widget"
@@ -25,6 +37,16 @@ const PersonalInformation = ({
                 width: '100%',
             }}
         >
+            <PersonalInfoBackdrop 
+                open={open}
+                handleClose={closeBackdrop}
+                department={department}
+                academicRole={academicRole}
+                apptYear={apptYear}
+                officeBuilding={officeBuilding} 
+                officeRoom={officeRoom}
+                changeAccount={changeAccount}
+            />
             <Stack
                 className="title-section"
                 spacing={0}
@@ -48,6 +70,7 @@ const PersonalInformation = ({
                     </Typography>
                     <Button
                         startIcon={<EditOutlined />}
+                        onClick={openBackdrop}
                         variant="text"
                         size="small"
                         sx={{
@@ -219,6 +242,7 @@ const PersonalInformation = ({
             >
                 <Button
                     startIcon={<EditOutlined />}
+                    onClick={openBackdrop}
                     variant="text"
                     size="small"
                     sx={{
