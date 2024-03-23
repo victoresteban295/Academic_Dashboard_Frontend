@@ -1,11 +1,22 @@
 import { Add, EditOutlined } from "@mui/icons-material";
 import { Box, Button, Divider, Grid, IconButton, Stack, Typography } from "@mui/material"
+import OfficeHrsBackdrop from "./OfficeHrsBackdrop";
+import { useState } from "react";
+import OfficeHour from "./OfficeHour";
 
 const OfficeHours = ({
     officeHrs,
     changeOfficeHrs
 }) => {
 
+    /* Edit Office Hours Backdrop */
+    const [open, setOpen] = useState(false);
+    const openBackdrop = () => {
+        setOpen(true);
+    }
+    const closeBackdrop = () => {
+        setOpen(false);
+    }
     
     return (
         <Stack
@@ -24,6 +35,18 @@ const OfficeHours = ({
                 width: '100%',
             }}
         >
+            <OfficeHrsBackdrop
+                open={open}
+                handleClose={closeBackdrop}
+                index=""
+                location=""
+                room=""
+                strTime=""
+                endTime=""
+                days={[]}
+                officeHrs={officeHrs}
+                changeOfficeHrs={changeOfficeHrs}
+            />
             <Stack
                 className="title-section"
                 spacing={0}
@@ -47,6 +70,7 @@ const OfficeHours = ({
                     </Typography>
                     <Button
                         startIcon={<Add />}
+                        onClick={openBackdrop}
                         variant="text"
                         size="small"
                         sx={{
@@ -80,61 +104,18 @@ const OfficeHours = ({
                 flexWrap="wrap"
             >
                 {officeHrs.map(hrs => {
-                    const { location, room, startTime, endTime, days } = hrs; 
+                    const { index, location, room, startTime, endTime, days } = hrs; 
                     return (
-                        <Stack
-                            key={startTime}
-                            spacing={0}
-                            sx={{
-                                py: 1,
-                                px: 3,
-                                cursor: 'pointer',
-                                boxShadow: '1px 1px 4px 2px #cecece',
-                                borderRadius: '5px',
-                                flexGrow: 1,
-                                maxWidth: '300px',
-                                "&:hover": {
-                                    bgcolor: 'primary.light'
-                                }
-                            }}
-                        >
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                {`${location} ${room}`}
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                            >
-                                {`${startTime} - ${endTime}`}
-                            </Typography>
-                            <Stack
-                                direction="row"
-                                useFlexGap
-                                flexWrap="wrap"
-                                spacing={1}
-                                divider={
-                                    <Divider
-                                        orientation="vertical"
-                                        flexItem
-                                    />
-                                }
-                            >
-                                {days.map(day => {
-                                    return (
-                                        <Typography
-                                            key={day}
-                                            variant="body1"
-                                        >
-                                            {day}
-                                        </Typography>
-                                    )
-                                })}
-                            </Stack>
-                        </Stack>
+                        <OfficeHour 
+                            index={index}
+                            location={location}
+                            room={room}
+                            startTime={startTime}
+                            endTime={endTime}
+                            days={days}
+                            officeHrs={officeHrs}
+                            changeOfficeHrs={changeOfficeHrs}
+                        />
                     )
                 })}
 
@@ -152,6 +133,7 @@ const OfficeHours = ({
             >
                 <Button
                     startIcon={<Add />}
+                    onClick={openBackdrop}
                     variant="text"
                     size="small"
                     sx={{
