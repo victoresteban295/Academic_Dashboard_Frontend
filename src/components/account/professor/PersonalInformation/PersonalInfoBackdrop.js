@@ -13,7 +13,8 @@ const PersonalInfoBackdrop = ({
     apptYear, 
     officeBuilding, 
     officeRoom, 
-    changeAccount
+    changeAccount,
+    handleOpenAlert
 }) => {
     const generateYears = () => {
         let currentYear = new Date().getFullYear();
@@ -72,7 +73,7 @@ const PersonalInfoBackdrop = ({
             //Backend API: Update Database
             
         } catch(error) {
-
+            handleOpenAlert(error.message);
         }
     }
 

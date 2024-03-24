@@ -10,7 +10,8 @@ const OfficeHour = ({
     endTime,
     days,
     officeHrs,
-    changeOfficeHrs
+    changeOfficeHrs,
+    handleOpenAlert
 }) => {
 
     /* Edit Office Hours Backdrop */
@@ -36,6 +37,7 @@ const OfficeHour = ({
                 days={days}
                 officeHrs={officeHrs}
                 changeOfficeHrs={changeOfficeHrs}
+                handleOpenAlert={handleOpenAlert}
             />
             <Stack
                 key={startTime}

@@ -9,7 +9,9 @@ const PersonalInformation = ({
     apptYear, 
     officeBuilding, 
     officeRoom, 
-    changeAccount }) => {
+    changeAccount, 
+    handleOpenAlert
+}) => {
 
     /* Edit Personal Information Backdrop */
     const [open, setOpen] = useState(false);
@@ -46,6 +48,7 @@ const PersonalInformation = ({
                 officeBuilding={officeBuilding} 
                 officeRoom={officeRoom}
                 changeAccount={changeAccount}
+                handleOpenAlert={handleOpenAlert}
             />
             <Stack
                 className="title-section"

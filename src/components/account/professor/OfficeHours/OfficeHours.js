@@ -1,12 +1,13 @@
-import { Add, EditOutlined } from "@mui/icons-material";
-import { Box, Button, Divider, Grid, IconButton, Stack, Typography } from "@mui/material"
+import { Add } from "@mui/icons-material";
+import { Box, Button, Stack, Typography } from "@mui/material"
 import OfficeHrsBackdrop from "./OfficeHrsBackdrop";
 import { useState } from "react";
 import OfficeHour from "./OfficeHour";
 
 const OfficeHours = ({
     officeHrs,
-    changeOfficeHrs
+    changeOfficeHrs,
+    handleOpenAlert
 }) => {
 
     /* Edit Office Hours Backdrop */
@@ -46,6 +47,7 @@ const OfficeHours = ({
                 days={[]}
                 officeHrs={officeHrs}
                 changeOfficeHrs={changeOfficeHrs}
+                handleOpenAlert={handleOpenAlert}
             />
             <Stack
                 className="title-section"
@@ -115,6 +117,7 @@ const OfficeHours = ({
                             days={days}
                             officeHrs={officeHrs}
                             changeOfficeHrs={changeOfficeHrs}
+                            handleOpenAlert={handleOpenAlert}
                         />
                     )
                 })}

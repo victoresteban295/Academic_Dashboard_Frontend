@@ -16,7 +16,8 @@ const OfficeHrsBackdrop = ({
     endTime,
     days,
     officeHrs,
-    changeOfficeHrs
+    changeOfficeHrs,
+    handleOpenAlert
 }) => {
 
     const start = (strTime === "") ? null : dayjs(strTime, "h:mm A");
@@ -71,6 +72,7 @@ const OfficeHrsBackdrop = ({
             //Backend API: Update Database
             
         } catch(error) {
+            handleOpenAlert(error.message);
         }
     }
 
