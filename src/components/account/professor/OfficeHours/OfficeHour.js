@@ -25,7 +25,6 @@ const OfficeHour = ({
 
     return (
         <>
-
             <OfficeHrsBackdrop
                 open={open}
                 handleClose={closeBackdrop}
@@ -42,8 +41,8 @@ const OfficeHour = ({
             <Stack
                 key={startTime}
                 spacing={0}
+                onClick={openBackdrop}
                 sx={{
-                    onClick: openBackdrop,
                     py: 1,
                     px: 3,
                     cursor: 'pointer',
