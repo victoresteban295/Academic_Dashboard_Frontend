@@ -109,6 +109,7 @@ const OfficeHours = ({
                     const { index, location, room, startTime, endTime, days } = hrs; 
                     return (
                         <OfficeHour 
+                            key={index}
                             index={index}
                             location={location}
                             room={room}

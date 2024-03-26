@@ -1,4 +1,5 @@
 import { OfficeHrsSchema } from "@/lib/schemas/AccountSchema";
+import { deleteOfficeHrs, modifyOfficeHrs } from "@/lib/utils/account/frontend/modifyOfficeHrs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, EditOutlined } from "@mui/icons-material";
 import { Box, Button, Dialog, FormControl, FormHelperText, MenuItem, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
@@ -20,9 +21,16 @@ const OfficeHrsBackdrop = ({
     handleOpenAlert
 }) => {
 
+    /* Clone Each Office Hour */
+    const prevOfficeHrs = [];
+    for(const officeHr of officeHrs) {
+        const clone = structuredClone(officeHr);
+        prevOfficeHrs.push(clone);
+    }
+
+    /* React Hook Form */
     const start = (strTime === "") ? null : dayjs(strTime, "h:mm A");
     const end = (endTime === "") ? null : dayjs(endTime, "h:mm A");
-
     const values = {
         location: location,
         room: room,
@@ -30,8 +38,6 @@ const OfficeHrsBackdrop = ({
         endTime: end,
         days: days,
     }
-
-    /* React Hook Form */
     const { register, formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
@@ -53,26 +59,45 @@ const OfficeHrsBackdrop = ({
         reset();
     }
 
-    const modifyOfficeHrs = (data) => {
+    const handleModifyOfficeHrs = (data) => {
         try {
-            //Frontend: Edit Professor's Account Info
-            const updatedData = {
-                index: officeHrs.length.toString(),
-                location: data.location,
-                room: data.room,
-                startTime: data.strTime.format("h:mm A"),
-                endTime: data.endTime.format("h:mm A"),
-                days: data.days,
-            } 
+            //Frontend: Modify Office Hours
+            const { updatedOfficeHrs } = modifyOfficeHrs(
+                index, 
+                data.location, 
+                data.room, 
+                data.strTime.format("h:mm A"),
+                data.endTime.format("h:mm A"),
+                data.days,
+                officeHrs
+            );
 
             //Update State Value
-            changeOfficeHrs([...officeHrs, updatedData]);
+            changeOfficeHrs(updatedOfficeHrs);
             handleCloseBackdrop();
 
             //Backend API: Update Database
             
         } catch(error) {
             handleOpenAlert(error.message);
+            changeOfficeHrs(prevOfficeHrs);
+        }
+    }
+
+    const handleDeleteOfficeHrs = () => {
+        try {
+            //Frontend: Delete Office Hours
+            const { updatedOfficeHrs } = deleteOfficeHrs(index, officeHrs);
+
+            //Update State Value
+            changeOfficeHrs(updatedOfficeHrs);
+            handleCloseBackdrop();
+
+            //Backend API: Update Database
+
+        } catch(error) {
+            handleOpenAlert(error.message);
+            changeOfficeHrs(prevOfficeHrs);
         }
     }
 
@@ -84,7 +109,7 @@ const OfficeHrsBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <form
-                onSubmit={handleSubmit(modifyOfficeHrs)} 
+                onSubmit={handleSubmit(handleModifyOfficeHrs)} 
             >
                 <Stack
                     spacing={2}
@@ -432,6 +457,7 @@ const OfficeHrsBackdrop = ({
                     >
                         {index != "" && (
                             <Button
+                                onClick={handleDeleteOfficeHrs}
                                 color="error"
                                 variant="text"
                                 startIcon={<Delete />}
@@ -470,6 +496,7 @@ const OfficeHrsBackdrop = ({
                         {index != "" && (
                             <Button
                                 size="small"
+                                onClick={handleDeleteOfficeHrs}
                                 color="error"
                                 variant="text"
                                 startIcon={<Delete />}
