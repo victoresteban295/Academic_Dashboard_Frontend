@@ -3,6 +3,7 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import OfficeHrsBackdrop from "./OfficeHrsBackdrop";
 import { useState } from "react";
 import OfficeHour from "./OfficeHour";
+import EmptyOfficeHrs from "./EmptyOfficeHrs";
 
 const OfficeHours = ({
     officeHrs,
@@ -105,24 +106,31 @@ const OfficeHours = ({
                 useFlexGap
                 flexWrap="wrap"
             >
-                {officeHrs.map(hrs => {
-                    const { index, location, room, startTime, endTime, days } = hrs; 
-                    return (
-                        <OfficeHour 
-                            key={index}
-                            index={index}
-                            location={location}
-                            room={room}
-                            startTime={startTime}
-                            endTime={endTime}
-                            days={days}
-                            officeHrs={officeHrs}
-                            changeOfficeHrs={changeOfficeHrs}
-                            handleOpenAlert={handleOpenAlert}
-                        />
-                    )
-                })}
-
+                {officeHrs.length != 0 ? (
+                    officeHrs.map(hrs => {
+                        const { index, location, room, startTime, endTime, days } = hrs; 
+                        return (
+                            <OfficeHour 
+                                key={index}
+                                index={index}
+                                location={location}
+                                room={room}
+                                startTime={startTime}
+                                endTime={endTime}
+                                days={days}
+                                officeHrs={officeHrs}
+                                changeOfficeHrs={changeOfficeHrs}
+                                handleOpenAlert={handleOpenAlert}
+                            />
+                        )
+                    })
+                ) : (
+                    <EmptyOfficeHrs 
+                        officeHrs={officeHrs}
+                        changeOfficeHrs={changeOfficeHrs}
+                        handleOpenAlert={handleOpenAlert}
+                    />
+                )}
             </Stack>
             <Box
                 sx={{
