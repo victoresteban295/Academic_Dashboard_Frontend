@@ -1,6 +1,9 @@
+"use client"
 import { Alert, Snackbar, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import StudentInformation from "./StudentInformation/StudentInformation";
 
-const StudAccount = () => {
+const StudAccount = ({ accountInfo }) => {
 
     /* State Value */
     const [account, setAccount] = useState(accountInfo);
@@ -83,12 +86,11 @@ const StudAccount = () => {
                         width: '100%',
                     }}
                 >
-                    <PersonalInformation
-                        department={account.department} 
-                        academicRole={account.academicRole}
-                        apptYear={account.apptYear}
-                        officeBuilding={account.officeBuilding}
-                        officeRoom={account.officeRoom}
+                    <StudentInformation
+                        gradeLvl={account.gradeLvl} 
+                        major={account.major}
+                        minor={account.minor}
+                        concentration={account.concentration}
                         changeAccount={changeAccount}
                         handleOpenAlert={handleOpenAlert}
                     />

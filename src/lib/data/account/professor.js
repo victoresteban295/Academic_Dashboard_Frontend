@@ -38,20 +38,20 @@ export const academicRoles = [
 ];
 
 export const departments = [
-    "Computer Science",
-    "Mathematics",
-    "Physics",
-    "History",
-    "Economics",
-    "Communication",
+    "Anthropology",
     "Art",
     "Biology",
-    "Psychology",
-    "Political Science",
-    "Sociology",
     "Chemistry",
+    "Communication",
+    "Computer Science",
+    "Economics",
+    "Engineering",
+    "History",
+    "Mathematics",
     "Philosophy",
-    "Anthropology",
-    "Engineering"
+    "Physics",
+    "Political Science",
+    "Psychology",
+    "Sociology",
 ];
 

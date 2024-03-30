@@ -1,6 +1,15 @@
+import { EditOutlined } from "@mui/icons-material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-const StudentInformation = () => {
+const StudentInformation = ({ 
+    gradeLvl,
+    major,
+    minor,
+    concentration,
+    changeAccount,
+    handleOpenAlert
+}) => {
 
     /* Edit Student Information Backdrop */
     const [open, setOpen] = useState(false);
@@ -13,7 +22,7 @@ const StudentInformation = () => {
 
     return (
         <Stack
-            className="professors-information-widget"
+            className="student-information-widget"
             spacing={1}
             sx={{
                 px: {
@@ -28,17 +37,16 @@ const StudentInformation = () => {
                 width: '100%',
             }}
         >
-            <PersonalInfoBackdrop 
-                open={open}
-                handleClose={closeBackdrop}
-                department={department}
-                academicRole={academicRole}
-                apptYear={apptYear}
-                officeBuilding={officeBuilding} 
-                officeRoom={officeRoom}
-                changeAccount={changeAccount}
-                handleOpenAlert={handleOpenAlert}
-            />
+            {/* <PersonalInfoBackdrop  */}
+            {/*     open={open} */}
+            {/*     handleClose={closeBackdrop} */}
+            {/*     gradeLvl={gradeLvl} */}
+            {/*     major={major} */}
+            {/*     minor={minor} */}
+            {/*     concentration={concentration} */}
+            {/*     changeAccount={changeAccount} */}
+            {/*     handleOpenAlert={handleOpenAlert} */}
+            {/* /> */}
             <Stack
                 className="title-section"
                 spacing={0}
@@ -85,7 +93,7 @@ const StudentInformation = () => {
                         color: 'grey',
                     }}
                 >
-                    {"Academic information about you as a professor"}
+                    {"Academic information about you as a student"}
                 </Typography>
             </Stack>
             <Grid
@@ -108,7 +116,7 @@ const StudentInformation = () => {
                         <Typography
                             variant="body2"
                         >
-                            {"Department"}
+                            {"Major"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -116,7 +124,7 @@ const StudentInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {department}
+                            {major}
                         </Typography>
                     </Stack>
                 </Grid>
@@ -133,7 +141,7 @@ const StudentInformation = () => {
                         <Typography
                             variant="body2"
                         >
-                            {"Academic Role"}
+                            {"Minor"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -141,7 +149,7 @@ const StudentInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {academicRole}
+                            {minor === "" ? " ----- " : minor}
                         </Typography>
                     </Stack>
                 </Grid>
@@ -158,7 +166,7 @@ const StudentInformation = () => {
                         <Typography
                             variant="body2"
                         >
-                            {"Appointed Year"}
+                            {"Grade Level"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -166,7 +174,7 @@ const StudentInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {apptYear}
+                            {gradeLvl}
                         </Typography>
                     </Stack>
                 </Grid>
@@ -183,7 +191,7 @@ const StudentInformation = () => {
                         <Typography
                             variant="body2"
                         >
-                            {"Office Building"}
+                            {"Concentration"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -191,32 +199,7 @@ const StudentInformation = () => {
                                 fontWeight: '700'
                             }}
                         >
-                            {officeBuilding}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
-                            {"Room"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {officeRoom}
+                            {concentration === "" ? " ----- " : concentration}
                         </Typography>
                     </Stack>
                 </Grid>

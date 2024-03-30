@@ -1,6 +1,7 @@
 import ProfAccount from "@/components/account/professor/ProfAccount";
 import StudAccount from "@/components/account/student/StudAccount";
 import { getProfData } from "@/lib/data/account/professor";
+import { getStudData } from "@/lib/data/account/student";
 
 export const metadata = {
     title: "Account",
@@ -15,7 +16,7 @@ const UserAccountPage = ({ params }) => {
     if(isProf) {
         accountInfo = getProfData(); 
     } else {
-
+        accountInfo = getStudData();
     }
 
     return (
@@ -27,6 +28,7 @@ const UserAccountPage = ({ params }) => {
                 />
             ): (
                 <StudAccount 
+                    accountInfo={accountInfo}
                 />
             )}
         </>
