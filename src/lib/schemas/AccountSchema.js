@@ -20,3 +20,10 @@ export const OfficeHrsSchema = z.object({
     }, "Time is Required"),
     days: string().array().nonempty({message: "A Day is Required"})
 });
+
+export const StudAccountSchema = z.object({
+    gradeLvl: string().min(1, {message: "Academic Year is Required"}),
+    major: string().min(1, {message: "Major is Required"}),
+    minor: string().optional(),
+    concentration: string().trim().toLowerCase().max(50, {message: "Maximum 50 Character"}).optional()
+});

@@ -2,7 +2,7 @@ export const getStudData = () => {
     return {
         gradeLvl: "Junior",
         major: "Computer Science",
-        minor: "",
+        minor: "Applied Mathematics",
         concentration: "",
     }
 }
@@ -68,6 +68,7 @@ export const majors = [
 ];
 
 export const minors = [
+    " ----- ",
     "Anthropology",
     "Applied Mathematics",
     "Applied Physics",

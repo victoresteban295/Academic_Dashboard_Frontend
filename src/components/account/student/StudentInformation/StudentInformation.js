@@ -1,6 +1,7 @@
 import { EditOutlined } from "@mui/icons-material";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import StudentInfoBackdrop from "./StudentInfoBackdrop";
 
 const StudentInformation = ({ 
     gradeLvl,
@@ -37,16 +38,16 @@ const StudentInformation = ({
                 width: '100%',
             }}
         >
-            {/* <PersonalInfoBackdrop  */}
-            {/*     open={open} */}
-            {/*     handleClose={closeBackdrop} */}
-            {/*     gradeLvl={gradeLvl} */}
-            {/*     major={major} */}
-            {/*     minor={minor} */}
-            {/*     concentration={concentration} */}
-            {/*     changeAccount={changeAccount} */}
-            {/*     handleOpenAlert={handleOpenAlert} */}
-            {/* /> */}
+            <StudentInfoBackdrop 
+                open={open}
+                handleClose={closeBackdrop}
+                gradeLvl={gradeLvl}
+                major={major}
+                minor={minor}
+                concentration={concentration}
+                changeAccount={changeAccount}
+                handleOpenAlert={handleOpenAlert}
+            />
             <Stack
                 className="title-section"
                 spacing={0}

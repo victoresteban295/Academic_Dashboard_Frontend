@@ -1,7 +1,70 @@
-import { Dialog, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { majors, minors } from "@/lib/data/account/student";
+import { StudAccountSchema } from "@/lib/schemas/AccountSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EditOutlined } from "@mui/icons-material";
+import { Box, Button, Dialog, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 
-const StudentInfoBackdrop = () => {
+const StudentInfoBackdrop = ({ 
+    open,
+    handleClose,
+    gradeLvl,
+    major,
+    minor,
+    concentration,
+    changeAccount,
+    handleOpenAlert
+}) => {
+    const academicYears = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
+
+    /* React Hook Form */
+    const values = {
+        gradeLvl: gradeLvl,
+        major: major,
+        minor: minor,
+        concentration: concentration
+    }
+    const { register, formState, control, handleSubmit, reset } = useForm({
+        mode: 'onBlur',
+        defaultValues: {
+            gradeLvl: gradeLvl,
+            major: major,
+            minor: minor,
+            concentration: concentration
+        },
+        values,
+        resolver: zodResolver(StudAccountSchema), //Zod Validation Schema
+    });
+    const { errors } = formState;
+    
+    /* Close Backdrop */
+    const handleCloseBackdrop = () => {
+        handleClose();
+        reset();
+    }
+
+    /* Edit Student's Account */
+    const editAccount = (data) => {
+        try {
+            //Frontend: Edit Professor's Account Info
+            const updatedData = {
+                gradeLvl: data.gradeLvl,
+                major: data.major,
+                minor: data.minor,
+                concentration: data.concentration,
+            } 
+
+            //Update State Value
+            changeAccount(updatedData);
+            handleCloseBackdrop();
+
+            //Backend API: Update Database
+            
+        } catch(error) {
+            handleOpenAlert(error.message);
+        }
+    }
+
     return (
         <Dialog
             fullWidth={true}
@@ -39,109 +102,34 @@ const StudentInfoBackdrop = () => {
                                 color: 'grey',
                             }}
                         >
-                            {"Academic information about you as a professor"}
+                            {"Academic information about you as a student"}
                         </Typography>
                     </Stack>
                     <FormControl fullWidth >
-                        <Controller
-                            name="department"
+                        <Controller 
+                            name="gradeLvl"
                             control={control}
                             render={({field: { onChange, value}}) => {
                                 return (
                                     <TextField
                                         select
-                                        error={!!errors.department}
+                                        error={!!errors.gradeLvl}
                                         value={value}
                                         onChange={onChange}
-                                        label='Department'
-                                        helperText={errors.department?.message}
+                                        label='Grade Level'
+                                        helperText={errors.gradeLvl?.message}
                                     >
-                                        {departments.map((dept) => {
-                                            return(
-                                                <MenuItem
-                                                    key={dept} 
-                                                    value={dept}
-                                                >
-                                                    {dept}
-                                                </MenuItem>
-                                            );
-                                        })}
+                                    {academicYears.map((year) => {
+                                        return(
+                                            <MenuItem key={year} value={year}>{year}</MenuItem>
+                                        );
+                                    })}
                                     </TextField>
                                 )
                             }}
                         />
                     </FormControl>
                     <Stack
-                        direction={{
-                            fold: 'column',
-                            mobile: 'column',
-                            tablet: 'row',
-                            desktop: 'row',
-                        }}
-                        spacing={2}
-                        useFlexGap
-                    >
-                        <FormControl fullWidth >
-                            <Controller
-                                name="academicRole"
-                                control={control}
-                                render={({field: { onChange, value}}) => {
-                                    return (
-                                        <TextField
-                                            select
-                                            error={!!errors.academicRole}
-                                            value={value}
-                                            onChange={onChange}
-                                            label='Academic Role'
-                                            helperText={errors.academicRole?.message}
-                                        >
-                                            {academicRoles.map((role) => {
-                                                return(
-                                                    <MenuItem 
-                                                        key={role} 
-                                                        value={role}
-                                                    >
-                                                        {role}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </TextField>
-                                    )
-                                }}
-                            />
-                        </FormControl>
-                        <FormControl fullWidth >
-                            <Controller
-                                name="apptYear"
-                                control={control}
-                                render={({field: { onChange, value}}) => {
-                                    return (
-                                        <TextField
-                                            select
-                                            error={!!errors.apptYear}
-                                            value={value}
-                                            onChange={onChange}
-                                            label='Appointed Year'
-                                            helperText={errors.apptYear?.message}
-                                        >
-                                            {years.map((year) => {
-                                                return(
-                                                    <MenuItem 
-                                                        key={year} 
-                                                        value={year}
-                                                    >
-                                                        {year}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </TextField>
-                                    )
-                                }}
-                            />
-                        </FormControl>
-                    </Stack>
-                    <Stack
-                        id="office-input-field-group"
                         className="input-field-group"
                         direction={{
                             fold: 'column',
@@ -152,25 +140,63 @@ const StudentInfoBackdrop = () => {
                         spacing={2}
                         useFlexGap
                     >
-                        <TextField 
-                            id="office-building-input-field"    
-                            sx={{flexGrow: 1}} 
-                            label="Office Building" 
-                            variant="outlined" 
-                            error={!!errors.officeBuilding}
-                            helperText={errors.officeBuilding?.message}
-                            {...register('officeBuilding')}
-                        />
-                        <TextField 
-                            id="room-number-input-field" 
-                            sx={{flexGrow: 1}} 
-                            label="Room #" 
-                            variant="outlined" 
-                            error={!!errors.officeRoom}
-                            helperText={errors.officeRoom?.message}
-                            {...register('officeRoom')}
-                        />
+                        <FormControl fullWidth >
+                            <Controller 
+                                name="major"
+                                control={control}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <TextField
+                                            select
+                                            error={!!errors.major}
+                                            value={value}
+                                            onChange={onChange}
+                                            label='Major'
+                                            helperText={errors.major?.message}
+                                        >
+                                        {majors.map((major) => {
+                                            return(
+                                                <MenuItem key={major} value={major}>{major}</MenuItem>
+                                            );
+                                        })}
+                                        </TextField>
+                                    )
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl fullWidth >
+                            <Controller 
+                                name="minor"
+                                control={control}
+                                render={({field: { onChange, value}}) => {
+                                    return (
+                                        <TextField
+                                            select
+                                            error={!!errors.minor}
+                                            value={value}
+                                            onChange={onChange}
+                                            label='Minor'
+                                            helperText={errors.minor?.message}
+                                        >
+                                        {minors.map((minor) => {
+                                            return(
+                                                <MenuItem key={minor} value={minor}>{minor}</MenuItem>
+                                            );
+                                        })}
+                                        </TextField>
+                                    )
+                                }}
+                            />
+                        </FormControl>
                     </Stack>
+                    <TextField 
+                        id="concentration-input-field"
+                        label="Concentration" 
+                        variant="outlined" 
+                        error={!!errors.concentration}
+                        helperText={errors.concentration?.message}
+                        {...register('concentration')}
+                    />
                     <Box
                         sx={{
                             display: 'flex',
