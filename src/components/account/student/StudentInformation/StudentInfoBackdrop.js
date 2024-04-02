@@ -46,11 +46,18 @@ const StudentInfoBackdrop = ({
     /* Edit Student's Account */
     const editAccount = (data) => {
         try {
+            let updatedMinor;
+            if(data.minor === " ----- ") {
+                updatedMinor = "";
+            } else {
+                updatedMinor = data.minor;
+            }
+
             //Frontend: Edit Professor's Account Info
             const updatedData = {
                 gradeLvl: data.gradeLvl,
                 major: data.major,
-                minor: data.minor,
+                minor: updatedMinor,
                 concentration: data.concentration,
             } 
 

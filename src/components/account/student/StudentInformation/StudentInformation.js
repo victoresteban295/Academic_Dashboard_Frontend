@@ -117,56 +117,6 @@ const StudentInformation = ({
                         <Typography
                             variant="body2"
                         >
-                            {"Major"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {major}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
-                            {"Minor"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {minor === "" ? " ----- " : minor}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
                             {"Grade Level"}
                         </Typography>
                         <Typography
@@ -192,6 +142,62 @@ const StudentInformation = ({
                         <Typography
                             variant="body2"
                         >
+                            {"Major"}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: '700'
+                            }}
+                        >
+                            {major}
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
+                    sx={{
+                        display: minor === "" ? "none" : "block",
+                    }}
+                >
+                    <Stack
+                        spacing={0} 
+                    >
+                        <Typography
+                            variant="body2"
+                        >
+                            {"Minor"}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: '700'
+                            }}
+                        >
+                            {minor}
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid
+                    item
+                    fold={12}
+                    mobile={6}
+                    tablet={6}
+                    desktop={4}
+                    sx={{
+                        display: concentration === "" ? "none" : "block",
+                    }}
+                >
+                    <Stack
+                        spacing={0} 
+                    >
+                        <Typography
+                            variant="body2"
+                        >
                             {"Concentration"}
                         </Typography>
                         <Typography
@@ -200,7 +206,7 @@ const StudentInformation = ({
                                 fontWeight: '700'
                             }}
                         >
-                            {concentration === "" ? " ----- " : concentration}
+                            {concentration}
                         </Typography>
                     </Stack>
                 </Grid>
