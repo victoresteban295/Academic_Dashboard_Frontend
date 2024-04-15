@@ -1,8 +1,10 @@
 import { Box, Grow, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Apartment, AssignmentInd, Email, LocalPhone } from "@mui/icons-material";
 import InfoSection from "./InfoSection";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
 import EditCourseDesBackdrop from "../../Backdrop/EditCourseDesBackdrop";
+import CourseDetails from "./CourseDetails/CourseDetails";
 
 const Syllabus = ({ 
     tab, 
@@ -89,6 +91,9 @@ const Syllabus = ({
                                 {semester}
                             </Typography>
                         </Stack>
+                        <CourseDetails 
+                        /> 
+                        {/* Syllabus Section */}
                         <Stack
                             spacing={1}
                         >

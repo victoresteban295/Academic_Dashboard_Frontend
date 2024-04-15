@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import CourseTitleSection from "./MainWidget/CourseTitleSection";
 import { useState } from "react";
 import Upcoming from "./MainWidget/Upcoming/Upcoming";
@@ -6,6 +6,7 @@ import Syllabus from "./MainWidget/Syllabus/Syllabus";
 import Past from "./MainWidget/Past/Past";
 import dayjs from "dayjs";
 import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
+import { Assignment, AssignmentOutlined, RecentActors, RecentActorsOutlined, TextSnippet, TextSnippetOutlined } from "@mui/icons-material";
 
 const MainWidget = ({ 
     instructor, 
@@ -106,113 +107,125 @@ const MainWidget = ({
                         borderRadius: '0px',
                     }}
                 >
-                    <Typography
-                        variant="caption"
+                    <Box
                         sx={{
-                            display: {
-                                fold: 'block',
-                                mobile: 'none',
-                                tablet: 'none',
-                                desktop: 'none',
-                            }
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
                         }}
                     >
-                        Syllabus
-                    </Typography>
-                    <Typography
-                        variant="button"
-                        sx={{
-                            display: {
-                                fold: 'none',
-                                mobile: 'block',
-                                tablet: 'block',
-                                desktop: 'block',
-                            },
-                            fontWeight: '700',
-                        }}
-                    >
-                        Syllabus
-                    </Typography>
+                        {tab === "syllabus" ? (
+                            <TextSnippet 
+                                
+                            />
+                        ) : (
+                            <TextSnippetOutlined
+                                
+                            />
+                        )}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                display: {
+                                    fold: 'none',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                fontWeight: '700',
+                            }}
+                        >
+                            Syllabus
+                        </Typography>
+                    </Box>
                 </Button>
                 <Button
                     variant="text"
                     onClick={() => {
-                        setTab("upcoming")
+                        setTab("tasks")
                     }} 
                     sx={{
-                        color: tab === "upcoming" ? 'primary.main' : 'text.primary',
-                        borderBottom: tab === "upcoming" ? '4px solid' : '0px solid',
-                        borderColor: tab === "upcoming" ? 'primary.main' : '#cecece',
+                        color: tab === "tasks" ? 'primary.main' : 'text.primary',
+                        borderBottom: tab === "tasks" ? '4px solid' : '0px solid',
+                        borderColor: tab === "tasks" ? 'primary.main' : '#cecece',
                         borderRadius: '0px',
                     }}
                 >
-                    <Typography
-                        variant="caption"
+                    <Box
                         sx={{
-                            display: {
-                                fold: 'block',
-                                mobile: 'none',
-                                tablet: 'none',
-                                desktop: 'none',
-                            }
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
                         }}
                     >
-                        Upcoming
-                    </Typography>
-                    <Typography
-                        variant="button"
-                        sx={{
-                            display: {
-                                fold: 'none',
-                                mobile: 'block',
-                                tablet: 'block',
-                                desktop: 'block',
-                            },
-                            fontWeight: '700',
-                        }}
-                    >
-                        Upcoming
-                    </Typography>
+                        {tab === "tasks" ? (
+                            <Assignment
+                                
+                            />
+                        ) : (
+                            <AssignmentOutlined
+                                
+                            />
+                        )}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                display: {
+                                    fold: 'none',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                fontWeight: '700',
+                            }}
+                        >
+                            Tasks
+                        </Typography>
+                    </Box>
                 </Button>
                 <Button
                     variant="text"
                     onClick={() => {
-                        setTab("past")
+                        setTab("roster")
                     }} 
                     sx={{
-                        color: tab === "past" ? 'primary.main' : 'text.primary',
-                        borderBottom: tab === "past" ? '4px solid' : '0px solid',
-                        borderColor: tab === "past" ? 'primary.main' : '#cecece',
+                        color: tab === "roster" ? 'primary.main' : 'text.primary',
+                        borderBottom: tab === "roster" ? '4px solid' : '0px solid',
+                        borderColor: tab === "roster" ? 'primary.main' : '#cecece',
                         borderRadius: '0px',
                     }}
                 >
-                    <Typography
-                        variant="caption"
+                    <Box
                         sx={{
-                            display: {
-                                fold: 'block',
-                                mobile: 'none',
-                                tablet: 'none',
-                                desktop: 'none',
-                            }
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
                         }}
                     >
-                        Past
-                    </Typography>
-                    <Typography
-                        variant="button"
-                        sx={{
-                            display: {
-                                fold: 'none',
-                                mobile: 'block',
-                                tablet: 'block',
-                                desktop: 'block',
-                            },
-                            fontWeight: '700',
-                        }}
-                    >
-                        Past
-                    </Typography>
+                        {tab === "roster" ? (
+                            <RecentActors
+                                
+                            />
+                        ) : (
+                            <RecentActorsOutlined
+                                
+                            />
+                        )}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                display: {
+                                    fold: 'none',
+                                    mobile: 'block',
+                                    tablet: 'block',
+                                    desktop: 'block',
+                                },
+                                fontWeight: '700',
+                            }}
+                        >
+                            Roster
+                        </Typography>
+                    </Box>
                 </Button>
             </Stack>
             <Syllabus 
