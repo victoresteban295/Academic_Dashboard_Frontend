@@ -63,6 +63,30 @@ const InfoSection = ({
                     </IconButton>
                 </Tooltip>
             </Box>
+            {/* <Box */}
+            {/*     sx={{ */}
+            {/*         display: "flex", */}
+            {/*         justifyContent: "space-between", */}
+            {/*     }} */}
+            {/* > */}
+            {/*     <Typography */}
+            {/*         variant="h6" */}
+            {/*         sx={{ */}
+            {/*             fontWeight: '700', */}
+            {/*             px: 1, */}
+            {/*         }} */}
+            {/*     > */}
+            {/*         {title} */}
+            {/*     </Typography> */}
+            {/*     <Tooltip title="Edit"> */}
+            {/*         <IconButton */}
+            {/*             onClick={handleOpenEditSection} */}
+            {/*             size='small' */}
+            {/*         > */}
+            {/*             <Edit fontSize='inherit' /> */}
+            {/*         </IconButton> */}
+            {/*     </Tooltip> */}
+            {/* </Box> */}
             <Box
                 sx={{
                     px: 1,

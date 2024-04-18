@@ -1,8 +1,9 @@
 import { Box, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
-import { Add, Apartment, AssignmentInd, Close, Email, LocalPhone } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import EditScheduleBackdrop from "./Backdrop/EditScheduleBackdrop";
 import { useState } from "react";
+import InstructorInfo from "./RightWidget/InstructorInfo";
 
 const RightWidget = ({ 
     instructor, 
@@ -73,72 +74,12 @@ const RightWidget = ({
                     <Close fontSize="inherit"/>
                 </IconButton> 
             </Box>
-            <Stack
-                spacing={0.5}
-                sx={{
-                    px: 2,
-                    py: 1,
-                    boxShadow: '1px 1px 4px 2px #cecece',
-                    borderRadius: '5px',
-                }}
-            >
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1} 
-                >
-                    <AssignmentInd 
-                        fontSize="small"
-                    />
-                    <Typography
-                        variant="body1"
-                    >
-                        {instructor}
-                    </Typography>
-                </Stack>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1} 
-                >
-                    <Apartment
-                        fontSize="small"
-                    />
-                    <Typography
-                        variant="body1"
-                    >
-                        {office}
-                    </Typography>
-                </Stack>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1} 
-                >
-                    <LocalPhone
-                        fontSize="small"
-                    />
-                    <Typography
-                        variant="body1"
-                    >
-                        {phone}
-                    </Typography>
-                </Stack>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1} 
-                >
-                    <Email
-                        fontSize="small"
-                    />
-                    <Typography
-                        variant="body1"
-                    >
-                        {email}
-                    </Typography>
-                </Stack>
-            </Stack>
+            <InstructorInfo 
+                instructor={instructor}
+                office={office}
+                phone={phone}
+                email={email}
+            />
             <Divider />
             <Box
                 sx={{
