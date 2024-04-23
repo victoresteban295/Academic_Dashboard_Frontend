@@ -7,6 +7,7 @@ import Past from "./MainWidget/Past/Past";
 import dayjs from "dayjs";
 import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Assignment, AssignmentOutlined, RecentActors, RecentActorsOutlined, TextSnippet, TextSnippetOutlined } from "@mui/icons-material";
+import Tasks from "./MainWidget/Tasks/Tasks";
 
 const MainWidget = ({ 
     instructor, 
@@ -237,6 +238,9 @@ const MainWidget = ({
                 infos={infos}
                 changeInfoSections={changeInfoSections}
                 handleOpenAlert={handleOpenAlert}
+            />
+            <Tasks 
+                tab={tab}
             />
             <Upcoming
                 tab={tab}

@@ -1,9 +1,9 @@
 import { Box, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
-import { Add, Close } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import EditScheduleBackdrop from "./Backdrop/EditScheduleBackdrop";
 import { useState } from "react";
-import InstructorInfo from "./RightWidget/InstructorInfo";
+import OfficeHrs from "./RightWidget/OfficeHrs";
 
 const RightWidget = ({ 
     instructor, 
@@ -14,6 +14,23 @@ const RightWidget = ({
     changeSchedules,
     handleClose, 
     handleOpenAlert }) => {
+
+    const officeHrs = [
+        {
+            index: "0",
+            location: "Norris Center 223A",
+            days: ["Mon", "Wed", "Fri"],
+            strTime: "3:00 PM",
+            endTime: "5:00 PM",
+        },
+        {
+            index: "1",
+            location: "Norris Center 223A",
+            days: ["Tue", "Thu"],
+            strTime: "11:00 AM",
+            endTime: "12:00 PM",
+        }
+    ]
 
     /* Backdrop Menu State Value & Function */
     /* Create/Edit Course Schedule */
@@ -57,43 +74,6 @@ const RightWidget = ({
                         fontWeight: '700',
                     }}
                 >
-                    {"Instructor Information"}
-                </Typography>
-                <IconButton
-                    size="small"
-                    onClick={handleClose}
-                    sx={{
-                        display: {
-                            fold: 'block', 
-                            mobile: 'block',
-                            tablet: 'block',
-                            desktop: 'none',
-                        }
-                    }}
-                >
-                    <Close fontSize="inherit"/>
-                </IconButton> 
-            </Box>
-            <InstructorInfo 
-                instructor={instructor}
-                office={office}
-                phone={phone}
-                email={email}
-            />
-            <Divider />
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography
-                    variant="body2"
-                    sx={{
-                        fontWeight: '700',
-                    }}
-                >
                     {"Course Schedule"}
                 </Typography>
                 <Tooltip title="Add New Schedule">
@@ -119,6 +99,35 @@ const RightWidget = ({
                         changeSchedules={changeSchedules}
                         size={schedules.length}
                         handleOpenAlert={handleOpenAlert}
+                    />
+                )
+            })}
+            <Divider />
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontWeight: '700',
+                    }}
+                >
+                    {"Office Hours"}
+                </Typography>
+            </Box>
+            {officeHrs.map(officeHr => {
+                const { index, location, days, strTime, endTime } = officeHr;
+                return (
+                    <OfficeHrs
+                        key={index}
+                        location={location}
+                        days={days}
+                        startTime={strTime}
+                        endTime={endTime}
                     />
                 )
             })}
