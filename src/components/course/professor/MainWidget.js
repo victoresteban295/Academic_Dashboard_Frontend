@@ -1,9 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import CourseTitleSection from "./MainWidget/CourseTitleSection";
 import { useState } from "react";
-import Upcoming from "./MainWidget/Upcoming/Upcoming";
 import Syllabus from "./MainWidget/Syllabus/Syllabus";
-import Past from "./MainWidget/Past/Past";
 import dayjs from "dayjs";
 import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Assignment, AssignmentOutlined, RecentActors, RecentActorsOutlined, TextSnippet, TextSnippetOutlined } from "@mui/icons-material";
@@ -241,16 +239,7 @@ const MainWidget = ({
             />
             <Tasks 
                 tab={tab}
-            />
-            <Upcoming
-                tab={tab}
                 upcoming={upcoming}
-                weeklyTasks={stWeeklyTasks}
-                changeWeeklyTasks={changeWeeklyTasks}
-                handleOpenAlert={handleOpenAlert}
-            />
-            <Past
-                tab={tab}
                 past={past}
                 weeklyTasks={stWeeklyTasks}
                 changeWeeklyTasks={changeWeeklyTasks}
