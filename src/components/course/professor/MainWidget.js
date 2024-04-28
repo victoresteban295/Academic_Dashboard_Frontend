@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Assignment, AssignmentOutlined, RecentActors, RecentActorsOutlined, TextSnippet, TextSnippetOutlined } from "@mui/icons-material";
 import Tasks from "./MainWidget/Tasks/Tasks";
+import Roster from "./MainWidget/Roster/Roster";
 
 const MainWidget = ({ 
     instructor, 
@@ -244,6 +245,9 @@ const MainWidget = ({
                 weeklyTasks={stWeeklyTasks}
                 changeWeeklyTasks={changeWeeklyTasks}
                 handleOpenAlert={handleOpenAlert}
+            />
+            <Roster
+                tab={tab}
             />
         </Stack>
     )

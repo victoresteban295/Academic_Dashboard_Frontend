@@ -845,3 +845,66 @@ export const getCourse = (course, today) => {
     }
 }
 
+export const math230Roster = [
+    {
+        name: "Andrea Hills",
+        gradeLvl: "Freshman",
+        attendance: 88,
+        grade: 73,
+    },
+    {
+        name: "Angel Alvarez",
+        gradeLvl: "Freshman",
+        attendance: 100,
+        grade: 95,
+    },
+    {
+        name: "Andrea Hills",
+        gradeLvl: "Freshman",
+        attendance: 88,
+        grade: 73,
+    },
+    {
+        name: "Angel Alvarez",
+        gradeLvl: "Freshman",
+        attendance: 100,
+        grade: 95,
+    },
+    {
+        name: "Andrea Hills",
+        gradeLvl: "Freshman",
+        attendance: 88,
+        grade: 73,
+    },
+    {
+        name: "Angel Alvarez",
+        gradeLvl: "Freshman",
+        attendance: 100,
+        grade: 95,
+    },
+    {
+        name: "Andrea Hills",
+        gradeLvl: "Freshman",
+        attendance: 88,
+        grade: 73,
+    },
+    {
+        name: "Angel Alvarez",
+        gradeLvl: "Freshman",
+        attendance: 100,
+        grade: 95,
+    },
+    {
+        name: "Andrea Hills",
+        gradeLvl: "Freshman",
+        attendance: 88,
+        grade: 73,
+    },
+    {
+        name: "Angel Alvarez",
+        gradeLvl: "Freshman",
+        attendance: 100,
+        grade: 95,
+    },
+];
+
