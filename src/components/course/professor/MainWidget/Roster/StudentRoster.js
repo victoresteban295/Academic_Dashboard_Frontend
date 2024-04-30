@@ -5,7 +5,9 @@ import Student from "./Student";
 
 const StudentRoster = () => {
     return (
-        <Stack>
+        <Stack
+            spacing={1}
+        >
             <Stack
                 direction="row"
                 alignItems="center"

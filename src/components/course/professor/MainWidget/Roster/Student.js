@@ -1,4 +1,5 @@
-import { Stack, Typography } from "@mui/material";
+import { ChatBubbleOutline, MoreVert, QueryStats } from "@mui/icons-material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts";
 
 const Student = ({ name, gradeLvl, attendance, grade }) => {
@@ -15,6 +16,7 @@ const Student = ({ name, gradeLvl, attendance, grade }) => {
         >
             <Stack
                 className="student-name"
+                spacing={0.5}
             >
                 <Typography
                     variant="h6"
@@ -32,6 +34,34 @@ const Student = ({ name, gradeLvl, attendance, grade }) => {
                 >
                     {gradeLvl}
                 </Typography>
+                <Stack
+                    className="student-roster-options"
+                    direction="row"
+                    spacing={1}
+                >
+                    <Button
+                        variant="text"
+                        size="small"
+                        startIcon={<ChatBubbleOutline fontSize="small" />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light',
+                        }} 
+                    >
+                        {"Message"}
+                    </Button>
+                    <Button
+                        variant="text"
+                        size="small"
+                        startIcon={<QueryStats fontSize="small" />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light',
+                        }} 
+                    >
+                        {"View Stats"}
+                    </Button>
+                </Stack>
             </Stack>
             <Stack
                 direction="row"
