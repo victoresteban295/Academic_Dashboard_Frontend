@@ -1,6 +1,6 @@
 import { math230Roster } from "@/lib/data/course/professor";
 import { Search } from "@mui/icons-material";
-import { Divider, FormControl, InputBase, Stack, Typography } from "@mui/material";
+import { Divider, FormControl, InputBase, Stack } from "@mui/material";
 import Student from "./Student";
 
 const StudentRoster = () => {
@@ -24,34 +24,19 @@ const StudentRoster = () => {
                 <Stack
                     direction="row"
                     alignItems="center"
+                    sx={{
+                        width: '100%',
+                    }}
                 >
                     <Search 
                         color="primary"
                     />
-                    <FormControl fullWidth>
+                    <FormControl fullWidth >
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
                             placeholder="Search Student..."
                         />
                     </FormControl>
-                </Stack>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1}
-                >
-                    <Typography
-                        variant="body1"
-                        sx={{
-                        }}
-                    >
-                        Total Students:
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                    >
-                        39
-                    </Typography>
                 </Stack>
             </Stack>
             <Stack
