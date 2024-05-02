@@ -1,37 +1,17 @@
-import { Avatar, Box, Divider, Grid, Grow, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Grid, Grow, Stack, Typography } from "@mui/material";
 import InfoSection from "./InfoSection";
-import { Edit } from "@mui/icons-material";
-import { useState } from "react";
-import EditCourseDesBackdrop from "../../Backdrop/EditCourseDesBackdrop";
 import ProfessorInformation from "./ProfessorInformation";
 import GradeComposition from "./GradeComposition";
+import EmptySyllabus from "./EmptySyllabus";
 
 const Syllabus = ({ 
     tab, 
     title, 
-    school, 
-    semester, 
     description,
     infos,
     changeInfoSections,
     handleOpenAlert
 }) => {
-
-    /* State Value */
-    const [descr, setDescr] = useState(description);
-    const changeDescription = (updatedDescr) => {
-        setDescr(updatedDescr);
-    }
-
-    /* Backdrop Menu State Value & Function */
-    /* Edit Course Description */
-    const [openEditDescr, setOpenEditDescr] = useState(false);
-    const handleOpenEditDescr = () => {
-        setOpenEditDescr(true);
-    }
-    const handleCloseEditDescr = () => {
-        setOpenEditDescr(false);
-    }
 
     return (
         <>
@@ -76,14 +56,14 @@ const Syllabus = ({
                                             color: 'primary.main',
                                         }}
                                     >
-                                        {"Taught by Dr.Bollman"}
+                                        {"Taught by Dr.Professor"}
                                     </Typography>
                                 </Stack>
                                 <Typography
                                     variant="body1"
                                     align="left"
                                 >
-                                    {"This course serves as an introduction to the fundamental concepts and techniques of differential equations, a cornerstone of mathematics with wide-ranging applications in physics, engineering, biology, economics, and many other fields. "}
+                                    {description}
                                 </Typography>
                             </Stack>
                         </Stack>
@@ -157,28 +137,27 @@ const Syllabus = ({
                                 }
                             }}
                         >
-                            <EditCourseDesBackdrop 
-                                open={openEditDescr}
-                                handleClose={handleCloseEditDescr}
-                                description={descr}
-                                changeDescription={changeDescription}
-                                handleOpenAlert={handleOpenAlert}
-                            />
-
-                            {infos.map(infoSection => {
-                                const { index, title, info } = infoSection;
-                                return (
-                                    <InfoSection 
-                                        key={title}
-                                        index={index}
-                                        title={title}
-                                        info={info}
-                                        infos={infos}
-                                        changeInfoSections={changeInfoSections}
-                                        handleOpenAlert={handleOpenAlert}
-                                    />
-                                )
-                            })} 
+                            {infos.length === 0 ? (
+                                <EmptySyllabus 
+                                    changeInfoSections={changeInfoSections}
+                                    handleOpenAlert={handleOpenAlert}
+                                />
+                            ): (
+                                infos.map(infoSection => {
+                                    const { index, title, info } = infoSection;
+                                    return (
+                                        <InfoSection 
+                                            key={title}
+                                            index={index}
+                                            title={title}
+                                            info={info}
+                                            infos={infos}
+                                            changeInfoSections={changeInfoSections}
+                                            handleOpenAlert={handleOpenAlert}
+                                        />
+                                    )
+                                }) 
+                            )}
                         </Stack>
                     </Stack>
                 </Grow>

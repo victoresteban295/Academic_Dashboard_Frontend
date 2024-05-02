@@ -13,6 +13,8 @@ const PersonalInfoBackdrop = ({
     apptYear, 
     officeBuilding, 
     officeRoom, 
+    email,
+    phone,
     changeAccount,
     handleOpenAlert
 }) => {
@@ -64,6 +66,8 @@ const PersonalInfoBackdrop = ({
                 apptYear: data.apptYear,
                 officeBuilding: data.officeBuilding,
                 officeRoom: data.officeRoom,
+                email: email,
+                phone: phone,
             } 
 
             //Update State Value

@@ -2,9 +2,10 @@
 import { useState } from "react";
 import OfficeHours from "./OfficeHours/OfficeHours";
 import PersonalInformation from "./PersonalInformation/PersonalInformation";
-import { Alert, Snackbar, Stack, Typography } from "@mui/material"
+import { Alert, Divider, Snackbar, Stack, Typography } from "@mui/material"
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ContactInformation from "./ContactInformation/ContactInformation";
 
 const ProfAccount = ({
     accountInfo,
@@ -85,15 +86,19 @@ const ProfAccount = ({
                     </Typography>
                 </Stack>
                 <Stack
-                    spacing={4}
+                    spacing={2}
+                    divider={<Divider flexItem />}
                     sx={{
                         px: {
-                            fold: 0,
-                            mobile: 0,
-                            tablet: 2,
-                            desktop: 2,
+                            fold: 2,
+                            mobile: 2,
+                            tablet: 4,
+                            desktop: 4,
                         },
+                        py: 2,
                         width: '100%',
+                        boxShadow: '1px 1px 4px 2px #cecece',
+                        borderRadius: '10px',
                     }}
                 >
                     <PersonalInformation
@@ -102,6 +107,19 @@ const ProfAccount = ({
                         apptYear={account.apptYear}
                         officeBuilding={account.officeBuilding}
                         officeRoom={account.officeRoom}
+                        email={account.email}
+                        phone={account.phone}
+                        changeAccount={changeAccount}
+                        handleOpenAlert={handleOpenAlert}
+                    />
+                    <ContactInformation 
+                        department={account.department} 
+                        academicRole={account.academicRole}
+                        apptYear={account.apptYear}
+                        officeBuilding={account.officeBuilding}
+                        officeRoom={account.officeRoom}
+                        email={account.email}
+                        phone={account.phone}
                         changeAccount={changeAccount}
                         handleOpenAlert={handleOpenAlert}
                     />

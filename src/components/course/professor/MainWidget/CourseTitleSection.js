@@ -7,6 +7,7 @@ import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
 import TaskBackdrop from "../Backdrop/TaskBackdrop";
 import DeleteCourseBackdrop from "../Backdrop/DeleteCourseBackdrop";
 import FinalDeleteCourseBackdrop from "../Backdrop/FinalDeleteCourseBackdrop";
+import EditCourseDesBackdrop from "../Backdrop/EditCourseDesBackdrop";
 
 const CourseTitleSection = ({ 
     title,
@@ -17,6 +18,8 @@ const CourseTitleSection = ({
     schedules,
     infos,
     weeklyTasks,
+    description,
+    changeDescription,
     changeInfoSections,
     changeTitle,
     changeSchedules,
@@ -52,6 +55,14 @@ const CourseTitleSection = ({
     }
     const handleCloseEditTitle = () => {
         setOpenEditTitle(false);
+    }
+    /* Edit Course Description */
+    const [openEditDescr, setOpenEditDescr] = useState(false);
+    const handleOpenEditDescr = () => {
+        setOpenEditDescr(true);
+    }
+    const handleCloseEditDescr = () => {
+        setOpenEditDescr(false);
     }
     /* Edit Info Section */
     const [openEditSection, setOpenEditSection] = useState(false);
@@ -99,6 +110,13 @@ const CourseTitleSection = ({
             }}
         >
             {/* Backdrops */}
+            <EditCourseDesBackdrop
+                open={openEditDescr}
+                handleClose={handleCloseEditDescr}
+                description={description}
+                changeDescription={changeDescription}
+                handleOpenAlert={handleOpenAlert}
+            />
             <EditInfoSectionBackdrop 
                 open={openEditSection}
                 handleClose={handleCloseEditSection}
@@ -140,7 +158,6 @@ const CourseTitleSection = ({
                 handleClose={handleCloseFinalDelete}
                 title={title}
             />
-
 
             <Typography
                 align="center"
@@ -186,6 +203,11 @@ const CourseTitleSection = ({
                             onClick={handleOpenEditTitle}
                         >
                             Edit Course Title
+                        </MenuItem>
+                        <MenuItem  
+                            onClick={handleOpenEditDescr}
+                        >
+                            Edit Course Description
                         </MenuItem>
                         <MenuItem  
                             onClick={handleOpenTask}

@@ -1,9 +1,9 @@
 import { EditOutlined } from "@mui/icons-material";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import ContactInfoBackdrop from "./ContactInfoBackdrop";
 import { useState } from "react";
-import PersonalInfoBackdrop from "./PersonalInfoBackdrop";
 
-const PersonalInformation = ({ 
+const ContactInformation = ({ 
     department, 
     academicRole, 
     apptYear, 
@@ -15,7 +15,7 @@ const PersonalInformation = ({
     handleOpenAlert
 }) => {
 
-    /* Edit Personal Information Backdrop */
+    /* Edit Contact Information Backdrop */
     const [open, setOpen] = useState(false);
     const openBackdrop = () => {
         setOpen(true);
@@ -26,13 +26,13 @@ const PersonalInformation = ({
 
     return (
         <Stack
-            className="professors-information-widget"
+            className="contact-information-widget"
             spacing={1}
             sx={{
                 width: '100%',
             }}
         >
-            <PersonalInfoBackdrop 
+            <ContactInfoBackdrop 
                 open={open}
                 handleClose={closeBackdrop}
                 department={department}
@@ -64,7 +64,7 @@ const PersonalInformation = ({
                         sx={{
                         }}
                     >
-                        {"General Information"}
+                        {"Contact Information"}
                     </Typography>
                     <Button
                         startIcon={<EditOutlined />}
@@ -91,7 +91,7 @@ const PersonalInformation = ({
                         color: 'grey',
                     }}
                 >
-                    {"Academic information about you as a professor"}
+                    {"Add ways for students to contact you"}
                 </Typography>
             </Stack>
             <Grid
@@ -112,7 +112,7 @@ const PersonalInformation = ({
                     fold={12}
                     mobile={6}
                     tablet={6}
-                    desktop={4}
+                    desktop={6}
                 >
                     <Stack
                         spacing={0} 
@@ -120,7 +120,7 @@ const PersonalInformation = ({
                         <Typography
                             variant="body2"
                         >
-                            {"Department"}
+                            {"Email"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -128,7 +128,7 @@ const PersonalInformation = ({
                                 fontWeight: '700'
                             }}
                         >
-                            {department}
+                            {email}
                         </Typography>
                     </Stack>
                 </Grid>
@@ -137,7 +137,7 @@ const PersonalInformation = ({
                     fold={12}
                     mobile={6}
                     tablet={6}
-                    desktop={4}
+                    desktop={6}
                 >
                     <Stack
                         spacing={0} 
@@ -145,7 +145,7 @@ const PersonalInformation = ({
                         <Typography
                             variant="body2"
                         >
-                            {"Academic Role"}
+                            {"Phone"}
                         </Typography>
                         <Typography
                             variant="h6"
@@ -153,82 +153,7 @@ const PersonalInformation = ({
                                 fontWeight: '700'
                             }}
                         >
-                            {academicRole}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
-                            {"Appointed Year"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {apptYear}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
-                            {"Office Building"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {officeBuilding}
-                        </Typography>
-                    </Stack>
-                </Grid>
-                <Grid
-                    item
-                    fold={12}
-                    mobile={6}
-                    tablet={6}
-                    desktop={4}
-                >
-                    <Stack
-                        spacing={0} 
-                    >
-                        <Typography
-                            variant="body2"
-                        >
-                            {"Room"}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700'
-                            }}
-                        >
-                            {officeRoom}
+                            {phone}
                         </Typography>
                     </Stack>
                 </Grid>
@@ -259,6 +184,6 @@ const PersonalInformation = ({
             </Box>
         </Stack>
     )
-} 
+}
 
-export default PersonalInformation;
+export default ContactInformation;

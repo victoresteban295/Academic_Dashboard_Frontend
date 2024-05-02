@@ -94,7 +94,6 @@ const ProfCoursePage = ({ crs }) => {
                         email={course.email}
                         schedules={schedules}
                         title={course.title}
-                        school={course.school}
                         description={course.description}
                         infoSections={course.infoSections}
                         weeklyTasks={course.weeklyTasks}
@@ -117,7 +116,7 @@ const ProfCoursePage = ({ crs }) => {
                 >
                     <Box
                         sx={{
-                            width: '100%',
+                            width: '200px',
                             position: 'sticky',
                             top: '70px',
                         }}

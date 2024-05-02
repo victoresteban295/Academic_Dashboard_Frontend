@@ -136,11 +136,13 @@ const GradeComposition = () => {
                     alignItems='center'
                 >
                     <Gauge 
+                        value={86}
                         width={100}
                         height={50}
-                        value={20}
                         startAngle={-90}
                         endAngle={90}
+                        cornerRadius="50%"
+                        text={({value}) => `${value}%`}
                     />
                     <Typography
                         variant='h6'
@@ -157,11 +159,13 @@ const GradeComposition = () => {
                     alignItems='center'
                 >
                     <Gauge 
+                        value={30}
                         width={100}
                         height={50}
-                        value={30}
                         startAngle={-90}
                         endAngle={90}
+                        cornerRadius="50%"
+                        text={({value}) => `${value}%`}
                     />
                     <Typography
                         variant='h6'
@@ -178,11 +182,13 @@ const GradeComposition = () => {
                     alignItems='center'
                 >
                     <Gauge 
+                        value={50}
                         width={100}
                         height={50}
-                        value={50}
                         startAngle={-90}
                         endAngle={90}
+                        cornerRadius="50%"
+                        text={({value}) => `${value}%`}
                     />
                     <Typography
                         variant='h6'

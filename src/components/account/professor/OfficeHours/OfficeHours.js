@@ -25,15 +25,15 @@ const OfficeHours = ({
             className="professors-office-hours"
             spacing={4}
             sx={{
-                px: {
-                    fold: 2,
-                    mobile: 2,
-                    tablet: 4,
-                    desktop: 4,
-                },
-                py: 2,
-                boxShadow: '1px 1px 4px 2px #cecece',
-                borderRadius: '10px',
+                /* px: { */
+                /*     fold: 2, */
+                /*     mobile: 2, */
+                /*     tablet: 4, */
+                /*     desktop: 4, */
+                /* }, */
+                pb: 2,
+                /* boxShadow: '1px 1px 4px 2px #cecece', */
+                /* borderRadius: '10px', */
                 width: '100%',
             }}
         >

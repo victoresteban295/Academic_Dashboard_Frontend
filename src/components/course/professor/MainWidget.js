@@ -15,7 +15,6 @@ const MainWidget = ({
     email,
     schedules,
     title,
-    school,
     description,
     infoSections,
     weeklyTasks,
@@ -25,18 +24,12 @@ const MainWidget = ({
 
     /* Tab Being Viewed */
     const [tab, setTab] = useState("syllabus");
-    const month = Number(dayjs().format('M'));
-    let academicSemester = "";
-    if(month <= 5) {
-        academicSemester = "Spring ";
-    } else if(month <= 7) {
-        academicSemester = "Summer ";
-    } else {
-        academicSemester = "Fall ";
-    }
-    const semester = academicSemester + dayjs().year().toString();
 
     /* State Value */
+    const [descr, setDescr] = useState(description);
+    const changeDescription = (newDescr) => {
+        setDescr(newDescr);
+    }
     const [stTitle, setTitle] = useState(title);
     const changeTitle = (newTitle) => {
         setTitle(newTitle);
@@ -71,6 +64,8 @@ const MainWidget = ({
                 schedules={schedules}
                 infos={infos}
                 weeklyTasks={stWeeklyTasks}
+                description={descr}
+                changeDescription={changeDescription}
                 changeInfoSections={changeInfoSections}
                 changeTitle={changeTitle}
                 changeSchedules={changeSchedules}
@@ -231,9 +226,7 @@ const MainWidget = ({
             <Syllabus 
                 tab={tab}
                 title={stTitle}
-                school={school}
-                semester={semester}
-                description={description}
+                description={descr}
                 infos={infos}
                 changeInfoSections={changeInfoSections}
                 handleOpenAlert={handleOpenAlert}
