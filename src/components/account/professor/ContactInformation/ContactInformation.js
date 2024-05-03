@@ -24,6 +24,15 @@ const ContactInformation = ({
         setOpen(false);
     }
 
+    /* Format Phone Number to (xxx) xxx-xxxx */
+    const formatPhone = (phone) => {
+        if(phone.length === 10) {
+            return phone.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
+        } 
+        return null;
+    }
+    const phoneNum = formatPhone(phone);
+
     return (
         <Stack
             className="contact-information-widget"
@@ -110,7 +119,7 @@ const ContactInformation = ({
                 <Grid
                     item
                     fold={12}
-                    mobile={6}
+                    mobile={12}
                     tablet={6}
                     desktop={6}
                 >
@@ -135,7 +144,7 @@ const ContactInformation = ({
                 <Grid
                     item
                     fold={12}
-                    mobile={6}
+                    mobile={12}
                     tablet={6}
                     desktop={6}
                 >
@@ -153,7 +162,7 @@ const ContactInformation = ({
                                 fontWeight: '700'
                             }}
                         >
-                            {phone}
+                            {phoneNum}
                         </Typography>
                     </Stack>
                 </Grid>

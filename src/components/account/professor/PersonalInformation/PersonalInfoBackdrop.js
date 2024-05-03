@@ -107,8 +107,6 @@ const PersonalInfoBackdrop = ({
                     >
                         <Typography
                             variant="h5"
-                            sx={{
-                            }}
                         >
                             {"General Information"}
                         </Typography>

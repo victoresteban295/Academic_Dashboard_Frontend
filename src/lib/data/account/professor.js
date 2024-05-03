@@ -6,7 +6,7 @@ export const getProfData = () => {
         officeBuilding: "Norris Center",
         officeRoom: "223A",
         email: "demoprofessor@college.edu",
-        phone: "(323) 232-2323",
+        phone: "3232322323",
         officeHrs: [
             {
                 index: "0",

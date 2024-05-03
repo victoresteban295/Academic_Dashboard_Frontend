@@ -119,7 +119,7 @@ const ProfessorInformation = () => {
                             }
                         }}
                     >
-                        {"markbollman@college.edu"}
+                        {"demoprofessor@college.edu"}
                     </Typography>
                 </Stack>
             </Stack>
@@ -167,7 +167,7 @@ const ProfessorInformation = () => {
                             }
                         }}
                     >
-                        {"(323) 233-2323"}
+                        {"(323) 232-2323"}
                     </Typography>
                 </Stack>
             </Stack>
