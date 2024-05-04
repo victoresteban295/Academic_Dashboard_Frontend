@@ -1,7 +1,27 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { Gauge, PieChart, pieArcLabelClasses } from "@mui/x-charts";
+import { useState } from "react";
 
-const GradeComposition = () => {
+const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
+
+    const [gradeComposition, setGradeComposition] = useState(gradeComp);
+    const changeGradeComposition = (newGradeComp) => {
+        setGradeComposition(newGradeComp);
+    }
+    const colors = ["#c7eaff", "#dde9f0", "#dcf2ff"]
+    const formatGradeComp = (gradeComposition) => {
+        const slices = [];
+        for(let i = 0; i < gradeComposition.length; i++) {
+            const slice = {
+                id: gradeComposition[i].category,
+                value: Number(gradeComposition[i].percentage),
+                label: gradeComposition[i].category,
+                color: colors[i]
+            }
+            slices.push(slice);
+        }
+        return slices;
+    } 
 
     const data = [
         { id: "assignment", value: 20, color: '#c7eaff', label: 'Assignment' },

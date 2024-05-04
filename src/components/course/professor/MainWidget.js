@@ -16,6 +16,7 @@ const MainWidget = ({
     schedules,
     title,
     description,
+    gradeComp,
     infoSections,
     weeklyTasks,
     changeSchedules,
@@ -227,6 +228,7 @@ const MainWidget = ({
                 tab={tab}
                 title={stTitle}
                 description={descr}
+                gradeComp={gradeComp}
                 infos={infos}
                 changeInfoSections={changeInfoSections}
                 handleOpenAlert={handleOpenAlert}

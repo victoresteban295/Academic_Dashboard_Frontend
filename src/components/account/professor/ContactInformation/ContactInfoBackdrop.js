@@ -18,19 +18,6 @@ const ContactInfoBackdrop = ({
     handleOpenAlert
 }) => {
 
-    /* Format Phone Number to (xxx) xxx-xxxx */
-    /* const formatPhone = (phone) => { */
-    /*     if(phone.length === 10) { */
-    /*         return phone.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3") */
-    /*     }  */
-    /*     return null; */
-    /* } */
-
-    /* Format Phone Number to Only Digit Characters */
-    /* const digitizePhone = (phone) => { */
-    /*     return phone.replace(/[^\d]/g, ""); */
-    /* } */
-
     /* React Hook Form */
     const values = {
         email: email,

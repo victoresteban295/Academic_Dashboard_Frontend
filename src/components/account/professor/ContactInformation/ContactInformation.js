@@ -106,6 +106,7 @@ const ContactInformation = ({
             <Grid
                 container
                 rowSpacing={2}
+                gap={2}
                 sx={{
                     px: {
                         fold: 2,
@@ -118,10 +119,10 @@ const ContactInformation = ({
             >
                 <Grid
                     item
-                    fold={12}
-                    mobile={12}
-                    tablet={6}
-                    desktop={6}
+                    fold='auto'
+                    mobile
+                    tablet
+                    desktop
                 >
                     <Stack
                         spacing={0} 
@@ -143,10 +144,10 @@ const ContactInformation = ({
                 </Grid>
                 <Grid
                     item
-                    fold={12}
-                    mobile={12}
-                    tablet={6}
-                    desktop={6}
+                    fold='auto'
+                    mobile
+                    tablet
+                    desktop
                 >
                     <Stack
                         spacing={0} 
@@ -157,6 +158,7 @@ const ContactInformation = ({
                             {"Phone"}
                         </Typography>
                         <Typography
+                            noWrap
                             variant="h6"
                             sx={{
                                 fontWeight: '700'

@@ -95,6 +95,7 @@ const ProfCoursePage = ({ crs }) => {
                         schedules={schedules}
                         title={course.title}
                         description={course.description}
+                        gradeComp={course.gradeComp}
                         infoSections={course.infoSections}
                         weeklyTasks={course.weeklyTasks}
                         changeSchedules={changeSchedules}

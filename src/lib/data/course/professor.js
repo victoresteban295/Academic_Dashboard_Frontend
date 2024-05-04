@@ -35,6 +35,22 @@ export const getCourse = (course, today) => {
         strDate: "01/16/24",
         endDate: "04/26/24",
 
+        /* Grade Composition */
+        gradeComp: [
+            {
+                category: "Assignment",
+                percentage: "20"
+            },
+            {
+                category: "Quiz",
+                percentage: "30"
+            },
+            {
+                category: "Exam",
+                percentage: "50"
+            }
+        ],
+
         /* Syllabus Information */
         description: "This course serves as an introduction to the fundamental concepts and techniques of differential equations, a cornerstone of mathematics with wide-ranging applications in physics, engineering, biology, economics, and many other fields. Differential equations are essential for modeling and understanding systems that change over time or space, making them a powerful tool in scientific inquiry and problem-solving. In this course, students will explore various types of differential equations, including ordinary differential equations (ODEs) and partial differential equations (PDEs). The primary focus will be on first-order and second-order ODEs, both linear and nonlinear, along with methods for solving them analytically and numerically.",
         infoSections: [

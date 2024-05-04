@@ -8,6 +8,7 @@ const Syllabus = ({
     tab, 
     title, 
     description,
+    gradeComp,
     infos,
     changeInfoSections,
     handleOpenAlert
@@ -116,6 +117,8 @@ const Syllabus = ({
                             <ProfessorInformation
                             />
                             <GradeComposition
+                                gradeComp={gradeComp}
+                                handleOpenAlert={handleOpenAlert}
                             />
                         </Stack>
                         <Stack
