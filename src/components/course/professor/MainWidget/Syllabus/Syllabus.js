@@ -100,6 +100,8 @@ const Syllabus = ({
                                 }}
                             >
                                 <GradeComposition
+                                    gradeComp={gradeComp}
+                                    handleOpenAlert={handleOpenAlert}
                                 />
                             </Grid>
                         </Grid>

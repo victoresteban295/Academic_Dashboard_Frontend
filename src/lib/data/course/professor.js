@@ -47,7 +47,11 @@ export const getCourse = (course, today) => {
             },
             {
                 category: "Exam",
-                percentage: "50"
+                percentage: "25"
+            },
+            {
+                category: "Other",
+                percentage: "25"
             }
         ],
 
@@ -504,6 +508,22 @@ export const getCourse = (course, today) => {
         semester: "Spring 2024",
         strDate: "01/16/24",
         endDate: "04/26/24",
+
+        /* Grade Composition */
+        gradeComp: [
+            {
+                category: "Assignment",
+                percentage: "20"
+            },
+            {
+                category: "Quiz",
+                percentage: "30"
+            },
+            {
+                category: "Exam",
+                percentage: "50"
+            }
+        ],
 
         /* Syllabus Information */
         description: "Discrete mathematics serves as the mathematical foundation for computer science and various other disciplines. This course provides a rigorous exploration of discrete mathematical structures and concepts, focusing on their applications in computer science, cryptography, logic, and algorithms. Throughout the course, emphasis will be placed on developing problem-solving skills, logical reasoning, and mathematical maturity. Students will engage in a variety of exercises, proofs, and applications to reinforce their understanding of discrete mathematical concepts.",

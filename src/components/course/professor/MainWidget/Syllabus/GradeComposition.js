@@ -4,12 +4,15 @@ import { useState } from "react";
 
 const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
 
+    /* State Value: Pie's Slices */
     const [gradeComposition, setGradeComposition] = useState(gradeComp);
     const changeGradeComposition = (newGradeComp) => {
         setGradeComposition(newGradeComp);
     }
-    const colors = ["#c7eaff", "#dde9f0", "#dcf2ff"]
-    const formatGradeComp = (gradeComposition) => {
+
+    /* Pie Chart */
+    const colors = ["#78a1bb", "#c7eaff", "#9bd2f5", "#dcf2ff"]
+    const formatGradeComp = () => {
         const slices = [];
         for(let i = 0; i < gradeComposition.length; i++) {
             const slice = {
@@ -22,18 +25,9 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
         }
         return slices;
     } 
-
-    const data = [
-        { id: "assignment", value: 20, color: '#c7eaff', label: 'Assignment' },
-        { id: "quiz", value: 30, color: '#dde9f0', label: 'Quiz' },
-        { id: "exam", value: 50, color: '#dcf2ff', label: 'Exam' },
-        /* { id: "project", value: 20, color: '#78a1bb', label: 'Project' }, */
-        /* { id: "paper", value: 50, color: '#9bd2f5', label: 'Paper' }, */
-        /* { id: "other", value: 30, color: '#8bbbd8', label: 'Other' }, */
-    ]
+    const data = formatGradeComp();
 
     const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
-
     const getArcLabel = (params) => {
         const percent = params.value / TOTAL;
         return `${(percent * 100).toFixed(0)}%`;
@@ -150,77 +144,35 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
                     },
                 }}
             >
-                <Stack
-                    spacing={0}
-                    justifyContent='center'
-                    alignItems='center'
-                >
-                    <Gauge 
-                        value={86}
-                        width={100}
-                        height={50}
-                        startAngle={-90}
-                        endAngle={90}
-                        cornerRadius="50%"
-                        text={({value}) => `${value}%`}
-                    />
-                    <Typography
-                        variant='h6'
-                        sx={{
-                            fontWeight: '700',
-                        }}
-                    >
-                        Assignment
-                    </Typography>
-                </Stack>
-                <Stack
-                    spacing={0}
-                    justifyContent='center'
-                    alignItems='center'
-                >
-                    <Gauge 
-                        value={30}
-                        width={100}
-                        height={50}
-                        startAngle={-90}
-                        endAngle={90}
-                        cornerRadius="50%"
-                        text={({value}) => `${value}%`}
-                    />
-                    <Typography
-                        variant='h6'
-                        sx={{
-                            fontWeight: '700',
-                        }}
-                    >
-                        Quiz
-                    </Typography>
-                </Stack>
-                <Stack
-                    spacing={0}
-                    justifyContent='center'
-                    alignItems='center'
-                >
-                    <Gauge 
-                        value={50}
-                        width={100}
-                        height={50}
-                        startAngle={-90}
-                        endAngle={90}
-                        cornerRadius="50%"
-                        text={({value}) => `${value}%`}
-                    />
-                    <Typography
-                        variant='h6'
-                        sx={{
-                            fontWeight: '700',
-                        }}
-                    >
-                        Exam
-                    </Typography>
-                </Stack>
+                {gradeComposition.map((data) => {
+                    const { category, percentage } = data;
+                    return (
+                        <Stack
+                            spacing={0}
+                            justifyContent='center'
+                            alignItems='center'
+                        >
+                            <Gauge 
+                                value={percentage}
+                                width={100}
+                                height={50}
+                                startAngle={-90}
+                                endAngle={90}
+                                cornerRadius="50%"
+                                text={({value}) => `${value}%`}
+                            />
+                            <Typography
+                                variant='h6'
+                                sx={{
+                                    fontWeight: '700',
+                                }}
+                            >
+                                {category}
+                            </Typography>
+                        </Stack>
+                    )
+                })}
             </Stack>
-
         </Stack>
     )
 }
