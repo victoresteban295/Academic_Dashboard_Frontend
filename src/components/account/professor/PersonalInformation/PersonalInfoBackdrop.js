@@ -172,16 +172,16 @@ const PersonalInfoBackdrop = ({
                                             label='Academic Role'
                                             helperText={errors.academicRole?.message}
                                         >
-                                        {academicRoles.map((role) => {
-                                            return(
-                                                <MenuItem 
-                                                    key={role} 
-                                                    value={role}
-                                                >
-                                                    {role}
-                                                </MenuItem>
-                                            );
-                                        })}
+                                            {academicRoles.map((role) => {
+                                                return(
+                                                    <MenuItem 
+                                                        key={role} 
+                                                        value={role}
+                                                    >
+                                                        {role}
+                                                    </MenuItem>
+                                                );
+                                            })}
                                         </TextField>
                                     )
                                 }}

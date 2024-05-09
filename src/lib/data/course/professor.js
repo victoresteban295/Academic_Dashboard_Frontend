@@ -38,18 +38,22 @@ export const getCourse = (course, today) => {
         /* Grade Composition */
         gradeComp: [
             {
+                index: "0",
                 category: "Assignment",
                 percentage: "20"
             },
             {
+                index: "1",
                 category: "Quiz",
                 percentage: "30"
             },
             {
+                index: "2",
                 category: "Exam",
                 percentage: "25"
             },
             {
+                index: "3",
                 category: "Other",
                 percentage: "25"
             }

@@ -38,3 +38,8 @@ export const CourseTask = z.object({
             return data.time != null && data.time.format("h:mm A") != 'Invalid Date';
         }
 }, { message: "Time is Required", path: ['time']})
+
+export const CategorySchema = z.object({
+    category: string().min(1, {message: "Category is Required"}),
+    percentage: string().min(1, {message: "A Percentage is Required"}),
+})

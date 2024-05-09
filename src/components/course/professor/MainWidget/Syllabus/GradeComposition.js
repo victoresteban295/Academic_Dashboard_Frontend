@@ -1,6 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Edit } from "@mui/icons-material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { Gauge, PieChart, pieArcLabelClasses } from "@mui/x-charts";
 import { useState } from "react";
+import EditGradeCompBackdrop from "../../Backdrop/EditGradeCompBackdrop/EditGradeCompBackdrop";
 
 const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
 
@@ -8,6 +10,15 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
     const [gradeComposition, setGradeComposition] = useState(gradeComp);
     const changeGradeComposition = (newGradeComp) => {
         setGradeComposition(newGradeComp);
+    }
+
+    /* Backdrop Menu: Edit Grade Composition */
+    const [openGradeComp, setOpenGradeComp] = useState(false);
+    const handleOpenGradeComp = () => {
+        setOpenGradeComp(true);
+    }
+    const handleCloseGradeComp = () => {
+        setOpenGradeComp(false);
     }
 
     /* Pie Chart */
@@ -42,8 +53,18 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
                 py: 2,
             }}
         >
+            <EditGradeCompBackdrop
+                open={openGradeComp}
+                handleClose={handleCloseGradeComp}
+                gradeComposition={gradeComposition}
+                changeGradeComposition={changeGradeComposition}
+                handleOpenAlert={handleOpenAlert}
+            />
             <Box
                 sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     px: 4,
                 }}
             >
@@ -57,6 +78,9 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
                 >
                     {"Grade Composition"} 
                 </Typography>
+                <IconButton size="small" onClick={handleOpenGradeComp}>
+                    <Edit fontSize="inherit" /> 
+                </IconButton>
             </Box>
 
             {/* Desktop & Tablet Devices */}
@@ -148,6 +172,7 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
                     const { category, percentage } = data;
                     return (
                         <Stack
+                            key={category}
                             spacing={0}
                             justifyContent='center'
                             alignItems='center'
