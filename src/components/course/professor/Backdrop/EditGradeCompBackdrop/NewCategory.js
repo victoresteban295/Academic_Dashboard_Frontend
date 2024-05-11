@@ -1,30 +1,24 @@
 import { CategorySchema } from "@/lib/schemas/courseSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RemoveCircleTwoTone } from "@mui/icons-material";
+import { AddCircleTwoTone } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
-const Category = ({ 
-    index,
-    category,
-    percentage,
-    modifyComposition,
-    removeComposition
-}) => {
+const NewCategory = () => {
 
     const categories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
     const percentages = ["5%", "10%", "15%"];
 
     /* React Hook Form */
     const values = {
-        department: category,
-        academicRole: percentage,
+        department: "",
+        academicRole: "",
     }
     const { register, formState, control, getValues, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
-            category: category,
-            percentage: percentage,
+            category: "",
+            percentage: "",
         },
         values,
         resolver: zodResolver(CategorySchema), //Zod Validation Schema
@@ -45,11 +39,13 @@ const Category = ({
                         return (
                             <TextField
                                 select
+                                disabled
                                 error={!!errors.category}
                                 value={value}
                                 onChange={(value => {
                                     onChange(value);
-                                    modifyComposition(index, value, percentage);
+                                    console.log(getValues("category"));
+
                                 })}
                                 label='Category'
                                 helperText={errors.category?.message}
@@ -77,11 +73,13 @@ const Category = ({
                         return (
                             <TextField
                                 select
+                                disabled
                                 error={!!errors.percentage}
                                 value={value}
                                 onChange={(value => {
                                     onChange(value);
-                                    modifyComposition(index, category, value);
+                                    console.log(getValues("percentage"));
+
                                 })}
                                 label='Percentage'
                                 helperText={errors.percentage?.message}
@@ -103,16 +101,19 @@ const Category = ({
             </FormControl>
             <IconButton
                 size="medium"
+                disabled
             >
-                <RemoveCircleTwoTone 
+                <AddCircleTwoTone 
                     fontSize="inherit"
                     sx={{
-                        color: 'error.main'
+                        /* color: 'primary.main' */
+                        color: 'grey',
                     }}
                 />
             </IconButton>
         </Stack>
+
     )
 }
 
-export default Category;
+export default NewCategory;

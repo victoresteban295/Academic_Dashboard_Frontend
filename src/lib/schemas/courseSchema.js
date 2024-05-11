@@ -43,3 +43,7 @@ export const CategorySchema = z.object({
     category: string().min(1, {message: "Category is Required"}),
     percentage: string().min(1, {message: "A Percentage is Required"}),
 })
+
+export const GradeCompSchema = z.object({
+    gradeComp: string().array().min(2, {message: "Two Categories Are Required"}).max(4, {message: "Only Four Categories Allowed"})
+})

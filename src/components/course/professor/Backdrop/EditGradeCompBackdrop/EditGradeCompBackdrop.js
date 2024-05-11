@@ -1,6 +1,10 @@
-import { Edit } from "@mui/icons-material";
-import { Box, Button, Dialog, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { Edit, RestartAltOutlined } from "@mui/icons-material";
+import { Box, Button, Dialog, Divider, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import Category from "./Category";
+import NewCategory from "./NewCategory";
+import { GradeCompSchema } from "@/lib/schemas/courseSchema";
+import { useState } from "react";
 
 const EditGradeCompBackdrop = ({
     open,
@@ -10,15 +14,18 @@ const EditGradeCompBackdrop = ({
     handleOpenAlert
 }) => {
 
+    const [updatedGradeComp, setUpdatedGradeComp] = useState([...gradeComposition]);
+
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
     }
 
-    const updateComposition = (index, category, percentage) => {
+    /* Modify an Existing Category */
+    const modifyComposition = (index, category, percentage) => {
         //Update Category 
-        const updatedComposition = [...gradeComposition];
-        for(const element of updatedComposition) {
+        const composition = [...updatedGradeComp];
+        for(const element of composition) {
             //Find & Update Category
             if(element.index === index) {
                 element.category = category;
@@ -27,26 +34,30 @@ const EditGradeCompBackdrop = ({
         }
         
         //Update Categories
-        changeGradeComposition(updatedComposition);
+        setUpdatedGradeComp(composition)
     }
 
+    /* Remove Category */
     const removeComposition = (index) => {
         //Filter Out Category Being Removed
-        const copyComposition = [...gradeComposition];
+        const copyComposition = [...updatedGradeComp];
         const updatedComposition = copyComposition.filter(element => {
             return element.index != index;
         })
 
         //Update Categories
-        changeGradeComposition(updatedComposition);
+        setUpdatedGradeComp(updatedComposition)
     }
 
-    /* Edit Course Description */
+    /* Edit Grade Composition */
     const editGradeComposition = (data) => {
         try {
             //Frontend: Edit Course Description
 
             //Update State Value
+            changeGradeComposition(updatedGradeComp);
+            console.log(gradeComposition); //Delete Later 
+
 
             //Backend API: Update Database
 
@@ -58,6 +69,14 @@ const EditGradeCompBackdrop = ({
 
     const categories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
 
+    const getCategories = () => {
+
+    }
+
+    const getPercentages = () => {
+
+    }
+
     return (
         <Dialog
             fullWidth={true}
@@ -66,7 +85,7 @@ const EditGradeCompBackdrop = ({
             onClose={handleCloseBackdrop}
         >
             <form
-                /* onSubmit={handleSubmit(editGradeComposition)} */
+                onSubmit={editGradeComposition}
             >
                 <Stack
                     spacing={2}
@@ -92,48 +111,24 @@ const EditGradeCompBackdrop = ({
                             {"Grade Composition"}
                         </Typography>
                     </Box>
-                    {/* Stack Form Will Go Here !!!!!! */}
-                    {gradeComposition.map(gradeComp => {
-                        const { category, percentage } = gradeComp;
+                    {/* Added Categories */}
+                    {updatedGradeComp.map(gradeComp => {
+                        const { index, category, percentage } = gradeComp;
                         return (
-                            <Stack
-                                spacing={2}
-                                useFlexGap
-                            >
-                                <FormControl fullWidth >
-                                    <Controller
-                                        name="category"
-                                        control={control}
-                                        render={({field: { onChange, value}}) => {
-                                            return (
-                                                <TextField
-                                                    select
-                                                    error={!!errors.category}
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    label='Category'
-                                                    helperText={errors.category?.message}
-                                                >
-                                                    {categories.map((category) => {
-                                                        return(
-                                                            <MenuItem
-                                                                key={category} 
-                                                                value={category}
-                                                            >
-                                                                {category}
-                                                            </MenuItem>
-                                                        );
-                                                    })}
-                                                </TextField>
-                                            )
-                                        }}
-                                    />
-                                </FormControl>
-
-                            </Stack>
+                            <Category 
+                                index={index}
+                                category={category}
+                                percentage={percentage}
+                                modifyComposition={modifyComposition}
+                                removeComposition={removeComposition}
+                            />
                         )
                     })}
-                    
+                    <Divider 
+                        flexItem
+                    />
+                    <NewCategory 
+                    /> 
                     <Box
                         sx={{
                             display: {
@@ -143,9 +138,19 @@ const EditGradeCompBackdrop = ({
                                 desktop: 'flex',
                             },
                             alignItems: 'center',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'space-between',
                         }}
                     >
+                        <Button
+                            variant="text"
+                            startIcon={<RestartAltOutlined />}
+                            sx={{
+                                fontWeight: '700',
+                                bgcolor: 'primary.light'
+                            }}
+                        >
+                            {"Reset"}
+                        </Button> 
                         <Button
                             variant="text"
                             startIcon={<Edit />}
