@@ -39,7 +39,6 @@ const NewCategory = () => {
                         return (
                             <TextField
                                 select
-                                disabled
                                 error={!!errors.category}
                                 value={value}
                                 onChange={(value => {
@@ -73,7 +72,6 @@ const NewCategory = () => {
                         return (
                             <TextField
                                 select
-                                disabled
                                 error={!!errors.percentage}
                                 value={value}
                                 onChange={(value => {
@@ -101,13 +99,11 @@ const NewCategory = () => {
             </FormControl>
             <IconButton
                 size="medium"
-                disabled
             >
                 <AddCircleTwoTone 
                     fontSize="inherit"
                     sx={{
-                        /* color: 'primary.main' */
-                        color: 'grey',
+                        color: 'primary.main'
                     }}
                 />
             </IconButton>

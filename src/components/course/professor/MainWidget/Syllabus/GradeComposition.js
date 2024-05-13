@@ -178,7 +178,7 @@ const GradeComposition = ({ gradeComp, handleOpenAlert }) => {
                             alignItems='center'
                         >
                             <Gauge 
-                                value={percentage}
+                                value={Number(percentage)}
                                 width={100}
                                 height={50}
                                 startAngle={-90}

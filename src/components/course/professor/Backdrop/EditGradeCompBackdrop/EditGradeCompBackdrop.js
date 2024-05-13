@@ -1,9 +1,7 @@
 import { Edit, RestartAltOutlined } from "@mui/icons-material";
-import { Box, Button, Dialog, Divider, FormControl, MenuItem, Stack, TextField, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Box, Button, Dialog, Divider, Stack, Typography } from "@mui/material";
 import Category from "./Category";
 import NewCategory from "./NewCategory";
-import { GradeCompSchema } from "@/lib/schemas/courseSchema";
 import { useState } from "react";
 
 const EditGradeCompBackdrop = ({
@@ -13,69 +11,91 @@ const EditGradeCompBackdrop = ({
     changeGradeComposition,
     handleOpenAlert
 }) => {
-
-    const [updatedGradeComp, setUpdatedGradeComp] = useState([...gradeComposition]);
+    /* Clone Grade Composition Object */
+    const copyGradeComposition = [];
+    for(const element of gradeComposition) {
+        const grade = structuredClone(element);
+        copyGradeComposition.push(grade);
+    }
+    const [updatedGradeComp, setUpdatedGradeComp] = useState(copyGradeComposition);
 
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
+        setUpdatedGradeComp([...copyGradeComposition])
     }
 
-    /* Modify an Existing Category */
-    const modifyComposition = (index, category, percentage) => {
-        //Update Category 
-        const composition = [...updatedGradeComp];
-        for(const element of composition) {
+    /* Feature Not Available in Demo Backdrop */
+    const [openWarnDemo, setOpenWarnDemo] = useState(false);
+    const handleOpenWarnDemo = () => {
+        setOpenWarnDemo(true);
+        setTimeout(() => {
+            handleCloseWarnDemo();
+            handleCloseBackdrop();
+        }, "5000");
+    }
+    const handleCloseWarnDemo = () => {
+        setOpenWarnDemo(false);
+    }
+
+    /* Update Category */
+    const updateCategory = (oldCategory, newCategory) => {
+        const copyComposition = [...updatedGradeComp];
+        for(const element of copyComposition) {
             //Find & Update Category
-            if(element.index === index) {
-                element.category = category;
+            if(element.category === oldCategory) {
+                element.category = newCategory;
+            }
+        }
+
+        //Update Categories
+        setUpdatedGradeComp(copyComposition);
+    }
+
+    /* Update Percentage */
+    const updatePercentage = (category, percentage) => {
+        const copyComposition = [...updatedGradeComp];
+        for(const element of copyComposition) {
+            //Find & Update Category
+            if(element.category === category) {
                 element.percentage = percentage;
             }
         }
-        
+
         //Update Categories
-        setUpdatedGradeComp(composition)
+        setUpdatedGradeComp(copyComposition);
     }
 
     /* Remove Category */
-    const removeComposition = (index) => {
+    const removeComposition = (category) => {
         //Filter Out Category Being Removed
         const copyComposition = [...updatedGradeComp];
         const updatedComposition = copyComposition.filter(element => {
-            return element.index != index;
+            return element.category != category;
         })
 
         //Update Categories
-        setUpdatedGradeComp(updatedComposition)
+        setUpdatedGradeComp(updatedComposition);
     }
 
     /* Edit Grade Composition */
-    const editGradeComposition = (data) => {
-        try {
-            //Frontend: Edit Course Description
-
-            //Update State Value
-            changeGradeComposition(updatedGradeComp);
-            console.log(gradeComposition); //Delete Later 
+    const editGradeComposition = () => {
+        console.log(updatedGradeComp);
+        handleOpenWarnDemo();
+    }
 
 
-            //Backend API: Update Database
-
-        } catch(error) {
-            handleOpenAlert(error);
+    const getTakenCategories = () => {
+        //Categories Not Available
+        const takenCategories = [];
+        for(const element of updatedGradeComp) {
+            takenCategories.push(element.category);
         }
-        handleCloseBackdrop();
+
+        return takenCategories
     }
+    const takenCategories = getTakenCategories();
 
-    const categories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
-
-    const getCategories = () => {
-
-    }
-
-    const getPercentages = () => {
-
-    }
 
     return (
         <Dialog
@@ -84,9 +104,27 @@ const EditGradeCompBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
-            <form
-                onSubmit={editGradeComposition}
+            <Dialog
+                fullWidth={true}
+                maxWidth="mobile"
+                open={openWarnDemo}
             >
+                <Box
+                    sx={{
+                        p: 2,
+                    }}
+                >
+                    <Typography
+                        align="center"
+                        variant="h6"
+                        sx={{
+                            fontWeight: '700',
+                        }}
+                    >
+                        {"Editing the Grade Composition is not available for Demo!"}
+                    </Typography>
+                </Box>
+            </Dialog>
                 <Stack
                     spacing={2}
                     sx={{
@@ -116,10 +154,12 @@ const EditGradeCompBackdrop = ({
                         const { index, category, percentage } = gradeComp;
                         return (
                             <Category 
-                                index={index}
+                                key={index}
+                                takenCategories={takenCategories}
                                 category={category}
                                 percentage={percentage}
-                                modifyComposition={modifyComposition}
+                                updateCategory={updateCategory}
+                                updatePercentage={updatePercentage}
                                 removeComposition={removeComposition}
                             />
                         )
@@ -152,6 +192,7 @@ const EditGradeCompBackdrop = ({
                             {"Reset"}
                         </Button> 
                         <Button
+                            onClick={editGradeComposition}
                             variant="text"
                             startIcon={<Edit />}
                             type="submit"
@@ -176,6 +217,7 @@ const EditGradeCompBackdrop = ({
                         }}
                     >
                         <Button
+                            onClick={editGradeComposition}
                             type="submit"
                             size="small"
                             variant="text"
@@ -189,7 +231,6 @@ const EditGradeCompBackdrop = ({
                         </Button> 
                     </Box>
                 </Stack>
-            </form>
         </Dialog>
 
     )

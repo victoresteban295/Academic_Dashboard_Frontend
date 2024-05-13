@@ -1,35 +1,37 @@
-import { CategorySchema } from "@/lib/schemas/courseSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { RemoveCircleTwoTone } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Stack, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
 
 const Category = ({ 
-    index,
+    takenCategories,
     category,
     percentage,
-    modifyComposition,
+    updateCategory,
+    updatePercentage,
     removeComposition
 }) => {
 
-    const categories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
-    const percentages = ["5%", "10%", "15%"];
+    const allCategories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
+    const percentages = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
 
-    /* React Hook Form */
-    const values = {
-        department: category,
-        academicRole: percentage,
+    const [defaultCategory, setCategory] = useState(category);
+    const handleCategory = (event) => {
+        const updatedCategory = event.target.value;
+        setCategory(updatedCategory);
+        updateCategory(category, updatedCategory);
     }
-    const { register, formState, control, getValues, handleSubmit, reset } = useForm({
-        mode: 'onBlur',
-        defaultValues: {
-            category: category,
-            percentage: percentage,
-        },
-        values,
-        resolver: zodResolver(CategorySchema), //Zod Validation Schema
-    });
-    const { errors } = formState;
+
+    const [defaultPercentage, setPercentage] = useState(percentage);
+    const handlePercentage = (event) => {
+        const updatedPercentage = event.target.value;
+        setPercentage(updatedPercentage);
+        updatePercentage(category, updatedPercentage)
+    }
+
+    /* Remove Category */
+    const removeCategory = () => {
+        removeComposition(category);
+    }
 
     return (
         <Stack
@@ -38,71 +40,49 @@ const Category = ({
             useFlexGap
         >
             <FormControl fullWidth >
-                <Controller
-                    name="category"
-                    control={control}
-                    render={({field: { onChange, value}}) => {
-                        return (
-                            <TextField
-                                select
-                                error={!!errors.category}
-                                value={value}
-                                onChange={(value => {
-                                    onChange(value);
-                                    modifyComposition(index, value, percentage);
-                                })}
-                                label='Category'
-                                helperText={errors.category?.message}
+                <TextField
+                    select
+                    value={defaultCategory}
+                    onChange={handleCategory}
+                    label='Category'
+                >
+                    {allCategories.map((item) => {
+                        return(
+                            <MenuItem
+                                key={item} 
+                                value={item}
+                                sx={{
+                                    display: takenCategories.includes(item) ? "none" : "flex",
+                                }}
                             >
-                                {categories.map((item) => {
-                                    return(
-                                        <MenuItem
-                                            key={item} 
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        )
-                    }}
-                />
+                                {item}
+                            </MenuItem>
+                        );
+                    })}
+                </TextField>
             </FormControl>
             <FormControl fullWidth >
-                <Controller
-                    name="percentage"
-                    control={control}
-                    render={({field: { onChange, value}}) => {
-                        return (
-                            <TextField
-                                select
-                                error={!!errors.percentage}
-                                value={value}
-                                onChange={(value => {
-                                    onChange(value);
-                                    modifyComposition(index, category, value);
-                                })}
-                                label='Percentage'
-                                helperText={errors.percentage?.message}
+                <TextField
+                    select
+                    value={defaultPercentage}
+                    onChange={handlePercentage}
+                    label='Percentage'
+                >
+                    {percentages.map((item) => {
+                        return(
+                            <MenuItem
+                                key={item} 
+                                value={item}
                             >
-                                {percentages.map((item) => {
-                                    return(
-                                        <MenuItem
-                                            key={item} 
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        )
-                    }}
-                />
+                                {item}
+                            </MenuItem>
+                        );
+                    })}
+                </TextField>
             </FormControl>
             <IconButton
                 size="medium"
+                onClick={removeCategory}
             >
                 <RemoveCircleTwoTone 
                     fontSize="inherit"
