@@ -40,22 +40,22 @@ export const getCourse = (course, today) => {
             {
                 index: "0",
                 category: "Assignment",
-                percentage: "20"
+                percentage: 20,
             },
             {
                 index: "1",
                 category: "Quiz",
-                percentage: "30"
+                percentage: 25,
             },
             {
                 index: "2",
                 category: "Exam",
-                percentage: "25"
+                percentage: 40,
             },
             {
                 index: "3",
                 category: "Other",
-                percentage: "25"
+                percentage: 15,
             }
         ],
 
@@ -518,17 +518,17 @@ export const getCourse = (course, today) => {
             {
                 index: "0",
                 category: "Assignment",
-                percentage: "20"
+                percentage: 20,
             },
             {
                 index: "1",
                 category: "Quiz",
-                percentage: "30"
+                percentage: 30,
             },
             {
                 index: "2",
                 category: "Exam",
-                percentage: "50"
+                percentage: 50,
             }
         ],
 

@@ -7,21 +7,26 @@ import { useState } from "react";
 const EditGradeCompBackdrop = ({
     open,
     handleClose,
-    gradeComposition,
-    changeGradeComposition,
-    handleOpenAlert
+    gradeComposition
 }) => {
+
     /* Clone Grade Composition Object */
     const copyGradeComposition = [];
     for(const element of gradeComposition) {
         const grade = structuredClone(element);
         copyGradeComposition.push(grade);
     }
+
+    //Does Total Percentage equal 100
+    const [percentAlert, setAlert] = useState(false);
+
+    //Grade Composition's Categories
     const [updatedGradeComp, setUpdatedGradeComp] = useState(copyGradeComposition);
 
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
+        setAlert(false);
         setUpdatedGradeComp([...copyGradeComposition])
     }
 
@@ -66,6 +71,18 @@ const EditGradeCompBackdrop = ({
         setUpdatedGradeComp(copyComposition);
     }
 
+    /* Add New Category */
+    const addCategory = (category, percentage) => {
+        const newCategory = {
+            category: category,
+            percentage: percentage
+        }
+        const copyComposition = [...updatedGradeComp, newCategory];
+
+        //Update Categories
+        setUpdatedGradeComp(copyComposition);
+    }
+
     /* Remove Category */
     const removeComposition = (category) => {
         //Filter Out Category Being Removed
@@ -78,13 +95,32 @@ const EditGradeCompBackdrop = ({
         setUpdatedGradeComp(updatedComposition);
     }
 
-    /* Edit Grade Composition */
-    const editGradeComposition = () => {
-        console.log(updatedGradeComp);
-        handleOpenWarnDemo();
+    /* Reset Category Options */
+    const resetComposition = () => {
+        setUpdatedGradeComp([]);
     }
 
+    /* Edit Grade Composition */
+    const editGradeComposition = () => {
+        const percentages = [];
+        for(const element of updatedGradeComp) {
+            percentages.push(element.percentage);
+        }
 
+        let totalPercentage = 0;
+        for(const element of percentages) {
+            totalPercentage = totalPercentage + element ;
+        }
+
+        if(totalPercentage === 100) {
+            setAlert(false);
+            handleOpenWarnDemo();
+        } else {
+            setAlert(true);
+        }
+    }
+
+    /* Categories That Have Been Selected */
     const getTakenCategories = () => {
         //Categories Not Available
         const takenCategories = [];
@@ -125,112 +161,154 @@ const EditGradeCompBackdrop = ({
                     </Typography>
                 </Box>
             </Dialog>
-                <Stack
-                    spacing={2}
+            <Stack
+                spacing={2}
+                sx={{
+                    p: 2,
+                }}
+            >
+                <Box
                     sx={{
-                        p: 2,
+                        display: "flex",
+                        px: 1,
+                        color: 'primary.main',
+                        borderRadius: '5px',
+                        bgcolor: 'primary.light',
                     }}
                 >
-                    <Box
+                    <Typography
+                        variant="h6"
                         sx={{
-                            display: "flex",
-                            px: 1,
-                            color: 'primary.main',
-                            borderRadius: '5px',
-                            bgcolor: 'primary.light',
+                            fontWeight: '700',
                         }}
                     >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: '700',
-                            }}
-                        >
-                            {"Grade Composition"}
-                        </Typography>
-                    </Box>
-                    {/* Added Categories */}
-                    {updatedGradeComp.map(gradeComp => {
-                        const { index, category, percentage } = gradeComp;
-                        return (
-                            <Category 
-                                key={index}
-                                takenCategories={takenCategories}
-                                category={category}
-                                percentage={percentage}
-                                updateCategory={updateCategory}
-                                updatePercentage={updatePercentage}
-                                removeComposition={removeComposition}
-                            />
-                        )
-                    })}
-                    <Divider 
-                        flexItem
-                    />
-                    <NewCategory 
-                    /> 
-                    <Box
+                        {"Grade Composition"}
+                    </Typography>
+                </Box>
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{
+                        width: '100%',
+                        display: percentAlert ? "flex" : "none",
+                        py: 0.5,
+                        px: 2,
+                        borderRadius: '5px',
+                        bgcolor: 'error.light',
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        align="center"
                         sx={{
-                            display: {
-                                fold: 'none',
-                                mobile: 'flex',
-                                tablet: 'flex',
-                                desktop: 'flex',
-                            },
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
+                            fontWeight: '700',
+                            color: 'error.main'
                         }}
                     >
-                        <Button
-                            variant="text"
-                            startIcon={<RestartAltOutlined />}
-                            sx={{
-                                fontWeight: '700',
-                                bgcolor: 'primary.light'
-                            }}
-                        >
-                            {"Reset"}
-                        </Button> 
-                        <Button
-                            onClick={editGradeComposition}
-                            variant="text"
-                            startIcon={<Edit />}
-                            type="submit"
-                            sx={{
-                                fontWeight: '700',
-                                bgcolor: 'primary.light'
-                            }}
-                        >
-                            {"Edit"}
-                        </Button> 
-                    </Box>
-                    <Box
-                        sx={{
-                            display: {
-                                fold: 'flex',
-                                mobile: 'none',
-                                tablet: 'none',
-                                desktop: 'none',
-                            },
-                            justifyContent: 'flex-end',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Button
-                            onClick={editGradeComposition}
-                            type="submit"
-                            size="small"
-                            variant="text"
-                            startIcon={<Edit />}
-                            sx={{
-                                fontWeight: '700',
-                                bgcolor: 'primary.light'
-                            }}
-                        >
-                            {"Edit"}
-                        </Button> 
-                    </Box>
+                        {"Percentages Must Add Up to 100"}
+                    </Typography>
                 </Stack>
+                {/* Added Categories */}
+                {updatedGradeComp.map(gradeComp => {
+                    const { category, percentage } = gradeComp;
+                    return (
+                        <Category 
+                            key={category}
+                            takenCategories={takenCategories}
+                            category={category}
+                            percentage={percentage}
+                            updateCategory={updateCategory}
+                            updatePercentage={updatePercentage}
+                            removeComposition={removeComposition}
+                        />
+                    )
+                })}
+                <Divider 
+                    flexItem
+                    sx={{
+                        display: (updatedGradeComp.length === 4) || (updatedGradeComp.length === 0) ? 'none' : 'flex',
+                    }}
+                />
+                <NewCategory 
+                    compositionLength={updatedGradeComp.length}
+                    takenCategories={takenCategories}
+                    addCategory={addCategory}
+                /> 
+                <Box
+                    sx={{
+                        display: {
+                            fold: 'none',
+                            mobile: 'flex',
+                            tablet: 'flex',
+                            desktop: 'flex',
+                        },
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Button
+                        variant="text"
+                        startIcon={<RestartAltOutlined />}
+                        onClick={resetComposition}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
+                        }}
+                    >
+                        {"Reset"}
+                    </Button> 
+                    <Button
+                        onClick={editGradeComposition}
+                        variant="text"
+                        startIcon={<Edit />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
+                        }}
+                    >
+                        {"Edit"}
+                    </Button> 
+                </Box>
+                <Box
+                    sx={{
+                        display: {
+                            fold: 'flex',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'none',
+                        },
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Button
+                        size="small"
+                        variant="text"
+                        onClick={resetComposition}
+                        startIcon={<RestartAltOutlined />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
+                        }}
+                    >
+                        {"Reset"}
+                    </Button> 
+                    <Button
+                        onClick={editGradeComposition}
+                        size="small"
+                        variant="text"
+                        startIcon={<Edit />}
+                        sx={{
+                            fontWeight: '700',
+                            bgcolor: 'primary.light'
+                        }}
+                    >
+                        {"Edit"}
+                    </Button> 
+                </Box>
+            </Stack>
         </Dialog>
 
     )

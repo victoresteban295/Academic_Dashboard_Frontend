@@ -1,109 +1,92 @@
-import { CategorySchema } from "@/lib/schemas/courseSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { AddCircleTwoTone } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Stack, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
 
-const NewCategory = () => {
+const NewCategory = ({
+    compositionLength,
+    takenCategories,
+    addCategory
+}) => {
+    const allCategories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
+    const percentages = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
 
-    const categories = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
-    const percentages = ["5%", "10%", "15%"];
-
-    /* React Hook Form */
-    const values = {
-        department: "",
-        academicRole: "",
+    const [defaultCategory, setCategory] = useState("");
+    const handleCategory = (event) => {
+        const updatedCategory = event.target.value;
+        setCategory(updatedCategory);
     }
-    const { register, formState, control, getValues, handleSubmit, reset } = useForm({
-        mode: 'onBlur',
-        defaultValues: {
-            category: "",
-            percentage: "",
-        },
-        values,
-        resolver: zodResolver(CategorySchema), //Zod Validation Schema
-    });
-    const { errors } = formState;
+
+    const [defaultPercentage, setPercentage] = useState("");
+    const handlePercentage = (event) => {
+        const updatedPercentage = event.target.value;
+        setPercentage(updatedPercentage);
+    }
+
+    const handleAddCategory = () => {
+        addCategory(defaultCategory, defaultPercentage);
+        setCategory("");
+        setPercentage("");
+    }
 
     return (
         <Stack
             direction="row"
             spacing={2}
             useFlexGap
+            sx={{
+                display: compositionLength === 4 ? 'none' : 'flex',
+            }}
         >
             <FormControl fullWidth >
-                <Controller
-                    name="category"
-                    control={control}
-                    render={({field: { onChange, value}}) => {
-                        return (
-                            <TextField
-                                select
-                                error={!!errors.category}
-                                value={value}
-                                onChange={(value => {
-                                    onChange(value);
-                                    console.log(getValues("category"));
-
-                                })}
-                                label='Category'
-                                helperText={errors.category?.message}
+                <TextField
+                    select
+                    value={defaultCategory}
+                    onChange={handleCategory}
+                    label='Category'
+                >
+                    {allCategories.map((item) => {
+                        return(
+                            <MenuItem
+                                key={item} 
+                                value={item}
+                                sx={{
+                                    display: takenCategories.includes(item) ? "none" : "flex",
+                                }}
                             >
-                                {categories.map((item) => {
-                                    return(
-                                        <MenuItem
-                                            key={item} 
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        )
-                    }}
-                />
+                                {item}
+                            </MenuItem>
+                        );
+                    })}
+                </TextField>
             </FormControl>
             <FormControl fullWidth >
-                <Controller
-                    name="percentage"
-                    control={control}
-                    render={({field: { onChange, value}}) => {
-                        return (
-                            <TextField
-                                select
-                                error={!!errors.percentage}
-                                value={value}
-                                onChange={(value => {
-                                    onChange(value);
-                                    console.log(getValues("percentage"));
-
-                                })}
-                                label='Percentage'
-                                helperText={errors.percentage?.message}
+                <TextField
+                    select
+                    value={defaultPercentage}
+                    onChange={handlePercentage}
+                    label='Percentage'
+                >
+                    {percentages.map((item) => {
+                        return(
+                            <MenuItem
+                                key={item} 
+                                value={item}
                             >
-                                {percentages.map((item) => {
-                                    return(
-                                        <MenuItem
-                                            key={item} 
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        )
-                    }}
-                />
+                                {item}
+                            </MenuItem>
+                        );
+                    })}
+                </TextField>
             </FormControl>
             <IconButton
                 size="medium"
+                onClick={handleAddCategory}
+                disabled={defaultCategory === "" || defaultPercentage === ""}
             >
                 <AddCircleTwoTone 
                     fontSize="inherit"
                     sx={{
-                        color: 'primary.main'
+                        color: (defaultCategory === "" || defaultPercentage === "") ? 'grey' : 'primary.main',
                     }}
                 />
             </IconButton>
