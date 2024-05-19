@@ -11,7 +11,13 @@ export async function generateMetadata({ params }) {
     }
 }
 
+export async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const CoursePage = async ({ params }) => {
+
+    await wait(5000);
 
     //Determine the authorization
     const profile = params.role;

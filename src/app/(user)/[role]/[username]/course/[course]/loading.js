@@ -1,7 +1,11 @@
-import { Apartment, AssignmentInd, Close, Email, LocalPhone, MenuOpen } from "@mui/icons-material";
-import { Box, Button, Divider, IconButton, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
+import { Add, Apartment, AssignmentInd, AssignmentOutlined, Close, Email, LocalPhone, MenuOpen, RecentActorsOutlined, TextSnippet } from "@mui/icons-material";
+import { Avatar, Box, Button, Divider, Grid, IconButton, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 
 const CourseLoading = () => {
+    const lgth2 = [1,2];
+    const lgth3 = [1,2, 3];
+    const lgth4 = [1,2,3,4];
+
     return (
         <Box
             className="course-page"
@@ -72,7 +76,7 @@ const CourseLoading = () => {
                         </Tooltip>
                     </Box> 
 
-                    {/* Tab Selection: Syllabus, Upcoming, Past */}
+                    {/* Tab Selection: Syllabus, Tasks, Roster */}
                     <Stack
                         direction="row"
                         alignItems="center"
@@ -98,33 +102,29 @@ const CourseLoading = () => {
                                 borderRadius: '0px',
                             }}
                         >
-                            <Typography
-                                variant="caption"
+                            <Box
                                 sx={{
-                                    display: {
-                                        fold: 'block',
-                                        mobile: 'none',
-                                        tablet: 'none',
-                                        desktop: 'none',
-                                    }
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Syllabus
-                            </Typography>
-                            <Typography
-                                variant="button"
-                                sx={{
-                                    display: {
-                                        fold: 'none',
-                                        mobile: 'block',
-                                        tablet: 'block',
-                                        desktop: 'block',
-                                    },
-                                    fontWeight: '700',
-                                }}
-                            >
-                                Syllabus
-                            </Typography>
+                                <TextSnippet />
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: {
+                                            fold: 'none',
+                                            mobile: 'block',
+                                            tablet: 'block',
+                                            desktop: 'block',
+                                        },
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    Syllabus
+                                </Typography>
+                            </Box>
                         </Button>
                         <Button
                             variant="text"
@@ -135,33 +135,29 @@ const CourseLoading = () => {
                                 borderRadius: '0px',
                             }}
                         >
-                            <Typography
-                                variant="caption"
+                            <Box
                                 sx={{
-                                    display: {
-                                        fold: 'block',
-                                        mobile: 'none',
-                                        tablet: 'none',
-                                        desktop: 'none',
-                                    }
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Upcoming
-                            </Typography>
-                            <Typography
-                                variant="button"
-                                sx={{
-                                    display: {
-                                        fold: 'none',
-                                        mobile: 'block',
-                                        tablet: 'block',
-                                        desktop: 'block',
-                                    },
-                                    fontWeight: '700',
-                                }}
-                            >
-                                Upcoming
-                            </Typography>
+                                <AssignmentOutlined />
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: {
+                                            fold: 'none',
+                                            mobile: 'block',
+                                            tablet: 'block',
+                                            desktop: 'block',
+                                        },
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    Tasks
+                                </Typography>
+                            </Box>
                         </Button>
                         <Button
                             variant="text"
@@ -172,252 +168,701 @@ const CourseLoading = () => {
                                 borderRadius: '0px',
                             }}
                         >
-                            <Typography
-                                variant="caption"
+                            <Box
                                 sx={{
-                                    display: {
-                                        fold: 'block',
-                                        mobile: 'none',
-                                        tablet: 'none',
-                                        desktop: 'none',
-                                    }
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Past
-                            </Typography>
-                            <Typography
-                                variant="button"
-                                sx={{
-                                    display: {
-                                        fold: 'none',
-                                        mobile: 'block',
-                                        tablet: 'block',
-                                        desktop: 'block',
-                                    },
-                                    fontWeight: '700',
-                                }}
-                            >
-                                Past
-                            </Typography>
+                                <RecentActorsOutlined />
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: {
+                                            fold: 'none',
+                                            mobile: 'block',
+                                            tablet: 'block',
+                                            desktop: 'block',
+                                        },
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    Roster
+                                </Typography>
+                            </Box>
                         </Button>
                     </Stack>
                     {/* Syllabus Section */}
                     <Stack
                         spacing={2}
-                        sx={{
-                            boxShadow: '1px 1px 4px 2px #cecece',
-                            borderRadius: '5px',
-                            py: {
-                                fold: 2,
-                                mobile: 2,
-                                tablet: 4,
-                                desktop: 4,
-                            },
-                            px: {
-                                fold: 2,
-                                mobile: 2,
-                                tablet: 2,
-                                desktop: 4,
-                            }
-                        }}
                     >
                         <Stack
-                            alignItems="center"
-                            justifyContent="center"
+                            direction="row"
+                            justifyContent="space-between"
                             spacing={0}
+                            sx={{
+                                width: '100%',
+                                boxShadow: '1px 1px 4px 2px #cecece',
+                                borderRadius: '5px',
+                                py: 2,
+                                px: 4,
+                            }}
                         >
-                            <Box
-                                className="course-title-skeleton"
+                            <Stack
+                                alignItems="flex-start"
+                                justifyContent="flex-start"
+                                spacing={1}
                                 sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
                                     flexGrow: 1,
                                     width: '100%',
                                 }}
                             >
-                                <Typography
-                                    variant='h3'
+                                <Stack
+                                    spacing={0}
                                     sx={{
-                                        flexGrow: 1,
-                                        maxWidth: '250px',
+                                        width: '100%',
+                                    }}
+                                >
+                                    <Box
+                                        className="course-title-skeleton"
+                                        sx={{
+                                            display: 'flex',
+                                            flexGrow: 1,
+                                            width: '100%',
+                                        }}
+                                    >
+                                        <Typography
+                                            variant='h3'
+                                            sx={{
+                                                flexGrow: 1,
+                                                maxWidth: '250px',
+                                            }}
+                                        >
+                                            <Skeleton 
+                                                sx={{
+                                                    width: '100%',
+                                                }}
+                                            />
+                                        </Typography>
+                                    </Box>
+                                    <Box
+                                        className="course-instructor-skeleton"
+                                        sx={{
+                                            display: 'flex',
+                                            flexGrow: 1,
+                                            width: '100%',
+                                        }}
+                                    >
+                                        <Typography
+                                            variant='body1'
+                                            sx={{
+                                                flexGrow: 1,
+                                                maxWidth: '150px',
+                                            }}
+                                        >
+                                            <Skeleton 
+                                                sx={{
+                                                    bgcolor: 'primary.main',
+                                                    width: '100%',
+                                                }}
+                                            />
+                                        </Typography>
+                                    </Box>
+                                </Stack>
+                                <Box
+                                    sx={{
+                                        width: '100%',
                                     }}
                                 >
                                     <Skeleton 
-                                        sx={{
-                                            width: '100%',
-                                        }}
+                                        variant="rounded"
+                                        height={150}
                                     />
-                                </Typography>
-                            </Box>
-                            <Box
-                                className="course-college-skeleton"
+                                </Box>
+                            </Stack>
+                        </Stack>
+                        <Grid
+                            container
+                            gap={2}
+                            sx={{
+                                display: {
+                                    fold: '',
+                                    mobile: 'flex',
+                                    tablet: 'flex',
+                                    desktop: 'flex'
+                                }
+                            }}
+                        >
+                            {/* ProfessorInformation Compoenent */} 
+                            <Grid
+                                item
+                                fold='auto'
+                                mobile
+                                tablet
+                                desktop
                                 sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    flexGrow: 1,
                                     width: '100%',
                                 }}
                             >
-                                <Typography
-                                    variant='h3'
+                                <Stack
+                                    justifyContent="space-between"
+                                    spacing={2}
                                     sx={{
-                                        flexGrow: 1,
-                                        maxWidth: '150px',
+                                        width: "100%",
+                                        height: '100%',
+                                        minHeight: '250px',
+                                        boxShadow: '1px 1px 4px 2px #cecece',
+                                        borderRadius: '5px',
+                                        py: 2,
+                                        px: 4,
                                     }}
                                 >
-                                    <Skeleton 
+                                    <Typography
+                                        variant="body1"
+                                        align="left"
                                         sx={{
-                                            width: '100%',
+                                            fontWeight: '700',
+                                            color: 'primary.main',
                                         }}
-                                    />
-                                </Typography>
-                            </Box>
-                            <Box
-                                className="course-semester-skeleton"
+                                    >
+                                        {"Instructor Information"} 
+                                    </Typography>
+                                    <Stack
+                                        direction={{
+                                            fold: 'column',
+                                            mobile: 'row',
+                                            tablet: 'row',
+                                            desktop: 'row',
+                                        }}
+                                        alignItems="center"
+                                        spacing={1}
+                                    >
+                                        <Avatar
+                                            sx={{
+                                                bgcolor: 'primary.light',
+                                                color: 'primary.main',
+                                            }}
+                                        >
+                                            <Apartment /> 
+                                        </Avatar>
+                                        <Stack
+                                            sx={{
+                                                width: '100%',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    textAlign: {
+                                                        fold: 'center',
+                                                        mobile: 'left',
+                                                        tablet: 'left',
+                                                        desktop: 'left'
+                                                    }
+                                                }}
+                                            >
+                                                {"Office"}
+                                            </Typography>
+                                            <Box
+                                                className="office-skeleton"
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexGrow: 1,
+                                                    width: '100%',
+                                                    justifyContent: {
+                                                            fold: 'center',
+                                                            mobile: 'left',
+                                                            tablet: 'left',
+                                                            desktop: 'left'
+                                                    },
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant='body2'
+                                                    sx={{
+                                                        flexGrow: 1,
+                                                        maxWidth: '150px',
+                                                    }}
+                                                >
+                                                    <Skeleton 
+                                                        sx={{
+                                                            width: '100%',
+                                                        }}
+                                                    />
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                    <Stack
+                                        direction={{
+                                            fold: 'column',
+                                            mobile: 'row',
+                                            tablet: 'row',
+                                            desktop: 'row',
+                                        }}
+                                        alignItems="center"
+                                        spacing={1}
+                                    >
+                                        <Avatar
+                                            sx={{
+                                                bgcolor: 'primary.light',
+                                                color: 'primary.main',
+                                            }}
+                                        >
+                                            <Email /> 
+                                        </Avatar>
+                                        <Stack
+                                            sx={{
+                                                width: '100%',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    textAlign: {
+                                                        fold: 'center',
+                                                        mobile: 'left',
+                                                        tablet: 'left',
+                                                        desktop: 'left'
+                                                    }
+                                                }}
+                                            >
+                                                {"Email"}
+                                            </Typography>
+                                            <Box
+                                                className="email-skeleton"
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexGrow: 1,
+                                                    width: '100%',
+                                                    justifyContent: {
+                                                            fold: 'center',
+                                                            mobile: 'left',
+                                                            tablet: 'left',
+                                                            desktop: 'left'
+                                                    },
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant='body2'
+                                                    sx={{
+                                                        flexGrow: 1,
+                                                        maxWidth: '150px',
+                                                    }}
+                                                >
+                                                    <Skeleton 
+                                                        sx={{
+                                                            width: '100%',
+                                                        }}
+                                                    />
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                    <Stack
+                                        direction={{
+                                            fold: 'column',
+                                            mobile: 'row',
+                                            tablet: 'row',
+                                            desktop: 'row',
+                                        }}
+                                        alignItems="center"
+                                        spacing={1}
+                                    >
+                                        <Avatar
+                                            sx={{
+                                                bgcolor: 'primary.light',
+                                                color: 'primary.main',
+                                            }}
+                                        >
+                                            <LocalPhone /> 
+                                        </Avatar>
+                                        <Stack
+                                            sx={{
+                                                width: '100%',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    textAlign: {
+                                                        fold: 'center',
+                                                        mobile: 'left',
+                                                        tablet: 'left',
+                                                        desktop: 'left'
+                                                    }
+                                                }}
+                                            >
+                                                {"Phone"}
+                                            </Typography>
+                                            <Box
+                                                className="phone-skeleton"
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexGrow: 1,
+                                                    width: '100%',
+                                                    justifyContent: {
+                                                        fold: 'center',
+                                                        mobile: 'left',
+                                                        tablet: 'left',
+                                                        desktop: 'left'
+                                                    },
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant='body2'
+                                                    align="center"
+                                                    sx={{
+                                                        flexGrow: 1,
+                                                        display: 'flex',
+                                                        justifyContent: {
+                                                            fold: 'center',
+                                                            mobile: 'left',
+                                                            tablet: 'left',
+                                                            desktop: 'left'
+                                                        },
+                                                    }}
+                                                >
+                                                    <Skeleton 
+                                                        width={150}
+                                                    />
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+                            </Grid>
+                            {/* Desktop, Tablet, Mobile: GradeComposition Compoenent */} 
+                            <Grid
+                                item
+                                mobile
+                                tablet
+                                desktop
                                 sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    flexGrow: 1,
-                                    width: '100%',
+                                    display: {
+                                        fold: 'none',
+                                        mobile: 'flex',
+                                        tablet: 'flex',
+                                        desktop: 'flex',
+                                    },
+                                    minWidth: '400px',
                                 }}
                             >
-                                <Typography
-                                    variant='h3'
+                                <Stack
                                     sx={{
-                                        flexGrow: 1,
-                                        maxWidth: '100px',
+                                        width: '100%',
+                                        boxShadow: '1px 1px 4px 2px #cecece',
+                                        borderRadius: '5px',
+                                        py: 2,
                                     }}
                                 >
-                                    <Skeleton 
+                                    <Box
                                         sx={{
-                                            width: '100%',
+                                            display: 'flex',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                            px: 4,
                                         }}
-                                    />
-                                </Typography>
-                            </Box>
-                        </Stack>
-                        <Stack
-                            spacing={1}
-                        >
-                            <Box
+                                    >
+                                        <Typography
+                                            variant="body1"
+                                            align="left"
+                                            sx={{
+                                                fontWeight: '700',
+                                                color: 'primary.main',
+                                            }}
+                                        >
+                                            {"Grade Composition"} 
+                                        </Typography>
+                                    </Box>
+
+                                    {/* Desktop & Tablet Devices */}
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-evenly"
+                                        sx={{
+                                            px: 1,
+                                            display: {
+                                                fold: 'none',
+                                                mobile: 'none',
+                                                tablet: 'flex',
+                                                desktop: 'flex',
+                                            }
+                                        }}
+                                    >
+                                        <Skeleton 
+                                            variant="circular"
+                                            height={200}
+                                            width={200}
+                                            sx={{
+                                                bgcolor: 'primary.light'
+                                            }}
+                                        />
+                                        <Stack
+                                            spacing={1}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                        >
+                                            {lgth4.map((key) => {
+                                                return (
+                                                    <Stack
+                                                        key={key}
+                                                        direction="row"
+                                                        spacing={2}
+                                                    >
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={20}
+                                                            sx={{
+                                                                bgcolor: 'primary.light'
+                                                            }}
+                                                        />
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={80}
+                                                        />
+                                                    </Stack>
+                                                )
+                                            })}
+                                        </Stack>
+                                    </Stack>
+
+                                    {/* Mobile Devices */}
+                                    <Stack
+                                        alignItems="center"
+                                        justifyContent="space-evenly"
+                                        spacing={2}
+                                        sx={{
+                                            px: 1,
+                                            display: {
+                                                fold: 'none',
+                                                mobile: 'flex',
+                                                tablet: 'none',
+                                                desktop: 'none',
+                                            }
+                                        }}
+                                    >
+                                        <Skeleton 
+                                            variant="circular"
+                                            height={200}
+                                            width={200}
+                                            sx={{
+                                                bgcolor: 'primary.light'
+                                            }}
+                                        />
+                                        <Stack
+                                            direction="row"
+                                            spacing={3}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                        >
+                                            {lgth2.map((key) => {
+                                                return (
+                                                    <Stack
+                                                        key={key}
+                                                        direction="row"
+                                                        spacing={2}
+                                                    >
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={20}
+                                                            sx={{
+                                                                bgcolor: 'primary.light'
+                                                            }}
+                                                        />
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={80}
+                                                        />
+                                                    </Stack>
+                                                )
+                                            })}
+                                        </Stack>
+                                        <Stack
+                                            direction="row"
+                                            spacing={3}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                        >
+                                            {lgth2.map((key) => {
+                                                return (
+                                                    <Stack
+                                                        key={key}
+                                                        direction="row"
+                                                        spacing={2}
+                                                    >
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={20}
+                                                            sx={{
+                                                                bgcolor: 'primary.light'
+                                                            }}
+                                                        />
+                                                        <Skeleton 
+                                                            variant="rounded"
+                                                            height={20}
+                                                            width={80}
+                                                        />
+                                                    </Stack>
+                                                )
+                                            })}
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+                            </Grid>
+                            {/* Foldable Devices: GradeComposition Compoenent */} 
+                            <Grid
+                                item
+                                mobile
+                                tablet
+                                desktop
                                 sx={{
-                                    px: 1,
-                                    color: 'primary.main',
-                                    borderRadius: '5px',
-                                    bgcolor: '#e3f3ff',
+                                    display: {
+                                        flex: 'flex',
+                                        mobile: 'none',
+                                        tablet: 'none',
+                                        desktop: 'none',
+                                    },
+                                    width: '100%',
                                 }}
                             >
-                                <Typography
-                                    variant="h6"
+                                <Stack
+                                    spacing={1}
                                     sx={{
-                                        fontWeight: '700',
+                                        width: '100%',
+                                        boxShadow: '1px 1px 4px 2px #cecece',
+                                        borderRadius: '5px',
+                                        py: 2,
                                     }}
                                 >
-                                    {"Course Description"}
-                                </Typography>
-                            </Box>
-                            <Box
-                                sx={{
-                                    px: 1,
-                                    width: '100%',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    height={250}
-                                />
-                            </Box>
-                        </Stack>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                            px: 4,
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="body1"
+                                            align="left"
+                                            sx={{
+                                                fontWeight: '700',
+                                                color: 'primary.main',
+                                            }}
+                                        >
+                                            {"Grade Composition"} 
+                                        </Typography>
+                                    </Box>
+                                    <Stack
+                                        spacing={2}
+                                        sx={{
+                                            px: 1,
+                                            display: {
+                                                fold: 'flex',
+                                                mobile: 'none',
+                                                tablet: 'none',
+                                                desktop: 'none',
+                                            },
+                                        }}
+                                    >
+                                        {lgth4.map((key) => {
+                                            return (
+                                                <Stack
+                                                    key={key}
+                                                    spacing={1}
+                                                    justifyContent='center'
+                                                    alignItems='center'
+                                                >
+                                                    <Skeleton 
+                                                        variant="rounded"
+                                                        height={50}
+                                                        width={60}
+                                                        sx={{
+                                                            bgcolor: 'primary.light',
+                                                        }}
+                                                    />
+                                                    <Skeleton 
+                                                        variant="rounded"
+                                                        height={20}
+                                                        width={100}
+                                                    />
+                                                </Stack>
+                                            )
+                                        })}
+                                    </Stack>
+                                </Stack>
+                            </Grid>
+                        </Grid>
+                        
+
+                        {/* Syllabus Section */}
                         <Stack
-                            spacing={1}
+                            spacing={2}
+                            sx={{
+                                boxShadow: '1px 1px 4px 2px #cecece',
+                                borderRadius: '5px',
+                                py: {
+                                    fold: 2,
+                                    mobile: 2,
+                                    tablet: 4,
+                                    desktop: 4,
+                                },
+                                px: {
+                                    fold: 2,
+                                    mobile: 2,
+                                    tablet: 2,
+                                    desktop: 4,
+                                }
+                            }}
                         >
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    color: 'primary.main',
-                                    borderRadius: '5px',
-                                    bgcolor: '#e3f3ff',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={150}
-                                    height={20}
-                                />
-                            </Box>
-                            <Box
-                                sx={{
-                                    px: 1,
-                                    width: '100%',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    height={250}
-                                />
-                            </Box>
-                        </Stack>
-                        <Stack
-                            spacing={1}
-                        >
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    color: 'primary.main',
-                                    borderRadius: '5px',
-                                    bgcolor: '#e3f3ff',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={150}
-                                    height={20}
-                                />
-                            </Box>
-                            <Box
-                                sx={{
-                                    px: 1,
-                                    width: '100%',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    height={250}
-                                />
-                            </Box>
-                        </Stack>
-                        <Stack
-                            spacing={1}
-                        >
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    color: 'primary.main',
-                                    borderRadius: '5px',
-                                    bgcolor: '#e3f3ff',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={150}
-                                    height={20}
-                                />
-                            </Box>
-                            <Box
-                                sx={{
-                                    px: 1,
-                                    width: '100%',
-                                }}
-                            >
-                                <Skeleton 
-                                    variant="rounded"
-                                    height={250}
-                                />
-                            </Box>
+                            {lgth3.map((key) => {
+                                return (
+                                    <Stack
+                                        key={key}
+                                        spacing={1}
+                                    >
+                                        <Box
+                                            sx={{
+                                                p: 1,
+                                                color: 'primary.main',
+                                                borderRadius: '5px',
+                                                bgcolor: '#e3f3ff',
+                                            }}
+                                        >
+                                            <Skeleton 
+                                                variant="rounded"
+                                                width={150}
+                                                height={20}
+                                            />
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                px: 1,
+                                                width: '100%',
+                                            }}
+                                        >
+                                            <Skeleton 
+                                                variant="rounded"
+                                                height={250}
+                                            />
+                                        </Box>
+                                    </Stack>
+                                )
+                            })} 
                         </Stack>
                     </Stack>
                 </Stack>
             </Box>
+
+            {/* Right-Side Menu */}
             <Box
                 className='rightside-menu-container'
                 sx={{
@@ -438,7 +883,7 @@ const CourseLoading = () => {
                         top: '70px',
                     }}
                 >
-                    {/* Right Widget */}
+                    {/* <RightWidget /> Componenet */}
                     <Stack
                         spacing={2}
                         sx={{
@@ -458,88 +903,20 @@ const CourseLoading = () => {
                                     fontWeight: '700',
                                 }}
                             >
-                                {"Instructor Information"}
+                                {"Course Schedule"}
                             </Typography>
                             <IconButton
-                                size="small"
-                                sx={{
-                                    display: {
-                                        fold: 'block', 
-                                        mobile: 'block',
-                                        tablet: 'block',
-                                        desktop: 'none',
-                                    }
-                                }}
+                                size='small'
                             >
-                                <Close fontSize="inherit"/>
-                            </IconButton> 
+                                <Add fontSize='inherit' />
+                            </IconButton>
                         </Box>
-                        <Stack
-                            spacing={0.5}
-                            sx={{
-                                px: 2,
-                                py: 1,
-                                boxShadow: '1px 1px 4px 2px #cecece',
-                                borderRadius: '5px',
-                            }}
-                        >
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={1} 
-                            >
-                                <AssignmentInd 
-                                    fontSize="small"
-                                />
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={120}
-                                    height={24}
-                                />
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={1} 
-                            >
-                                <Apartment
-                                    fontSize="small"
-                                />
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={120}
-                                    height={24}
-                                />
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={1} 
-                            >
-                                <LocalPhone
-                                    fontSize="small"
-                                />
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={120}
-                                    height={24}
-                                />
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={1} 
-                            >
-                                <Email
-                                    fontSize="small"
-                                />
-                                <Skeleton 
-                                    variant="rounded"
-                                    width={120}
-                                    height={24}
-                                />
-                            </Stack>
-                        </Stack>
+                        <Skeleton 
+                            variant="rounded"
+                            width={191}
+                            height={88}
+                        />
+
                         <Divider />
                         <Box
                             sx={{
@@ -554,14 +931,19 @@ const CourseLoading = () => {
                                     fontWeight: '700',
                                 }}
                             >
-                                {"Course Schedule"}
+                                {"Office Hours"}
                             </Typography>
                         </Box>
-                        <Skeleton 
-                            variant="rounded"
-                            width={191}
-                            height={88}
-                        />
+                        {lgth2.map((key) => {
+                            return (
+                                <Skeleton 
+                                    key={key}
+                                    variant="rounded"
+                                    width={191}
+                                    height={88}
+                                />
+                            )
+                        })}
                     </Stack>
                 </Box>
             </Box>
