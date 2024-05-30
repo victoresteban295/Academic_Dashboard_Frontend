@@ -1,3 +1,4 @@
+"use client"
 import { Box, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import Schedule from "./RightWidget/Schedule";
 import { Add } from "@mui/icons-material";
@@ -6,13 +7,8 @@ import { useState } from "react";
 import OfficeHrs from "./RightWidget/OfficeHrs";
 
 const RightWidget = ({ 
-    instructor, 
-    office,
-    phone,
-    email,
     schedules,
     changeSchedules,
-    handleClose, 
     handleOpenAlert }) => {
 
     const officeHrs = [

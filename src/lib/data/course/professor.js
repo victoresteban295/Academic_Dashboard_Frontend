@@ -1,11 +1,44 @@
 import dayjs from "dayjs";
 
-export const getTitle = (course) => {
+export const getLayoutData = (course) => {
+
+    const math245 = {
+        title: 'Math 245: Differential Equations',
+        schedules: [
+            {
+                index: "0",
+                location: "Palenske Hall 230",
+                days: [ "Mon", "Thu", "Fri" ],
+                strTime: "9:15 AM",
+                endTime: "10:20 AM",
+            },
+            {
+                index: "1",
+                location: "Norris Center 100",
+                days: [ "Tue", "Wed" ],
+                strTime: "1:00 PM",
+                endTime: "2:00 PM",
+            }
+        ],
+    }
+
+    const math230 = {
+        title: "Math 230: Discrete Mathematics",
+        schedules: [
+            {
+                index: "0",
+                location: "Palenske Hall 205",
+                days: [ "Mon", "Tue", "Wed", "Thu" ],
+                strTime: "8:00 AM",
+                endTime: "9:05 AM",
+            }
+        ],
+    }
 
     if(course === "math245") {
-        return "Math 245: Differential Equations";
+        return math245;
     } else if(course === "math230") {
-        return "Math 230: Discrete Mathematics";
+        return math230;
     } 
 }
 

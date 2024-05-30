@@ -11,7 +11,7 @@ const CourseButton = ({ username, role, course, dept, num }) => {
     const currentCrs = params.course;
     const isActive = currentCrs === crs;
     const handleClick = () => {
-        router.push(`/${role}/${username}/course/${crs}`);
+        router.push(`/${role}/${username}/course/${crs}/syllabus`);
     }
 
     return (

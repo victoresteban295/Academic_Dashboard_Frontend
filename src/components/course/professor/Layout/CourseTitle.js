@@ -1,29 +1,16 @@
+"use client"
 import { Box, Divider, Drawer, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { MenuOpen, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
-import RightWidget from "../RightWidget";
 import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
-import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
-import TaskBackdrop from "../Backdrop/TaskBackdrop";
 import DeleteCourseBackdrop from "../Backdrop/DeleteCourseBackdrop";
 import FinalDeleteCourseBackdrop from "../Backdrop/FinalDeleteCourseBackdrop";
-import EditCourseDesBackdrop from "../Backdrop/EditCourseDesBackdrop";
+import RightWidget from "../RightWidget";
 
 const CourseTitle = ({ 
     title,
-    instructor, 
-    office,
-    phone,
-    email,
     schedules,
-    infos,
-    weeklyTasks,
-    description,
-    changeDescription,
-    changeInfoSections,
-    changeTitle,
     changeSchedules,
-    changeWeeklyTasks,
     handleOpenAlert
 }) => {
 
@@ -103,7 +90,7 @@ const CourseTitle = ({
                 open={openEditTitle}
                 handleClose={handleCloseEditTitle}
                 title={title}
-                changeTitle={changeTitle}
+                /* changeTitle={changeTitle} */
             />
             <DeleteCourseBackdrop 
                 open={openDeleteCourse}
@@ -205,13 +192,8 @@ const CourseTitle = ({
                         }}
                     >
                         <RightWidget
-                            instructor={instructor} 
-                            office={office}
-                            phone={phone}
-                            email={email}
                             schedules={schedules}
                             changeSchedules={changeSchedules}
-                            handleClose={handleCloseSchedule}
                             handleOpenAlert={handleOpenAlert}
                         />
                     </Box>

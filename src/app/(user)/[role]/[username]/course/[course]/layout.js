@@ -1,10 +1,13 @@
-import { Alert, Box, Snackbar } from "@mui/material";
+"use client"
+import { Box, Stack } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import RightWidget from "./RightWidget";
 import AlertPopUpMsg from "@/components/AlertPopUpMsg";
 import CourseTitle from "@/components/course/professor/Layout/CourseTitle";
 import CourseTabSelection from "@/components/course/professor/Layout/CourseTabSelection";
+import { getLayoutData } from "@/lib/data/course/professor";
+import RightWidget from "@/components/course/professor/RightWidget";
+import { useState } from "react";
 
 const CourseLayout = ({ children, params }) => {
 
@@ -12,6 +15,15 @@ const CourseLayout = ({ children, params }) => {
 
     /* Error Message Displaying in Alert */
     const [errorMsg, setErrorMsg] = useState('');
+
+    /* Get Course Data */
+    const crsData = getLayoutData(course);
+
+    /* State Value: Schedule */
+    const [schedules, setSchedules] = useState(crsData.schedules);
+    const changeSchedules = (updatedSchedules) => {
+        setSchedules(updatedSchedules);
+    }
 
     /* Display Alert Popup Message */
     const [openAlert, setOpenAlert] = useState(false);
@@ -25,8 +37,6 @@ const CourseLayout = ({ children, params }) => {
     }
 
     return (
-        <html lang="en">
-            <body>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Box
                         className="layout-page"
@@ -59,7 +69,10 @@ const CourseLayout = ({ children, params }) => {
                                 }}
                             >
                                 <CourseTitle
-                                    title={title}
+                                    title={crsData.title}
+                                    schedules={schedules}
+                                    changeSchedules={changeSchedules}
+                                    handleOpenAlert={handleOpenAlert}
                                 />
                                 <CourseTabSelection />
                                 {children}
@@ -88,10 +101,6 @@ const CourseLayout = ({ children, params }) => {
                                 }}
                             >
                                 <RightWidget
-                                    instructor={course.instructor} 
-                                    office={course.office}
-                                    phone={course.phone}
-                                    email={course.email}
                                     schedules={schedules}
                                     changeSchedules={changeSchedules}
                                     handleOpenAlert={handleOpenAlert}
@@ -100,8 +109,6 @@ const CourseLayout = ({ children, params }) => {
                         </Box>
                     </Box>
                 </LocalizationProvider>
-            </body>
-        </html>
     ) 
 }
 
