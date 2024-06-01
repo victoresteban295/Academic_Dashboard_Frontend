@@ -94,7 +94,7 @@ export const getCourse = (course, today) => {
 
         /* Syllabus Information */
         description: "This course serves as an introduction to the fundamental concepts and techniques of differential equations, a cornerstone of mathematics with wide-ranging applications in physics, engineering, biology, economics, and many other fields. Differential equations are essential for modeling and understanding systems that change over time or space, making them a powerful tool in scientific inquiry and problem-solving. In this course, students will explore various types of differential equations, including ordinary differential equations (ODEs) and partial differential equations (PDEs). The primary focus will be on first-order and second-order ODEs, both linear and nonlinear, along with methods for solving them analytically and numerically.",
-        infoSections: [
+        sections: [
             {
                 index: "0",
                 title: "Prerequisites",
@@ -567,7 +567,7 @@ export const getCourse = (course, today) => {
 
         /* Syllabus Information */
         description: "Discrete mathematics serves as the mathematical foundation for computer science and various other disciplines. This course provides a rigorous exploration of discrete mathematical structures and concepts, focusing on their applications in computer science, cryptography, logic, and algorithms. Throughout the course, emphasis will be placed on developing problem-solving skills, logical reasoning, and mathematical maturity. Students will engage in a variety of exercises, proofs, and applications to reinforce their understanding of discrete mathematical concepts.",
-        infoSections: [
+        sections: [
             {
                 index: "0",
                 title: "Prerequisites",

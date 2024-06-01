@@ -37,78 +37,78 @@ const CourseLayout = ({ children, params }) => {
     }
 
     return (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Box
-                        className="layout-page"
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box
+                className="layout-page"
+                sx={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '100%',
+                }}
+            >
+                <AlertPopUpMsg 
+                    open={openAlert}
+                    handleClose={handleCloseAlert}
+                    errorMsg={errorMsg}
+                />
+
+                {/* Main Content */}
+                <Box
+                    className="main-content-container"
+                    sx={{
+                        flexGrow: 1,
+                        maxWidth: '750px',
+                        p: 1,
+                    }}
+                >
+                    <Stack
+                        className="main-content"
+                        spacing={2}
                         sx={{
-                            display: 'flex',
                             width: '100%',
-                            height: '100%',
                         }}
                     >
-                        <AlertPopUpMsg 
-                            open={openAlert}
-                            handleClose={handleCloseAlert}
-                            errorMsg={errorMsg}
+                        <CourseTitle
+                            title={crsData.title}
+                            schedules={schedules}
+                            changeSchedules={changeSchedules}
+                            handleOpenAlert={handleOpenAlert}
                         />
+                        <CourseTabSelection />
+                        {children}
+                    </Stack>
+                </Box>
 
-                        {/* Main Content */}
-                        <Box
-                            className="main-content-container"
-                            sx={{
-                                flexGrow: 1,
-                                maxWidth: '750px',
-                                p: 1,
-                            }}
-                        >
-                            <Stack
-                                className="main-content"
-                                spacing={2}
-                                sx={{
-                                    width: '100%',
-                                }}
-                            >
-                                <CourseTitle
-                                    title={crsData.title}
-                                    schedules={schedules}
-                                    changeSchedules={changeSchedules}
-                                    handleOpenAlert={handleOpenAlert}
-                                />
-                                <CourseTabSelection />
-                                {children}
-                            </Stack>
-                        </Box>
-
-                        {/* Right Content */}
-                        <Box
-                            className="right-content-container"
-                            sx={{
-                                display: {
-                                    fold: 'none',
-                                    mobile: 'none',
-                                    tablet: 'none',
-                                    desktop: 'block',
-                                },
-                                maxWidth: '250px',
-                                p: 1,
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    width: '200px',
-                                    position: 'sticky',
-                                    top: '70px',
-                                }}
-                            >
-                                <RightWidget
-                                    schedules={schedules}
-                                    changeSchedules={changeSchedules}
-                                    handleOpenAlert={handleOpenAlert}
-                                />
-                            </Box>
-                        </Box>
+                {/* Right Content */}
+                <Box
+                    className="right-content-container"
+                    sx={{
+                        display: {
+                            fold: 'none',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'block',
+                        },
+                        maxWidth: '250px',
+                        p: 1,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: '200px',
+                            position: 'sticky',
+                            top: '70px',
+                        }}
+                    >
+                        <RightWidget
+                            schedules={schedules}
+                            changeSchedules={changeSchedules}
+                            handleOpenAlert={handleOpenAlert}
+                        />
                     </Box>
-                </LocalizationProvider>
+                </Box>
+            </Box>
+        </LocalizationProvider>
     ) 
 }
 

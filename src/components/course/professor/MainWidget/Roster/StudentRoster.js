@@ -49,6 +49,7 @@ const StudentRoster = () => {
                     const { name, gradeLvl, attendance, grade } = student;
                     return (
                         <Student 
+                            key={name}
                             name={name}
                             gradeLvl={gradeLvl}
                             attendance={attendance}
