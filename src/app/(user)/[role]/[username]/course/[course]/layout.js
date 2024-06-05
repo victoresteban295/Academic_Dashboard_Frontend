@@ -9,32 +9,11 @@ import { getLayoutData } from "@/lib/data/course/professor";
 import RightWidget from "@/components/course/professor/RightWidget";
 import { useState } from "react";
 
-const CourseLayout = ({ children, params }) => {
-
-   const { role, username, course } = params; 
-
-    /* Error Message Displaying in Alert */
-    const [errorMsg, setErrorMsg] = useState('');
+const CourseLayout = async ({ children, params }) => {
 
     /* Get Course Data */
+    const { course } = params; 
     const crsData = getLayoutData(course);
-
-    /* State Value: Schedule */
-    const [schedules, setSchedules] = useState(crsData.schedules);
-    const changeSchedules = (updatedSchedules) => {
-        setSchedules(updatedSchedules);
-    }
-
-    /* Display Alert Popup Message */
-    const [openAlert, setOpenAlert] = useState(false);
-    const handleOpenAlert = (msg) => {
-        setErrorMsg(msg);
-        setOpenAlert(true);
-    }
-    const handleCloseAlert = () => {
-        setErrorMsg('');
-        setOpenAlert(false);
-    }
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -46,12 +25,6 @@ const CourseLayout = ({ children, params }) => {
                     height: '100%',
                 }}
             >
-                <AlertPopUpMsg 
-                    open={openAlert}
-                    handleClose={handleCloseAlert}
-                    errorMsg={errorMsg}
-                />
-
                 {/* Main Content */}
                 <Box
                     className="main-content-container"
@@ -69,10 +42,8 @@ const CourseLayout = ({ children, params }) => {
                         }}
                     >
                         <CourseTitle
-                            title={crsData.title}
-                            schedules={schedules}
-                            changeSchedules={changeSchedules}
-                            handleOpenAlert={handleOpenAlert}
+                            courseTitle={crsData.title}
+                            schedules={crsData.schedules}
                         />
                         <CourseTabSelection />
                         {children}
@@ -101,9 +72,7 @@ const CourseLayout = ({ children, params }) => {
                         }}
                     >
                         <RightWidget
-                            schedules={schedules}
-                            changeSchedules={changeSchedules}
-                            handleOpenAlert={handleOpenAlert}
+                            courseSchedules={crsData.schedules}
                         />
                     </Box>
                 </Box>

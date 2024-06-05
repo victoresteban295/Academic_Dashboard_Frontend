@@ -1,17 +1,38 @@
+"use client"
 import { Grid, Grow, Stack, Typography } from "@mui/material";
 import InfoSection from "./InfoSection";
 import ProfessorInformation from "./ProfessorInformation";
 import GradeComposition from "./GradeComposition";
 import EmptySyllabus from "./EmptySyllabus";
 import { useState } from "react";
+import { getCourse } from "@/lib/data/course/professor";
+import dayjs from "dayjs";
+import AlertPopUpMsg from "@/components/AlertPopUpMsg";
+import CourseDescription from "./CourseDescription";
 
-const Syllabus = ({ 
-    title, 
-    description,
-    gradeComp,
-    sections,
-    handleOpenAlert
-}) => {
+const Syllabus = ({ course }) => {
+
+    /* ********************************* */
+    /* State Value: Error Handling PopUp */
+    /* ********************************* */
+    const [errorMsg, setErrorMsg] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
+
+    /* *********************************** */
+    /* Fetch Dynamic Data: Coure Syllabus  */
+    /* *********************************** */
+    const todayDateTime = dayjs();
+
+    /* Mocked Fetch Data */
+    const { title, description, gradeComp, sections } = getCourse(course, todayDateTime);
 
     /* State Value: Syllabus Section */
     const [syllabusSections, setSyllabusSections] = useState(sections);
@@ -24,53 +45,16 @@ const Syllabus = ({
             <Stack
                 spacing={2}
             >
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    sx={{
-                        width: '100%',
-                        boxShadow: '1px 1px 4px 2px #cecece',
-                        borderRadius: '5px',
-                        py: 2,
-                        px: 4,
-                    }}
-                >
-                    <Stack
-                        alignItems="flex-start"
-                        justifyContent="flex-start"
-                        spacing={1}
-                    >
-                        <Stack
-                            spacing={0}
-                        >
-                            <Typography
-                                variant="h6"
-                                align="left"
-                                sx={{
-                                    fontWeight: '700',
-                                }}
-                            >
-                                {title} 
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                align="left"
-                                sx={{
-                                    fontWeight: 'bold',
-                                    color: 'primary.main',
-                                }}
-                            >
-                                {"Taught by Dr.Professor"}
-                            </Typography>
-                        </Stack>
-                        <Typography
-                            variant="body1"
-                            align="left"
-                        >
-                            {description}
-                        </Typography>
-                    </Stack>
-                </Stack>
+                <AlertPopUpMsg
+                    open={openAlert}
+                    handleClose={handleCloseAlert}
+                    errorMsg={errorMsg}
+                />
+                <CourseDescription 
+                    title={title}
+                    crsDescription={description}
+                    instructor={"Taught by Dr.Professor"}
+                />
                 <Grid
                     container
                     gap={2}

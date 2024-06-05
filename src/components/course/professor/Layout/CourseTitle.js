@@ -8,13 +8,21 @@ import FinalDeleteCourseBackdrop from "../Backdrop/FinalDeleteCourseBackdrop";
 import RightWidget from "../RightWidget";
 
 const CourseTitle = ({ 
-    title,
-    schedules,
-    changeSchedules,
-    handleOpenAlert
+    courseTitle,
+    schedules
 }) => {
 
-    /* Options Menu's State Value & Functions */
+    /* *************************** */
+    /* State Value: Course's Title */
+    /* *************************** */
+    const [title, setTitle] = useState(courseTitle);
+    const changeTitle = (updatedTitle) => {
+        setTitle(updatedTitle);
+    }
+
+    /* *************************************** */
+    /* Options Menu - State Values & Functions */
+    /* *************************************** */
     const [optionsAnchor, setOptionsAnchor] = useState(null);
     const openOptions = Boolean(optionsAnchor);
     const handleOpenOptions = (event) => {
@@ -34,7 +42,9 @@ const CourseTitle = ({
         setScheduleAnchorEl(null);
     }
 
-    /* Right Content Menu's State Value & Function */ 
+    /* ************************************* */
+    /* RightWidget - State Value & Functions */
+    /* ************************************* */
     const [rightContentAnchor, setRightContentAnchorEl] = useState(null);
     const openRightContent = Boolean(rightContentAnchor);
     const handleOpenRightContent = (event) => {
@@ -45,9 +55,8 @@ const CourseTitle = ({
     }
 
     /****************************************/
-    /* Backdrop Menu State Value & Function */
+    /* Backdrops - State Value & Function */
     /****************************************/
-
     /* Rename Course */
     const [openEditTitle, setOpenEditTitle] = useState(false);
     const handleOpenEditTitle = () => {
@@ -90,14 +99,13 @@ const CourseTitle = ({
                 open={openEditTitle}
                 handleClose={handleCloseEditTitle}
                 title={title}
-                /* changeTitle={changeTitle} */
+                changeTitle={changeTitle}
             />
             <DeleteCourseBackdrop 
                 open={openDeleteCourse}
                 handleClose={handleCloseDeleteCourse}
                 title={title}
                 handleOpenFinalDelete={handleOpenFinalDelete}
-                handleOpenAlert={handleOpenAlert}
             />
             <FinalDeleteCourseBackdrop 
                 open={openFinalDelete}
@@ -132,7 +140,7 @@ const CourseTitle = ({
                 </Tooltip>
                 <Menu
                         anchorEl={optionsAnchor}
-                        id="checklist-options-menu"
+                        id="page-options-menu"
                         open={openOptions}
                         onClose={handleCloseOptions}
                         onClick={handleCloseOptions}
@@ -192,9 +200,7 @@ const CourseTitle = ({
                         }}
                     >
                         <RightWidget
-                            schedules={schedules}
-                            changeSchedules={changeSchedules}
-                            handleOpenAlert={handleOpenAlert}
+                            courseSchedules={schedules}
                         />
                     </Box>
                 </Drawer>

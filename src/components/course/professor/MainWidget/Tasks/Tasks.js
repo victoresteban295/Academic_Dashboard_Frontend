@@ -1,23 +1,56 @@
+"use client"
 import { Button, Grow, Stack, Typography } from "@mui/material";
 import Past from "./Past";
 import Upcoming from "./Upcoming";
 import { useState } from "react";
+import AlertPopUpMsg from "@/components/AlertPopUpMsg";
+import { getCourse } from "@/lib/data/course/professor";
+import { seperateWeeklyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
+import dayjs from "dayjs";
 
-const Tasks = ({
-    upcoming,
-    past,
-    weeklyTasks,
-    changeWeeklyTasks,
-    handleOpenAlert
-}) => {
+const Tasks = ({ course }) => {
 
+    /* Tasks Tab: Upcoming & Past */
     const [taskTab, setTaskTab] = useState("upcoming");
+
+    /* ********************************* */
+    /* State Value: Error Handling PopUp */
+    /* ********************************* */
+    const [errorMsg, setErrorMsg] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
+
+    /* ******************************** */
+    /* Fetch Dynamic Data: Coure Tasks  */
+    /* ******************************** */
+    const todayDateTime = dayjs();
+    const courseData = getCourse(course, todayDateTime);
+
+    /* Seperate Weekly Tasks into Upcoming & Past */
+    const [weeklyTasks, setWeeklyTask] = useState(courseData.weeklyTasks);
+    const changeWeeklyTasks = (updatedWeeklyTasks) => {
+        setWeeklyTask(updatedWeeklyTasks);
+    }
+    const today = dayjs().format("MM/DD/YY"); //Today's Date
+    const { upcoming, past } = seperateWeeklyTasks(today, weeklyTasks);
 
     return (
         <Grow in={true}>
             <Stack
                 spacing={2}
             >
+                <AlertPopUpMsg
+                    open={openAlert}
+                    handleClose={handleCloseAlert}
+                    errorMsg={errorMsg}
+                />
                 <Stack
                     direction='row'
                     spacing={2}

@@ -2,6 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import TaskBackdrop from "../Backdrop/TaskBackdrop";
+import { useParams, useRouter } from "next/navigation";
 
 const Task = ({ 
     taskId, 
@@ -14,6 +15,9 @@ const Task = ({
     changeWeeklyTasks,
     handleOpenAlert
 }) => {
+    const { username, role, course } = useParams();
+    const router = useRouter();
+
     const month = dayjs(date, "MM/DD/YY").format("MMM");
     const day = dayjs(date, "MM/DD/YY").format("DD");
 
@@ -42,7 +46,9 @@ const Task = ({
                 handleOpenAlert={handleOpenAlert}
             />
             <Stack
-                onClick={handleOpenTask}
+                onClick={() => {
+                    router.push(`/${role}/${username}/course/${course}/tasks/${taskId}`)
+                }}
                 className="task-widget"
                 direction="row"
                 spacing={2}

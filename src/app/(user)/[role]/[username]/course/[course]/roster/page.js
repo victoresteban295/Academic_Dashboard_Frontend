@@ -1,34 +1,19 @@
-"use client"
-import AlertPopUpMsg from "@/components/AlertPopUpMsg";
 import Roster from "@/components/course/professor/MainWidget/Roster/Roster";
-import { useState } from "react";
+import { getLayoutData } from "@/lib/data/course/professor";
 
-const RosterPage = () => {
-
-    /* Error Message Displaying in Alert */
-    const [errorMsg, setErrorMsg] = useState('');
-
-    /* Display Alert Popup Message */
-    const [openAlert, setOpenAlert] = useState(false);
-    const handleOpenAlert = (msg) => {
-        setErrorMsg(msg);
-        setOpenAlert(true);
+export async function generateMetadata({ params }) {
+    const { title } = getLayoutData(params.course);
+    return {
+        title: `Roster - ${title}`,
+        themeColor: '#78a1bb'
     }
-    const handleCloseAlert = () => {
-        setErrorMsg('');
-        setOpenAlert(false);
-    }
+}
 
+const RosterPage = ({ params }) => {
     return (
-        <>
-            <AlertPopUpMsg
-                open={openAlert}
-                handleClose={handleCloseAlert}
-                errorMsg={errorMsg}
-            />
-            <Roster
-            /> 
-        </>
+        <Roster
+            course={params.course}
+        /> 
     )
 }
 

@@ -5,11 +5,29 @@ import { Add } from "@mui/icons-material";
 import EditScheduleBackdrop from "./Backdrop/EditScheduleBackdrop";
 import { useState } from "react";
 import OfficeHrs from "./RightWidget/OfficeHrs";
+import AlertPopUpMsg from "@/components/AlertPopUpMsg";
 
-const RightWidget = ({ 
-    schedules,
-    changeSchedules,
-    handleOpenAlert }) => {
+const RightWidget = ({ courseSchedules }) => {
+
+    /* State Value: Schedule */
+    const [schedules, setSchedules] = useState(courseSchedules);
+    const changeSchedules = (updatedSchedules) => {
+        setSchedules(updatedSchedules);
+    }
+
+    /* ********************************* */
+    /* State Value: Error Handling PopUp */
+    /* ********************************* */
+    const [errorMsg, setErrorMsg] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const handleOpenAlert = (msg) => {
+        setErrorMsg(msg);
+        setOpenAlert(true);
+    }
+    const handleCloseAlert = () => {
+        setErrorMsg('');
+        setOpenAlert(false);
+    }
 
     const officeHrs = [
         {
@@ -56,6 +74,11 @@ const RightWidget = ({
                 schedules={schedules}
                 changeSchedules={changeSchedules}
                 handleOpenAlert={handleOpenAlert}
+            />
+            <AlertPopUpMsg
+                open={openAlert}
+                handleClose={handleCloseAlert}
+                errorMsg={errorMsg}
             />
             <Box
                 sx={{

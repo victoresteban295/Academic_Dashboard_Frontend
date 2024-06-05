@@ -5,8 +5,7 @@ const DeleteCourseBackdrop = ({
     open, 
     handleClose, 
     title,
-    handleOpenFinalDelete,
-    handleOpenAlert 
+    handleOpenFinalDelete
 }) => {
 
     /* Close Backdrop */
