@@ -11,8 +11,7 @@ const WeeklySchedule = ({
 }) => {
 
     return (
-        <Stack
-        >
+        <Stack>
             <Stack
                 alignItems={{
                     fold: "center",

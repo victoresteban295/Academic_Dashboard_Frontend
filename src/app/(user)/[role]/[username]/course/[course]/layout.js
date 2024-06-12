@@ -42,7 +42,8 @@ const CourseLayout = async ({ children, params }) => {
                         }}
                     >
                         <CourseTitle
-                            courseTitle={crsData.title}
+                            title={crsData.title}
+                            description={crsData.description}
                             schedules={crsData.schedules}
                         />
                         <CourseTabSelection />

@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import UnavailableBackdrop from "./UnavailableBackdrop";
+import { useState } from "react";
 
 const EditInfoSectionBackdrop = ({ 
     open, 
@@ -15,6 +17,19 @@ const EditInfoSectionBackdrop = ({
     changeInfoSections,
     handleOpenAlert 
 }) => {
+
+    /* Feature Not Available Warning */
+    const [openWarnDemo, setOpenWarnDemo] = useState(false);
+    const handleOpenWarnDemo = () => {
+        setOpenWarnDemo(true);
+        setTimeout(() => {
+            handleCloseWarnDemo();
+            handleCloseBackdrop();
+        }, "5000");
+    }
+    const handleCloseWarnDemo = () => {
+        setOpenWarnDemo(false);
+    }
 
     /* React Hook Form */
     const { formState, control, handleSubmit, reset } = useForm({
@@ -36,19 +51,25 @@ const EditInfoSectionBackdrop = ({
 
     /* Edit Syllabus Section */
     const submitSyllabusSection = (data) => {
-        try {
-            //Frontend: Edit Syllabus Section
-            const { updatedInfoSections } = editSection(index, data.title, data.info, infos);
+        //New Syllabus Section Created
+        if(index === "") {
+            handleOpenWarnDemo();
+        //Editing an Existing Syllabus Section
+        } else {
+            try {
+                //Frontend: Edit Syllabus Section
+                const { updatedInfoSections } = editSection(index, data.title, data.info, infos);
 
-            //Update State Value
-            changeInfoSections(updatedInfoSections);
+                //Update State Value
+                changeInfoSections(updatedInfoSections);
 
-            //Backend API: Update Database
+                //Backend API: Update Database
 
-        } catch(error) {
-            handleOpenAlert(error.message);
+            } catch(error) {
+                handleOpenAlert(error.message);
+            }
+            handleCloseBackdrop();
         }
-        handleCloseBackdrop();
     }
 
     /* Delete Syllabus Section */
@@ -75,6 +96,10 @@ const EditInfoSectionBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
+            <UnavailableBackdrop
+                open={openWarnDemo}
+                message="Adding a New Syllabus Section Feature is not available for Demo"
+            />
             <form
                 onSubmit={handleSubmit(submitSyllabusSection)}
             >

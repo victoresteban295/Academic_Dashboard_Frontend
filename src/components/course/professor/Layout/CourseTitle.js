@@ -1,24 +1,25 @@
 "use client"
-import { Box, Divider, Drawer, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Box, Drawer, IconButton, Menu, Tooltip, Typography } from "@mui/material";
 import { MenuOpen, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import EditTitleBackdrop from "../Backdrop/EditTitleBackdrop";
 import DeleteCourseBackdrop from "../Backdrop/DeleteCourseBackdrop";
 import FinalDeleteCourseBackdrop from "../Backdrop/FinalDeleteCourseBackdrop";
 import RightWidget from "../RightWidget";
+import SyllabusOptions from "./Options/SyllabusOptions";
+import EditCourseDesBackdrop from "../Backdrop/EditCourseDesBackdrop";
+import EditInfoSectionBackdrop from "../Backdrop/EditInfoSectionBackdrop";
+import TasksOptions from "./Options/TasksOptions";
+import TaskBackdrop from "../Backdrop/TaskBackdrop";
+import { usePathname } from "next/navigation";
+import RosterOptions from "./Options/RosterOptions";
 
 const CourseTitle = ({ 
-    courseTitle,
+    title,
+    description,
     schedules
 }) => {
-
-    /* *************************** */
-    /* State Value: Course's Title */
-    /* *************************** */
-    const [title, setTitle] = useState(courseTitle);
-    const changeTitle = (updatedTitle) => {
-        setTitle(updatedTitle);
-    }
+    const pathname = usePathname();
 
     /* *************************************** */
     /* Options Menu - State Values & Functions */
@@ -65,6 +66,22 @@ const CourseTitle = ({
     const handleCloseEditTitle = () => {
         setOpenEditTitle(false);
     }
+    /* Edit Info Section */
+    const [openEditSection, setOpenEditSection] = useState(false);
+    const handleOpenEditSection = () => {
+        setOpenEditSection(true);
+    }
+    /* Edit Course Description */
+    const [openEditDescr, setOpenEditDescr] = useState(false);
+    const handleOpenEditDescr = () => {
+        setOpenEditDescr(true);
+    }
+    const handleCloseEditDescr = () => {
+        setOpenEditDescr(false);
+    }
+    const handleCloseEditSection = () => {
+        setOpenEditSection(false);
+    }
     /* Delete Course Backdrop */
     const [openDeleteCourse, setOpenDeleteCourse] = useState(false);
     const handleOpenDeleteCourse = () => {
@@ -81,6 +98,14 @@ const CourseTitle = ({
     }
     const handleCloseFinalDelete = () => {
         setOpenFinalDelete(false);
+    } 
+    /* Modify Task Backdrop */
+    const [openTask, setOpenTask] = useState(false);
+    const handleOpenTask = () => {
+        setOpenTask(true);
+    }
+    const handleCloseTask = () => {
+        setOpenTask(false);
     }
 
     return (
@@ -99,7 +124,18 @@ const CourseTitle = ({
                 open={openEditTitle}
                 handleClose={handleCloseEditTitle}
                 title={title}
-                changeTitle={changeTitle}
+            />
+            <EditCourseDesBackdrop
+                open={openEditDescr}
+                handleClose={handleCloseEditDescr}
+                description={description}
+            />
+            <EditInfoSectionBackdrop
+                open={openEditSection}
+                handleClose={handleCloseEditSection}
+                index={""}
+                title={""}
+                info={""}
             />
             <DeleteCourseBackdrop 
                 open={openDeleteCourse}
@@ -111,6 +147,17 @@ const CourseTitle = ({
                 open={openFinalDelete}
                 handleClose={handleCloseFinalDelete}
                 title={title}
+            />
+            <TaskBackdrop
+                open={openTask}
+                handleClose={handleCloseTask}
+                taskId=""
+                title=""
+                task=""
+                due=""
+                date=""
+                note=""
+                weeklyTasks={[]}
             />
 
             <Typography
@@ -153,20 +200,23 @@ const CourseTitle = ({
                             horizontal: 'right',
                         }}
                     >
-                        <MenuItem  
-                            onClick={handleOpenEditTitle}
-                        >
-                            Edit Course Title
-                        </MenuItem>
-                        <Divider />
-                        <MenuItem
-                            onClick={handleOpenDeleteCourse}
-                            sx={{
-                                color: '#ef476f',
-                            }}
-                        >
-                            Delete Course
-                        </MenuItem>
+                        {pathname.includes("syllabus") && (
+                            <SyllabusOptions 
+                                handleOpenEditTitle={handleOpenEditTitle}
+                                handleOpenEditDescr={handleOpenEditDescr}
+                                handleOpenEditSection={handleOpenEditSection}
+                                handleOpenDeleteCourse={handleOpenDeleteCourse}
+                            />
+                        )}
+                        {pathname.includes("tasks") && (
+                            <TasksOptions 
+                                handleOpenTask={handleOpenTask}
+                            />
+                        )}
+                        {pathname.includes("roster") && (
+                            <RosterOptions
+                            />
+                        )}
                     </Menu>
 
                 {/* Course Schedule Menu Icon */}

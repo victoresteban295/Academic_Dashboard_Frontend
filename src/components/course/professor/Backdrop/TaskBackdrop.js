@@ -7,6 +7,7 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import UnavailableBackdrop from "./UnavailableBackdrop";
 
 const TaskBackdrop = ({ 
     open, 
@@ -21,6 +22,19 @@ const TaskBackdrop = ({
     changeWeeklyTasks,
     handleOpenAlert 
 }) => {
+
+    /* Feature Not Available Warning */
+    const [openWarnDemo, setOpenWarnDemo] = useState(false);
+    const handleOpenWarnDemo = () => {
+        setOpenWarnDemo(true);
+        setTimeout(() => {
+            handleCloseWarnDemo();
+            handleCloseBackdrop();
+        }, "5000");
+    }
+    const handleCloseWarnDemo = () => {
+        setOpenWarnDemo(false);
+    }
 
     /* Clone Each WeeklyTasks Object */
     const prevWeeklyTasks = [];
@@ -81,36 +95,42 @@ const TaskBackdrop = ({
 
     /* Create/Edit Task */
     const handleModifyTask = (data) => {
-        try {
-            //Did User Select a Specific Time
-            let due;
-            if(data.due === 'Select Time') {
-                due = data.time.format("h:mm A");
-            } else {
-                due = data.due;
+        //New Task is Getting Created
+        if(taskId === "") {
+            handleOpenWarnDemo();
+        //Existing Task is Getting Modified
+        } else {
+            try {
+                //Did User Select a Specific Time
+                let due;
+                if(data.due === 'Select Time') {
+                    due = data.time.format("h:mm A");
+                } else {
+                    due = data.due;
+                }
+
+                //Frontend: Modify Task 
+                const { updatedWeeklyTasks } = modifyTasks(
+                    taskId, 
+                    data.title, 
+                    data.task,
+                    data.date.format("MM/DD/YY"),
+                    due,
+                    data.note,
+                    weeklyTasks
+                );
+
+                //Update State Value
+                changeWeeklyTasks(updatedWeeklyTasks);
+
+                //Backend API: Update Database
+
+            } catch(error) {
+                handleOpenAlert(error.message);
+                changeWeeklyTasks(prevWeeklyTasks);
             }
-
-            //Frontend: Modify Task 
-            const { updatedWeeklyTasks } = modifyTasks(
-                taskId, 
-                data.title, 
-                data.task,
-                data.date.format("MM/DD/YY"),
-                due,
-                data.note,
-                weeklyTasks
-            );
-
-            //Update State Value
-            changeWeeklyTasks(updatedWeeklyTasks);
-
-            //Backend API: Update Database
-
-        } catch(error) {
-            handleOpenAlert(error.message);
-            changeWeeklyTasks(prevWeeklyTasks);
+            handleCloseBackdrop();
         }
-        handleCloseBackdrop();
     }
 
     /* Delete Task */
@@ -137,6 +157,10 @@ const TaskBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
+            <UnavailableBackdrop
+                open={openWarnDemo}
+                message="Creating a New Task Feature is not available for Demo"
+            />
             <form
                 onSubmit={handleSubmit(handleModifyTask)}
             >

@@ -1,26 +1,34 @@
 import { Box, Button, Dialog, FilledInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import UnavailableBackdrop from "./UnavailableBackdrop";
 
 const EditTitleBackdrop = ({
     open,
     handleClose,
     title,
-    changeTitle
 }) => {
+
+    /* Feature Not Available Warning */
+    const [openWarnDemo, setOpenWarnDemo] = useState(false);
+    const handleOpenWarnDemo = () => {
+        setOpenWarnDemo(true);
+        setTimeout(() => {
+            handleCloseWarnDemo();
+            handleCloseBackdrop();
+        }, "5000");
+    }
+    const handleCloseWarnDemo = () => {
+        setOpenWarnDemo(false);
+    }
 
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
+        setRename(title);
         handleClose();
     }
 
     /* New Title of Course */
     const [rename, setRename] = useState(title);
-
-    /* Rename Course */
-    const handleRenameCourse = () => {
-        changeTitle(rename);
-        handleCloseBackdrop();
-    }
 
     return (
         <Dialog
@@ -29,6 +37,10 @@ const EditTitleBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
+            <UnavailableBackdrop 
+                open={openWarnDemo}
+                message="Editing Course's Title Feature is not available for Demo"
+            />
             <Stack
                 spacing={1}
                 sx={{
@@ -74,7 +86,7 @@ const EditTitleBackdrop = ({
                     <Button
                         variant="text"
                         disabled={rename.trim() === ''}
-                        onClick={handleRenameCourse}
+                        onClick={handleOpenWarnDemo}
                         sx={{
                             fontWeight: '700',
                             bgcolor: 'primary.light',

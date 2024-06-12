@@ -3,17 +3,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, Stack, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import UnavailableBackdrop from "./UnavailableBackdrop";
+import { useState } from "react";
 
 const EditCourseDesBackdrop = ({ 
     open, 
     handleClose, 
-    description,
-    changeDescription,
-    handleOpenAlert 
+    description
 }) => {
 
     /* React Hook Form */
-    const { formState, control, handleSubmit } = useForm({
+    const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
         defaultValues: {
             description: description,
@@ -25,23 +25,25 @@ const EditCourseDesBackdrop = ({
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
+        reset();
+    }
+
+    /* Feature Not Available Warning */
+    const [openWarnDemo, setOpenWarnDemo] = useState(false);
+    const handleOpenWarnDemo = () => {
+        setOpenWarnDemo(true);
+        setTimeout(() => {
+            handleCloseWarnDemo();
+            handleCloseBackdrop();
+        }, "5000");
+    }
+    const handleCloseWarnDemo = () => {
+        setOpenWarnDemo(false);
     }
 
     /* Edit Course Description */
-    const editDescription = (data) => {
-        try {
-            //Frontend: Edit Course Description
-            const updatedDescription = data.description;
-
-            //Update State Value
-            changeDescription(updatedDescription);
-
-            //Backend API: Update Database
-
-        } catch(error) {
-            handleOpenAlert(error);
-        }
-        handleCloseBackdrop();
+    const editDescription = () => {
+        handleOpenWarnDemo();
     }
 
     return (
@@ -51,6 +53,10 @@ const EditCourseDesBackdrop = ({
             open={open}
             onClose={handleCloseBackdrop}
         >
+            <UnavailableBackdrop
+                open={openWarnDemo}
+                message="Editing Course's Description Feature is not available for Demo"
+            />
             <form
                 onSubmit={handleSubmit(editDescription)}
             >
