@@ -13,6 +13,7 @@ const Student = ({ name, gradeLvl, attendance, grade }) => {
                 px: 1,
                 py: 1,
             }}
+            spacing={1}
         >
             <Stack
                 className="student-name"
@@ -35,9 +36,50 @@ const Student = ({ name, gradeLvl, attendance, grade }) => {
                     {gradeLvl}
                 </Typography>
                 <Stack
+                    className="mobile-student-options"
+                    direction="row"
+                    spacing={1}
+                    sx={{
+                        display: {
+                            fold: 'flex',
+                            mobile: 'flex',
+                            tablet: 'flex',
+                            desktop: 'none',
+                        }
+                    }}
+                >
+                    <IconButton 
+                        size="small" 
+                        sx={{
+                            color: 'primary.main',
+                            bgcolor: 'primary.light',
+                        }}
+                    >
+                        <ChatBubbleOutline fontSize="inherit" />
+                    </IconButton>     
+                    <IconButton 
+                        size="small" 
+                        sx={{
+                            color: 'primary.main',
+                            bgcolor: 'primary.light',
+                        }}
+                    >
+                        <QueryStats fontSize="inherit" />
+                    </IconButton>     
+
+                </Stack>
+                <Stack
                     className="student-roster-options"
                     direction="row"
                     spacing={1}
+                    sx={{
+                        display: {
+                            fold: 'none',
+                            mobile: 'none',
+                            tablet: 'none',
+                            desktop: 'flex',
+                        }
+                    }}
                 >
                     <Button
                         variant="text"

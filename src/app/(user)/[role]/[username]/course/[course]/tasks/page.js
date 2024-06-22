@@ -9,12 +9,7 @@ export async function generateMetadata({ params }) {
     }
 }
 
-export async function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const TasksPage = async ({ params }) => {
-    await wait(5000);
+const TasksPage = ({ params }) => {
     return (
         <Tasks
             course={params.course}

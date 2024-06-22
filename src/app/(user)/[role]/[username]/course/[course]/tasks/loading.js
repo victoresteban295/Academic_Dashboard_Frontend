@@ -3,7 +3,6 @@ import { Box, Button, Divider, Skeleton, Stack, Typography } from "@mui/material
 const TasksLoading = () => {
 
     const lgth2 = [1,2];
-    const lgth3 = [1,2, 3];
     const lgth6 = [1,2,3,4,5,6];
 
     return (
@@ -127,91 +126,81 @@ const TasksLoading = () => {
                                 >
                                     {lgth2.map((key) => {
                                         return (
-                                            <Box
+                                            <Stack
                                                 key={key}
+                                                className="task-widget"
+                                                direction="row"
+                                                spacing={2}
+                                                sx={{
+                                                    boxShadow: '1px 1px 4px 2px #cecece',
+                                                    borderRadius: '5px',
+                                                    p: 1,
+                                                }}
                                             >
-                                                <Stack
-                                                    className="task-widget"
-                                                    direction="row"
-                                                    spacing={2}
+                                                <Skeleton 
+                                                    className="due-date-skeleton"
+                                                    variant="rounded"
+                                                    width={70}
+                                                    height={112}
                                                     sx={{
-                                                        cursor: 'pointer',
-                                                        boxShadow: '1px 1px 4px 2px #cecece',
-                                                        borderRadius: '5px',
-                                                        p: 1,
+                                                        bgcolor: 'primary.light',
+                                                    }}
+                                                />
+                                                <Stack
+                                                    className="task-details"
+                                                    spacing={0.5}
+                                                    sx={{
+                                                        width: '100%',
+                                                        p: 0,
+                                                        m: 0,
                                                     }}
                                                 >
-                                                    <Box
+                                                    <Skeleton 
+                                                        className="title-skeleton"
                                                         sx={{
-                                                            display: 'flex',
-                                                            bgcolor: 'tan',
-                                                            height: '100%',
+                                                            flexGrow: 1,
+                                                            maxWidth: '250px',
+                                                        }}
+                                                    />
+                                                    <Stack
+                                                        className="type-and-due-date"
+                                                        direction={{
+                                                            fold: 'column',
+                                                            mobile: 'row',
+                                                            tablet: 'row',
+                                                            desktop: 'row',
+                                                        }}
+                                                        spacing={1}
+                                                        sx={{
+                                                            p: 0,
+                                                            m: 0,
                                                         }}
                                                     >
                                                         <Skeleton 
-                                                            width={60}
                                                             sx={{
-                                                                height: '100%',
-                                                                bgcolor: 'primary.light',
+                                                                bgcolor: 'grey',
+                                                                flexGrow: 1,
+                                                                width: '100%',
+                                                                maxWidth: '100px',
                                                             }}
                                                         />
-                                                    </Box>
-                                                    <Stack
-                                                        className="task-details"
-                                                        spacing={0.5}
-                                                    >
-                                                        <Typography
-                                                            variant="body1"
+                                                        <Skeleton 
                                                             sx={{
-                                                                fontWeight: '700',
+                                                                flexGrow: 1,
+                                                                width: '100%',
+                                                                maxWidth: '70px',
                                                             }}
-                                                        >
-                                                            {"Homework #9"} 
-                                                        </Typography>
-                                                        <Stack
-                                                            className="task-due-date"
-                                                            direction={{
-                                                                fold: 'column',
-                                                                mobile: 'row',
-                                                                tablet: 'row',
-                                                                desktop: 'row',
-                                                            }}
-                                                            spacing={1}
-                                                        >
-                                                            <Box
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                }}
-                                                            >
-                                                                <Typography
-                                                                    className="task"
-                                                                    variant="body2"
-                                                                    sx={{
-                                                                        borderRadius: '5px',
-                                                                        px: 0.5,
-                                                                        fontWeight: '700',
-                                                                        bgcolor: '#c1c1c1',
-                                                                    }}
-                                                                >
-                                                                    {"Assignment"}
-                                                                </Typography>
-                                                            </Box>
-                                                            <Typography
-                                                                className="due"
-                                                                variant="body2"
-                                                            >
-                                                                {`Due: During Class`}
-                                                            </Typography>
-                                                        </Stack>
-                                                        <Typography
-                                                            className="note"
-                                                            variant="body2"
-                                                        >
-                                                            {"Chapter 13: P.18, 19, and 22"}
-                                                        </Typography>
+                                                        />
                                                     </Stack>
+                                                    <Skeleton 
+                                                        variant='rounded'
+                                                        height={40}
+                                                        sx={{
+                                                            width: '100%',
+                                                        }}
+                                                    />
                                                 </Stack>
-                                            </Box>
+                                            </Stack>
                                         )
                                     })}
                                 </Stack>

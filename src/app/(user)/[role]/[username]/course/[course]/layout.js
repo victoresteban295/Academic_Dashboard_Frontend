@@ -2,18 +2,26 @@
 import { Box, Stack } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import AlertPopUpMsg from "@/components/AlertPopUpMsg";
 import CourseTitle from "@/components/course/professor/Layout/CourseTitle";
 import CourseTabSelection from "@/components/course/professor/Layout/CourseTabSelection";
 import { getLayoutData } from "@/lib/data/course/professor";
 import RightWidget from "@/components/course/professor/RightWidget";
-import { useState } from "react";
+import { notFound } from "next/navigation";
 
-const CourseLayout = async ({ children, params }) => {
+const getData = (course) => {
+    const data = getLayoutData(course);
+    if(data.userFound) {
+        return data;
+    } else {
+        notFound();
+    }
+}
+
+const CourseLayout = ({ children, params }) => {
 
     /* Get Course Data */
     const { course } = params; 
-    const crsData = getLayoutData(course);
+    let crsData = getData(course);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
