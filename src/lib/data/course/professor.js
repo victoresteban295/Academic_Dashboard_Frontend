@@ -146,7 +146,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(8, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "hby45392-9",
+                        taskId: "taskIdA1",
                         task: "Assignment",
                         title: "Homework #1",
                         date: dayjs(`${todayStrWeek.subtract(8, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(3, 'day').format("MM/DD/YY"),
@@ -162,7 +162,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(7, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "nu734392-9",
+                        taskId: "taskIdA2",
                         task: "Assignment",
                         title: "Homework #2",
                         date: dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -171,7 +171,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "0leqvse4-9",
+                        taskId: "taskIdA3",
                         task: "Assignment",
                         title: "Homework #3",
                         date: dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -180,7 +180,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "aleqvse4-8",
+                        taskId: "taskIdA4",
                         task: "Quiz",
                         title: "Quiz #1",
                         date: dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(5, 'day').format("MM/DD/YY"),
@@ -196,7 +196,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(6, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "1234vse4-8",
+                        taskId: "taskIdA5",
                         task: "Assignment",
                         title: "Homework #4",
                         date: dayjs(`${todayStrWeek.subtract(6, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(3, 'day').format("MM/DD/YY"),
@@ -212,7 +212,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(5, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "-9342jihus",
+                        taskId: "taskIdA6",
                         task: "Assignment",
                         title: "Homework #5",
                         date: dayjs(`${todayStrWeek.subtract(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -221,7 +221,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "g93g2jihug",
+                        taskId: "taskIdA7",
                         task: "Assignment",
                         title: "Homework #6",
                         date: dayjs(`${todayStrWeek.subtract(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -237,7 +237,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(4, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "youmojihug",
+                        taskId: "taskIdA8",
                         task: "Assignment",
                         title: "Homework #7",
                         date: dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -246,7 +246,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "youbigihee",
+                        taskId: "taskIdA9",
                         task: "Quiz",
                         title: "Quiz #2",
                         date: dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(5, 'day').format("MM/DD/YY"),
@@ -262,7 +262,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(3, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "prezbigive",
+                        taskId: "taskIdA10",
                         task: "Assignment",
                         title: "Homework #8",
                         date: dayjs(`${todayStrWeek.subtract(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -271,7 +271,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "obaima723b",
+                        taskId: "taskIdA11",
                         task: "Assignment",
                         title: "Homework #9",
                         date: dayjs(`${todayStrWeek.subtract(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -287,7 +287,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(2, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "biden723bq",
+                        taskId: "taskIdA12",
                         task: "Assignment",
                         title: "Homework #10",
                         date: dayjs(`${todayStrWeek.subtract(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -296,7 +296,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "bprofrt34s",
+                        taskId: "taskIdA13",
                         task: "Assignment",
                         title: "Homework #11",
                         date: dayjs(`${todayStrWeek.subtract(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -312,7 +312,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(1, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "tks12serw3",
+                        taskId: "taskIdA14",
                         task: "Assignment",
                         title: "Homework #12",
                         date: dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -321,7 +321,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "tskrw30982",
+                        taskId: "taskIdA15",
                         task: "Assignment",
                         title: "Homework #13",
                         date: dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -330,7 +330,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0000",
+                        taskId: "taskIdA16",
                         task: "Exam",
                         title: "Midterm Exam",
                         date: dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(5, 'day').format("MM/DD/YY"),
@@ -347,7 +347,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0001",
+                        taskId: "taskIdA17",
                         task: "Assignment",
                         title: "Homework #14",
                         date: todayStrWeek.add(3, 'day').format("MM/DD/YY"),
@@ -363,7 +363,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(1, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0002",
+                        taskId: "taskIdA18",
                         task: "Assignment",
                         title: "Homework #15",
                         date: dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -372,7 +372,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0003",
+                        taskId: "taskIdA19",
                         task: "Assignment",
                         title: "Homework #16",
                         date: dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -381,7 +381,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0004",
+                        taskId: "taskIdA20",
                         task: "Quiz",
                         title: "Quiz #3",
                         date: dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(5, 'day').format("MM/DD/YY"),
@@ -397,7 +397,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(2, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0005",
+                        taskId: "taskIdA21",
                         task: "Assignment",
                         title: "Homework #17",
                         date: dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -406,7 +406,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0006",
+                        taskId: "taskIdA22",
                         task: "Assignment",
                         title: "Homework #18",
                         date: dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -422,7 +422,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(3, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0007",
+                        taskId: "taskIdA23",
                         task: "Assignment",
                         title: "Homework #19",
                         date: dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -431,7 +431,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0008",
+                        taskId: "taskIdA24",
                         task: "Assignment",
                         title: "Homework #20",
                         date: dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -440,7 +440,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0009",
+                        taskId: "taskIdA25",
                         task: "Quiz",
                         title: "Quiz #4",
                         date: dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(5, 'day').format("MM/DD/YY"),
@@ -456,7 +456,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(4, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0010",
+                        taskId: "taskIdA26",
                         task: "Assignment",
                         title: "Homework #21",
                         date: dayjs(`${todayStrWeek.add(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(3, 'day').format("MM/DD/YY"),
@@ -472,7 +472,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(5, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0011",
+                        taskId: "taskIdA27",
                         task: "Assignment",
                         title: "Homework #22",
                         date: dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY"),
@@ -481,7 +481,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0012",
+                        taskId: "taskIdA28",
                         task: "Assignment",
                         title: "Homework #23",
                         date: dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -497,7 +497,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(6, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0013",
+                        taskId: "taskIdA29",
                         task: "Assignment",
                         title: "Homework #24",
                         date: "04/23/24",
@@ -507,7 +507,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(6, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(2, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskid0014",
+                        taskId: "taskIdA30",
                         task: "Assignment",
                         title: "Homework #25",
                         date: dayjs(`${todayStrWeek.add(6, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -523,7 +523,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(7, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskid0015",
+                        taskId: "taskIdA31",
                         task: "Exam",
                         title: "Final Exam",
                         date: dayjs(`${todayStrWeek.add(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(3, 'day').format("MM/DD/YY"),
@@ -612,7 +612,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(8, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId001B",
+                        taskId: "taskIdB1",
                         task: "Assignment",
                         title: "Assignment #1",
                         date: dayjs(`${todayStrWeek.subtract(8, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -628,7 +628,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(7, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId002B",
+                        taskId: "taskIdB2",
                         task: "Assignment",
                         title: "Assignment #2",
                         date: dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -637,7 +637,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId003B",
+                        taskId: "taskIdB3",
                         task: "Quiz",
                         title: "Quiz #1",
                         date: dayjs(`${todayStrWeek.subtract(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -653,7 +653,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(6, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId004B",
+                        taskId: "taskIdB4",
                         task: "Assignment",
                         title: "Assignment #3",
                         date: dayjs(`${todayStrWeek.subtract(6, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -669,7 +669,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(5, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId005B",
+                        taskId: "taskIdB5",
                         task: "Assignment",
                         title: "Assignment #4",
                         date: dayjs(`${todayStrWeek.subtract(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -685,7 +685,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(4, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId006B",
+                        taskId: "taskIdB6",
                         task: "Assignment",
                         title: "Assignment #5",
                         date: dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -694,7 +694,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId007B",
+                        taskId: "taskIdB7",
                         task: "Quiz",
                         title: "Quiz #2",
                         date: dayjs(`${todayStrWeek.subtract(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -710,7 +710,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(3, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId008B",
+                        taskId: "taskIdB8",
                         task: "Assignment",
                         title: "Assignment #6",
                         date: dayjs(`${todayStrWeek.subtract(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -726,7 +726,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(2, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId009B",
+                        taskId: "taskIdB9",
                         task: "Assignment",
                         title: "Assignment #7",
                         date: dayjs(`${todayStrWeek.subtract(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -742,7 +742,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.subtract(1, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId010B",
+                        taskId: "taskIdB10",
                         task: "Assignment",
                         title: "Assignment #8",
                         date: dayjs(`${todayStrWeek.subtract(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -759,7 +759,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId011B",
+                        taskId: "taskIdB11",
                         task: "Assignment",
                         title: "Assignment #9",
                         date: todayStrWeek.add(1, 'day').format("MM/DD/YY"),
@@ -768,7 +768,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${todayStrWeek.add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId012B",
+                        taskId: "taskIdB12",
                         task: "Exam",
                         title: "Midterm Exam",
                         date: todayStrWeek.add(4, 'day').format("MM/DD/YY"),
@@ -784,7 +784,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(1, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId013B",
+                        taskId: "taskIdB13",
                         task: "Assignment",
                         title: "Assignment #10",
                         date: dayjs(`${todayStrWeek.add(1, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -800,7 +800,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(2, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId014B",
+                        taskId: "taskIdB14",
                         task: "Assignment",
                         title: "Assignment #11",
                         date: dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -809,7 +809,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId015B",
+                        taskId: "taskIdB15",
                         task: "Quiz",
                         title: "Quiz #3",
                         date: dayjs(`${todayStrWeek.add(2, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -825,7 +825,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(3, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId016B",
+                        taskId: "taskIdB16",
                         task: "Assignment",
                         title: "Assignment #12",
                         date: dayjs(`${todayStrWeek.add(3, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -841,7 +841,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(4, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId017B",
+                        taskId: "taskIdB17",
                         task: "Assignment",
                         title: "Assignment #13",
                         date: dayjs(`${todayStrWeek.add(4, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -857,7 +857,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(5, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId018B",
+                        taskId: "taskIdB18",
                         task: "Assignment",
                         title: "Assignment #14",
                         date: dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -866,7 +866,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId019B",
+                        taskId: "taskIdB19",
                         task: "Quiz",
                         title: "Quiz #4",
                         date: dayjs(`${todayStrWeek.add(5, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -882,7 +882,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(6, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId020B",
+                        taskId: "taskIdB20",
                         task: "Assignment",
                         title: "Assignment #15",
                         date: dayjs(`${todayStrWeek.add(6, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -898,7 +898,7 @@ export const getCourse = (course, today) => {
                 iso8601: dayjs(`${todayEndWeek.add(7, 'week').format("MM/DD/YY")}-11:59 PM`,"MM/DD/YY-h:mm A").toISOString(),
                 tasks: [
                     {
-                        taskId: "taskId021B",
+                        taskId: "taskIdB21",
                         task: "Assignment",
                         title: "Assignment #16",
                         date: dayjs(`${todayStrWeek.add(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY"),
@@ -907,7 +907,7 @@ export const getCourse = (course, today) => {
                         iso8601: dayjs(`${dayjs(`${todayStrWeek.add(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(1, 'day').format("MM/DD/YY")}-12:00 AM`,"MM/DD/YY-h:mm A").toISOString()
                     },
                     {
-                        taskId: "taskId022B",
+                        taskId: "taskIdB22",
                         task: "Exam",
                         title: "Final Exam",
                         date: dayjs(`${todayStrWeek.add(7, 'week').format("MM/DD/YY")}`, "MM/DD/YY").add(4, 'day').format("MM/DD/YY"),
@@ -931,234 +931,274 @@ export const getCourse = (course, today) => {
 
 export const math230Roster = [
     {
+        studId: "studIdA1",
         name: "Abel Hank",
         gradeLvl: "Freshman",
         attendance: 92,
         grade: 73,
     },
     {
+        studId: "studIdA2",
         name: "Abigail Baker",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA3",
         name: "Adams Hills",
         gradeLvl: "Freshman",
         attendance: 89,
         grade: 73,
     },
     {
+        studId: "studIdA4",
         name: "Adams Henry",
         gradeLvl: "Sophomore",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA5",
         name: "Andrea Sam",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA6",
         name: "Benjamin Alvarez",
         gradeLvl: "Sophomore",
         attendance: 100,
         grade: 95,
     },
     {
+        studId: "studIdA7",
         name: "Brian Clinton",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 95,
     },
     {
+        studId: "studIdA8",
         name: "Charlotte Nguyen",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 98,
     },
     {
+        studId: "studIdA9",
         name: "Chloe Zackery",
         gradeLvl: "Freshman",
         attendance: 97,
         grade: 73,
     },
     {
+        studId: "studIdA10",
         name: "Daniel Brown",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 95,
     },
     {
+        studId: "studIdA11",
         name: "Elliot Jim",
         gradeLvl: "Senior",
         attendance: 93,
         grade: 73,
     },
     {
+        studId: "studIdA12",
         name: "Emily Gonzalez",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA13",
         name: "Fiona Smith",
         gradeLvl: "Freshman",
         attendance: 98,
         grade: 73,
     },
     {
+        studId: "studIdA14",
         name: "Frank Zack",
         gradeLvl: "Sophomore",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA15",
         name: "Gabriel Till",
         gradeLvl: "Sophomore",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA16",
         name: "Gaby Rivera",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA17",
         name: "Gary Winston",
         gradeLvl: "Freshman",
         attendance: 95,
         grade: 73,
     },
     {
+        studId: "studIdA18",
         name: "Hannah Wells",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA19",
         name: "Irene Zapada",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA20",
         name: "Isaac Thomas",
         gradeLvl: "Freshman",
         attendance: 95,
         grade: 73,
     },
     {
+        studId: "studIdA21",
         name: "Jacob Torres",
         gradeLvl: "Sophomore",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA22",
         name: "Jasmine Yang",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA23",
         name: "Jay Sun",
         gradeLvl: "Freshman",
         attendance: 98,
         grade: 73,
     },
     {
+        studId: "studIdA24",
         name: "Johnson White",
         gradeLvl: "Freshman",
         attendance: 70,
         grade: 73,
     },
     {
+        studId: "studIdA25",
         name: "Maria Flores",
         gradeLvl: "Junior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA26",
         name: "Martina Lopez",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA27",
         name: "Maya Jones",
         gradeLvl: "Senior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA28",
         name: "Michael Smith",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA29",
         name: "Natalie Scott",
         gradeLvl: "Freshman",
         attendance: 98,
         grade: 73,
     },
     {
+        studId: "studIdA30",
+        name: "Natalie Scott",
         name: "Nate Hills",
         gradeLvl: "Freshman",
         attendance: 98,
         grade: 73,
     },
     {
+        studId: "studIdA31",
         name: "Noah Parker",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA32",
         name: "Olivia Sky",
         gradeLvl: "Sophomore",
         attendance: 92,
         grade: 73,
     },
     {
+        studId: "studIdA33",
         name: "Olin Mike",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA34",
         name: "Pam Harrison",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA35",
         name: "Paul Carter",
         gradeLvl: "Senior",
         attendance: 88,
         grade: 73,
     },
     {
+        studId: "studIdA36",
         name: "Peter Davis",
         gradeLvl: "Senior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA37",
         name: "Victor Benitez",
         gradeLvl: "Senior",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA38",
         name: "Victoria Robles",
         gradeLvl: "Freshman",
         attendance: 100,
         grade: 73,
     },
     {
+        studId: "studIdA39",
         name: "Zachary Underwood",
         gradeLvl: "Junior",
         attendance: 92,
