@@ -12,18 +12,20 @@ import UnavailableBackdrop from "./UnavailableBackdrop";
 const TaskBackdrop = ({ 
     open, 
     handleClose, 
+    editTask,
     taskId,
     title,
     task,
     due,
     date,
     note,
-    weeklyTasks,
-    changeWeeklyTasks,
+    /* weeklyTasks, */
+    /* changeWeeklyTasks, */
     handleOpenAlert 
 }) => {
 
     /* Feature Not Available Warning */
+    const [warnMssg, setWarnMssg] = useState("");
     const [openWarnDemo, setOpenWarnDemo] = useState(false);
     const handleOpenWarnDemo = () => {
         setOpenWarnDemo(true);
@@ -34,13 +36,6 @@ const TaskBackdrop = ({
     }
     const handleCloseWarnDemo = () => {
         setOpenWarnDemo(false);
-    }
-
-    /* Clone Each WeeklyTasks Object */
-    const prevWeeklyTasks = [];
-    for(const week of weeklyTasks) {
-        const clone = structuredClone(week);
-        prevWeeklyTasks.push(clone);
     }
 
     /* React Hook Form */
@@ -83,13 +78,16 @@ const TaskBackdrop = ({
     const tasks = ["Assignment", "Quiz", "Exam", "Project", "Paper", "Other"];
     //Due Values
     const dues = ["Before Class", "During Class", "After Class", "Start of Day", "End of Day", "Select Time"];
-    const [selectedTime, setSelectedTime] = useState(defaultDue === "Select Time")
+    const [selectedTime, setSelectedTime] = useState(defaultDue === "Select Time");
 
 
     /* Close Backdrop */
     const handleCloseBackdrop = () => {
         handleClose();
-        setSelectedTime(false);
+        //Reset Only if New Task is Getting Created
+        if(taskId === "") {
+            setSelectedTime(false);
+        }
         reset();
     }
 
@@ -97,6 +95,7 @@ const TaskBackdrop = ({
     const handleModifyTask = (data) => {
         //New Task is Getting Created
         if(taskId === "") {
+            setWarnMssg("Creating a New Task Feature is not available for Demo")
             handleOpenWarnDemo();
         //Existing Task is Getting Modified
         } else {
@@ -109,21 +108,8 @@ const TaskBackdrop = ({
                     due = data.due;
                 }
 
-                //Frontend: Modify Task 
-                const { updatedWeeklyTasks } = modifyTasks(
-                    taskId, 
-                    data.title, 
-                    data.task,
-                    data.date.format("MM/DD/YY"),
-                    due,
-                    data.note,
-                    weeklyTasks
-                );
-
-                //Update State Value
-                changeWeeklyTasks(updatedWeeklyTasks);
-
-                //Backend API: Update Database
+                //Edit Task
+                editTask(data.title, data.task, data.date.format("MM/DD/YY"), data.note, due);
 
             } catch(error) {
                 handleOpenAlert(error.message);
@@ -136,18 +122,12 @@ const TaskBackdrop = ({
     /* Delete Task */
     const handleDeleteTask = () => {
         try {
-            //Frontend: Delete Task 
-            const { updatedWeeklyTasks } = deleteTask(taskId, date, weeklyTasks);
-
-            //Update State Value
-            changeWeeklyTasks(updatedWeeklyTasks);
-
-            //Backend API: Update Database
+            setWarnMssg("Deleting a Task Feature is not available for Demo")
+            handleOpenWarnDemo();
 
         } catch(error) {
             handleOpenAlert(error);
         }
-        handleCloseBackdrop();
     }
 
     return (
@@ -159,7 +139,7 @@ const TaskBackdrop = ({
         >
             <UnavailableBackdrop
                 open={openWarnDemo}
-                message="Creating a New Task Feature is not available for Demo"
+                message={warnMssg}
             />
             <form
                 onSubmit={handleSubmit(handleModifyTask)}

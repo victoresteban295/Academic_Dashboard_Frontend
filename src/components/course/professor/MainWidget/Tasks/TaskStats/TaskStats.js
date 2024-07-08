@@ -5,6 +5,9 @@ import { Box, Button, Grow, Stack } from "@mui/material";
 import dayjs from "dayjs";
 import { notFound, useRouter } from "next/navigation";
 import TaskDetails from "./TaskDetails";
+import StudentStats from "./StudentStats/StudentStats";
+import CourseStats from "./CourseStats/CourseStats";
+import { useState } from "react";
 
 const fetchTaskStats = (taskId) => {
     const todayDateTime = dayjs();
@@ -21,6 +24,16 @@ const TaskStats = ({ course, taskId }) => {
 
     /* Fetch Task's Information */
     const taskStats = fetchTaskStats(taskId);
+
+    /* State Value: Graded Students & NonGraded Students */
+    const [gradedStudents, setGradedStudents] = useState([...taskStats.gradedStudents]);
+    const handleGradedStudents = (updatedList) => {
+        setGradedStudents([...updatedList]);
+    }
+    const [notGradedStudents, setNotGradedStudents] = useState([...taskStats.notGradedStudents]);
+    const handleNotGradedStudents = (updatedList) => {
+        setNotGradedStudents([...updatedList]);
+    }
 
     return (
         <Grow in={true}>
@@ -51,14 +64,25 @@ const TaskStats = ({ course, taskId }) => {
                         {"Return to Tasks"}
                     </Button>
                 </Box>
-                <TaskDetails 
-                    taskId={taskStats.taskId} 
-                    task={taskStats.task}
-                    title={taskStats.title}
-                    date={taskStats.date}
-                    note={taskStats.note}
-                    due={taskStats.due}
-                />
+                <Stack
+                    className="task-detail-page"
+                    spacing={1}
+                >
+                    <TaskDetails 
+                        taskId={taskStats.taskId} 
+                        task={taskStats.task}
+                        title={taskStats.title}
+                        date={taskStats.date}
+                        note={taskStats.note}
+                        due={taskStats.due}
+                    />
+                    <CourseStats 
+                    />
+                    <StudentStats 
+                        gradedStudents={gradedStudents}
+                        notGradedStudents={notGradedStudents}
+                    /> 
+                </Stack>
             </Stack> 
         </Grow>
     )

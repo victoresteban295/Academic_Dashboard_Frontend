@@ -1135,7 +1135,6 @@ export const math230Roster = [
     },
     {
         studId: "studIdA30",
-        name: "Natalie Scott",
         name: "Nate Hills",
         gradeLvl: "Freshman",
         attendance: 98,

@@ -221,3 +221,36 @@ const sortWeeks = (weeks) => {
 const sortTasks = (tasks) => {
     return tasks.sort((a, b) => new Date(a.iso8601) - new Date(b.iso8601))
 }
+
+export const queryStudents = (searchQuery, gradedStudents, notGradedStudents) => {
+    let resultGraded = [];
+    let resultNotGraded = [];
+
+    if(searchQuery.trim() === "") {
+        return {
+            gradedStudents: [...gradedStudents],
+            notGradedStudents: [...notGradedStudents],
+        }
+    } else {
+
+        for(const student of gradedStudents) {
+            const name = student.name.toLowerCase();
+            if(name.includes(searchQuery.toLowerCase())) {
+                resultGraded.push(student);
+            }
+        }
+
+        for(const student of notGradedStudents){
+            const name = student.name.toLowerCase();
+            if(name.includes(searchQuery.toLowerCase())) {
+                resultNotGraded.push(student);
+            }
+        }
+
+        return {
+            gradedStudents: [...resultGraded],
+            notGradedStudents: [...resultNotGraded],
+        }
+    }
+
+}
