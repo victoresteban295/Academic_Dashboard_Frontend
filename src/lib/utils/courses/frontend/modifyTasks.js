@@ -254,3 +254,50 @@ export const queryStudents = (searchQuery, gradedStudents, notGradedStudents) =>
     }
 
 }
+
+export const getAverageGrade = (gradedStudents) => {
+    let totalSum = 0;
+
+    for(const student of gradedStudents) {
+        const grade = student.taskGrade;
+        totalSum += grade; 
+    }
+    
+    const average = totalSum/(gradedStudents.length);
+    return Math.round(average);
+}
+
+export const getGradeDistribution = (gradedStudents) => {
+    if(gradedStudents.length === 0) {
+        return [];
+    }
+
+    let sumA = 0;
+    let sumB = 0;
+    let sumC = 0;
+    let sumD = 0;
+    let sumF = 0;
+
+    for(const student of gradedStudents) {
+        if(!student.isExcluded) {
+            const grade = student.taskGrade;
+
+            if(grade >= 90) {
+                sumA += 1;
+            } else if(grade <= 89 && grade >= 80) {
+                sumB += 1;
+            } else if(grade <= 79 && grade >= 70) {
+                sumC += 1;
+            } else if(grade <= 69 && grade >=60) {
+                sumD += 1;
+            } else if(grade <= 59) {
+                sumF += 1;
+            }
+        } 
+    }
+
+    return [{
+        data: [sumA, sumB, sumC, sumD, sumF],
+        color: '#78a1bb',
+    }]
+}

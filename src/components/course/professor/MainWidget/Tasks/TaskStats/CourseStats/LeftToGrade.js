@@ -1,7 +1,9 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts";
 
-const LeftToGrade = ({ gradedStudents, students }) => {
+const LeftToGrade = ({ gradedStudents, notGradedStudents} ) => {
+    const courseSize = gradedStudents.length + notGradedStudents.length;
+
     return (
         <Stack
             sx={{
@@ -40,8 +42,8 @@ const LeftToGrade = ({ gradedStudents, students }) => {
                 }}
             >
                 <Gauge
-                    value={0}
-                    valueMax={39}
+                    value={gradedStudents.length}
+                    valueMax={courseSize}
                     height={200}
                     cornerRadius="50%"
                     text={({ value, valueMax }) => `${value} / ${valueMax}`}

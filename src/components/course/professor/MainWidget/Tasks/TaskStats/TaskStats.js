@@ -77,6 +77,8 @@ const TaskStats = ({ course, taskId }) => {
                         due={taskStats.due}
                     />
                     <CourseStats 
+                        gradedStudents={gradedStudents}
+                        notGradedStudents={notGradedStudents}
                     />
                     <StudentStats 
                         gradedStudents={gradedStudents}

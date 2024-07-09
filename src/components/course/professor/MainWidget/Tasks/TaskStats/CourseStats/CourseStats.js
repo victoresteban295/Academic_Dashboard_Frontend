@@ -3,12 +3,15 @@ import LeftToGrade from "./LeftToGrade";
 import AvgGradeBar from "./AvgGradeBar";
 import AvgGradeGauge from "./AvgGradeGauge";
 
-const CourseStats = () => {
+const CourseStats = ({
+    gradedStudents,
+    notGradedStudents
+}) => {
     return (
         <>
             <Grid
                 container
-                gap={2}
+                gap={1}
             >
                 <Grid
                     item
@@ -25,10 +28,16 @@ const CourseStats = () => {
                         },
                     }}
                 >
-                    {/* <AvgGradeGauge  */}
-                    {/* /> */}
-                    <LeftToGrade 
-                    />
+                    {(notGradedStudents.length === 0) ? (
+                        <AvgGradeGauge 
+                            gradedStudents={gradedStudents}
+                        />
+                    ) : (
+                        <LeftToGrade 
+                            gradedStudents={gradedStudents}
+                            notGradedStudents={notGradedStudents}
+                        />
+                    )}
                 </Grid>
                 <Grid
                     item
@@ -46,6 +55,7 @@ const CourseStats = () => {
                     }}
                 >
                     <AvgGradeBar 
+                        gradedStudents={gradedStudents}
                     />
                 </Grid>
             </Grid>

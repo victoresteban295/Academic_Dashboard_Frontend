@@ -1,7 +1,9 @@
+import { getGradeDistribution } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Box, Stack, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 
-const AvgGradeBar = () => {
+const AvgGradeBar = ({ gradedStudents }) => {
+    const series = getGradeDistribution(gradedStudents);
 
     return (
         <Stack
@@ -40,21 +42,23 @@ const AvgGradeBar = () => {
                     justifyContent: 'center',
                 }}
             >
-                <Typography
-                    variant="body1"
-                    sx={{
-                        position: 'absolute',
-                        justifySelf: 'center',
-                        alignSelf: 'center',
-                    }}
-                >
-                    {"No Graded Students"}
-                </Typography>
+                {gradedStudents.length === 0 && (
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            position: 'absolute',
+                            justifySelf: 'center',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        {"No Graded Students"}
+                    </Typography>
+                )}
                 <BarChart 
                     slotProps={{
                         noDataOverlay: { message: ''},
                     }}
-                    series={[]}
+                    series={series}
                     height={200}
                     xAxis={[{ 
                         scaleType: 'band', 

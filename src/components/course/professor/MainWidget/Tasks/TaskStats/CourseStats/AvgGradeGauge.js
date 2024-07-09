@@ -1,7 +1,12 @@
+import { getAverageGrade } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Box, Stack, Typography } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts";
 
-const AvgGradeGauge = () => {
+const AvgGradeGauge = ({ gradedStudents }) => {
+
+    //Get Average Class Grade
+    const averageGrade = getAverageGrade(gradedStudents);
+
     return (
         <Stack
             sx={{
@@ -39,7 +44,7 @@ const AvgGradeGauge = () => {
                 }}
             >
                 <Gauge
-                    value={86}
+                    value={averageGrade}
                     height={200}
                     cornerRadius="50%"
                     text={({ value }) => `${value}%`}
