@@ -83,6 +83,8 @@ const TaskStats = ({ course, taskId }) => {
                     <StudentStats 
                         gradedStudents={gradedStudents}
                         notGradedStudents={notGradedStudents}
+                        handleGradedStudents={handleGradedStudents}
+                        handleNotGradedStudents={handleNotGradedStudents}
                     /> 
                 </Stack>
             </Stack> 

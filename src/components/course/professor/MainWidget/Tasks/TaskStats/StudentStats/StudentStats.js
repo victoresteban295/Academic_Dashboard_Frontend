@@ -1,11 +1,16 @@
 import { Search } from "@mui/icons-material";
 import { Divider, FormControl, InputBase, Stack } from "@mui/material";
-import NotGradedStudents from "./NotGradedStudents";
+import NotGradedStudent from "./NotGradedStudent";
 import GradedStudents from "./GradedStudents";
 import { useState } from "react";
 import { queryStudents } from "@/lib/utils/courses/frontend/modifyTasks";
 
-const StudentStats = ({ gradedStudents, notGradedStudents }) => {
+const StudentStats = ({ 
+    gradedStudents, 
+    notGradedStudents ,
+    handleGradedStudents,
+    handleNotGradedStudents
+}) => {
 
     /* State Value */
     const [searchQuery, setSearchQuery] = useState("");
@@ -73,11 +78,33 @@ const StudentStats = ({ gradedStudents, notGradedStudents }) => {
                     px: 2,
                 }}
             >
-                <NotGradedStudents
-                    notGradedStudents={notGradedStuds}
-                />
+                <Stack
+                    divider={<Divider flexItem />}
+                    sx={{
+                        width: '100%',
+                    }}
+                >
+                    {notGradedStuds.map(student => {
+                        const { studId, name, gradeLvl } = student;
+                        return (
+                            <NotGradedStudent
+                                key={studId}
+                                studId={studId}
+                                name={name}
+                                gradeLvl={gradeLvl}
+                                gradedStudents={gradedStuds}
+                                notGradedStudents={notGradedStuds}
+                                handleGradedStudents={handleGradedStudents}
+                                handleNotGradedStudents={handleNotGradedStudents}
+                            />
+                        )
+                    })}
+                </Stack>
                 <GradedStudents
                     gradedStudents={gradedStuds}
+                    notGradedStudents={notGradedStuds}
+                    handleGradedStudents={handleGradedStudents}
+                    handleNotGradedStudents={handleNotGradedStudents}
                 />
             </Stack>
         </Stack> 

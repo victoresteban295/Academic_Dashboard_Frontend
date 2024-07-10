@@ -301,3 +301,7 @@ export const getGradeDistribution = (gradedStudents) => {
         color: '#78a1bb',
     }]
 }
+
+export const editStudentTaskGrade  = () => {
+
+}
