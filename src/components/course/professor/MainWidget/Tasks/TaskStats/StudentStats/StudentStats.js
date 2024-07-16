@@ -1,11 +1,12 @@
 import { Search } from "@mui/icons-material";
 import { Divider, FormControl, InputBase, Stack } from "@mui/material";
 import NotGradedStudent from "./NotGradedStudent";
-import GradedStudents from "./GradedStudents";
 import { useState } from "react";
 import { queryStudents } from "@/lib/utils/courses/frontend/modifyTasks";
+import GradedStudent from "./GradedStudent";
 
 const StudentStats = ({ 
+    totalScore,
     gradedStudents, 
     notGradedStudents ,
     handleGradedStudents,
@@ -92,6 +93,7 @@ const StudentStats = ({
                                 studId={studId}
                                 name={name}
                                 gradeLvl={gradeLvl}
+                                totalScore={totalScore}
                                 gradedStudents={gradedStuds}
                                 notGradedStudents={notGradedStuds}
                                 handleGradedStudents={handleGradedStudents}
@@ -100,12 +102,30 @@ const StudentStats = ({
                         )
                     })}
                 </Stack>
-                <GradedStudents
-                    gradedStudents={gradedStuds}
-                    notGradedStudents={notGradedStuds}
-                    handleGradedStudents={handleGradedStudents}
-                    handleNotGradedStudents={handleNotGradedStudents}
-                />
+                <Stack
+                    divider={<Divider flexItem />}
+                    sx={{
+                        width: '100%',
+                    }}
+                >
+                    {gradedStuds.map(student => {
+                        const { studId, name, gradeLvl, taskGrade } = student;
+                        return (
+                            <GradedStudent
+                                key={studId}
+                                studId={studId}
+                                name={name}
+                                gradeLvl={gradeLvl}
+                                taskGrade={taskGrade}
+                                totalScore={totalScore}
+                                gradedStudents={gradedStuds}
+                                notGradedStudents={notGradedStuds}
+                                handleGradedStudents={handleGradedStudents}
+                                handleNotGradedStudents={handleNotGradedStudents}
+                            />
+                        )
+                    })}
+                </Stack>
             </Stack>
         </Stack> 
     )

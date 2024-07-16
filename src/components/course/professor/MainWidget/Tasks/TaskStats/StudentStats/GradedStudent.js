@@ -1,33 +1,24 @@
 import { HistoryEdu, MoreVert } from "@mui/icons-material";
 import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts";
-import AddGradeBackdrop from "./Backdrops/AddGradeBackdrop";
-import { useState } from "react";
 
-const NotGradedStudent = ({ 
+const GradedStudent = ({ 
     studId,
     name,
     gradeLvl,
+    taskGrade,
     totalScore,
     gradedStudents, 
     notGradedStudents,
     handleGradedStudents,
     handleNotGradedStudents
 }) => {
-
-    /* Add Grade Backdrop */
-    const [openAddGrade, setOpenAddGrade] = useState(false);
-    const handleOpenAddGrade = () => {
-        setOpenAddGrade(true);
-    }
-    const handleCloseAddGrade = () => {
-        setOpenAddGrade(false);
-    }
+    const percentage = Math.round((taskGrade/totalScore) * 100);
 
     return (
         <Stack
             key={studId}
-            className="not-graded-student"
+            className="graded-student"
             direction="row"
             alignItems="center"
             justifyContent="space-between"
@@ -35,13 +26,6 @@ const NotGradedStudent = ({
                 p: 1,
             }}
         >
-            <AddGradeBackdrop 
-                studId={studId}
-                name={name}
-                totalScore={totalScore}
-                open={openAddGrade}
-                handleClose={handleCloseAddGrade}
-            />
             <Stack
                 className="student-name"
                 spacing={0.5}
@@ -74,13 +58,12 @@ const NotGradedStudent = ({
                         variant="text"
                         size="small"
                         startIcon={<HistoryEdu fontSize="small" />}
-                        onClick={handleOpenAddGrade}
                         sx={{
                             fontWeight: '700',
                             bgcolor: 'primary.light',
                         }} 
                     >
-                        {"Add Grade"}
+                        {"Edit Grade"}
                     </Button>
                     <IconButton
                         size="small"
@@ -99,13 +82,13 @@ const NotGradedStudent = ({
                 alignItems="center"
             >
                 <Gauge
-                    value={0}
+                    value={percentage}
                     startAngle={-110}
                     endAngle={110}
                     width={75}
                     height={75}
                     cornerRadius="50%"
-                    text={() => `---`}
+                    text={({value}) => `${value}%`}
                     sx={{
                         [`& .${gaugeClasses.valueText}`]: {
                             fontSize: 14,
@@ -123,6 +106,6 @@ const NotGradedStudent = ({
             </Stack>
         </Stack>
     )
-}
+} 
 
-export default NotGradedStudent;
+export default GradedStudent;

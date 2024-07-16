@@ -10,7 +10,9 @@ const TaskDetails = ({
     title,
     date,
     note,
-    due
+    due,
+    totalScore,
+    handleTotalScore
 }) => {
     /* Task Details */
     const [taskTitle, setTitle] = useState(title);
@@ -20,12 +22,13 @@ const TaskDetails = ({
     const [taskDue, setDue] = useState(due);
 
     /* Update Task */
-    const editTask = (title, type, date, note, due) => {
+    const editTask = (title, type, date, note, due, totalScore) => {
         setTitle(title);
         setTaskType(type);
         setDate(date);
         setNote(note);
         setDue(due);
+        handleTotalScore(totalScore);
     }
 
     /* Task Due Date */
@@ -63,6 +66,7 @@ const TaskDetails = ({
                 due={taskDue}
                 date={taskDate}
                 note={taskNote}
+                totalScore={totalScore}
             />
             <Stack
                 className="task-date"

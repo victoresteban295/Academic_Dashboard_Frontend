@@ -1,4 +1,4 @@
-import { any, string, z } from "zod";
+import { any, number, string, z } from "zod";
 
 export const SyllabusSection = z.object({
     title: string().trim().min(1, {message: "Title is Required"}).max(25, {message: "Maximum 50 Characters"}),
@@ -31,6 +31,7 @@ export const CourseTask = z.object({
             return true;
     }, "Time is Required"),
     note: string().trim().max(200, {message: "Maximum 200 Characters"}).optional(),
+    totalScore: number({ required_error: "Total Score is Requried", invalid_type_error: "Must be a Number"}).nonnegative({message: "Cannot Be a Negative Number"}),
 }).refine((data) => {
         if(data.due != "Select Time" || data.due === null) {
             return true;
@@ -47,3 +48,15 @@ export const CategorySchema = z.object({
 export const GradeCompSchema = z.object({
     gradeComp: string().array().min(2, {message: "Two Categories Are Required"}).max(4, {message: "Only Four Categories Allowed"})
 })
+
+export const  GradeSchema = z.object({
+    score: number({ required_error: "Grade is Requried", invalid_type_error: "Grade must be a Number"}).nonnegative({message: "Grade Cannot Be a Negative Value"}),
+    totalScore: number().nonnegative(),
+}).refine((data) => {
+    if(data.score <= data.totalScore) {
+        return true;
+    } else {
+        return false;
+    }
+}, { message: "Score cannot be greater than Total Score", path: ['score']})
+

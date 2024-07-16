@@ -255,19 +255,29 @@ export const queryStudents = (searchQuery, gradedStudents, notGradedStudents) =>
 
 }
 
-export const getAverageGrade = (gradedStudents) => {
+export const getAverageGrade = (totalScore, gradedStudents) => {
     let totalSum = 0;
 
+    /* for(const student of gradedStudents) { */
+    /*     const grade = student.taskGrade; */
+    /*     totalSum += grade;  */
+    /* } */
+    /*  */
+    /* const average = totalSum/(gradedStudents.length); */
+    /* return Math.round(average); */
+
     for(const student of gradedStudents) {
-        const grade = student.taskGrade;
+        const score = student.taskGrade;
+        const grade = Math.round((score/totalScore) * 100);
         totalSum += grade; 
     }
-    
+
     const average = totalSum/(gradedStudents.length);
     return Math.round(average);
+
 }
 
-export const getGradeDistribution = (gradedStudents) => {
+export const getGradeDistribution = (totalScore, gradedStudents) => {
     if(gradedStudents.length === 0) {
         return [];
     }
@@ -280,7 +290,10 @@ export const getGradeDistribution = (gradedStudents) => {
 
     for(const student of gradedStudents) {
         if(!student.isExcluded) {
-            const grade = student.taskGrade;
+            /* const grade = student.taskGrade; */
+
+            const score = student.taskGrade;
+            const grade = Math.round((score/totalScore) * 100);
 
             if(grade >= 90) {
                 sumA += 1;
@@ -300,6 +313,10 @@ export const getGradeDistribution = (gradedStudents) => {
         data: [sumA, sumB, sumC, sumD, sumF],
         color: '#78a1bb',
     }]
+}
+
+export const addStudentTaskGrade = (studId, ) => {
+
 }
 
 export const editStudentTaskGrade  = () => {

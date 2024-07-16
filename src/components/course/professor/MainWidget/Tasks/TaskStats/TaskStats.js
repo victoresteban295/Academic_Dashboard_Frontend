@@ -1,7 +1,7 @@
 "use client"
 import { getTaskStats } from "@/lib/data/course/tasks/professor";
 import { KeyboardArrowLeft } from "@mui/icons-material";
-import { Box, Button, Grow, Stack } from "@mui/material";
+import { Box, Button, Grow, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { notFound, useRouter } from "next/navigation";
 import TaskDetails from "./TaskDetails";
@@ -26,6 +26,10 @@ const TaskStats = ({ course, taskId }) => {
     const taskStats = fetchTaskStats(taskId);
 
     /* State Value: Graded Students & NonGraded Students */
+    const [totalScore, setTotalScore] = useState(taskStats.totalScore);
+    const handleTotalScore = (updatedTotalScore) => {
+        setTotalScore(updatedTotalScore);
+    }
     const [gradedStudents, setGradedStudents] = useState([...taskStats.gradedStudents]);
     const handleGradedStudents = (updatedList) => {
         setGradedStudents([...updatedList]);
@@ -75,12 +79,42 @@ const TaskStats = ({ course, taskId }) => {
                         date={taskStats.date}
                         note={taskStats.note}
                         due={taskStats.due}
+                        totalScore={totalScore}
+                        handleTotalScore={handleTotalScore}
                     />
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        sx={{
+                            px: 2,
+                            py: 1,
+                            borderRadius: '5px',
+                            boxShadow: '1px 1px 4px 2px #cecece',
+                        }}
+                    >
+                        <Typography
+                            variant='h6'
+                            sx={{
+                                fontWeight: 'bold',
+                            }}  
+                        >
+                            {"Total Score"} 
+                        </Typography>
+                        <Typography
+                            variant='h6'
+                        >
+                            {`${totalScore}pts`}
+                        </Typography>
+                         
+                    </Stack>
                     <CourseStats 
+                        totalScore={totalScore}
                         gradedStudents={gradedStudents}
                         notGradedStudents={notGradedStudents}
                     />
                     <StudentStats 
+                        totalScore={totalScore}
                         gradedStudents={gradedStudents}
                         notGradedStudents={notGradedStudents}
                         handleGradedStudents={handleGradedStudents}

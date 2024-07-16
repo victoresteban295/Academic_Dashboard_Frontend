@@ -4,6 +4,7 @@ import AvgGradeBar from "./AvgGradeBar";
 import AvgGradeGauge from "./AvgGradeGauge";
 
 const CourseStats = ({
+    totalScore,
     gradedStudents,
     notGradedStudents
 }) => {
@@ -15,7 +16,7 @@ const CourseStats = ({
             >
                 <Grid
                     item
-                    fold="auto"
+                    fold
                     mobile
                     tablet
                     desktop
@@ -30,6 +31,7 @@ const CourseStats = ({
                 >
                     {(notGradedStudents.length === 0) ? (
                         <AvgGradeGauge 
+                            totalScore={totalScore}
                             gradedStudents={gradedStudents}
                         />
                     ) : (
@@ -41,7 +43,7 @@ const CourseStats = ({
                 </Grid>
                 <Grid
                     item
-                    fold="auto"
+                    fold
                     mobile
                     tablet
                     desktop
@@ -55,6 +57,7 @@ const CourseStats = ({
                     }}
                 >
                     <AvgGradeBar 
+                        totalScore={totalScore}
                         gradedStudents={gradedStudents}
                     />
                 </Grid>

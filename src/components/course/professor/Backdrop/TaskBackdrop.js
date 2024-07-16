@@ -1,5 +1,4 @@
 import { CourseTask } from "@/lib/schemas/courseSchema";
-import { deleteTask, modifyTasks } from "@/lib/utils/courses/frontend/modifyTasks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button, Dialog, FormControl, FormHelperText, MenuItem, Stack, TextField } from "@mui/material";
@@ -19,9 +18,7 @@ const TaskBackdrop = ({
     due,
     date,
     note,
-    /* weeklyTasks, */
-    /* changeWeeklyTasks, */
-    handleOpenAlert 
+    totalScore
 }) => {
 
     /* Feature Not Available Warning */
@@ -57,7 +54,8 @@ const TaskBackdrop = ({
         date: defaultDate,
         due: defaultDue,
         time: defaultTime,
-        note: note
+        note: note,
+        totalScore: totalScore,
     }
     const { formState, control, handleSubmit, reset } = useForm({
         mode: 'onBlur',
@@ -67,7 +65,8 @@ const TaskBackdrop = ({
             date: defaultDate,
             due: defaultDue,
             time: defaultTime,
-            note: note
+            note: note,
+            totalScore: totalScore,
         },
         values,
         resolver: zodResolver(CourseTask), //Zod Validation Schema
@@ -109,7 +108,7 @@ const TaskBackdrop = ({
                 }
 
                 //Edit Task
-                editTask(data.title, data.task, data.date.format("MM/DD/YY"), data.note, due);
+                editTask(data.title, data.task, data.date.format("MM/DD/YY"), data.note, due, data.totalScore);
 
             } catch(error) {
                 handleOpenAlert(error.message);
@@ -321,7 +320,26 @@ const TaskBackdrop = ({
                             )
                         }}
                     />
-
+                    <Controller 
+                        name="totalScore"
+                        control={control}
+                        render={({field: { onChange, value}}) => {
+                            return (
+                                <TextField 
+                                    type="number"
+                                    label="Total Score (pts)"
+                                    value={value} 
+                                    onChange={(e) => {
+                                        onChange(e.target.valueAsNumber); 
+                                    }}
+                                    error={!!errors.totalScore}
+                                    helperText={errors.totalScore?.message}
+                                    fullWidth={true}
+                                    placeholder="Total Score"
+                                />
+                            )
+                        }}
+                    />
                     <Box
                         sx={{
                             display: {

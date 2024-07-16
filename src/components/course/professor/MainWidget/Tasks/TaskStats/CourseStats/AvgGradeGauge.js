@@ -2,14 +2,15 @@ import { getAverageGrade } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Box, Stack, Typography } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts";
 
-const AvgGradeGauge = ({ gradedStudents }) => {
+const AvgGradeGauge = ({ totalScore, gradedStudents }) => {
 
     //Get Average Class Grade
-    const averageGrade = getAverageGrade(gradedStudents);
+    const averageGrade = getAverageGrade(totalScore, gradedStudents);
 
     return (
         <Stack
             sx={{
+                flexGrow: 1,
                 width: '100%',
                 boxShadow: '1px 1px 4px 2px #cecece',
                 borderRadius: '5px',

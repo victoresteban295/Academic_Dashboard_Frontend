@@ -2,8 +2,8 @@ import { getGradeDistribution } from "@/lib/utils/courses/frontend/modifyTasks";
 import { Box, Stack, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 
-const AvgGradeBar = ({ gradedStudents }) => {
-    const series = getGradeDistribution(gradedStudents);
+const AvgGradeBar = ({ totalScore, gradedStudents }) => {
+    const series = getGradeDistribution(totalScore, gradedStudents);
 
     return (
         <Stack
